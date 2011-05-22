@@ -61,5 +61,27 @@ namespace APITester
 		{
 			this.dataGridView1.Rows.Clear();
 		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			AdWordsAppConfig config = new AdWordsAppConfig()
+			{
+				Email =this.MccEmail.Text,
+				Password =this.MccPassword.Text,
+				DeveloperToken = "5eCsvAOU06Fs4j5qHWKTCA",
+				ApplicationToken = "5eCsvAOU06Fs4j5qHWKTCA",
+
+				//ClientEmail = "lotan3@gmail.com",
+				UserAgent = "Edge.BI",
+				EnableGzipCompression = true
+			};
+			AdWordsUser user = new AdWordsUser(new AdWordsServiceFactory().ReadHeadersFromConfig(config));
+			var reportService = (ReportDefinitionService)user.GetService(AdWordsService.v201101.ReportDefinitionService);
+			this.AuthToken.Text = reportService.RequestHeader.authToken;
+			this.DeveloperToken.Text = reportService.RequestHeader.developerToken;
+			this.ApplicationToken.Text = reportService.RequestHeader.applicationToken;
+		}
+
+	
 	}
 }
