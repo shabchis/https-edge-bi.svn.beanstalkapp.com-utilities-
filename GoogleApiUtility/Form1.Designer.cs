@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.GetFields_btn = new System.Windows.Forms.Button();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -51,6 +52,8 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.email = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.log = new System.Windows.Forms.RichTextBox();
 			this.path = new System.Windows.Forms.TextBox();
@@ -58,8 +61,6 @@
 			this.reportId = new System.Windows.Forms.TextBox();
 			this.button2 = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
-			this.email = new System.Windows.Forms.TextBox();
-			this.label6 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.Auth.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -287,6 +288,22 @@
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Report Download";
 			// 
+			// email
+			// 
+			this.email.Location = new System.Drawing.Point(182, 122);
+			this.email.Name = "email";
+			this.email.Size = new System.Drawing.Size(212, 20);
+			this.email.TabIndex = 8;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(84, 125);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(81, 13);
+			this.label6.TabIndex = 7;
+			this.label6.Text = "Account Email :";
+			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
@@ -347,30 +364,14 @@
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Report ID:";
 			// 
-			// email
-			// 
-			this.email.Location = new System.Drawing.Point(182, 122);
-			this.email.Name = "email";
-			this.email.Size = new System.Drawing.Size(212, 20);
-			this.email.TabIndex = 8;
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(84, 125);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(81, 13);
-			this.label6.TabIndex = 7;
-			this.label6.Text = "Account Email :";
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1051, 620);
 			this.Controls.Add(this.Auth);
-			
-			this.Text = "Form1";
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Text = "Google Api Utility";
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.Auth.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
