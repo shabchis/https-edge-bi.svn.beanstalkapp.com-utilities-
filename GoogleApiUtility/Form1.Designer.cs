@@ -47,12 +47,29 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.MccEmail = new System.Windows.Forms.TextBox();
 			this.MccPassword = new System.Windows.Forms.TextBox();
+			this.Auth = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.label5 = new System.Windows.Forms.Label();
+			this.log = new System.Windows.Forms.RichTextBox();
+			this.path = new System.Windows.Forms.TextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.reportId = new System.Windows.Forms.TextBox();
+			this.button2 = new System.Windows.Forms.Button();
+			this.label3 = new System.Windows.Forms.Label();
+			this.email = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			this.Auth.SuspendLayout();
+			this.tabPage1.SuspendLayout();
+			this.tabPage2.SuspendLayout();
+			this.tabPage3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// GetFields_btn
 			// 
-			this.GetFields_btn.Location = new System.Drawing.Point(465, 12);
+			this.GetFields_btn.Location = new System.Drawing.Point(479, 6);
 			this.GetFields_btn.Name = "GetFields_btn";
 			this.GetFields_btn.Size = new System.Drawing.Size(118, 23);
 			this.GetFields_btn.TabIndex = 0;
@@ -63,7 +80,7 @@
 			// comboBox1
 			// 
 			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Location = new System.Drawing.Point(12, 12);
+			this.comboBox1.Location = new System.Drawing.Point(26, 6);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(361, 21);
 			this.comboBox1.TabIndex = 1;
@@ -78,9 +95,9 @@
             this.Selected,
             this.CanFilter,
             this.DisplayName});
-			this.dataGridView1.Location = new System.Drawing.Point(12, 39);
+			this.dataGridView1.Location = new System.Drawing.Point(6, 35);
 			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.Size = new System.Drawing.Size(989, 431);
+			this.dataGridView1.Size = new System.Drawing.Size(1010, 538);
 			this.dataGridView1.TabIndex = 3;
 			// 
 			// Name
@@ -112,7 +129,7 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(313, 536);
+			this.button1.Location = new System.Drawing.Point(320, 56);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(139, 23);
 			this.button1.TabIndex = 4;
@@ -122,21 +139,21 @@
 			// 
 			// AuthToken
 			// 
-			this.AuthToken.Location = new System.Drawing.Point(603, 515);
+			this.AuthToken.Location = new System.Drawing.Point(610, 35);
 			this.AuthToken.Name = "AuthToken";
 			this.AuthToken.Size = new System.Drawing.Size(398, 20);
 			this.AuthToken.TabIndex = 5;
 			// 
 			// DeveloperToken
 			// 
-			this.DeveloperToken.Location = new System.Drawing.Point(603, 543);
+			this.DeveloperToken.Location = new System.Drawing.Point(610, 63);
 			this.DeveloperToken.Name = "DeveloperToken";
 			this.DeveloperToken.Size = new System.Drawing.Size(398, 20);
 			this.DeveloperToken.TabIndex = 6;
 			// 
 			// ApplicationToken
 			// 
-			this.ApplicationToken.Location = new System.Drawing.Point(603, 569);
+			this.ApplicationToken.Location = new System.Drawing.Point(610, 89);
 			this.ApplicationToken.Name = "ApplicationToken";
 			this.ApplicationToken.Size = new System.Drawing.Size(398, 20);
 			this.ApplicationToken.TabIndex = 7;
@@ -145,7 +162,7 @@
 			// 
 			this.lblAuthToken.AutoSize = true;
 			this.lblAuthToken.ForeColor = System.Drawing.Color.DarkRed;
-			this.lblAuthToken.Location = new System.Drawing.Point(488, 518);
+			this.lblAuthToken.Location = new System.Drawing.Point(495, 38);
 			this.lblAuthToken.Name = "lblAuthToken";
 			this.lblAuthToken.Size = new System.Drawing.Size(60, 13);
 			this.lblAuthToken.TabIndex = 8;
@@ -154,7 +171,7 @@
 			// lblDeveloperToken
 			// 
 			this.lblDeveloperToken.AutoSize = true;
-			this.lblDeveloperToken.Location = new System.Drawing.Point(488, 546);
+			this.lblDeveloperToken.Location = new System.Drawing.Point(495, 66);
 			this.lblDeveloperToken.Name = "lblDeveloperToken";
 			this.lblDeveloperToken.Size = new System.Drawing.Size(87, 13);
 			this.lblDeveloperToken.TabIndex = 9;
@@ -164,7 +181,7 @@
 			// 
 			this.lblApplicationToken.AutoSize = true;
 			this.lblApplicationToken.Cursor = System.Windows.Forms.Cursors.AppStarting;
-			this.lblApplicationToken.Location = new System.Drawing.Point(488, 576);
+			this.lblApplicationToken.Location = new System.Drawing.Point(495, 96);
 			this.lblApplicationToken.Name = "lblApplicationToken";
 			this.lblApplicationToken.Size = new System.Drawing.Size(90, 13);
 			this.lblApplicationToken.TabIndex = 10;
@@ -173,7 +190,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 553);
+			this.label1.Location = new System.Drawing.Point(19, 73);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(79, 13);
 			this.label1.TabIndex = 12;
@@ -182,7 +199,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 525);
+			this.label2.Location = new System.Drawing.Point(19, 45);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(58, 13);
 			this.label2.TabIndex = 11;
@@ -190,7 +207,7 @@
 			// 
 			// MccEmail
 			// 
-			this.MccEmail.Location = new System.Drawing.Point(114, 517);
+			this.MccEmail.Location = new System.Drawing.Point(121, 37);
 			this.MccEmail.Name = "MccEmail";
 			this.MccEmail.Size = new System.Drawing.Size(170, 20);
 			this.MccEmail.TabIndex = 13;
@@ -198,36 +215,170 @@
 			// 
 			// MccPassword
 			// 
-			this.MccPassword.Location = new System.Drawing.Point(114, 550);
+			this.MccPassword.Location = new System.Drawing.Point(121, 70);
 			this.MccPassword.Name = "MccPassword";
 			this.MccPassword.PasswordChar = '*';
 			this.MccPassword.Size = new System.Drawing.Size(170, 20);
 			this.MccPassword.TabIndex = 14;
 			this.MccPassword.Text = "edgebinewfish";
 			// 
+			// Auth
+			// 
+			this.Auth.AccessibleName = "AuthTab";
+			this.Auth.Controls.Add(this.tabPage1);
+			this.Auth.Controls.Add(this.tabPage2);
+			this.Auth.Controls.Add(this.tabPage3);
+			this.Auth.Location = new System.Drawing.Point(12, 12);
+			this.Auth.Name = "Auth";
+			this.Auth.SelectedIndex = 0;
+			this.Auth.Size = new System.Drawing.Size(1030, 605);
+			this.Auth.TabIndex = 15;
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.BackColor = System.Drawing.Color.Gainsboro;
+			this.tabPage1.Controls.Add(this.MccEmail);
+			this.tabPage1.Controls.Add(this.MccPassword);
+			this.tabPage1.Controls.Add(this.button1);
+			this.tabPage1.Controls.Add(this.AuthToken);
+			this.tabPage1.Controls.Add(this.label1);
+			this.tabPage1.Controls.Add(this.DeveloperToken);
+			this.tabPage1.Controls.Add(this.label2);
+			this.tabPage1.Controls.Add(this.ApplicationToken);
+			this.tabPage1.Controls.Add(this.lblApplicationToken);
+			this.tabPage1.Controls.Add(this.lblAuthToken);
+			this.tabPage1.Controls.Add(this.lblDeveloperToken);
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(1022, 579);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "Auth";
+			// 
+			// tabPage2
+			// 
+			this.tabPage2.BackColor = System.Drawing.Color.Gainsboro;
+			this.tabPage2.Controls.Add(this.comboBox1);
+			this.tabPage2.Controls.Add(this.dataGridView1);
+			this.tabPage2.Controls.Add(this.GetFields_btn);
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(1022, 579);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "Reports Fields";
+			// 
+			// tabPage3
+			// 
+			this.tabPage3.BackColor = System.Drawing.Color.Gainsboro;
+			this.tabPage3.Controls.Add(this.email);
+			this.tabPage3.Controls.Add(this.label6);
+			this.tabPage3.Controls.Add(this.label5);
+			this.tabPage3.Controls.Add(this.log);
+			this.tabPage3.Controls.Add(this.path);
+			this.tabPage3.Controls.Add(this.label4);
+			this.tabPage3.Controls.Add(this.reportId);
+			this.tabPage3.Controls.Add(this.button2);
+			this.tabPage3.Controls.Add(this.label3);
+			this.tabPage3.Location = new System.Drawing.Point(4, 22);
+			this.tabPage3.Name = "tabPage3";
+			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage3.Size = new System.Drawing.Size(1022, 579);
+			this.tabPage3.TabIndex = 2;
+			this.tabPage3.Text = "Report Download";
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(87, 222);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(25, 13);
+			this.label5.TabIndex = 6;
+			this.label5.Text = "Log";
+			// 
+			// log
+			// 
+			this.log.Location = new System.Drawing.Point(87, 241);
+			this.log.Name = "log";
+			this.log.Size = new System.Drawing.Size(604, 288);
+			this.log.TabIndex = 5;
+			this.log.Text = "";
+			// 
+			// path
+			// 
+			this.path.Location = new System.Drawing.Point(182, 96);
+			this.path.Name = "path";
+			this.path.Size = new System.Drawing.Size(212, 20);
+			this.path.TabIndex = 4;
+			this.path.Text = "c:\\testingAdwords.zip";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(84, 99);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(92, 13);
+			this.label4.TabIndex = 3;
+			this.label4.Text = "File save location:";
+			// 
+			// reportId
+			// 
+			this.reportId.Location = new System.Drawing.Point(182, 70);
+			this.reportId.Name = "reportId";
+			this.reportId.Size = new System.Drawing.Size(110, 20);
+			this.reportId.TabIndex = 2;
+			// 
+			// button2
+			// 
+			this.button2.Location = new System.Drawing.Point(182, 159);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(75, 23);
+			this.button2.TabIndex = 1;
+			this.button2.Text = "Download";
+			this.button2.UseVisualStyleBackColor = true;
+			this.button2.Click += new System.EventHandler(this.button2_Click);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(84, 73);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(56, 13);
+			this.label3.TabIndex = 0;
+			this.label3.Text = "Report ID:";
+			// 
+			// email
+			// 
+			this.email.Location = new System.Drawing.Point(182, 122);
+			this.email.Name = "email";
+			this.email.Size = new System.Drawing.Size(212, 20);
+			this.email.TabIndex = 8;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(84, 125);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(81, 13);
+			this.label6.TabIndex = 7;
+			this.label6.Text = "Account Email :";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1068, 611);
-			this.Controls.Add(this.MccPassword);
-			this.Controls.Add(this.MccEmail);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.lblApplicationToken);
-			this.Controls.Add(this.lblDeveloperToken);
-			this.Controls.Add(this.lblAuthToken);
-			this.Controls.Add(this.ApplicationToken);
-			this.Controls.Add(this.DeveloperToken);
-			this.Controls.Add(this.AuthToken);
-			this.Controls.Add(this.button1);
-			this.Controls.Add(this.dataGridView1);
-			this.Controls.Add(this.comboBox1);
-			this.Controls.Add(this.GetFields_btn);
+			this.ClientSize = new System.Drawing.Size(1051, 620);
+			this.Controls.Add(this.Auth);
+			
 			this.Text = "Form1";
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+			this.Auth.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
+			this.tabPage1.PerformLayout();
+			this.tabPage2.ResumeLayout(false);
+			this.tabPage3.ResumeLayout(false);
+			this.tabPage3.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -252,5 +403,18 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox MccEmail;
 		private System.Windows.Forms.TextBox MccPassword;
+		private System.Windows.Forms.TabControl Auth;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.RichTextBox log;
+		private System.Windows.Forms.TextBox path;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.TextBox reportId;
+		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.TextBox email;
+		private System.Windows.Forms.Label label6;
 	}
 }
