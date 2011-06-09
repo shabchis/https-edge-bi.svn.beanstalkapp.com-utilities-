@@ -17,14 +17,14 @@ namespace APITester
 		public Form1()
 		{
 			InitializeComponent();
-		//	List<string> reportDefinitionReportType =(List<string>) Enum.GetValues(typeof(ReportDefinitionReportType)).Cast<ReportDefinitionReportType>();
+			//	List<string> reportDefinitionReportType =(List<string>) Enum.GetValues(typeof(ReportDefinitionReportType)).Cast<ReportDefinitionReportType>();
 			var reportDefinitionReportType = (Array)Enum.GetValues(typeof(ReportDefinitionReportType)).Cast<ReportDefinitionReportType>();
 			foreach (ReportDefinitionReportType item in reportDefinitionReportType)
 			{
-			    this.comboBox1.Items.Add(item.ToString());
+				this.comboBox1.Items.Add(item.ToString());
 			}
 			this.comboBox1.SelectedIndex = 1;
-			
+
 		}
 
 		private void GetFieldsList(ReportDefinitionReportType ReportType)
@@ -46,9 +46,9 @@ namespace APITester
 			ReportDefinitionField[] reportFields = reportService.getReportFields(ReportType);
 			foreach (ReportDefinitionField field in reportFields)
 			{
-				this.dataGridView1.Rows.Add(field.fieldName, field.fieldType,field.canSelect,field.canFilter,field.displayFieldName);
+				this.dataGridView1.Rows.Add(field.fieldName, field.fieldType, field.canSelect, field.canFilter, field.displayFieldName);
 			}
-			
+
 
 		}
 
@@ -67,8 +67,8 @@ namespace APITester
 		{
 			AdWordsAppConfig config = new AdWordsAppConfig()
 			{
-				Email =this.MccEmail.Text,
-				Password =this.MccPassword.Text,
+				Email = this.MccEmail.Text,
+				Password = this.MccPassword.Text,
 				DeveloperToken = "5eCsvAOU06Fs4j5qHWKTCA",
 				ApplicationToken = "5eCsvAOU06Fs4j5qHWKTCA",
 
@@ -92,11 +92,11 @@ namespace APITester
 				_googleReport.User = new GoogleUserEntity(email.Text);
 				log.AppendText("creating reportService ....\n ");
 				_googleReport.reportService = (ReportDefinitionService)_googleReport.User.adwordsUser.GetService(AdWordsService.v201101.ReportDefinitionService);
-				long report_id ;
-				long.TryParse(reportId.Text,out report_id);
+				long report_id;
+				long.TryParse(reportId.Text, out report_id);
 
 				log.AppendText("downloadin report ....\n ");
-				_googleReport.DownloadReport(report_id,path.Text);
+				_googleReport.DownloadReport(report_id, path.Text);
 			}
 			catch (Exception ex)
 			{
@@ -106,6 +106,21 @@ namespace APITester
 			log.AppendText("Done ! \n");
 		}
 
-	
+		private void srch_Click(object sender, EventArgs e)
+		{
+
+			AdwordsReport _googleReport = new AdwordsReport(-1, this.KwdEmail.Text, "", "", true, ReportDefinitionDateRangeType.ALL_TIME, ReportDefinitionReportType.KEYWORDS_PERFORMANCE_REPORT);
+
+			string[] kwd = new string[]{
+				this.KwdID.Text
+			};
+
+			_googleReport.AddFilter("Id", PredicateOperator.EQUALS, kwd);
+			_googleReport.intializingGoogleReport();
+			_googleReport.DownloadReport(_googleReport.Id, @"D:\KeywordSearchReport");
+			
+		}
+
+
 	}
 }
