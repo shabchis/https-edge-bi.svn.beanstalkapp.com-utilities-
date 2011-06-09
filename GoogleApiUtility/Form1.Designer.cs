@@ -61,11 +61,18 @@
 			this.reportId = new System.Windows.Forms.TextBox();
 			this.button2 = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
+			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.KwdID = new System.Windows.Forms.TextBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.srch = new System.Windows.Forms.Button();
+			this.KwdEmail = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.Auth.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.tabPage3.SuspendLayout();
+			this.tabPage4.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// GetFields_btn
@@ -229,6 +236,7 @@
 			this.Auth.Controls.Add(this.tabPage1);
 			this.Auth.Controls.Add(this.tabPage2);
 			this.Auth.Controls.Add(this.tabPage3);
+			this.Auth.Controls.Add(this.tabPage4);
 			this.Auth.Location = new System.Drawing.Point(12, 12);
 			this.Auth.Name = "Auth";
 			this.Auth.SelectedIndex = 0;
@@ -364,6 +372,63 @@
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Report ID:";
 			// 
+			// tabPage4
+			// 
+			this.tabPage4.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.tabPage4.Controls.Add(this.KwdEmail);
+			this.tabPage4.Controls.Add(this.label8);
+			this.tabPage4.Controls.Add(this.KwdID);
+			this.tabPage4.Controls.Add(this.label7);
+			this.tabPage4.Controls.Add(this.srch);
+			this.tabPage4.Location = new System.Drawing.Point(4, 22);
+			this.tabPage4.Name = "tabPage4";
+			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage4.Size = new System.Drawing.Size(1022, 579);
+			this.tabPage4.TabIndex = 3;
+			this.tabPage4.Text = "KeyWord Search";
+			// 
+			// KwdID
+			// 
+			this.KwdID.Location = new System.Drawing.Point(114, 34);
+			this.KwdID.Name = "KwdID";
+			this.KwdID.Size = new System.Drawing.Size(140, 20);
+			this.KwdID.TabIndex = 2;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(40, 37);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(68, 13);
+			this.label7.TabIndex = 1;
+			this.label7.Text = "KeyWord ID:";
+			// 
+			// srch
+			// 
+			this.srch.Location = new System.Drawing.Point(360, 48);
+			this.srch.Name = "srch";
+			this.srch.Size = new System.Drawing.Size(93, 32);
+			this.srch.TabIndex = 0;
+			this.srch.Text = "Search";
+			this.srch.UseVisualStyleBackColor = true;
+			this.srch.Click += new System.EventHandler(this.srch_Click);
+			// 
+			// KwdEmail
+			// 
+			this.KwdEmail.Location = new System.Drawing.Point(114, 60);
+			this.KwdEmail.Name = "KwdEmail";
+			this.KwdEmail.Size = new System.Drawing.Size(140, 20);
+			this.KwdEmail.TabIndex = 5;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(40, 63);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(35, 13);
+			this.label8.TabIndex = 4;
+			this.label8.Text = "Email:";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -371,6 +436,7 @@
 			this.ClientSize = new System.Drawing.Size(1051, 620);
 			this.Controls.Add(this.Auth);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Name = "Form1";
 			this.Text = "Google Api Utility";
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.Auth.ResumeLayout(false);
@@ -379,6 +445,8 @@
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
+			this.tabPage4.ResumeLayout(false);
+			this.tabPage4.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -417,5 +485,11 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TextBox email;
 		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.TabPage tabPage4;
+		private System.Windows.Forms.TextBox KwdID;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Button srch;
+		private System.Windows.Forms.TextBox KwdEmail;
+		private System.Windows.Forms.Label label8;
 	}
 }
