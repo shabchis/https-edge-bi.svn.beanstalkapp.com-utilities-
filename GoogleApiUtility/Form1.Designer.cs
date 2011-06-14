@@ -62,11 +62,13 @@
 			this.button2 = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.KwdEmail = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
 			this.KwdID = new System.Windows.Forms.TextBox();
 			this.label7 = new System.Windows.Forms.Label();
 			this.srch = new System.Windows.Forms.Button();
-			this.KwdEmail = new System.Windows.Forms.TextBox();
-			this.label8 = new System.Windows.Forms.Label();
+			this.validEmail = new System.Windows.Forms.TextBox();
+			this.label9 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.Auth.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -77,7 +79,7 @@
 			// 
 			// GetFields_btn
 			// 
-			this.GetFields_btn.Location = new System.Drawing.Point(479, 6);
+			this.GetFields_btn.Location = new System.Drawing.Point(726, 6);
 			this.GetFields_btn.Name = "GetFields_btn";
 			this.GetFields_btn.Size = new System.Drawing.Size(118, 23);
 			this.GetFields_btn.TabIndex = 0;
@@ -267,6 +269,8 @@
 			// tabPage2
 			// 
 			this.tabPage2.BackColor = System.Drawing.Color.Gainsboro;
+			this.tabPage2.Controls.Add(this.validEmail);
+			this.tabPage2.Controls.Add(this.label9);
 			this.tabPage2.Controls.Add(this.comboBox1);
 			this.tabPage2.Controls.Add(this.dataGridView1);
 			this.tabPage2.Controls.Add(this.GetFields_btn);
@@ -302,6 +306,7 @@
 			this.email.Name = "email";
 			this.email.Size = new System.Drawing.Size(212, 20);
 			this.email.TabIndex = 8;
+			this.email.Text = "bezeqaccess@gmail.com";
 			// 
 			// label6
 			// 
@@ -387,6 +392,22 @@
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "KeyWord Search";
 			// 
+			// KwdEmail
+			// 
+			this.KwdEmail.Location = new System.Drawing.Point(114, 60);
+			this.KwdEmail.Name = "KwdEmail";
+			this.KwdEmail.Size = new System.Drawing.Size(140, 20);
+			this.KwdEmail.TabIndex = 5;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(40, 63);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(35, 13);
+			this.label8.TabIndex = 4;
+			this.label8.Text = "Email:";
+			// 
 			// KwdID
 			// 
 			this.KwdID.Location = new System.Drawing.Point(114, 34);
@@ -413,21 +434,22 @@
 			this.srch.UseVisualStyleBackColor = true;
 			this.srch.Click += new System.EventHandler(this.srch_Click);
 			// 
-			// KwdEmail
+			// validEmail
 			// 
-			this.KwdEmail.Location = new System.Drawing.Point(114, 60);
-			this.KwdEmail.Name = "KwdEmail";
-			this.KwdEmail.Size = new System.Drawing.Size(140, 20);
-			this.KwdEmail.TabIndex = 5;
+			this.validEmail.Location = new System.Drawing.Point(529, 8);
+			this.validEmail.Name = "validEmail";
+			this.validEmail.Size = new System.Drawing.Size(177, 20);
+			this.validEmail.TabIndex = 10;
+			this.validEmail.Text = "bezeqaccess@gmail.com";
 			// 
-			// label8
+			// label9
 			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(40, 63);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(35, 13);
-			this.label8.TabIndex = 4;
-			this.label8.Text = "Email:";
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(416, 11);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(107, 13);
+			this.label9.TabIndex = 9;
+			this.label9.Text = "Valid Account Email :";
 			// 
 			// Form1
 			// 
@@ -436,13 +458,13 @@
 			this.ClientSize = new System.Drawing.Size(1051, 620);
 			this.Controls.Add(this.Auth);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "Form1";
 			this.Text = "Google Api Utility";
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.Auth.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
+			this.tabPage2.PerformLayout();
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
 			this.tabPage4.ResumeLayout(false);
@@ -491,5 +513,7 @@
 		private System.Windows.Forms.Button srch;
 		private System.Windows.Forms.TextBox KwdEmail;
 		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.TextBox validEmail;
+		private System.Windows.Forms.Label label9;
 	}
 }

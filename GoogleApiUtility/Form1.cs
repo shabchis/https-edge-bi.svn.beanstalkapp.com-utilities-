@@ -30,20 +30,8 @@ namespace APITester
 		private void GetFieldsList(ReportDefinitionReportType ReportType)
 		{
 
-			AdWordsAppConfig config = new AdWordsAppConfig()
-			{
-				AuthToken = "DQAAAKYAAAC4aDhadB2PnMH7FeJ-a6ro8tCZzkDvDRfx-FcHrbl-OK5IFUOD0sSwX6eBSTDUOBc0CRmfp7JEbYwedSQVT4PVVhMoXGW1znOeUSdheSKc8cX2wMRhS9Ev-CTG_i3EnlJ_UFZfw3a_7QsrA0-XeUdVYbRRUeoXqK4HPVS_vClEJM0XhpUXTtGRzYss3O-MUvSBb672pFc6cO84pKx39Md3wdYiXcqjPa3k0sdKPrfXyQ",
-				DeveloperToken = "5eCsvAOU06Fs4j5qHWKTCA",
-				ApplicationToken = "5eCsvAOU06Fs4j5qHWKTCA",
-
-				ClientEmail = "bezeqaccess@gmail.com",
-				UserAgent = "Edge.BI",
-				EnableGzipCompression = true
-			}; AdWordsUser user = new AdWordsUser(new AdWordsServiceFactory().ReadHeadersFromConfig(config));
-
-			var reportService = (ReportDefinitionService)user.GetService(AdWordsService.v201101.ReportDefinitionService);
-
-			ReportDefinitionField[] reportFields = reportService.getReportFields(ReportType);
+			AdwordsReport _googleReport = new AdwordsReport(-1, this.validEmail.Text, "", "");
+			ReportDefinitionField[] reportFields = _googleReport.reportService.getReportFields(ReportType);
 			foreach (ReportDefinitionField field in reportFields)
 			{
 				this.dataGridView1.Rows.Add(field.fieldName, field.fieldType, field.canSelect, field.canFilter, field.displayFieldName);
@@ -114,7 +102,7 @@ namespace APITester
 			string[] kwd = new string[]{
 				this.KwdID.Text
 			};
-
+			_googleReport.AddFilter("Id", PredicateOperator.EQUALS, kwd);
 			_googleReport.AddFilter("Id", PredicateOperator.EQUALS, kwd);
 			_googleReport.intializingGoogleReport();
 			_googleReport.DownloadReport(_googleReport.Id, @"D:\KeywordSearchReport");
