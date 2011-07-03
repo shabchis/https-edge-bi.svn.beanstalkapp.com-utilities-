@@ -30,7 +30,7 @@ namespace APITester
 		private void GetFieldsList(ReportDefinitionReportType ReportType)
 		{
 
-			AdwordsReport _googleReport = new AdwordsReport(-1, this.validEmail.Text, "", "");
+			AdwordsReport _googleReport = new AdwordsReport(95, txt_mcc.Text, validEmail.Text, "", "");
 			ReportDefinitionField[] reportFields = _googleReport.reportService.getReportFields(ReportType);
 			foreach (ReportDefinitionField field in reportFields)
 			{
@@ -77,7 +77,7 @@ namespace APITester
 			{
 				log.AppendText("creating AdwordsReport ....\n ");
 				AdwordsReport _googleReport = new AdwordsReport();
-				_googleReport.User = new GoogleUserEntity(email.Text);
+				_googleReport.User = new GoogleUserEntity(email.Text, email.Text);
 				log.AppendText("creating reportService ....\n ");
 				_googleReport.reportService = (ReportDefinitionService)_googleReport.User.adwordsUser.GetService(AdWordsService.v201101.ReportDefinitionService);
 				long report_id;
@@ -97,7 +97,7 @@ namespace APITester
 		private void srch_Click(object sender, EventArgs e)
 		{
 
-			AdwordsReport _googleReport = new AdwordsReport(-1, this.KwdEmail.Text, "", "", true, ReportDefinitionDateRangeType.ALL_TIME, ReportDefinitionReportType.KEYWORDS_PERFORMANCE_REPORT);
+			AdwordsReport _googleReport = new AdwordsReport(-1, this.KwdEmail.Text, this.KwdEmail.Text, "", "", true, ReportDefinitionDateRangeType.ALL_TIME, ReportDefinitionReportType.KEYWORDS_PERFORMANCE_REPORT);
 
 			string[] kwd = new string[]{
 				this.KwdID.Text
