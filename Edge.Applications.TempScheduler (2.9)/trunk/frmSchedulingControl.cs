@@ -28,6 +28,7 @@ namespace Edge.Applications.TempScheduler
 		SetLogMethod setLogMethod;
 		UpdateGridMethod updateGridMethod;
 		bool _scheduleStarted = false;
+		
 
 		public frmSchedulingControl()
 		{
@@ -52,7 +53,7 @@ namespace Edge.Applications.TempScheduler
 		{
 			try
 			{
-
+				_listner.Dispose();
 				_scheduler.Stop();
 			}
 			catch (Exception ex)
@@ -150,7 +151,9 @@ namespace Edge.Applications.TempScheduler
 		{
 			try
 			{
+				
 				legacy.ServiceInstance instance = (legacy.ServiceInstance)sender;
+
 				this.Invoke(setLogMethod, new Object[] { string.Format("\nChild Service: {0} requestedd {1}\r\n", e.RequestedService.Configuration.Name, DateTime.Now.ToString("dd/MM/yy HH:mm")) });
 
 				e.RequestedService.ChildServiceRequested += new EventHandler<legacy.ServiceRequestedEventArgs>(LegacyInstance_ChildServiceRequested);
@@ -172,6 +175,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				legacy.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 				instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
+				
 				this.Invoke(updateGridMethod, new Object[] { instance });
 
 
@@ -274,7 +278,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				foreach (DataGridViewRow row in scheduleInfoGrid.Rows)
 				{
-					if (Object.Equals(row.Tag, serviceInstance))
+					if (Object.Equals(((Dictionary<SchedulingData,ServiceInstance>)row.Tag), serviceInstance))
 					{
 						row.Cells["dynamicStaus"].Value = serviceInstance.State;
 						row.Cells["outCome"].Value = serviceInstance.Outcome;
@@ -383,7 +387,7 @@ namespace Edge.Applications.TempScheduler
                         date
                     });
 					scheduleInfoGrid.Rows[row].DefaultCellStyle.BackColor = GetColorByState(scheduledService.Value.LegacyInstance.State, scheduledService.Value.LegacyInstance.Outcome, scheduledService.Value.Deleted);
-					scheduleInfoGrid.Rows[row].Tag = scheduledService.Value.LegacyInstance;
+					scheduleInfoGrid.Rows[row].Tag = scheduledService;
 
 				}
 
@@ -588,6 +592,11 @@ namespace Edge.Applications.TempScheduler
 			else
 				e.Cancel = true;
 
+		}
+
+		private void scheduleInfoGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+		{
+			
 		}
 
 

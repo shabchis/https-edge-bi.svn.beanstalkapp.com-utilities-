@@ -53,6 +53,7 @@ namespace Edge.Applications.TempScheduler
 		static void Application_ApplicationExit(object sender, EventArgs e)
 		{
 			DeliveryServer.Stop();
+			
 		}
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
