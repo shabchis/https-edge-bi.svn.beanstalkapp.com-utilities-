@@ -51,6 +51,10 @@
 			this.Auth = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.txt_mcc = new System.Windows.Forms.TextBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.validEmail = new System.Windows.Forms.TextBox();
+			this.label9 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.email = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
@@ -67,8 +71,7 @@
 			this.KwdID = new System.Windows.Forms.TextBox();
 			this.label7 = new System.Windows.Forms.Label();
 			this.srch = new System.Windows.Forms.Button();
-			this.validEmail = new System.Windows.Forms.TextBox();
-			this.label9 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.Auth.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -79,7 +82,7 @@
 			// 
 			// GetFields_btn
 			// 
-			this.GetFields_btn.Location = new System.Drawing.Point(726, 6);
+			this.GetFields_btn.Location = new System.Drawing.Point(881, 31);
 			this.GetFields_btn.Name = "GetFields_btn";
 			this.GetFields_btn.Size = new System.Drawing.Size(118, 23);
 			this.GetFields_btn.TabIndex = 0;
@@ -90,7 +93,7 @@
 			// comboBox1
 			// 
 			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Location = new System.Drawing.Point(26, 6);
+			this.comboBox1.Location = new System.Drawing.Point(138, 19);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(361, 21);
 			this.comboBox1.TabIndex = 1;
@@ -105,9 +108,9 @@
             this.Selected,
             this.CanFilter,
             this.DisplayName});
-			this.dataGridView1.Location = new System.Drawing.Point(6, 35);
+			this.dataGridView1.Location = new System.Drawing.Point(6, 76);
 			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.Size = new System.Drawing.Size(1010, 538);
+			this.dataGridView1.Size = new System.Drawing.Size(1010, 497);
 			this.dataGridView1.TabIndex = 3;
 			// 
 			// Name
@@ -269,6 +272,9 @@
 			// tabPage2
 			// 
 			this.tabPage2.BackColor = System.Drawing.Color.Gainsboro;
+			this.tabPage2.Controls.Add(this.label11);
+			this.tabPage2.Controls.Add(this.txt_mcc);
+			this.tabPage2.Controls.Add(this.label10);
 			this.tabPage2.Controls.Add(this.validEmail);
 			this.tabPage2.Controls.Add(this.label9);
 			this.tabPage2.Controls.Add(this.comboBox1);
@@ -280,6 +286,40 @@
 			this.tabPage2.Size = new System.Drawing.Size(1022, 579);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Reports Fields";
+			// 
+			// txt_mcc
+			// 
+			this.txt_mcc.Location = new System.Drawing.Point(671, 7);
+			this.txt_mcc.Name = "txt_mcc";
+			this.txt_mcc.Size = new System.Drawing.Size(177, 20);
+			this.txt_mcc.TabIndex = 12;
+			this.txt_mcc.Text = "edge.bi.mcc@gmail.com";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(558, 10);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(58, 13);
+			this.label10.TabIndex = 11;
+			this.label10.Text = "MCC Email";
+			// 
+			// validEmail
+			// 
+			this.validEmail.Location = new System.Drawing.Point(671, 33);
+			this.validEmail.Name = "validEmail";
+			this.validEmail.Size = new System.Drawing.Size(177, 20);
+			this.validEmail.TabIndex = 10;
+			this.validEmail.Text = "bezeqaccess@gmail.com";
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(558, 36);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(107, 13);
+			this.label9.TabIndex = 9;
+			this.label9.Text = "Valid Account Email :";
 			// 
 			// tabPage3
 			// 
@@ -434,22 +474,14 @@
 			this.srch.UseVisualStyleBackColor = true;
 			this.srch.Click += new System.EventHandler(this.srch_Click);
 			// 
-			// validEmail
+			// label11
 			// 
-			this.validEmail.Location = new System.Drawing.Point(529, 8);
-			this.validEmail.Name = "validEmail";
-			this.validEmail.Size = new System.Drawing.Size(177, 20);
-			this.validEmail.TabIndex = 10;
-			this.validEmail.Text = "bezeqaccess@gmail.com";
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(416, 11);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(107, 13);
-			this.label9.TabIndex = 9;
-			this.label9.Text = "Valid Account Email :";
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(78, 22);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(45, 13);
+			this.label11.TabIndex = 13;
+			this.label11.Text = "Report :";
 			// 
 			// Form1
 			// 
@@ -458,6 +490,7 @@
 			this.ClientSize = new System.Drawing.Size(1051, 620);
 			this.Controls.Add(this.Auth);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			
 			this.Text = "Google Api Utility";
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.Auth.ResumeLayout(false);
@@ -515,5 +548,8 @@
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.TextBox validEmail;
 		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.TextBox txt_mcc;
+		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.Label label11;
 	}
 }
