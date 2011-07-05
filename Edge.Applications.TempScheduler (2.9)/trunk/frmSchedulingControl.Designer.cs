@@ -54,12 +54,14 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.splitContainerMain = new System.Windows.Forms.SplitContainer();
 			this.splitContainerSub = new System.Windows.Forms.SplitContainer();
+			this.lblSteps = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.scheduleInfoGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
 			this.splitContainerMain.Panel1.SuspendLayout();
 			this.splitContainerMain.Panel2.SuspendLayout();
 			this.splitContainerMain.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSub)).BeginInit();
+			this.splitContainerSub.Panel1.SuspendLayout();
 			this.splitContainerSub.Panel2.SuspendLayout();
 			this.splitContainerSub.SuspendLayout();
 			this.SuspendLayout();
@@ -107,11 +109,12 @@
             this.DayCode});
 			this.scheduleInfoGrid.Dock = System.Windows.Forms.DockStyle.Top;
 			this.scheduleInfoGrid.Location = new System.Drawing.Point(0, 0);
+			this.scheduleInfoGrid.MultiSelect = false;
 			this.scheduleInfoGrid.Name = "scheduleInfoGrid";
 			this.scheduleInfoGrid.ReadOnly = true;
 			this.scheduleInfoGrid.Size = new System.Drawing.Size(1263, 250);
 			this.scheduleInfoGrid.TabIndex = 2;
-			this.scheduleInfoGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.scheduleInfoGrid_CellClick);
+			this.scheduleInfoGrid.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.scheduleInfoGrid_RowStateChanged);
 			// 
 			// shceduledID
 			// 
@@ -326,12 +329,25 @@
 			this.splitContainerSub.Name = "splitContainerSub";
 			this.splitContainerSub.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
+			// splitContainerSub.Panel1
+			// 
+			this.splitContainerSub.Panel1.Controls.Add(this.lblSteps);
+			// 
 			// splitContainerSub.Panel2
 			// 
 			this.splitContainerSub.Panel2.Controls.Add(this.logtextBox);
 			this.splitContainerSub.Size = new System.Drawing.Size(1263, 284);
 			this.splitContainerSub.SplitterDistance = 117;
 			this.splitContainerSub.TabIndex = 0;
+			// 
+			// lblSteps
+			// 
+			this.lblSteps.AutoSize = true;
+			this.lblSteps.Location = new System.Drawing.Point(11, 14);
+			this.lblSteps.Name = "lblSteps";
+			this.lblSteps.Size = new System.Drawing.Size(37, 13);
+			this.lblSteps.TabIndex = 0;
+			this.lblSteps.Text = "Steps:";
 			// 
 			// frmSchedulingControl
 			// 
@@ -350,6 +366,8 @@
 			this.splitContainerMain.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
 			this.splitContainerMain.ResumeLayout(false);
+			this.splitContainerSub.Panel1.ResumeLayout(false);
+			this.splitContainerSub.Panel1.PerformLayout();
 			this.splitContainerSub.Panel2.ResumeLayout(false);
 			this.splitContainerSub.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSub)).EndInit();
@@ -386,6 +404,7 @@
         private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.SplitContainer splitContainerMain;
 		private System.Windows.Forms.SplitContainer splitContainerSub;
+		private System.Windows.Forms.Label lblSteps;
 	}
 }
 
