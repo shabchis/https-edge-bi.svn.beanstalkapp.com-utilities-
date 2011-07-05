@@ -13,6 +13,7 @@ using legacy = Edge.Core.Services;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
+using Edge.Core.Configuration;
 
 
 namespace Edge.Applications.TempScheduler
@@ -25,10 +26,14 @@ namespace Edge.Applications.TempScheduler
 		private Dictionary<SchedulingData, ServiceInstance> _scheduledServices = new Dictionary<SchedulingData, ServiceInstance>();
 		public delegate void SetLogMethod(string lineText);
 		public delegate void UpdateGridMethod(legacy.ServiceInstance serviceInstance);
+		public delegate void SetStepsProgressMethod(KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance> rowTag, DataGridViewRow row = null);
 		SetLogMethod setLogMethod;
 		UpdateGridMethod updateGridMethod;
+		SetStepsProgressMethod setStepsProgressMethod;
 		bool _scheduleStarted = false;
-		
+		Dictionary<string, List<StepProperties>> _stepsByConfiguration = new Dictionary<string, List<StepProperties>>();
+
+
 
 		public frmSchedulingControl()
 		{
@@ -39,6 +44,8 @@ namespace Edge.Applications.TempScheduler
 				setLogMethod = new SetLogMethod(SetLogTextBox);
 				updateGridMethod = new UpdateGridMethod(UpdateGridData);
 				this.FormClosed += new FormClosedEventHandler(frmSchedulingControl_FormClosed);
+				setStepsProgressMethod = new SetStepsProgressMethod(SetStepsView);
+				LoadBaseConfigurations();
 
 
 			}
@@ -55,6 +62,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				_listner.Dispose();
 				_scheduler.Stop();
+
 			}
 			catch (Exception ex)
 			{
@@ -151,13 +159,15 @@ namespace Edge.Applications.TempScheduler
 		{
 			try
 			{
-				
+
 				legacy.ServiceInstance instance = (legacy.ServiceInstance)sender;
 
 				this.Invoke(setLogMethod, new Object[] { string.Format("\nChild Service: {0} requestedd {1}\r\n", e.RequestedService.Configuration.Name, DateTime.Now.ToString("dd/MM/yy HH:mm")) });
 
 				e.RequestedService.ChildServiceRequested += new EventHandler<legacy.ServiceRequestedEventArgs>(LegacyInstance_ChildServiceRequested);
 				e.RequestedService.StateChanged += new EventHandler<legacy.ServiceStateChangedEventArgs>(LegacyInstance_StateChanged);
+				legacy.ServiceInstance child = e.RequestedService;
+				child.ProgressReported += new EventHandler(child_ProgressReported);
 				e.RequestedService.Initialize();
 			}
 			catch (Exception ex)
@@ -165,6 +175,22 @@ namespace Edge.Applications.TempScheduler
 
 				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
 			}
+		}
+
+		void child_ProgressReported(object sender, EventArgs e)
+		{
+			legacy.ServiceInstance instance = (legacy.ServiceInstance)sender;
+			if (_stepsByConfiguration.ContainsKey(instance.ParentInstance.Configuration.Name))
+			{
+
+				var s = from ss in _stepsByConfiguration[instance.ParentInstance.Configuration.Name]
+						where ss.step.ActualName == instance.Configuration.Name
+						select ss;
+				var sss = s.First();
+				sss.SetValue(instance.Progress);
+
+			}
+
 		}
 
 
@@ -175,7 +201,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				legacy.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 				instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
-				
+
 				this.Invoke(updateGridMethod, new Object[] { instance });
 
 
@@ -278,7 +304,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				foreach (DataGridViewRow row in scheduleInfoGrid.Rows)
 				{
-					if (Object.Equals(((Dictionary<SchedulingData,ServiceInstance>)row.Tag), serviceInstance))
+					if (Object.Equals(((Dictionary<SchedulingData, ServiceInstance>)row.Tag), serviceInstance))
 					{
 						row.Cells["dynamicStaus"].Value = serviceInstance.State;
 						row.Cells["outCome"].Value = serviceInstance.Outcome;
@@ -378,14 +404,14 @@ namespace Edge.Applications.TempScheduler
 
 					if (!_scheduledServices.ContainsKey(scheduledService.Key))
 						_scheduledServices.Add(scheduledService.Key, scheduledService.Value);
-					int row = scheduleInfoGrid.Rows.Add(new object[] 
-                    { scheduledService.Key.GetHashCode(), scheduledService.Value.ServiceName, scheduledService.Value.ProfileID, 
+					int row = scheduleInfoGrid.Rows.Add(new object[] { scheduledService.Key.GetHashCode(), scheduledService.Value.ServiceName, scheduledService.Value.ProfileID, 
                         scheduledService.Value.StartTime.ToString("dd/MM/yyy HH:mm:ss"), scheduledService.Value.EndTime.ToString("dd/MM/yyy HH:mm:ss"),
                         scheduledService.Value.LegacyInstance.TimeEnded.ToString("dd/MM/yyy HH:mm:ss"), scheduledService.Value.LegacyInstance.State,
                         scheduledService.Key.Rule.Scope, scheduledService.Value.Deleted, scheduledService.Value.LegacyInstance.Outcome,
                         scheduledService.Value.LegacyInstance.State, scheduledService.Value.Priority ,
                         date
                     });
+
 					scheduleInfoGrid.Rows[row].DefaultCellStyle.BackColor = GetColorByState(scheduledService.Value.LegacyInstance.State, scheduledService.Value.LegacyInstance.Outcome, scheduledService.Value.Deleted);
 					scheduleInfoGrid.Rows[row].Tag = scheduledService;
 
@@ -398,6 +424,41 @@ namespace Edge.Applications.TempScheduler
 
 				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
 			}
+		}
+		private void LoadBaseConfigurations()
+		{
+			foreach (ServiceElement serviceElement in EdgeServicesConfiguration.Current.Services)
+			{
+
+				foreach (WorkflowStepElement step in serviceElement.Workflow)
+				{
+					if (step.IsEnabled)
+					{
+						if (!_stepsByConfiguration.ContainsKey(serviceElement.Name))
+						{
+							_stepsByConfiguration.Add(serviceElement.Name, new List<StepProperties>());
+						}
+
+						StepProperties stepProp = new StepProperties() { step = step, ParentName = serviceElement.Name };
+
+						//stepProp.SetValue(0d);
+						stepProp.ValueChanged += new EventHandler(stepProp_ValueChanged);
+						_stepsByConfiguration[serviceElement.Name].Add(stepProp);
+					}
+				}
+			}
+		}
+
+		void stepProp_ValueChanged(object sender, EventArgs e)
+		{
+			if (scheduleInfoGrid.SelectedRows.Count > 0)
+			{
+				KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance> tag = (KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance>)scheduleInfoGrid.SelectedRows[0].Tag;
+				if (tag.Value.ServiceName == ((StepProperties)sender).ParentName)
+					this.Invoke(new Action<KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance>, DataGridViewRow>(SetStepsView), tag, scheduleInfoGrid.SelectedRows[0]);
+
+			}
+
 		}
 
 		private void endServiceBtn_Click(object sender, EventArgs e)
@@ -594,14 +655,95 @@ namespace Edge.Applications.TempScheduler
 
 		}
 
-		private void scheduleInfoGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+
+
+		private void scheduleInfoGrid_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
 		{
-			
+			if (e.Row.Tag != null)
+			{
+				KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance> tag = (KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance>)e.Row.Tag;
+				this.Invoke(new Action<KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance>, DataGridViewRow>(SetStepsView), tag, e.Row);
+			}
+
+			//this.Invoke(new Action<IEnumerable<KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance>>>(SetGridData), scheduledServices);
+			//)e.Row.Tag)
+		}
+
+		private void SetStepsView(KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance> rowTag, DataGridViewRow row = null)
+		{
+			//cleanup
+			string configurationName = rowTag.Value.ServiceName;
+			if (row != null)
+			{
+				//if (row.State == (DataGridViewElementStates.Displayed | DataGridViewElementStates.Visible))
+				//{
+					
+					List<Control> controlsToRemove = new List<Control>();
+					foreach (Control control in this.splitContainerSub.Panel1.Controls)
+					{
+						if (control.Name != "lblSteps")
+							controlsToRemove.Add(control);
+					}
+					foreach (Control control in controlsToRemove)
+						this.splitContainerSub.Panel1.Controls.Remove(control);
+
+					
+				//}
+
+				if (row.State == (DataGridViewElementStates.Displayed | DataGridViewElementStates.Visible | DataGridViewElementStates.Selected))
+				{
+					if (_stepsByConfiguration.ContainsKey(configurationName))
+					{
+						Control baseControl = this.splitContainerSub.Panel1.Controls["lblSteps"];
+						foreach (StepProperties step in _stepsByConfiguration[configurationName])
+						{
+							Label lbl = new Label();
+							lbl.Name = string.Format("lbl{0}", step.step.ActualName);
+							lbl.Location = new Point(baseControl.Left, baseControl.Top + baseControl.Height + 5);
+							lbl.Text = step.step.ActualName;
+							lbl.Visible = true;
+							this.splitContainerSub.Panel1.Controls.Add(lbl);
+
+							ProgressBar progress = new ProgressBar();
+							progress.Name = string.Format("Progress{0}", step.step.ActualName);
+							progress.Minimum = 0;
+							progress.Maximum = 100;
+
+							progress.Location = new Point(lbl.Left + lbl.Width + 5, lbl.Top);
+							progress.Width = 200;
+
+							progress.Value = step.Value;
+							Application.DoEvents();
+							
+							this.splitContainerSub.Panel1.Controls.Add(progress);
+							progress.Visible = true;
+
+
+							baseControl = lbl;
+						}
+					}
+				}
+			}
 		}
 
 
 
 
+
+
+
+	}
+	public class StepProperties
+	{
+		public WorkflowStepElement step;
+		public int Value { get; private set; }
+		public string ParentName;
+		public event EventHandler ValueChanged;
+		public void SetValue(double val)
+		{
+			Value = Convert.ToInt32(val*100);
+			ValueChanged(this, new EventArgs());
+		}
 
 	}
 }
