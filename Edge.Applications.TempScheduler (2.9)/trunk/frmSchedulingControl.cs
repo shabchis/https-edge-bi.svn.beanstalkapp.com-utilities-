@@ -32,7 +32,7 @@ namespace Edge.Applications.TempScheduler
 		SetStepsProgressMethod setStepsProgressMethod;
 		bool _scheduleStarted = false;
 		Dictionary<string, List<StepProperties>> _stepsByConfiguration = new Dictionary<string, List<StepProperties>>();
-
+		object lastTag;
 
 
 		public frmSchedulingControl()
@@ -183,11 +183,12 @@ namespace Edge.Applications.TempScheduler
 			if (_stepsByConfiguration.ContainsKey(instance.ParentInstance.Configuration.Name))
 			{
 
-				var s = from ss in _stepsByConfiguration[instance.ParentInstance.Configuration.Name]
-						where ss.step.ActualName == instance.Configuration.Name
-						select ss;
-				var sss = s.First();
-				sss.SetValue(instance.Progress);
+				IEnumerable<StepProperties> steps = from s in _stepsByConfiguration[instance.ParentInstance.Configuration.Name]
+													where s.step.ActualName == instance.Configuration.Name
+													select s;
+
+				StepProperties step = steps.First();
+				step.SetValue(instance.Progress);
 
 			}
 
@@ -304,7 +305,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				foreach (DataGridViewRow row in scheduleInfoGrid.Rows)
 				{
-					if (Object.Equals(((Dictionary<SchedulingData, ServiceInstance>)row.Tag), serviceInstance))
+					if (Object.Equals(((KeyValuePair<SchedulingData, ServiceInstance>)row.Tag).Value.LegacyInstance, serviceInstance))
 					{
 						row.Cells["dynamicStaus"].Value = serviceInstance.State;
 						row.Cells["outCome"].Value = serviceInstance.Outcome;
@@ -675,9 +676,10 @@ namespace Edge.Applications.TempScheduler
 			string configurationName = rowTag.Value.ServiceName;
 			if (row != null)
 			{
-				//if (row.State == (DataGridViewElementStates.Displayed | DataGridViewElementStates.Visible))
-				//{
-					
+				if (row.Tag != lastTag)
+				{
+
+
 					List<Control> controlsToRemove = new List<Control>();
 					foreach (Control control in this.splitContainerSub.Panel1.Controls)
 					{
@@ -687,42 +689,71 @@ namespace Edge.Applications.TempScheduler
 					foreach (Control control in controlsToRemove)
 						this.splitContainerSub.Panel1.Controls.Remove(control);
 
-					
-				//}
 
-				if (row.State == (DataGridViewElementStates.Displayed | DataGridViewElementStates.Visible | DataGridViewElementStates.Selected))
-				{
-					if (_stepsByConfiguration.ContainsKey(configurationName))
+
+					if (row.State == (DataGridViewElementStates.Displayed | DataGridViewElementStates.Visible | DataGridViewElementStates.Selected))
 					{
-						Control baseControl = this.splitContainerSub.Panel1.Controls["lblSteps"];
-						foreach (StepProperties step in _stepsByConfiguration[configurationName])
+						if (_stepsByConfiguration.ContainsKey(configurationName))
 						{
-							Label lbl = new Label();
-							lbl.Name = string.Format("lbl{0}", step.step.ActualName);
-							lbl.Location = new Point(baseControl.Left, baseControl.Top + baseControl.Height + 5);
-							lbl.Text = step.step.ActualName;
-							lbl.Visible = true;
-							this.splitContainerSub.Panel1.Controls.Add(lbl);
-
-							ProgressBar progress = new ProgressBar();
-							progress.Name = string.Format("Progress{0}", step.step.ActualName);
-							progress.Minimum = 0;
-							progress.Maximum = 100;
-
-							progress.Location = new Point(lbl.Left + lbl.Width + 5, lbl.Top);
-							progress.Width = 200;
-
-							progress.Value = step.Value;
-							Application.DoEvents();
-							
-							this.splitContainerSub.Panel1.Controls.Add(progress);
-							progress.Visible = true;
-
-
-							baseControl = lbl;
+							DrawControls(configurationName);
 						}
 					}
 				}
+				else
+				{
+					if (row.State == (DataGridViewElementStates.Displayed | DataGridViewElementStates.Visible | DataGridViewElementStates.Selected))
+					{
+						if (_stepsByConfiguration.ContainsKey(configurationName))
+						{
+							foreach (var step in _stepsByConfiguration[configurationName])
+							{
+								if (splitContainerSub.Panel1.Controls.ContainsKey(string.Format("Progress{0}", step.step.ActualName)))
+								{
+									ProgressBar p = (ProgressBar)splitContainerSub.Panel1.Controls[string.Format("Progress{0}", step.step.ActualName)];
+									if (p.Value != 100)
+										p.Value = step.Value;
+								}
+
+
+							}
+
+						}
+
+					}
+
+				}
+				lastTag = row.Tag;
+			}
+		}
+
+		private void DrawControls(string configurationName)
+		{
+			Control baseControl = this.splitContainerSub.Panel1.Controls["lblSteps"];
+			foreach (StepProperties step in _stepsByConfiguration[configurationName])
+			{
+				Label lbl = new Label();
+				lbl.Name = string.Format("lbl{0}", step.step.ActualName);
+				lbl.Location = new Point(baseControl.Left, baseControl.Top + baseControl.Height + 5);
+				lbl.Text = step.step.ActualName;
+				lbl.Visible = true;
+				this.splitContainerSub.Panel1.Controls.Add(lbl);
+
+				ProgressBar progress = new ProgressBar();
+				progress.Name = string.Format("Progress{0}", step.step.ActualName);
+				progress.Minimum = 0;
+				progress.Maximum = 100;
+
+				progress.Location = new Point(lbl.Left + lbl.Width + 5, lbl.Top);
+				progress.Width = 200;
+
+				progress.Value = step.Value;
+				Application.DoEvents();
+
+				this.splitContainerSub.Panel1.Controls.Add(progress);
+				progress.Visible = true;
+
+
+				baseControl = lbl;
 			}
 		}
 
@@ -741,7 +772,7 @@ namespace Edge.Applications.TempScheduler
 		public event EventHandler ValueChanged;
 		public void SetValue(double val)
 		{
-			Value = Convert.ToInt32(val*100);
+			Value = Convert.ToInt32(val * 100);
 			ValueChanged(this, new EventArgs());
 		}
 
