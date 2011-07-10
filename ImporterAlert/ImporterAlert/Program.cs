@@ -236,7 +236,12 @@ namespace ImporterAlert
 		   List<String> UnrunningServices = new List<string>();
 		   IDictionary services = GetServices();
 		   bool IsDown = IsServiceDown(services, UnrunningServices);
-		   if (IsDown) Thread.Sleep(60000);
+		   if (IsDown)
+		   {
+			   Console.WriteLine("File Watcher is down. running FileWatcher services ( ~ 60 sec )");
+			   Thread.Sleep(60000);
+		   }
+		   Console.WriteLine("Re-Importing files ");
 		   var ImporterDirs = GetDir();
            var errors = IsDirectoryEmpty(ImporterDirs, ImporterDirsErr);
 		   //if (errors) SendAlert(ImporterDirsErr);
