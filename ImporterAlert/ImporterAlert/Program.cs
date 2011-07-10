@@ -211,21 +211,15 @@ namespace ImporterAlert
 			foreach (DictionaryEntry service in services)
 			{
 				Process[] processes = Process.GetProcessesByName(service.Key.ToString());
-				// service is running
-				//if (processes.Length >= 1)
-				//{
-				//    processes[0].Refresh();
-				//    //processes[0].Close();
-				//}
-
-				down = true;
-				errorServices.Add(service.Key.ToString());
-				Process proc = new Process();
-				proc.StartInfo.FileName = service.Value.ToString();
-				proc.StartInfo.Arguments = "/" + service.Key.ToString();
-				proc.Start();
-
-
+				if (processes.Length < 1)
+				{
+					down = true;
+					errorServices.Add(service.Key.ToString());
+					Process proc = new Process();
+					proc.StartInfo.FileName = service.Value.ToString();
+					proc.StartInfo.Arguments = "/" + service.Key.ToString();
+					proc.Start();
+				}
 			}
 
 			return down;
