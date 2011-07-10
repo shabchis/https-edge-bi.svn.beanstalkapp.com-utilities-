@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImporterAlert", "ConsoleApplication1\ImporterAlert.csproj", "{C78F4E50-A86C-4684-868E-83E40B8B75AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImporterAlert", "ImporterAlert\ImporterAlert.csproj", "{C78F4E50-A86C-4684-868E-83E40B8B75AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
