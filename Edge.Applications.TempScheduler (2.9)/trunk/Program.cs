@@ -7,6 +7,7 @@ using Edge.Core.Utilities;
 using Edge.Core.Configuration;
 using Edge.Data.Pipeline;
 using Edge.Core.Data;
+using Edge.Data.Pipeline.AdMetrics;
 
 namespace Edge.Applications.TempScheduler
 {
@@ -30,7 +31,7 @@ namespace Edge.Applications.TempScheduler
 					configFileName = args[0].Substring(1);
 				}
 				EdgeServicesConfiguration.Load(configFileName);
-				DataManager.ConnectionString = AppSettings.GetConnectionString("Edge.Data.Pipeline.Importing.AdDataImportSession", "Oltp");
+				DataManager.ConnectionString = AppSettings.GetConnectionString(typeof(AdMetricsImportManager), AdMetricsImportManager.Consts.ConnectionStrings.Oltp);
 
 				DeliveryServer = new DeliveryDBServer();
 				DeliveryServer.Start(null);
