@@ -55,10 +55,9 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
 			this.useOptionsCheckBox = new System.Windows.Forms.CheckBox();
-			this.selectAllbtn = new System.Windows.Forms.Button();
-			this.unSelectAllBtn = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.servicesTreeView = new System.Windows.Forms.TreeView();
+			this.chkBackward = new System.Windows.Forms.CheckBox();
 			this.schedulingGroupBox.SuspendLayout();
 			this.serviceOptionsGroupBox.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -67,17 +66,18 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(15, 12);
+			this.label1.Location = new System.Drawing.Point(15, 27);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(43, 13);
+			this.label1.Size = new System.Drawing.Size(51, 13);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "Service";
+			this.label1.Text = "Services:";
 			// 
 			// priorityCmb
 			// 
 			this.priorityCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.priorityCmb.Enabled = false;
 			this.priorityCmb.FormattingEnabled = true;
-			this.priorityCmb.Location = new System.Drawing.Point(856, 12);
+			this.priorityCmb.Location = new System.Drawing.Point(407, 27);
 			this.priorityCmb.Name = "priorityCmb";
 			this.priorityCmb.Size = new System.Drawing.Size(121, 21);
 			this.priorityCmb.TabIndex = 3;
@@ -85,7 +85,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(798, 12);
+			this.label2.Location = new System.Drawing.Point(349, 27);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(38, 13);
 			this.label2.TabIndex = 2;
@@ -149,7 +149,7 @@
 			this.schedulingGroupBox.Controls.Add(this.label6);
 			this.schedulingGroupBox.Controls.Add(this.dateToRunPicker);
 			this.schedulingGroupBox.Controls.Add(this.label5);
-			this.schedulingGroupBox.Location = new System.Drawing.Point(345, 245);
+			this.schedulingGroupBox.Location = new System.Drawing.Point(352, 55);
 			this.schedulingGroupBox.Name = "schedulingGroupBox";
 			this.schedulingGroupBox.Size = new System.Drawing.Size(366, 100);
 			this.schedulingGroupBox.TabIndex = 12;
@@ -192,6 +192,7 @@
 			// 
 			// serviceOptionsGroupBox
 			// 
+			this.serviceOptionsGroupBox.Controls.Add(this.chkBackward);
 			this.serviceOptionsGroupBox.Controls.Add(this.clearOptionsBtn);
 			this.serviceOptionsGroupBox.Controls.Add(this.removeOptionBtn);
 			this.serviceOptionsGroupBox.Controls.Add(this.addOptionBtn);
@@ -314,26 +315,6 @@
 			this.useOptionsCheckBox.UseVisualStyleBackColor = true;
 			this.useOptionsCheckBox.CheckedChanged += new System.EventHandler(this.useOptionsCheckBox_CheckedChanged);
 			// 
-			// selectAllbtn
-			// 
-			this.selectAllbtn.Location = new System.Drawing.Point(801, 214);
-			this.selectAllbtn.Name = "selectAllbtn";
-			this.selectAllbtn.Size = new System.Drawing.Size(75, 23);
-			this.selectAllbtn.TabIndex = 17;
-			this.selectAllbtn.Text = "Select All";
-			this.selectAllbtn.UseVisualStyleBackColor = true;
-			this.selectAllbtn.Click += new System.EventHandler(this.selectAllbtn_Click);
-			// 
-			// unSelectAllBtn
-			// 
-			this.unSelectAllBtn.Location = new System.Drawing.Point(892, 215);
-			this.unSelectAllBtn.Name = "unSelectAllBtn";
-			this.unSelectAllBtn.Size = new System.Drawing.Size(75, 23);
-			this.unSelectAllBtn.TabIndex = 18;
-			this.unSelectAllBtn.Text = "UNSelect All";
-			this.unSelectAllBtn.UseVisualStyleBackColor = true;
-			this.unSelectAllBtn.Click += new System.EventHandler(this.unSelectAllBtn_Click);
-			// 
 			// panel1
 			// 
 			this.panel1.Controls.Add(this.servicesTreeView);
@@ -352,14 +333,22 @@
 			this.servicesTreeView.TabIndex = 0;
 			this.servicesTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.servicesTreeView_AfterCheck);
 			// 
+			// chkBackward
+			// 
+			this.chkBackward.AutoSize = true;
+			this.chkBackward.Location = new System.Drawing.Point(279, 30);
+			this.chkBackward.Name = "chkBackward";
+			this.chkBackward.Size = new System.Drawing.Size(164, 17);
+			this.chkBackward.TabIndex = 20;
+			this.chkBackward.Text = "Date backwards compatibility";
+			this.chkBackward.UseVisualStyleBackColor = true;
+			// 
 			// frmUnPlannedService
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(989, 645);
 			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.unSelectAllBtn);
-			this.Controls.Add(this.selectAllbtn);
 			this.Controls.Add(this.useOptionsCheckBox);
 			this.Controls.Add(this.label9);
 			this.Controls.Add(this.serviceOptionsGroupBox);
@@ -411,9 +400,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox useOptionsCheckBox;
 		private System.Windows.Forms.Button clearOptionsBtn;
-        private System.Windows.Forms.Button selectAllbtn;
-        private System.Windows.Forms.Button unSelectAllBtn;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.TreeView servicesTreeView;
+		private System.Windows.Forms.CheckBox chkBackward;
     }
 }

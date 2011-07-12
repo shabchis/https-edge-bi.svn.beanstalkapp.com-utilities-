@@ -68,7 +68,7 @@
 			// 
 			// ScheduleBtn
 			// 
-			this.ScheduleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ScheduleBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.ScheduleBtn.Location = new System.Drawing.Point(169, 256);
 			this.ScheduleBtn.Name = "ScheduleBtn";
 			this.ScheduleBtn.Size = new System.Drawing.Size(122, 23);
@@ -79,7 +79,7 @@
 			// 
 			// endServiceBtn
 			// 
-			this.endServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.endServiceBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.endServiceBtn.Location = new System.Drawing.Point(378, 256);
 			this.endServiceBtn.Name = "endServiceBtn";
 			this.endServiceBtn.Size = new System.Drawing.Size(101, 23);
@@ -220,7 +220,7 @@
 			// 
 			// rescheduleBtn
 			// 
-			this.rescheduleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.rescheduleBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.rescheduleBtn.Location = new System.Drawing.Point(297, 256);
 			this.rescheduleBtn.Name = "rescheduleBtn";
 			this.rescheduleBtn.Size = new System.Drawing.Size(75, 23);
@@ -231,7 +231,7 @@
 			// 
 			// unPlannedBtn
 			// 
-			this.unPlannedBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.unPlannedBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.unPlannedBtn.Location = new System.Drawing.Point(670, 256);
 			this.unPlannedBtn.Name = "unPlannedBtn";
 			this.unPlannedBtn.Size = new System.Drawing.Size(186, 23);
@@ -242,7 +242,7 @@
 			// 
 			// deleteServiceFromScheduleBtn
 			// 
-			this.deleteServiceFromScheduleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.deleteServiceFromScheduleBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.deleteServiceFromScheduleBtn.Location = new System.Drawing.Point(485, 256);
 			this.deleteServiceFromScheduleBtn.Name = "deleteServiceFromScheduleBtn";
 			this.deleteServiceFromScheduleBtn.Size = new System.Drawing.Size(179, 23);
@@ -253,7 +253,7 @@
 			// 
 			// startBtn
 			// 
-			this.startBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.startBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.startBtn.Location = new System.Drawing.Point(7, 256);
 			this.startBtn.Name = "startBtn";
 			this.startBtn.Size = new System.Drawing.Size(75, 23);
@@ -264,7 +264,7 @@
 			// 
 			// EndBtn
 			// 
-			this.EndBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.EndBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.EndBtn.Location = new System.Drawing.Point(88, 256);
 			this.EndBtn.Name = "EndBtn";
 			this.EndBtn.Size = new System.Drawing.Size(75, 23);
