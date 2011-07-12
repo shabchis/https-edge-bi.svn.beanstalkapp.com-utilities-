@@ -24,7 +24,7 @@ namespace Edge.Applications.TempScheduler
 			// Get an alternate file name
 			try
 			{
-
+				
 				string configFileName = EdgeServicesConfiguration.DefaultFileName;
 				if (args.Length > 0 && args[0].StartsWith("/") && args[0].Length > 1)
 				{
@@ -38,11 +38,12 @@ namespace Edge.Applications.TempScheduler
 
 				AppDomain currentDomain = AppDomain.CurrentDomain;
 				currentDomain.UnhandledException += new UnhandledExceptionEventHandler(currentDomain_UnhandledException);
-				Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
+				Application.ThreadExit += new EventHandler(Application_ThreadExit);
 				Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
 				Application.Run(new frmSchedulingControl());
+				
 			}
 			catch (Exception ex)
 			{
@@ -51,11 +52,12 @@ namespace Edge.Applications.TempScheduler
 			}
 		}
 
-		static void Application_ApplicationExit(object sender, EventArgs e)
+		static void Application_ThreadExit(object sender, EventArgs e)
 		{
-			DeliveryServer.Stop();
 			
 		}
+
+		
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {

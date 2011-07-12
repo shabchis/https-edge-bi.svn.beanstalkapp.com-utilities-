@@ -10,6 +10,8 @@ using Edge.Core.Scheduling;
 using Edge.Core.Scheduling.Objects;
 using Edge.Core.Services;
 using Edge.Core.Configuration;
+using Edge.Data.Pipeline;
+using Edge.Data.Pipeline.Services;
 
 namespace Edge.Applications.TempScheduler
 {
@@ -129,8 +131,10 @@ namespace Edge.Applications.TempScheduler
 					}
 				foreach (TreeNode accountNode in servicesTreeView.Nodes)
 				{
-					if (accountNode.Checked)
-						foreach (TreeNode serviceNode in accountNode.Nodes)
+
+					foreach (TreeNode serviceNode in accountNode.Nodes)
+					{
+						if (serviceNode.Checked)
 						{
 							AccountElement account = (AccountElement)accountNode.Tag;
 							ActiveServiceElement service = (ActiveServiceElement)serviceNode.Tag;
@@ -144,17 +148,45 @@ namespace Edge.Applications.TempScheduler
 								if (to.Date < from.Date || to.Date > DateTime.Now.Date)
 									throw new Exception("to date must be equal or greater then from date, and both should be less then today's date");
 
-
-								while (from.Date <= to.Date)
+								if (chkBackward.Checked)
 								{
-									options["Date"] = from.ToString("yyyyMMdd");
+									while (from.Date <= to.Date)
+									{
+										//For backward compatbility
+										options["Date"] = from.ToString("yyyyMMdd");
+										result = _listner.FormAddToSchedule(service, account, targetDateTime, options, servicePriority);
+										if (!result)
+										{
+											allSucceed = result;
+											MessageBox.Show(string.Format("Service {0} for account {1} did not run", service.Name, accountNode.Text));
+										}
+										from = from.AddDays(1);
+									}
+								}
+								else
+								{
+									DateTimeRange daterange = new DateTimeRange()
+									{
+										Start = new DateTimeSpecification()
+										{
+											BaseDateTime = from,
+											Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
+											Boundary = DateTimeSpecificationBounds.Lower
+										},
+										End = new DateTimeSpecification()
+										{
+											BaseDateTime = to,
+											Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+											Boundary = DateTimeSpecificationBounds.Upper
+										}
+									};
+									options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, daterange.ToAbsolute().ToString());
 									result = _listner.FormAddToSchedule(service, account, targetDateTime, options, servicePriority);
 									if (!result)
 									{
 										allSucceed = result;
 										MessageBox.Show(string.Format("Service {0} for account {1} did not run", service.Name, accountNode.Text));
 									}
-									from = from.AddDays(1);
 								}
 							}
 							else
@@ -164,9 +196,12 @@ namespace Edge.Applications.TempScheduler
 									allSucceed = result;
 							}
 						}
+					}
 				}
 				if (!allSucceed)
 					throw new Exception("Some services did not run");
+				else
+					MessageBox.Show(@"Unplaned service\services added successfully");
 
 
 
@@ -229,28 +264,7 @@ namespace Edge.Applications.TempScheduler
 			optionsListView.Clear();
 		}
 
-		private void selectAllbtn_Click(object sender, EventArgs e)
-		{
-			//for (int i = 0; i < servicesCheckedListBox.Items.Count; i++)
-			//{
-			//    if (!servicesCheckedListBox.Items[i].ToString().StartsWith("-1"))
-			//        servicesCheckedListBox.SetItemChecked(i, true);
-			//    else
-			//        servicesCheckedListBox.SetItemChecked(i, false);
-
-			//}
-		}
-
-		private void unSelectAllBtn_Click(object sender, EventArgs e)
-		{
-			//for (int i = 0; i < servicesCheckedListBox.Items.Count; i++)
-			//{
-
-			//        servicesCheckedListBox.SetItemChecked(i, false);
-
-			//}
-
-		}
+		
 
 		private void servicesTreeView_AfterCheck(object sender, TreeViewEventArgs e)
 		{

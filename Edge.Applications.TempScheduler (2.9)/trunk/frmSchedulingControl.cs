@@ -31,6 +31,7 @@ namespace Edge.Applications.TempScheduler
 		UpdateGridMethod updateGridMethod;
 		SetStepsProgressMethod setStepsProgressMethod;
 		bool _scheduleStarted = false;
+		Thread _timerToStartScheduling;
 		Dictionary<string, List<StepProperties>> _stepsByConfiguration = new Dictionary<string, List<StepProperties>>();
 		object lastTag;
 
@@ -62,7 +63,10 @@ namespace Edge.Applications.TempScheduler
 			{
 				_listner.Dispose();
 				_scheduler.Stop();
-
+				_timerToStartScheduling.Abort();
+				Application.ExitThread();
+				Application.Exit();
+				
 			}
 			catch (Exception ex)
 			{
@@ -77,8 +81,9 @@ namespace Edge.Applications.TempScheduler
 			{
 				try
 				{
+
 					this.Text = System.AppDomain.CurrentDomain.FriendlyName;
-					Thread t = new Thread(new ThreadStart(delegate()
+					_timerToStartScheduling = new Thread(new ThreadStart(delegate()
 			{
 				Thread.Sleep(new TimeSpan(0, 1, 0));
 				if (!_scheduleStarted)
@@ -86,7 +91,7 @@ namespace Edge.Applications.TempScheduler
 					_scheduler.Start();
 				}
 			}));
-					t.Start();
+					_timerToStartScheduling.Start();
 
 
 				}
@@ -646,13 +651,26 @@ namespace Edge.Applications.TempScheduler
 			{
 				result = MessageBox.Show("Are You Sure?", "Form Closing!", MessageBoxButtons.YesNo);
 				if (result == System.Windows.Forms.DialogResult.Yes)
+				{
 					e.Cancel = false;
+					_scheduler.Stop();
+					Program.DeliveryServer.Stop();
+					
+					
+				}
 				else
+				{
 					e.Cancel = true;
+
+
+				}
 
 			}
 			else
+			{
 				e.Cancel = true;
+				
+			}
 
 		}
 
