@@ -43,21 +43,21 @@
 			this.dateToRunPicker = new System.Windows.Forms.DateTimePicker();
 			this.label5 = new System.Windows.Forms.Label();
 			this.serviceOptionsGroupBox = new System.Windows.Forms.GroupBox();
+			this.chkBackward = new System.Windows.Forms.CheckBox();
 			this.clearOptionsBtn = new System.Windows.Forms.Button();
 			this.removeOptionBtn = new System.Windows.Forms.Button();
 			this.addOptionBtn = new System.Windows.Forms.Button();
 			this.optionsListView = new System.Windows.Forms.ListView();
 			this.Key = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.valueTxt = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
-			this.keyTxt = new System.Windows.Forms.TextBox();
 			this.label7 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
 			this.useOptionsCheckBox = new System.Windows.Forms.CheckBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.servicesTreeView = new System.Windows.Forms.TreeView();
-			this.chkBackward = new System.Windows.Forms.CheckBox();
+			this.cmbKey = new System.Windows.Forms.ComboBox();
+			this.cmbValue = new System.Windows.Forms.ComboBox();
 			this.schedulingGroupBox.SuspendLayout();
 			this.serviceOptionsGroupBox.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -192,14 +192,14 @@
 			// 
 			// serviceOptionsGroupBox
 			// 
+			this.serviceOptionsGroupBox.Controls.Add(this.cmbValue);
+			this.serviceOptionsGroupBox.Controls.Add(this.cmbKey);
 			this.serviceOptionsGroupBox.Controls.Add(this.chkBackward);
 			this.serviceOptionsGroupBox.Controls.Add(this.clearOptionsBtn);
 			this.serviceOptionsGroupBox.Controls.Add(this.removeOptionBtn);
 			this.serviceOptionsGroupBox.Controls.Add(this.addOptionBtn);
 			this.serviceOptionsGroupBox.Controls.Add(this.optionsListView);
-			this.serviceOptionsGroupBox.Controls.Add(this.valueTxt);
 			this.serviceOptionsGroupBox.Controls.Add(this.label8);
-			this.serviceOptionsGroupBox.Controls.Add(this.keyTxt);
 			this.serviceOptionsGroupBox.Controls.Add(this.label7);
 			this.serviceOptionsGroupBox.Controls.Add(this.FromPicker);
 			this.serviceOptionsGroupBox.Controls.Add(this.label3);
@@ -212,6 +212,16 @@
 			this.serviceOptionsGroupBox.TabIndex = 13;
 			this.serviceOptionsGroupBox.TabStop = false;
 			this.serviceOptionsGroupBox.Text = "Service Options";
+			// 
+			// chkBackward
+			// 
+			this.chkBackward.AutoSize = true;
+			this.chkBackward.Location = new System.Drawing.Point(279, 30);
+			this.chkBackward.Name = "chkBackward";
+			this.chkBackward.Size = new System.Drawing.Size(164, 17);
+			this.chkBackward.TabIndex = 20;
+			this.chkBackward.Text = "Date backwards compatibility";
+			this.chkBackward.UseVisualStyleBackColor = true;
 			// 
 			// clearOptionsBtn
 			// 
@@ -264,13 +274,6 @@
 			// 
 			this.Value.Text = "Value";
 			// 
-			// valueTxt
-			// 
-			this.valueTxt.Location = new System.Drawing.Point(256, 112);
-			this.valueTxt.Name = "valueTxt";
-			this.valueTxt.Size = new System.Drawing.Size(119, 20);
-			this.valueTxt.TabIndex = 15;
-			// 
 			// label8
 			// 
 			this.label8.AutoSize = true;
@@ -279,13 +282,6 @@
 			this.label8.Size = new System.Drawing.Size(34, 13);
 			this.label8.TabIndex = 14;
 			this.label8.Text = "Value";
-			// 
-			// keyTxt
-			// 
-			this.keyTxt.Location = new System.Drawing.Point(55, 109);
-			this.keyTxt.Name = "keyTxt";
-			this.keyTxt.Size = new System.Drawing.Size(119, 20);
-			this.keyTxt.TabIndex = 13;
 			// 
 			// label7
 			// 
@@ -326,22 +322,29 @@
 			// servicesTreeView
 			// 
 			this.servicesTreeView.CheckBoxes = true;
-			this.servicesTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.servicesTreeView.Location = new System.Drawing.Point(0, 0);
 			this.servicesTreeView.Name = "servicesTreeView";
 			this.servicesTreeView.Size = new System.Drawing.Size(302, 535);
 			this.servicesTreeView.TabIndex = 0;
 			this.servicesTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.servicesTreeView_AfterCheck);
 			// 
-			// chkBackward
+			// cmbKey
 			// 
-			this.chkBackward.AutoSize = true;
-			this.chkBackward.Location = new System.Drawing.Point(279, 30);
-			this.chkBackward.Name = "chkBackward";
-			this.chkBackward.Size = new System.Drawing.Size(164, 17);
-			this.chkBackward.TabIndex = 20;
-			this.chkBackward.Text = "Date backwards compatibility";
-			this.chkBackward.UseVisualStyleBackColor = true;
+			this.cmbKey.FormattingEnabled = true;
+			this.cmbKey.Items.AddRange(new object[] {
+            "ServiceToRun"});
+			this.cmbKey.Location = new System.Drawing.Point(55, 106);
+			this.cmbKey.Name = "cmbKey";
+			this.cmbKey.Size = new System.Drawing.Size(121, 21);
+			this.cmbKey.TabIndex = 21;
+			// 
+			// cmbValue
+			// 
+			this.cmbValue.FormattingEnabled = true;
+			this.cmbValue.Location = new System.Drawing.Point(251, 104);
+			this.cmbValue.Name = "cmbValue";
+			this.cmbValue.Size = new System.Drawing.Size(121, 21);
+			this.cmbValue.TabIndex = 22;
 			// 
 			// frmUnPlannedService
 			// 
@@ -392,10 +395,8 @@
         private System.Windows.Forms.Button addOptionBtn;
         private System.Windows.Forms.ListView optionsListView;
         private System.Windows.Forms.ColumnHeader Key;
-        private System.Windows.Forms.ColumnHeader Value;
-        private System.Windows.Forms.TextBox valueTxt;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox keyTxt;
+		private System.Windows.Forms.ColumnHeader Value;
+		private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox useOptionsCheckBox;
@@ -403,5 +404,7 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.TreeView servicesTreeView;
 		private System.Windows.Forms.CheckBox chkBackward;
+		private System.Windows.Forms.ComboBox cmbValue;
+		private System.Windows.Forms.ComboBox cmbKey;
     }
 }

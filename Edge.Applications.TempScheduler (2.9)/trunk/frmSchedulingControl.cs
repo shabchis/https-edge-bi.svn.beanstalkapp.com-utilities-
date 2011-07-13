@@ -315,6 +315,7 @@ namespace Edge.Applications.TempScheduler
 						row.Cells["dynamicStaus"].Value = serviceInstance.State;
 						row.Cells["outCome"].Value = serviceInstance.Outcome;
 						row.Cells["actualEndTime"].Value = serviceInstance.TimeEnded.ToString("dd/MM/yyyy HH:mm:ss");
+						row.Cells["instanceID"].Value = serviceInstance.InstanceID;
 
 						Color color = GetColorByState(serviceInstance.State, serviceInstance.Outcome);
 						row.DefaultCellStyle.BackColor = color;
@@ -410,7 +411,7 @@ namespace Edge.Applications.TempScheduler
 
 					if (!_scheduledServices.ContainsKey(scheduledService.Key))
 						_scheduledServices.Add(scheduledService.Key, scheduledService.Value);
-					int row = scheduleInfoGrid.Rows.Add(new object[] { scheduledService.Key.GetHashCode(), scheduledService.Value.ServiceName, scheduledService.Value.ProfileID, 
+					int row = scheduleInfoGrid.Rows.Add(new object[] { scheduledService.Key.GetHashCode(),scheduledService.Value.LegacyInstance.InstanceID, scheduledService.Value.ServiceName, scheduledService.Value.ProfileID, 
                         scheduledService.Value.StartTime.ToString("dd/MM/yyy HH:mm:ss"), scheduledService.Value.EndTime.ToString("dd/MM/yyy HH:mm:ss"),
                         scheduledService.Value.LegacyInstance.TimeEnded.ToString("dd/MM/yyy HH:mm:ss"), scheduledService.Value.LegacyInstance.State,
                         scheduledService.Key.Rule.Scope, scheduledService.Value.Deleted, scheduledService.Value.LegacyInstance.Outcome,
