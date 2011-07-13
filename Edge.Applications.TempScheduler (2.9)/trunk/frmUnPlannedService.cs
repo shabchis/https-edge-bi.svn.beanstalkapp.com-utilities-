@@ -50,7 +50,17 @@ namespace Edge.Applications.TempScheduler
 
 
 			}
+
+
+
 			servicesTreeView.EndUpdate();
+			List<string> services = new List<string>();
+			foreach (ServiceElement service in EdgeServicesConfiguration.Current.Services)
+			{
+				if (service.Name != "Rerun")
+					services.Add(service.Name);
+			}
+			cmbValue.DataSource = services;
 			priorityCmb.Items.Add(ServicePriority.Low);
 			priorityCmb.Items.Add(ServicePriority.Normal);
 			priorityCmb.Items.Add(ServicePriority.High);
@@ -225,17 +235,17 @@ namespace Edge.Applications.TempScheduler
 			bool exist = false;
 			foreach (ListViewItem item in optionsListView.Items)
 			{
-				if (item.SubItems[0].Text.Trim() == keyTxt.Text)
+				if (item.SubItems[0].Text.Trim() == cmbKey.Text)
 					exist = true;
 
 			}
-			if (!string.IsNullOrEmpty(keyTxt.Text) && !string.IsNullOrEmpty(valueTxt.Text))
+			if (!string.IsNullOrEmpty(cmbKey.Text) && !string.IsNullOrEmpty(cmbValue.Text))
 			{
 				if (!exist)
 				{
-					optionsListView.Items.Add(new ListViewItem(new string[] { keyTxt.Text, valueTxt.Text }));
-					keyTxt.Text = string.Empty;
-					valueTxt.Text = string.Empty;
+					optionsListView.Items.Add(new ListViewItem(new string[] { cmbKey.Text, cmbValue.Text }));
+					cmbKey.Text = string.Empty;
+					cmbValue.Text = string.Empty;
 				}
 				else
 					MessageBox.Show("DuplicateKey");
@@ -264,7 +274,7 @@ namespace Edge.Applications.TempScheduler
 			optionsListView.Clear();
 		}
 
-		
+
 
 		private void servicesTreeView_AfterCheck(object sender, TreeViewEventArgs e)
 		{

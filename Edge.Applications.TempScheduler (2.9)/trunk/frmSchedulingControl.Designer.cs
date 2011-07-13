@@ -32,7 +32,18 @@
 			this.ScheduleBtn = new System.Windows.Forms.Button();
 			this.endServiceBtn = new System.Windows.Forms.Button();
 			this.scheduleInfoGrid = new System.Windows.Forms.DataGridView();
+			this.rescheduleBtn = new System.Windows.Forms.Button();
+			this.unPlannedBtn = new System.Windows.Forms.Button();
+			this.deleteServiceFromScheduleBtn = new System.Windows.Forms.Button();
+			this.startBtn = new System.Windows.Forms.Button();
+			this.EndBtn = new System.Windows.Forms.Button();
+			this.logtextBox = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+			this.splitContainerSub = new System.Windows.Forms.SplitContainer();
+			this.lblSteps = new System.Windows.Forms.Label();
 			this.shceduledID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.instanceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.scheduledName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.accountID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.startOn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,16 +56,6 @@
 			this.dynamicStaus = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.DayCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.rescheduleBtn = new System.Windows.Forms.Button();
-			this.unPlannedBtn = new System.Windows.Forms.Button();
-			this.deleteServiceFromScheduleBtn = new System.Windows.Forms.Button();
-			this.startBtn = new System.Windows.Forms.Button();
-			this.EndBtn = new System.Windows.Forms.Button();
-			this.logtextBox = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.splitContainerMain = new System.Windows.Forms.SplitContainer();
-			this.splitContainerSub = new System.Windows.Forms.SplitContainer();
-			this.lblSteps = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.scheduleInfoGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
 			this.splitContainerMain.Panel1.SuspendLayout();
@@ -95,6 +96,7 @@
 			this.scheduleInfoGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.scheduleInfoGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.shceduledID,
+            this.instanceID,
             this.scheduledName,
             this.accountID,
             this.startOn,
@@ -115,108 +117,6 @@
 			this.scheduleInfoGrid.Size = new System.Drawing.Size(1263, 250);
 			this.scheduleInfoGrid.TabIndex = 2;
 			this.scheduleInfoGrid.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.scheduleInfoGrid_RowStateChanged);
-			// 
-			// shceduledID
-			// 
-			this.shceduledID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.shceduledID.HeaderText = "Shceduled ID";
-			this.shceduledID.Name = "shceduledID";
-			this.shceduledID.ReadOnly = true;
-			this.shceduledID.Width = 89;
-			// 
-			// scheduledName
-			// 
-			this.scheduledName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.scheduledName.HeaderText = "Scheduled Name";
-			this.scheduledName.Name = "scheduledName";
-			this.scheduledName.ReadOnly = true;
-			this.scheduledName.Width = 105;
-			// 
-			// accountID
-			// 
-			this.accountID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.accountID.HeaderText = "Account ID";
-			this.accountID.Name = "accountID";
-			this.accountID.ReadOnly = true;
-			this.accountID.Width = 79;
-			// 
-			// startOn
-			// 
-			this.startOn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.startOn.HeaderText = "Start On";
-			this.startOn.Name = "startOn";
-			this.startOn.ReadOnly = true;
-			this.startOn.Width = 66;
-			// 
-			// endOn
-			// 
-			this.endOn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.endOn.HeaderText = "End On";
-			this.endOn.Name = "endOn";
-			this.endOn.ReadOnly = true;
-			this.endOn.Width = 51;
-			// 
-			// actualEndTime
-			// 
-			this.actualEndTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.actualEndTime.HeaderText = "Actual End Time";
-			this.actualEndTime.Name = "actualEndTime";
-			this.actualEndTime.ReadOnly = true;
-			this.actualEndTime.Width = 80;
-			// 
-			// status
-			// 
-			this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.status.HeaderText = "Status";
-			this.status.Name = "status";
-			this.status.ReadOnly = true;
-			this.status.Width = 62;
-			// 
-			// scope
-			// 
-			this.scope.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.scope.HeaderText = "Scope";
-			this.scope.Name = "scope";
-			this.scope.ReadOnly = true;
-			this.scope.Width = 63;
-			// 
-			// deleted
-			// 
-			this.deleted.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.deleted.HeaderText = "Deleted";
-			this.deleted.Name = "deleted";
-			this.deleted.ReadOnly = true;
-			this.deleted.Width = 69;
-			// 
-			// outCome
-			// 
-			this.outCome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.outCome.HeaderText = "OutCome";
-			this.outCome.Name = "outCome";
-			this.outCome.ReadOnly = true;
-			this.outCome.Width = 76;
-			// 
-			// dynamicStaus
-			// 
-			this.dynamicStaus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.dynamicStaus.HeaderText = "Dynamic Status";
-			this.dynamicStaus.Name = "dynamicStaus";
-			this.dynamicStaus.ReadOnly = true;
-			this.dynamicStaus.Width = 97;
-			// 
-			// priority
-			// 
-			this.priority.HeaderText = "Priority";
-			this.priority.Name = "priority";
-			this.priority.ReadOnly = true;
-			// 
-			// DayCode
-			// 
-			this.DayCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.DayCode.HeaderText = "dayCode";
-			this.DayCode.Name = "DayCode";
-			this.DayCode.ReadOnly = true;
-			this.DayCode.Width = 74;
 			// 
 			// rescheduleBtn
 			// 
@@ -349,6 +249,114 @@
 			this.lblSteps.TabIndex = 0;
 			this.lblSteps.Text = "Steps:";
 			// 
+			// shceduledID
+			// 
+			this.shceduledID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.shceduledID.HeaderText = "Shceduled ID";
+			this.shceduledID.Name = "shceduledID";
+			this.shceduledID.ReadOnly = true;
+			this.shceduledID.Width = 97;
+			// 
+			// instanceID
+			// 
+			this.instanceID.HeaderText = "InstanceID";
+			this.instanceID.Name = "instanceID";
+			this.instanceID.ReadOnly = true;
+			// 
+			// scheduledName
+			// 
+			this.scheduledName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.scheduledName.HeaderText = "Scheduled Name";
+			this.scheduledName.Name = "scheduledName";
+			this.scheduledName.ReadOnly = true;
+			this.scheduledName.Width = 105;
+			// 
+			// accountID
+			// 
+			this.accountID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.accountID.HeaderText = "Account ID";
+			this.accountID.Name = "accountID";
+			this.accountID.ReadOnly = true;
+			this.accountID.Width = 79;
+			// 
+			// startOn
+			// 
+			this.startOn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.startOn.HeaderText = "Start On";
+			this.startOn.Name = "startOn";
+			this.startOn.ReadOnly = true;
+			this.startOn.Width = 66;
+			// 
+			// endOn
+			// 
+			this.endOn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.endOn.HeaderText = "End On";
+			this.endOn.Name = "endOn";
+			this.endOn.ReadOnly = true;
+			this.endOn.Width = 51;
+			// 
+			// actualEndTime
+			// 
+			this.actualEndTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.actualEndTime.HeaderText = "Actual End Time";
+			this.actualEndTime.Name = "actualEndTime";
+			this.actualEndTime.ReadOnly = true;
+			this.actualEndTime.Width = 80;
+			// 
+			// status
+			// 
+			this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.status.HeaderText = "Status";
+			this.status.Name = "status";
+			this.status.ReadOnly = true;
+			this.status.Width = 62;
+			// 
+			// scope
+			// 
+			this.scope.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.scope.HeaderText = "Scope";
+			this.scope.Name = "scope";
+			this.scope.ReadOnly = true;
+			this.scope.Width = 63;
+			// 
+			// deleted
+			// 
+			this.deleted.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.deleted.HeaderText = "Deleted";
+			this.deleted.Name = "deleted";
+			this.deleted.ReadOnly = true;
+			this.deleted.Width = 69;
+			// 
+			// outCome
+			// 
+			this.outCome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.outCome.HeaderText = "OutCome";
+			this.outCome.Name = "outCome";
+			this.outCome.ReadOnly = true;
+			this.outCome.Width = 76;
+			// 
+			// dynamicStaus
+			// 
+			this.dynamicStaus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.dynamicStaus.HeaderText = "Dynamic Status";
+			this.dynamicStaus.Name = "dynamicStaus";
+			this.dynamicStaus.ReadOnly = true;
+			this.dynamicStaus.Width = 97;
+			// 
+			// priority
+			// 
+			this.priority.HeaderText = "Priority";
+			this.priority.Name = "priority";
+			this.priority.ReadOnly = true;
+			// 
+			// DayCode
+			// 
+			this.DayCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.DayCode.HeaderText = "dayCode";
+			this.DayCode.Name = "DayCode";
+			this.DayCode.ReadOnly = true;
+			this.DayCode.Width = 74;
+			// 
 			// frmSchedulingControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -387,24 +395,25 @@
 		private System.Windows.Forms.Button deleteServiceFromScheduleBtn;
 		private System.Windows.Forms.Button startBtn;
 		private System.Windows.Forms.Button EndBtn;
-        private System.Windows.Forms.TextBox logtextBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn shceduledID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn scheduledName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn accountID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn startOn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn endOn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn actualEndTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn scope;
-        private System.Windows.Forms.DataGridViewTextBoxColumn deleted;
-        private System.Windows.Forms.DataGridViewTextBoxColumn outCome;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dynamicStaus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn priority;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DayCode;
+		private System.Windows.Forms.TextBox logtextBox;
         private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.SplitContainer splitContainerMain;
 		private System.Windows.Forms.SplitContainer splitContainerSub;
 		private System.Windows.Forms.Label lblSteps;
+		private System.Windows.Forms.DataGridViewTextBoxColumn shceduledID;
+		private System.Windows.Forms.DataGridViewTextBoxColumn instanceID;
+		private System.Windows.Forms.DataGridViewTextBoxColumn scheduledName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn accountID;
+		private System.Windows.Forms.DataGridViewTextBoxColumn startOn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn endOn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn actualEndTime;
+		private System.Windows.Forms.DataGridViewTextBoxColumn status;
+		private System.Windows.Forms.DataGridViewTextBoxColumn scope;
+		private System.Windows.Forms.DataGridViewTextBoxColumn deleted;
+		private System.Windows.Forms.DataGridViewTextBoxColumn outCome;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dynamicStaus;
+		private System.Windows.Forms.DataGridViewTextBoxColumn priority;
+		private System.Windows.Forms.DataGridViewTextBoxColumn DayCode;
 	}
 }
 
