@@ -28,6 +28,7 @@ namespace Edge.Applications.TempScheduler
 		public delegate void UpdateGridMethod(legacy.ServiceInstance serviceInstance);
 		public delegate void SetStepsProgressMethod(KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance> rowTag, DataGridViewRow row = null);
 		SetLogMethod setLogMethod;
+		private delegate void EnabelDisableButtons();
 		UpdateGridMethod updateGridMethod;
 		SetStepsProgressMethod setStepsProgressMethod;
 		bool _scheduleStarted = false;
@@ -89,6 +90,13 @@ namespace Edge.Applications.TempScheduler
 				if (!_scheduleStarted)
 				{
 					_scheduler.Start();
+					
+					startBtn.Invoke( new EnabelDisableButtons(delegate()
+					{
+						startBtn.Enabled = false;
+						EndBtn.Enabled = true;
+					}));
+					
 				}
 			}));
 					_timerToStartScheduling.Start();
@@ -604,6 +612,8 @@ namespace Edge.Applications.TempScheduler
 				_scheduler.Start();
 
 				logtextBox.Text = logtextBox.Text.Insert(0, "Timer Started:" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\r\n");
+				startBtn.Enabled = false;
+				EndBtn.Enabled = true;
 
 			}
 			catch (Exception ex)
@@ -619,7 +629,8 @@ namespace Edge.Applications.TempScheduler
 			{
 				_scheduler.Stop();
 				this.Invoke(setLogMethod, new Object[] { "Timer Stoped" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "r\n" });
-
+				startBtn.Enabled = true;
+				EndBtn.Enabled = false;
 
 			}
 			catch (Exception ex)
