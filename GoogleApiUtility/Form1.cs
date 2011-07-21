@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Google.Api.Ads.AdWords.v201101;
 using Google.Api.Ads.AdWords.Lib;
 using Edge.Services.Google.Adwords;
+using Google.Api.Ads.AdWords.Util;
 
 namespace APITester
 {
@@ -29,15 +30,26 @@ namespace APITester
 
 		private void GetFieldsList(ReportDefinitionReportType ReportType)
 		{
+			AdWordsAppConfig config = new AdWordsAppConfig()
+			{
+				Email = this.MccEmail.Text,
+				Password = this.MccPassword.Text,
+				DeveloperToken = "5eCsvAOU06Fs4j5qHWKTCA",
+				ApplicationToken = "5eCsvAOU06Fs4j5qHWKTCA",
+				//ClientEmail = "lotan3@gmail.com",
+				UserAgent = "Edge.BI",
+				EnableGzipCompression = true
+			};
 
-			AdwordsReport _googleReport = new AdwordsReport(95, txt_mcc.Text, validEmail.Text, "", "");
-			ReportDefinitionField[] reportFields = _googleReport.reportService.getReportFields(ReportType);
+			GoogleUserEntity userEntity = new GoogleUserEntity(this.MccEmail.Text, this.validEmail.Text, true , this.connectionString.Text);
+			//AdWordsUser user = new AdWordsUser(new AdWordsServiceFactory().ReadHeadersFromConfig(config));
+			var reportService = (ReportDefinitionService)userEntity.adwordsUser.GetService(AdWordsService.v201101.ReportDefinitionService);
+			//AdwordsReport _googleReport = new AdwordsReport(95, txt_mcc.Text, validEmail.Text, "", "");
+			ReportDefinitionField[] reportFields = reportService.getReportFields(ReportType);
 			foreach (ReportDefinitionField field in reportFields)
 			{
 				this.dataGridView1.Rows.Add(field.fieldName, field.fieldType, field.canSelect, field.canFilter, field.displayFieldName);
 			}
-
-
 		}
 
 		private void GetFields_btn_Click(object sender, EventArgs e)
@@ -59,7 +71,6 @@ namespace APITester
 				Password = this.MccPassword.Text,
 				DeveloperToken = "5eCsvAOU06Fs4j5qHWKTCA",
 				ApplicationToken = "5eCsvAOU06Fs4j5qHWKTCA",
-
 				//ClientEmail = "lotan3@gmail.com",
 				UserAgent = "Edge.BI",
 				EnableGzipCompression = true
@@ -76,15 +87,16 @@ namespace APITester
 			try
 			{
 				log.AppendText("creating AdwordsReport ....\n ");
-				AdwordsReport _googleReport = new AdwordsReport();
-				_googleReport.User = new GoogleUserEntity(email.Text, email.Text);
+				//AdwordsReport _googleReport = new AdwordsReport();
+				GoogleUserEntity user = new GoogleUserEntity(MccEmail.Text, email.Text);
+				//_googleReport.user = new GoogleUserEntity(email.Text, email.Text);
 				log.AppendText("creating reportService ....\n ");
-				_googleReport.reportService = (ReportDefinitionService)_googleReport.User.adwordsUser.GetService(AdWordsService.v201101.ReportDefinitionService);
+				ReportDefinitionService reportService = (ReportDefinitionService)user.adwordsUser.GetService(AdWordsService.v201101.ReportDefinitionService);
 				long report_id;
 				long.TryParse(reportId.Text, out report_id);
 
-				log.AppendText("downloadin report ....\n ");
-				_googleReport.DownloadReport(report_id, path.Text);
+				log.AppendText("downloading report ....\n ");
+				DownloadReport(user,report_id, path.Text);
 			}
 			catch (Exception ex)
 			{
@@ -93,7 +105,22 @@ namespace APITester
 
 			log.AppendText("Done ! \n");
 		}
+		
+		public void DownloadReport(GoogleUserEntity user,long reportId, string Path = @"c:\testingAdwords.zip")
+		{
 
+			//========================== Retriever =======================================================
+			try
+			{
+				// Download report.
+				new ReportUtilities(user.adwordsUser).DownloadReportDefinition(reportId, Path);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("Failed to download report. Exception says" + ex.Message);
+			}
+			//======================== End of Retriever =================================================
+		}
 		private void srch_Click(object sender, EventArgs e)
 		{
 
@@ -105,7 +132,7 @@ namespace APITester
 			_googleReport.AddFilter("Id", PredicateOperator.EQUALS, kwd);
 			_googleReport.AddFilter("Id", PredicateOperator.EQUALS, kwd);
 			_googleReport.intializingGoogleReport();
-			_googleReport.DownloadReport(_googleReport.Id, @"D:\KeywordSearchReport");
+			DownloadReport(_googleReport.user,_googleReport.Id, @"D:\KeywordSearchReport");
 			
 		}
 
