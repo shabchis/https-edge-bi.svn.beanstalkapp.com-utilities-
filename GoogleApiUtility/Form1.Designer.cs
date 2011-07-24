@@ -32,12 +32,6 @@
 			this.GetFields_btn = new System.Windows.Forms.Button();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
-			this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Selected = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.CanFilter = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.DisplayName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.button1 = new System.Windows.Forms.Button();
 			this.AuthToken = new System.Windows.Forms.TextBox();
 			this.DeveloperToken = new System.Windows.Forms.TextBox();
@@ -52,6 +46,8 @@
 			this.Auth = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.label14 = new System.Windows.Forms.Label();
 			this.connectionString = new System.Windows.Forms.TextBox();
 			this.label13 = new System.Windows.Forms.Label();
 			this.button3 = new System.Windows.Forms.Button();
@@ -78,10 +74,14 @@
 			this.KwdID = new System.Windows.Forms.TextBox();
 			this.label7 = new System.Windows.Forms.Label();
 			this.srch = new System.Windows.Forms.Button();
-			this.label14 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.label15 = new System.Windows.Forms.Label();
+			this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Selected = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.CanFilter = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.DisplayName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.Auth.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -92,12 +92,14 @@
 			// 
 			// GetFields_btn
 			// 
-			this.GetFields_btn.Location = new System.Drawing.Point(880, 6);
+			this.GetFields_btn.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+			this.GetFields_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.GetFields_btn.Location = new System.Drawing.Point(880, 11);
 			this.GetFields_btn.Name = "GetFields_btn";
-			this.GetFields_btn.Size = new System.Drawing.Size(118, 23);
+			this.GetFields_btn.Size = new System.Drawing.Size(118, 39);
 			this.GetFields_btn.TabIndex = 0;
 			this.GetFields_btn.Text = "Get Available fields";
-			this.GetFields_btn.UseVisualStyleBackColor = true;
+			this.GetFields_btn.UseVisualStyleBackColor = false;
 			this.GetFields_btn.Click += new System.EventHandler(this.GetFields_btn_Click);
 			// 
 			// comboBox1
@@ -118,44 +120,11 @@
             this.Selected,
             this.CanFilter,
             this.DisplayName,
-            this.Column1});
+            this.select});
 			this.dataGridView1.Location = new System.Drawing.Point(6, 97);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.Size = new System.Drawing.Size(1010, 476);
 			this.dataGridView1.TabIndex = 3;
-			// 
-			// Name
-			// 
-			this.Name.HeaderText = "Name";
-			this.Name.Name = "Name";
-			this.Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.Name.Width = 200;
-			// 
-			// Type
-			// 
-			this.Type.HeaderText = "Type";
-			this.Type.Name = "Type";
-			// 
-			// Selected
-			// 
-			this.Selected.HeaderText = "Selected";
-			this.Selected.Name = "Selected";
-			// 
-			// CanFilter
-			// 
-			this.CanFilter.HeaderText = "Can Filter";
-			this.CanFilter.Name = "CanFilter";
-			// 
-			// DisplayName
-			// 
-			this.DisplayName.HeaderText = "Display Name";
-			this.DisplayName.Name = "DisplayName";
-			this.DisplayName.Width = 220;
-			// 
-			// Column1
-			// 
-			this.Column1.HeaderText = "Select Field";
-			this.Column1.Name = "Column1";
 			// 
 			// button1
 			// 
@@ -311,6 +280,23 @@
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Reports Fields";
 			// 
+			// textBox1
+			// 
+			this.textBox1.Location = new System.Drawing.Point(92, 70);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(79, 20);
+			this.textBox1.TabIndex = 21;
+			this.textBox1.Text = "C:\\temp\\";
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(25, 73);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(57, 13);
+			this.label14.TabIndex = 20;
+			this.label14.Text = "Save Path";
+			// 
 			// connectionString
 			// 
 			this.connectionString.Location = new System.Drawing.Point(92, 38);
@@ -330,12 +316,14 @@
 			// 
 			// button3
 			// 
-			this.button3.Location = new System.Drawing.Point(880, 35);
+			this.button3.AccessibleName = "ReportDownload";
+			this.button3.Location = new System.Drawing.Point(880, 56);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(118, 23);
 			this.button3.TabIndex = 16;
 			this.button3.Text = "Download Report";
 			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
 			// mccPass
 			// 
@@ -550,23 +538,6 @@
 			this.srch.UseVisualStyleBackColor = true;
 			this.srch.Click += new System.EventHandler(this.srch_Click);
 			// 
-			// label14
-			// 
-			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(25, 73);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(57, 13);
-			this.label14.TabIndex = 20;
-			this.label14.Text = "Save Path";
-			// 
-			// textBox1
-			// 
-			this.textBox1.Location = new System.Drawing.Point(92, 70);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(79, 20);
-			this.textBox1.TabIndex = 21;
-			this.textBox1.Text = "C:\\temp\\";
-			// 
 			// richTextBox1
 			// 
 			this.richTextBox1.Location = new System.Drawing.Point(9, 668);
@@ -584,6 +555,42 @@
 			this.label15.TabIndex = 22;
 			this.label15.Text = "LOG : ";
 			// 
+			// Name
+			// 
+			this.Name.HeaderText = "Name";
+			this.Name.Name = "Name";
+			this.Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.Name.Width = 200;
+			// 
+			// Type
+			// 
+			this.Type.HeaderText = "Type";
+			this.Type.Name = "Type";
+			// 
+			// Selected
+			// 
+			this.Selected.HeaderText = "Selected";
+			this.Selected.Name = "Selected";
+			// 
+			// CanFilter
+			// 
+			this.CanFilter.HeaderText = "Can Filter";
+			this.CanFilter.Name = "CanFilter";
+			// 
+			// DisplayName
+			// 
+			this.DisplayName.HeaderText = "Display Name";
+			this.DisplayName.Name = "DisplayName";
+			this.DisplayName.Width = 220;
+			// 
+			// select
+			// 
+			this.select.FalseValue = "False";
+			this.select.HeaderText = "Select Field";
+			this.select.IndeterminateValue = "False";
+			this.select.Name = "select";
+			this.select.TrueValue = "True";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -593,7 +600,7 @@
 			this.Controls.Add(this.richTextBox1);
 			this.Controls.Add(this.Auth);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "Form1";
+			
 			this.Text = "Google Api Utility";
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.Auth.ResumeLayout(false);
@@ -655,15 +662,15 @@
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.TextBox connectionString;
 		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.RichTextBox richTextBox1;
+		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Name;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Type;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Selected;
 		private System.Windows.Forms.DataGridViewTextBoxColumn CanFilter;
 		private System.Windows.Forms.DataGridViewTextBoxColumn DisplayName;
-		private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
-		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.Label label14;
-		private System.Windows.Forms.RichTextBox richTextBox1;
-		private System.Windows.Forms.Label label15;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn select;
 	}
 }

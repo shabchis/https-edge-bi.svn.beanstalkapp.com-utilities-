@@ -136,6 +136,18 @@ namespace APITester
 			
 		}
 
+		private void button3_Click(object sender, EventArgs e)
+		{
+			List<string> fields = new List<string>();
+
+			foreach (DataGridViewRow row in dataGridView1.Rows)
+			{
+				if ((Boolean)row.Cells["select"].Value == true)
+					fields.Add(row.Cells["Name"].ToString());
+
+			}
+		}
+
 
 	}
 }
