@@ -43,6 +43,8 @@
 			this.dateToRunPicker = new System.Windows.Forms.DateTimePicker();
 			this.label5 = new System.Windows.Forms.Label();
 			this.serviceOptionsGroupBox = new System.Windows.Forms.GroupBox();
+			this.cmbValue = new System.Windows.Forms.ComboBox();
+			this.cmbKey = new System.Windows.Forms.ComboBox();
 			this.chkBackward = new System.Windows.Forms.CheckBox();
 			this.clearOptionsBtn = new System.Windows.Forms.Button();
 			this.removeOptionBtn = new System.Windows.Forms.Button();
@@ -56,8 +58,6 @@
 			this.useOptionsCheckBox = new System.Windows.Forms.CheckBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.servicesTreeView = new System.Windows.Forms.TreeView();
-			this.cmbKey = new System.Windows.Forms.ComboBox();
-			this.cmbValue = new System.Windows.Forms.ComboBox();
 			this.schedulingGroupBox.SuspendLayout();
 			this.serviceOptionsGroupBox.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -213,6 +213,25 @@
 			this.serviceOptionsGroupBox.TabStop = false;
 			this.serviceOptionsGroupBox.Text = "Service Options";
 			// 
+			// cmbValue
+			// 
+			this.cmbValue.FormattingEnabled = true;
+			this.cmbValue.Location = new System.Drawing.Point(251, 104);
+			this.cmbValue.Name = "cmbValue";
+			this.cmbValue.Size = new System.Drawing.Size(121, 21);
+			this.cmbValue.TabIndex = 22;
+			// 
+			// cmbKey
+			// 
+			this.cmbKey.FormattingEnabled = true;
+			this.cmbKey.Items.AddRange(new object[] {
+            "ServiceToRun",
+            "ConflictBehavior"});
+			this.cmbKey.Location = new System.Drawing.Point(55, 106);
+			this.cmbKey.Name = "cmbKey";
+			this.cmbKey.Size = new System.Drawing.Size(121, 21);
+			this.cmbKey.TabIndex = 21;
+			// 
 			// chkBackward
 			// 
 			this.chkBackward.AutoSize = true;
@@ -327,24 +346,6 @@
 			this.servicesTreeView.Size = new System.Drawing.Size(302, 535);
 			this.servicesTreeView.TabIndex = 0;
 			this.servicesTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.servicesTreeView_AfterCheck);
-			// 
-			// cmbKey
-			// 
-			this.cmbKey.FormattingEnabled = true;
-			this.cmbKey.Items.AddRange(new object[] {
-            "ServiceToRun"});
-			this.cmbKey.Location = new System.Drawing.Point(55, 106);
-			this.cmbKey.Name = "cmbKey";
-			this.cmbKey.Size = new System.Drawing.Size(121, 21);
-			this.cmbKey.TabIndex = 21;
-			// 
-			// cmbValue
-			// 
-			this.cmbValue.FormattingEnabled = true;
-			this.cmbValue.Location = new System.Drawing.Point(251, 104);
-			this.cmbValue.Name = "cmbValue";
-			this.cmbValue.Size = new System.Drawing.Size(121, 21);
-			this.cmbValue.TabIndex = 22;
 			// 
 			// frmUnPlannedService
 			// 
