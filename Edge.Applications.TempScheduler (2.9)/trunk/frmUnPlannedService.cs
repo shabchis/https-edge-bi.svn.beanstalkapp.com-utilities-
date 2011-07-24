@@ -60,6 +60,7 @@ namespace Edge.Applications.TempScheduler
 				if (service.Name != "Rerun")
 					services.Add(service.Name);
 			}
+			services.Add("Ignore");
 			cmbValue.DataSource = services;
 			priorityCmb.Items.Add(ServicePriority.Low);
 			priorityCmb.Items.Add(ServicePriority.Normal);
