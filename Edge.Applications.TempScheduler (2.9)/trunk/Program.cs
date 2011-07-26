@@ -7,7 +7,7 @@ using Edge.Core.Utilities;
 using Edge.Core.Configuration;
 using Edge.Data.Pipeline;
 using Edge.Core.Data;
-using Edge.Data.Pipeline.AdMetrics;
+using Edge.Services.AdMetrics;
 
 namespace Edge.Applications.TempScheduler
 {
