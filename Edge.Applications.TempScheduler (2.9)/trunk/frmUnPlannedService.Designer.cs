@@ -226,7 +226,8 @@
 			this.cmbKey.FormattingEnabled = true;
 			this.cmbKey.Items.AddRange(new object[] {
             "ServiceToRun",
-            "ConflictBehavior"});
+            "ConflictBehavior",
+            "Adwords.ClientID"});
 			this.cmbKey.Location = new System.Drawing.Point(55, 106);
 			this.cmbKey.Name = "cmbKey";
 			this.cmbKey.Size = new System.Drawing.Size(121, 21);
