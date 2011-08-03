@@ -140,6 +140,7 @@ namespace Edge.Applications.TempScheduler
 								break;
 							}
 					}
+				int countedSelectedServices = 0;
 				foreach (TreeNode accountNode in servicesTreeView.Nodes)
 				{
 
@@ -147,6 +148,7 @@ namespace Edge.Applications.TempScheduler
 					{
 						if (serviceNode.Checked)
 						{
+							countedSelectedServices++;
 							AccountElement account = (AccountElement)accountNode.Tag;
 							ActiveServiceElement service = (ActiveServiceElement)serviceNode.Tag;
 							if (useOptionsCheckBox.Checked)
@@ -212,7 +214,12 @@ namespace Edge.Applications.TempScheduler
 				if (!allSucceed)
 					throw new Exception("Some services did not run");
 				else
-					MessageBox.Show(@"Unplaned service\services added successfully");
+				{
+					if (countedSelectedServices > 0)
+						MessageBox.Show(@"Unplaned service\services added successfully");
+					else
+						MessageBox.Show(@"No services selected");
+				}
 
 
 
