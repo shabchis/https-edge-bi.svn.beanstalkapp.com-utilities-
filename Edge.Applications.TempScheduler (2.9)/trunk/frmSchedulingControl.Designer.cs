@@ -32,15 +32,6 @@
 			this.ScheduleBtn = new System.Windows.Forms.Button();
 			this.endServiceBtn = new System.Windows.Forms.Button();
 			this.scheduleInfoGrid = new System.Windows.Forms.DataGridView();
-			this.rescheduleBtn = new System.Windows.Forms.Button();
-			this.unPlannedBtn = new System.Windows.Forms.Button();
-			this.deleteServiceFromScheduleBtn = new System.Windows.Forms.Button();
-			this.startBtn = new System.Windows.Forms.Button();
-			this.EndBtn = new System.Windows.Forms.Button();
-			this.logtextBox = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.splitContainerMain = new System.Windows.Forms.SplitContainer();
-			this.splitContainerSub = new System.Windows.Forms.SplitContainer();
 			this.shceduledID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.instanceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.scheduledName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,6 +46,15 @@
 			this.dynamicStaus = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.DayCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.rescheduleBtn = new System.Windows.Forms.Button();
+			this.unPlannedBtn = new System.Windows.Forms.Button();
+			this.deleteServiceFromScheduleBtn = new System.Windows.Forms.Button();
+			this.startBtn = new System.Windows.Forms.Button();
+			this.EndBtn = new System.Windows.Forms.Button();
+			this.logtextBox = new System.Windows.Forms.TextBox();
+			this.lblVer = new System.Windows.Forms.Label();
+			this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+			this.splitContainerSub = new System.Windows.Forms.SplitContainer();
 			((System.ComponentModel.ISupportInitialize)(this.scheduleInfoGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
 			this.splitContainerMain.Panel1.SuspendLayout();
@@ -115,131 +115,13 @@
 			this.scheduleInfoGrid.TabIndex = 2;
 			this.scheduleInfoGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.scheduleInfoGrid_CellClick);
 			// 
-			// rescheduleBtn
-			// 
-			this.rescheduleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.rescheduleBtn.Location = new System.Drawing.Point(297, 256);
-			this.rescheduleBtn.Name = "rescheduleBtn";
-			this.rescheduleBtn.Size = new System.Drawing.Size(75, 23);
-			this.rescheduleBtn.TabIndex = 4;
-			this.rescheduleBtn.Text = "Reschedule";
-			this.rescheduleBtn.UseVisualStyleBackColor = true;
-			this.rescheduleBtn.Click += new System.EventHandler(this.rescheduleBtn_Click);
-			// 
-			// unPlannedBtn
-			// 
-			this.unPlannedBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.unPlannedBtn.Location = new System.Drawing.Point(670, 256);
-			this.unPlannedBtn.Name = "unPlannedBtn";
-			this.unPlannedBtn.Size = new System.Drawing.Size(186, 23);
-			this.unPlannedBtn.TabIndex = 5;
-			this.unPlannedBtn.Text = "Add UnPlanned Service to Schedule";
-			this.unPlannedBtn.UseVisualStyleBackColor = true;
-			this.unPlannedBtn.Click += new System.EventHandler(this.button1_Click);
-			// 
-			// deleteServiceFromScheduleBtn
-			// 
-			this.deleteServiceFromScheduleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.deleteServiceFromScheduleBtn.Location = new System.Drawing.Point(485, 256);
-			this.deleteServiceFromScheduleBtn.Name = "deleteServiceFromScheduleBtn";
-			this.deleteServiceFromScheduleBtn.Size = new System.Drawing.Size(179, 23);
-			this.deleteServiceFromScheduleBtn.TabIndex = 6;
-			this.deleteServiceFromScheduleBtn.Text = "Delete Service From Schedule";
-			this.deleteServiceFromScheduleBtn.UseVisualStyleBackColor = true;
-			this.deleteServiceFromScheduleBtn.Click += new System.EventHandler(this.deleteServiceFromScheduleBtn_Click);
-			// 
-			// startBtn
-			// 
-			this.startBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.startBtn.Location = new System.Drawing.Point(7, 256);
-			this.startBtn.Name = "startBtn";
-			this.startBtn.Size = new System.Drawing.Size(75, 23);
-			this.startBtn.TabIndex = 7;
-			this.startBtn.Text = "Start";
-			this.startBtn.UseVisualStyleBackColor = true;
-			this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
-			// 
-			// EndBtn
-			// 
-			this.EndBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.EndBtn.Location = new System.Drawing.Point(88, 256);
-			this.EndBtn.Name = "EndBtn";
-			this.EndBtn.Size = new System.Drawing.Size(75, 23);
-			this.EndBtn.TabIndex = 8;
-			this.EndBtn.Text = "Stop";
-			this.EndBtn.UseVisualStyleBackColor = true;
-			this.EndBtn.Click += new System.EventHandler(this.EndBtn_Click);
-			// 
-			// logtextBox
-			// 
-			this.logtextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.logtextBox.Location = new System.Drawing.Point(0, 0);
-			this.logtextBox.Multiline = true;
-			this.logtextBox.Name = "logtextBox";
-			this.logtextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.logtextBox.Size = new System.Drawing.Size(1259, 159);
-			this.logtextBox.TabIndex = 9;
-			// 
-			// label1
-			// 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.AutoSize = true;
-			this.label1.ForeColor = System.Drawing.Color.Red;
-			this.label1.Location = new System.Drawing.Point(1, 563);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(138, 13);
-			this.label1.TabIndex = 10;
-			this.label1.Text = "V662-D12/05/2011-T07:48";
-			// 
-			// splitContainerMain
-			// 
-			this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-			this.splitContainerMain.IsSplitterFixed = true;
-			this.splitContainerMain.Location = new System.Drawing.Point(0, 0);
-			this.splitContainerMain.Name = "splitContainerMain";
-			this.splitContainerMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainerMain.Panel1
-			// 
-			this.splitContainerMain.Panel1.Controls.Add(this.scheduleInfoGrid);
-			this.splitContainerMain.Panel1.Controls.Add(this.unPlannedBtn);
-			this.splitContainerMain.Panel1.Controls.Add(this.EndBtn);
-			this.splitContainerMain.Panel1.Controls.Add(this.ScheduleBtn);
-			this.splitContainerMain.Panel1.Controls.Add(this.startBtn);
-			this.splitContainerMain.Panel1.Controls.Add(this.endServiceBtn);
-			this.splitContainerMain.Panel1.Controls.Add(this.deleteServiceFromScheduleBtn);
-			this.splitContainerMain.Panel1.Controls.Add(this.rescheduleBtn);
-			// 
-			// splitContainerMain.Panel2
-			// 
-			this.splitContainerMain.Panel2.Controls.Add(this.splitContainerSub);
-			this.splitContainerMain.Size = new System.Drawing.Size(1263, 576);
-			this.splitContainerMain.SplitterDistance = 288;
-			this.splitContainerMain.TabIndex = 11;
-			// 
-			// splitContainerSub
-			// 
-			this.splitContainerSub.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.splitContainerSub.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerSub.Location = new System.Drawing.Point(0, 0);
-			this.splitContainerSub.Name = "splitContainerSub";
-			this.splitContainerSub.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainerSub.Panel2
-			// 
-			this.splitContainerSub.Panel2.Controls.Add(this.logtextBox);
-			this.splitContainerSub.Size = new System.Drawing.Size(1263, 284);
-			this.splitContainerSub.SplitterDistance = 117;
-			this.splitContainerSub.TabIndex = 0;
-			// 
 			// shceduledID
 			// 
 			this.shceduledID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
 			this.shceduledID.HeaderText = "Shceduled ID";
 			this.shceduledID.Name = "shceduledID";
 			this.shceduledID.ReadOnly = true;
-			this.shceduledID.Width = 97;
+			this.shceduledID.Width = 89;
 			// 
 			// instanceID
 			// 
@@ -341,12 +223,130 @@
 			this.DayCode.ReadOnly = true;
 			this.DayCode.Width = 74;
 			// 
+			// rescheduleBtn
+			// 
+			this.rescheduleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.rescheduleBtn.Location = new System.Drawing.Point(297, 256);
+			this.rescheduleBtn.Name = "rescheduleBtn";
+			this.rescheduleBtn.Size = new System.Drawing.Size(75, 23);
+			this.rescheduleBtn.TabIndex = 4;
+			this.rescheduleBtn.Text = "Reschedule";
+			this.rescheduleBtn.UseVisualStyleBackColor = true;
+			this.rescheduleBtn.Click += new System.EventHandler(this.rescheduleBtn_Click);
+			// 
+			// unPlannedBtn
+			// 
+			this.unPlannedBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.unPlannedBtn.Location = new System.Drawing.Point(670, 256);
+			this.unPlannedBtn.Name = "unPlannedBtn";
+			this.unPlannedBtn.Size = new System.Drawing.Size(186, 23);
+			this.unPlannedBtn.TabIndex = 5;
+			this.unPlannedBtn.Text = "Add UnPlanned Service to Schedule";
+			this.unPlannedBtn.UseVisualStyleBackColor = true;
+			this.unPlannedBtn.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// deleteServiceFromScheduleBtn
+			// 
+			this.deleteServiceFromScheduleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.deleteServiceFromScheduleBtn.Location = new System.Drawing.Point(485, 256);
+			this.deleteServiceFromScheduleBtn.Name = "deleteServiceFromScheduleBtn";
+			this.deleteServiceFromScheduleBtn.Size = new System.Drawing.Size(179, 23);
+			this.deleteServiceFromScheduleBtn.TabIndex = 6;
+			this.deleteServiceFromScheduleBtn.Text = "Delete Service From Schedule";
+			this.deleteServiceFromScheduleBtn.UseVisualStyleBackColor = true;
+			this.deleteServiceFromScheduleBtn.Click += new System.EventHandler(this.deleteServiceFromScheduleBtn_Click);
+			// 
+			// startBtn
+			// 
+			this.startBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.startBtn.Location = new System.Drawing.Point(7, 256);
+			this.startBtn.Name = "startBtn";
+			this.startBtn.Size = new System.Drawing.Size(75, 23);
+			this.startBtn.TabIndex = 7;
+			this.startBtn.Text = "Start";
+			this.startBtn.UseVisualStyleBackColor = true;
+			this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
+			// 
+			// EndBtn
+			// 
+			this.EndBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.EndBtn.Location = new System.Drawing.Point(88, 256);
+			this.EndBtn.Name = "EndBtn";
+			this.EndBtn.Size = new System.Drawing.Size(75, 23);
+			this.EndBtn.TabIndex = 8;
+			this.EndBtn.Text = "Stop";
+			this.EndBtn.UseVisualStyleBackColor = true;
+			this.EndBtn.Click += new System.EventHandler(this.EndBtn_Click);
+			// 
+			// logtextBox
+			// 
+			this.logtextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.logtextBox.Location = new System.Drawing.Point(0, 0);
+			this.logtextBox.Multiline = true;
+			this.logtextBox.Name = "logtextBox";
+			this.logtextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.logtextBox.Size = new System.Drawing.Size(1259, 159);
+			this.logtextBox.TabIndex = 9;
+			// 
+			// lblVer
+			// 
+			this.lblVer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.lblVer.AutoSize = true;
+			this.lblVer.ForeColor = System.Drawing.Color.Red;
+			this.lblVer.Location = new System.Drawing.Point(1, 563);
+			this.lblVer.Name = "lblVer";
+			this.lblVer.Size = new System.Drawing.Size(138, 13);
+			this.lblVer.TabIndex = 10;
+			this.lblVer.Text = "V662-D12/05/2011-T07:48";
+			// 
+			// splitContainerMain
+			// 
+			this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.splitContainerMain.IsSplitterFixed = true;
+			this.splitContainerMain.Location = new System.Drawing.Point(0, 0);
+			this.splitContainerMain.Name = "splitContainerMain";
+			this.splitContainerMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainerMain.Panel1
+			// 
+			this.splitContainerMain.Panel1.Controls.Add(this.scheduleInfoGrid);
+			this.splitContainerMain.Panel1.Controls.Add(this.unPlannedBtn);
+			this.splitContainerMain.Panel1.Controls.Add(this.EndBtn);
+			this.splitContainerMain.Panel1.Controls.Add(this.ScheduleBtn);
+			this.splitContainerMain.Panel1.Controls.Add(this.startBtn);
+			this.splitContainerMain.Panel1.Controls.Add(this.endServiceBtn);
+			this.splitContainerMain.Panel1.Controls.Add(this.deleteServiceFromScheduleBtn);
+			this.splitContainerMain.Panel1.Controls.Add(this.rescheduleBtn);
+			// 
+			// splitContainerMain.Panel2
+			// 
+			this.splitContainerMain.Panel2.Controls.Add(this.splitContainerSub);
+			this.splitContainerMain.Size = new System.Drawing.Size(1263, 576);
+			this.splitContainerMain.SplitterDistance = 288;
+			this.splitContainerMain.TabIndex = 11;
+			// 
+			// splitContainerSub
+			// 
+			this.splitContainerSub.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.splitContainerSub.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainerSub.Location = new System.Drawing.Point(0, 0);
+			this.splitContainerSub.Name = "splitContainerSub";
+			this.splitContainerSub.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainerSub.Panel2
+			// 
+			this.splitContainerSub.Panel2.Controls.Add(this.logtextBox);
+			this.splitContainerSub.Size = new System.Drawing.Size(1263, 284);
+			this.splitContainerSub.SplitterDistance = 117;
+			this.splitContainerSub.TabIndex = 0;
+			// 
 			// frmSchedulingControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1263, 576);
-			this.Controls.Add(this.label1);
+			this.Controls.Add(this.lblVer);
 			this.Controls.Add(this.splitContainerMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "frmSchedulingControl";
@@ -378,7 +378,7 @@
 		private System.Windows.Forms.Button startBtn;
 		private System.Windows.Forms.Button EndBtn;
 		private System.Windows.Forms.TextBox logtextBox;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblVer;
 		private System.Windows.Forms.SplitContainer splitContainerMain;
 		private System.Windows.Forms.SplitContainer splitContainerSub;
 		private System.Windows.Forms.DataGridViewTextBoxColumn shceduledID;
