@@ -41,13 +41,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Deployment\Edge-Services\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+	  <UseAppConfigForCompiler>false</UseAppConfigForCompiler>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -98,12 +99,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="App%28disabled%29.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -113,6 +108,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+	<ItemGroup Condition=" '$(Configuration)' != 'Release' ">
+    <None Include="App%28disabled%29.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Edge.Core.Scheduling\Edge.Core.Scheduling.csproj">
@@ -126,14 +129,6 @@
     <ProjectReference Include="..\..\Framework\Edge.Data.Pipeline\Edge.Data.Pipeline.csproj">
       <Project>{53391A99-E8CA-4262-A8E0-5F05A1CC6608}</Project>
       <Name>Edge.Data.Pipeline</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Services\Edge.Services.AdMetrics.Validations\Edge.Services.AdMetrics.Validations.csproj">
-      <Project>{C6504C8B-C482-41B9-BC6E-BEF92AF9D6FE}</Project>
-      <Name>Edge.Services.AdMetrics.Validations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Services\Edge.Services.AdMetrics\Edge.Services.AdMetrics.csproj">
-      <Project>{36B6740D-938E-4994-9A0D-2DCB94D032B6}</Project>
-      <Name>Edge.Services.AdMetrics</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -159,11 +154,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release' ">
+    <ItemGroup>
+      <DeleteAfterBuild Include="$(OutputPath)*.xml" />
+    </ItemGroup>
+    <Delete Files="@(DeleteAfterBuild)" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
