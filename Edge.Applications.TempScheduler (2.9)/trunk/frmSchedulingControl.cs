@@ -76,6 +76,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				try
 				{
+					EndBtn.Enabled = false;
 					this.Text = System.AppDomain.CurrentDomain.FriendlyName;
 					_timerToStartScheduling = new Thread(new ThreadStart(delegate()
 			{
