@@ -227,6 +227,7 @@
 			this.cmbKey.Items.AddRange(new object[] {
             "ServiceToRun",
             "ConflictBehavior",
+            "DeliveriesIDS",
             "Adwords.ClientID",
             "DeliveryID"});
 			this.cmbKey.Location = new System.Drawing.Point(55, 106);
