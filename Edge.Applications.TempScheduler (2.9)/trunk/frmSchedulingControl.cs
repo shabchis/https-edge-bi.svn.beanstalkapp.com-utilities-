@@ -622,6 +622,12 @@ namespace Edge.Applications.TempScheduler
 
 		}
 
+		private void button1_Click_1(object sender, EventArgs e)
+		{
+			frmEncryptDecrypt f = new frmEncryptDecrypt();
+			f.Show();
+		}
+
 
 
 
