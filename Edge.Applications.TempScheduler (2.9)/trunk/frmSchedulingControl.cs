@@ -635,23 +635,24 @@ namespace Edge.Applications.TempScheduler
                     using (SqlCommand command = DataManager.CreateCommand("ResetUnendedServices", CommandType.StoredProcedure))
                     {
                         command.Connection = conn;
-                        command.ExecuteNonQuery();
-
-
+                        int numOfRows = command.ExecuteNonQuery();
+                        string msg = String.Format("{0} row(s) affected", numOfRows);
+                        MessageBox.Show(msg);
                     }
-
                 }
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message);
             }
 
         }
 
-
-
+        private void encryptDecryptBtn_Click(object sender, EventArgs e)
+        {
+            frmEncryptDecrypt form = new frmEncryptDecrypt();
+            form.Show();
+        }
 
 
 	}

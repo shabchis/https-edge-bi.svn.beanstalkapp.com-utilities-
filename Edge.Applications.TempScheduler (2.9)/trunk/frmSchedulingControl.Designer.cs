@@ -54,8 +54,9 @@
             this.logtextBox = new System.Windows.Forms.TextBox();
             this.lblVer = new System.Windows.Forms.Label();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
-            this.splitContainerSub = new System.Windows.Forms.SplitContainer();
             this.resetServiceInstanceStateBtn = new System.Windows.Forms.Button();
+            this.splitContainerSub = new System.Windows.Forms.SplitContainer();
+            this.encryptDecryptBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.scheduleInfoGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
@@ -311,6 +312,7 @@
             // 
             // splitContainerMain.Panel1
             // 
+            this.splitContainerMain.Panel1.Controls.Add(this.encryptDecryptBtn);
             this.splitContainerMain.Panel1.Controls.Add(this.resetServiceInstanceStateBtn);
             this.splitContainerMain.Panel1.Controls.Add(this.scheduleInfoGrid);
             this.splitContainerMain.Panel1.Controls.Add(this.unPlannedBtn);
@@ -328,6 +330,16 @@
             this.splitContainerMain.SplitterDistance = 288;
             this.splitContainerMain.TabIndex = 11;
             // 
+            // resetServiceInstanceStateBtn
+            // 
+            this.resetServiceInstanceStateBtn.Location = new System.Drawing.Point(862, 256);
+            this.resetServiceInstanceStateBtn.Name = "resetServiceInstanceStateBtn";
+            this.resetServiceInstanceStateBtn.Size = new System.Drawing.Size(157, 23);
+            this.resetServiceInstanceStateBtn.TabIndex = 9;
+            this.resetServiceInstanceStateBtn.Text = "Reset Unended Services";
+            this.resetServiceInstanceStateBtn.UseVisualStyleBackColor = true;
+            this.resetServiceInstanceStateBtn.Click += new System.EventHandler(this.resetServiceInstanceStateBtn_Click);
+            // 
             // splitContainerSub
             // 
             this.splitContainerSub.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -343,16 +355,15 @@
             this.splitContainerSub.SplitterDistance = 117;
             this.splitContainerSub.TabIndex = 0;
             // 
-            // resetServiceInstanceStateBtn
+            // encryptDecryptBtn
             // 
-            this.resetServiceInstanceStateBtn.Location = new System.Drawing.Point(872, 256);
-            this.resetServiceInstanceStateBtn.Name = "resetServiceInstanceStateBtn";
-            this.resetServiceInstanceStateBtn.Size = new System.Drawing.Size(157, 23);
-            this.resetServiceInstanceStateBtn.TabIndex = 9;
-            this.resetServiceInstanceStateBtn.Text = "Reset Unended Services";
-            this.resetServiceInstanceStateBtn.UseVisualStyleBackColor = true;
-            this.resetServiceInstanceStateBtn.Click += new System.EventHandler(this.resetServiceInstanceStateBtn_Click);
-            
+            this.encryptDecryptBtn.Location = new System.Drawing.Point(1025, 256);
+            this.encryptDecryptBtn.Name = "encryptDecryptBtn";
+            this.encryptDecryptBtn.Size = new System.Drawing.Size(95, 23);
+            this.encryptDecryptBtn.TabIndex = 10;
+            this.encryptDecryptBtn.Text = "Encrypt\\Decrypt";
+            this.encryptDecryptBtn.UseVisualStyleBackColor = true;
+            this.encryptDecryptBtn.Click += new System.EventHandler(this.encryptDecryptBtn_Click);
             // 
             // frmSchedulingControl
             // 
@@ -409,6 +420,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn priority;
 		private System.Windows.Forms.DataGridViewTextBoxColumn DayCode;
         private System.Windows.Forms.Button resetServiceInstanceStateBtn;
+        private System.Windows.Forms.Button encryptDecryptBtn;
 	}
 }
 
