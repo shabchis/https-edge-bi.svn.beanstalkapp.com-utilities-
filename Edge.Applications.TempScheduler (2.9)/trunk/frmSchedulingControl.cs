@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ using legacy = Edge.Core.Services;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
+using Edge.Core.Configuration;
+using Edge.Core.Data;
 
 
 namespace Edge.Applications.TempScheduler
@@ -622,11 +625,30 @@ namespace Edge.Applications.TempScheduler
 
 		}
 
-		private void button1_Click_1(object sender, EventArgs e)
-		{
-			frmEncryptDecrypt f = new frmEncryptDecrypt();
-			f.Show();
-		}
+        private void resetServiceInstanceStateBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+                {
+                    conn.Open();
+                    using (SqlCommand command = DataManager.CreateCommand("ResetUnendedServices", CommandType.StoredProcedure))
+                    {
+                        command.Connection = conn;
+                        command.ExecuteNonQuery();
+
+
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+
+        }
 
 
 
