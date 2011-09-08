@@ -46,7 +46,6 @@
 			this.dynamicStaus = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.DayCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.rescheduleBtn = new System.Windows.Forms.Button();
 			this.unPlannedBtn = new System.Windows.Forms.Button();
 			this.deleteServiceFromScheduleBtn = new System.Windows.Forms.Button();
 			this.startBtn = new System.Windows.Forms.Button();
@@ -79,7 +78,7 @@
 			// endServiceBtn
 			// 
 			this.endServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.endServiceBtn.Location = new System.Drawing.Point(378, 256);
+			this.endServiceBtn.Location = new System.Drawing.Point(297, 256);
 			this.endServiceBtn.Name = "endServiceBtn";
 			this.endServiceBtn.Size = new System.Drawing.Size(101, 23);
 			this.endServiceBtn.TabIndex = 1;
@@ -113,7 +112,6 @@
 			this.scheduleInfoGrid.ReadOnly = true;
 			this.scheduleInfoGrid.Size = new System.Drawing.Size(1263, 250);
 			this.scheduleInfoGrid.TabIndex = 2;
-			this.scheduleInfoGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.scheduleInfoGrid_CellClick);
 			// 
 			// shceduledID
 			// 
@@ -223,32 +221,21 @@
 			this.DayCode.ReadOnly = true;
 			this.DayCode.Width = 74;
 			// 
-			// rescheduleBtn
-			// 
-			this.rescheduleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.rescheduleBtn.Location = new System.Drawing.Point(297, 256);
-			this.rescheduleBtn.Name = "rescheduleBtn";
-			this.rescheduleBtn.Size = new System.Drawing.Size(75, 23);
-			this.rescheduleBtn.TabIndex = 4;
-			this.rescheduleBtn.Text = "Reschedule";
-			this.rescheduleBtn.UseVisualStyleBackColor = true;
-			this.rescheduleBtn.Click += new System.EventHandler(this.rescheduleBtn_Click);
-			// 
 			// unPlannedBtn
 			// 
 			this.unPlannedBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.unPlannedBtn.Location = new System.Drawing.Point(670, 256);
+			this.unPlannedBtn.Location = new System.Drawing.Point(589, 256);
 			this.unPlannedBtn.Name = "unPlannedBtn";
 			this.unPlannedBtn.Size = new System.Drawing.Size(186, 23);
 			this.unPlannedBtn.TabIndex = 5;
 			this.unPlannedBtn.Text = "Add UnPlanned Service to Schedule";
 			this.unPlannedBtn.UseVisualStyleBackColor = true;
-			this.unPlannedBtn.Click += new System.EventHandler(this.button1_Click);
+			this.unPlannedBtn.Click += new System.EventHandler(this.unPlannedBtn_Click);
 			// 
 			// deleteServiceFromScheduleBtn
 			// 
 			this.deleteServiceFromScheduleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.deleteServiceFromScheduleBtn.Location = new System.Drawing.Point(485, 256);
+			this.deleteServiceFromScheduleBtn.Location = new System.Drawing.Point(404, 256);
 			this.deleteServiceFromScheduleBtn.Name = "deleteServiceFromScheduleBtn";
 			this.deleteServiceFromScheduleBtn.Size = new System.Drawing.Size(179, 23);
 			this.deleteServiceFromScheduleBtn.TabIndex = 6;
@@ -317,7 +304,6 @@
 			this.splitContainerMain.Panel1.Controls.Add(this.startBtn);
 			this.splitContainerMain.Panel1.Controls.Add(this.endServiceBtn);
 			this.splitContainerMain.Panel1.Controls.Add(this.deleteServiceFromScheduleBtn);
-			this.splitContainerMain.Panel1.Controls.Add(this.rescheduleBtn);
 			// 
 			// splitContainerMain.Panel2
 			// 
@@ -371,8 +357,7 @@
 
 		private System.Windows.Forms.Button ScheduleBtn;
 		private System.Windows.Forms.Button endServiceBtn;
-        private System.Windows.Forms.DataGridView scheduleInfoGrid;
-		private System.Windows.Forms.Button rescheduleBtn;
+		private System.Windows.Forms.DataGridView scheduleInfoGrid;
 		private System.Windows.Forms.Button unPlannedBtn;
 		private System.Windows.Forms.Button deleteServiceFromScheduleBtn;
 		private System.Windows.Forms.Button startBtn;

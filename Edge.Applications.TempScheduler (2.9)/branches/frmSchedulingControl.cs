@@ -183,8 +183,6 @@ namespace Edge.Applications.TempScheduler
 			}
 		}
 
-
-
 		void LegacyInstance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
 		{
 			try
@@ -262,7 +260,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				_strNotScheduled.Clear();
 				_scheduledServices.Clear();
-				_scheduler.NewSchedule();
+				_scheduler.Schedule(false);
 			}
 			catch (Exception ex)
 			{
@@ -286,7 +284,6 @@ namespace Edge.Applications.TempScheduler
 				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
 			}
 		}
-
 
 		private void UpdateGridData(legacy.ServiceInstance serviceInstance)
 		{
@@ -454,59 +451,6 @@ namespace Edge.Applications.TempScheduler
 
 		}
 
-		private void ReSchedule()
-		{
-			try
-			{
-				_scheduler.ReSchedule();
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-		}
-
-		private void getServicesButton_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				GetScheduleServices();
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-		}
-
-		private void rescheduleBtn_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				_strNotScheduled.Clear();
-				_scheduledServices.Clear();
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-			ConfigurationManager.RefreshSection("edge.services");
-			frmUnPlannedService f = new frmUnPlannedService(_listner, _scheduler);
-			f.Show();
-		}
-
-		private void AddUnplanedServiceConfiguration()
-		{
-
-		}
-
 		private void deleteServiceFromScheduleBtn_Click(object sender, EventArgs e)
 		{
 			try
@@ -616,11 +560,15 @@ namespace Edge.Applications.TempScheduler
 
 		}
 
-
-		private void scheduleInfoGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+		private void unPlannedBtn_Click(object sender, EventArgs e)
 		{
-
+			ConfigurationManager.RefreshSection("edge.services");
+			frmUnPlannedService f = new frmUnPlannedService(_listner, _scheduler);
+			f.Show();
 		}
+
+
+	
 
 
 
