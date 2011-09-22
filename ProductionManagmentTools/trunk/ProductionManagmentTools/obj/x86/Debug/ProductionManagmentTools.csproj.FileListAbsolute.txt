@@ -1,0 +1,27 @@
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.main.resources
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.Properties.Resources.resources
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\bin\Debug\ProductionManagmentTools.exe
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\bin\Debug\ProductionManagmentTools.pdb
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.exe
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.pdb
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.Form2.resources
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.DataChecks.resources
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.DataCheckSettings.resources
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\bin\Debug\Edge.Core.dll
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\bin\Debug\Edge.Core.pdb
+c:\users\shayb\documents\visual studio 2010\Projects\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.Password.resources
+D:\doc\Projects2010\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.exe
+D:\doc\Projects2010\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.pdb
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.DataChecks.resources
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.DataCheckSettings.resources
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.Password.resources
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.Form2.resources
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.main.resources
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.Properties.Resources.resources
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\obj\x86\Debug\ProductionManagmentTools.pdb
