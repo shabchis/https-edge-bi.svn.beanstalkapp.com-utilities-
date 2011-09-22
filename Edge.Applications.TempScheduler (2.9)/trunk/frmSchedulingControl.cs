@@ -579,6 +579,29 @@ namespace Edge.Applications.TempScheduler
             form.Show();
         }
 
+		private void resetServiceInstanceStateBtn_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+				{
+					conn.Open();
+					using (SqlCommand command = DataManager.CreateCommand("ResetUnendedServices", CommandType.StoredProcedure))
+					{
+						command.Connection = conn;
+						int numOfRows = command.ExecuteNonQuery();
+						string msg = String.Format("{0} row(s) affected", numOfRows);
+						MessageBox.Show(msg);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
+		}
+
 		
 
 

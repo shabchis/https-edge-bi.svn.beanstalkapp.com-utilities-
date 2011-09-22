@@ -321,6 +321,7 @@
 			this.resetServiceInstanceStateBtn.TabIndex = 9;
 			this.resetServiceInstanceStateBtn.Text = "Reset Unended Services";
 			this.resetServiceInstanceStateBtn.UseVisualStyleBackColor = true;
+			this.resetServiceInstanceStateBtn.Click += new System.EventHandler(this.resetServiceInstanceStateBtn_Click);
 			// 
 			// splitContainerSub
 			// 
