@@ -12,7 +12,7 @@ namespace Edge.Applications.TempScheduler
 {
 	static class Program
 	{
-		public static DeliveryDBServer DeliveryServer;
+		//public static DeliveryDBServer DeliveryServer;
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -31,8 +31,8 @@ namespace Edge.Applications.TempScheduler
 				}
 				EdgeServicesConfiguration.Load(configFileName);
 
-				DeliveryServer = new DeliveryDBServer();
-				DeliveryServer.Start(null);
+				//DeliveryServer = new DeliveryDBServer();
+				//DeliveryServer.Start(null);
 
 				AppDomain currentDomain = AppDomain.CurrentDomain;
 				currentDomain.UnhandledException += new UnhandledExceptionEventHandler(currentDomain_UnhandledException);

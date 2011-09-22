@@ -102,7 +102,6 @@
 			this.scheduleInfoGrid.ReadOnly = true;
 			this.scheduleInfoGrid.Size = new System.Drawing.Size(1263, 250);
 			this.scheduleInfoGrid.TabIndex = 2;
-			this.scheduleInfoGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.scheduleInfoGrid_CellClick);
 			// 
 			// shceduledID
 			// 
@@ -221,7 +220,7 @@
 			this.unPlannedBtn.TabIndex = 5;
 			this.unPlannedBtn.Text = "Add UnPlanned Service to Schedule";
 			this.unPlannedBtn.UseVisualStyleBackColor = true;
-			this.unPlannedBtn.Click += new System.EventHandler(this.button1_Click);
+			this.unPlannedBtn.Click += new System.EventHandler(this.unPlannedBtn_Click);
 			// 
 			// deleteServiceFromScheduleBtn
 			// 
@@ -322,7 +321,6 @@
 			this.resetServiceInstanceStateBtn.TabIndex = 9;
 			this.resetServiceInstanceStateBtn.Text = "Reset Unended Services";
 			this.resetServiceInstanceStateBtn.UseVisualStyleBackColor = true;
-			this.resetServiceInstanceStateBtn.Click += new System.EventHandler(this.resetServiceInstanceStateBtn_Click);
 			// 
 			// splitContainerSub
 			// 

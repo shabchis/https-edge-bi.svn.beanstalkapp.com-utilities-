@@ -265,7 +265,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				_strNotScheduled.Clear();
 				_scheduledServices.Clear();
-				_scheduler.NewSchedule();
+				_scheduler.Schedule(false);
 			}
 			catch (Exception ex)
 			{
@@ -457,59 +457,6 @@ namespace Edge.Applications.TempScheduler
 
 		}
 
-		private void ReSchedule()
-		{
-			try
-			{
-				_scheduler.ReSchedule();
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-		}
-
-		private void getServicesButton_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				GetScheduleServices();
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-		}
-
-		private void rescheduleBtn_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				_strNotScheduled.Clear();
-				_scheduledServices.Clear();
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-			ConfigurationManager.RefreshSection("edge.services");
-			frmUnPlannedService f = new frmUnPlannedService(_listner, _scheduler);
-			f.Show();
-		}
-
-		private void AddUnplanedServiceConfiguration()
-		{
-
-		}
-
 		private void deleteServiceFromScheduleBtn_Click(object sender, EventArgs e)
 		{
 			try
@@ -551,13 +498,14 @@ namespace Edge.Applications.TempScheduler
 		{
 			try
 			{
+				startBtn.Enabled = false;
+				EndBtn.Enabled = true;
 				_scheduleStarted = true;
 				ConfigurationManager.RefreshSection("edge.services");
 				_scheduler.Start();
 
 				logtextBox.Text = logtextBox.Text.Insert(0, "Timer Started:" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\r\n");
-				startBtn.Enabled = false;
-				EndBtn.Enabled = true;
+				
 
 			}
 			catch (Exception ex)
@@ -619,40 +567,19 @@ namespace Edge.Applications.TempScheduler
 
 		}
 
-
-		private void scheduleInfoGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+		private void unPlannedBtn_Click(object sender, EventArgs e)
 		{
-
+			ConfigurationManager.RefreshSection("edge.services");
+			frmUnPlannedService f = new frmUnPlannedService(_listner, _scheduler);
+			f.Show();
 		}
-
-        private void resetServiceInstanceStateBtn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
-                {
-                    conn.Open();
-                    using (SqlCommand command = DataManager.CreateCommand("ResetUnendedServices", CommandType.StoredProcedure))
-                    {
-                        command.Connection = conn;
-                        int numOfRows = command.ExecuteNonQuery();
-                        string msg = String.Format("{0} row(s) affected", numOfRows);
-                        MessageBox.Show(msg);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-        }
-
         private void encryptDecryptBtn_Click(object sender, EventArgs e)
         {
             frmEncryptDecrypt form = new frmEncryptDecrypt();
             form.Show();
         }
+
+		
 
 
 	}
