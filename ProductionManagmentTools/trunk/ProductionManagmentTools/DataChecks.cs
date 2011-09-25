@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using Edge.Core.Configuration;
 using System.Data.SqlClient;
 using Edge.Core.Data;
+using Edge.Data.Pipeline;
+using Newtonsoft.Json;
+using Edge.Data.Pipeline.Services;
 
 namespace Edge.Application.ProductionManagmentTools
 {
@@ -19,10 +22,143 @@ namespace Edge.Application.ProductionManagmentTools
             InitializeComponent();
         }
 
-        private void pictureBox5_Click(object sender, EventArgs e)
+        void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
+        {
+            Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+            if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
+            {
+                instance.Start();
+                if (level1.Checked) { step1_status.Text = "Ready"; step1_status.Visible = true; }
+                if (level2.Checked) { step1_status.Text = "Ready"; step1_status.Visible = true; }
+                if (level3.Checked) { step1_status.Text = "Ready"; step1_status.Visible = true; }
+            }
+            if (e.StateAfter == Edge.Core.Services.ServiceState.Initializing)
+            {
+                if (level1.Checked) step1_status.Text = "Initializing";
+                if (level2.Checked) step1_status.Text = "Initializing";
+                if (level3.Checked) step1_status.Text = "Initializing";
+            }
+            if (e.StateAfter == Edge.Core.Services.ServiceState.Running)
+            {
+                if (level1.Checked) step1_status.Text = "Running";
+                if (level2.Checked) step1_status.Text = "Running";
+                if (level3.Checked) step1_status.Text = "Running";
+            }
+            if (e.StateAfter == Edge.Core.Services.ServiceState.Waiting)
+            {
+                if (level1.Checked) step1_status.Text = "Waiting";
+                if (level2.Checked) step1_status.Text = "Waiting";
+                if (level3.Checked) step1_status.Text = "Waiting";
+            }
+            if (e.StateAfter == Edge.Core.Services.ServiceState.Aborting)
+            {
+                if (level1.Checked) step1_action.Text = "Aborting";
+                if (level2.Checked) step1_action.Text = "Aborting";
+                if (level3.Checked) step1_action.Text = "Aborting";
+            }
+            if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
+            {
+                ValidationResult results = null;
+
+                if (level1.Checked) step1_action.Text = "Ended";
+                if (level2.Checked) step1_action.Text = "Ended";
+                if (level3.Checked) step1_action.Text = "Ended";
+
+                using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+                {
+                    sqlCon.Open();
+                    SqlCommand sqlCommand = DataManager.CreateCommand(
+                        "SELECT [Message] FROM [Source].[dbo].[Log] where [ServiceInstanceID] = @instanceID");
+                    sqlCommand.Parameters.Add(new SqlParameter(){ParameterName = "@instanceID", Value = instance.InstanceID,SqlDbType = System.Data.SqlDbType.BigInt});
+                    sqlCommand.Connection = sqlCon;
+
+                    using (var _reader = sqlCommand.ExecuteReader())
+                    {
+                        if (!_reader.IsClosed)
+                        {
+                            while (_reader.Read())
+                            {
+                               results = (ValidationResult)JsonConvert.DeserializeObject(_reader[0].ToString(), typeof(ValidationResult));
+                            }
+                        }
+                    }
+                }
+                if (results == null)
+                {
+
+                }
+
+              
+            }
+
+        }
+
+        //void instance_OutcomeReported(object sender, Edge.Core.Services.ServiceOutcome e)
+        //{
+            
+
+        //}
+
+        private void DataChecks_Load(object sender, EventArgs e)
+        {
+            fromDate.Value = fromDate.Value.AddDays(-1);
+            toDate.Value = toDate.Value.AddDays(-1);
+            
+            using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+            {
+                sqlCon.Open();
+                SqlCommand sqlCommand = DataManager.CreateCommand(
+                    "SELECT [Account_Name] ,[Account_ID] FROM [seperia].[dbo].[User_GUI_Account] where Status =9 group by [Account_Name] ,[Account_ID] order by [Account_ID]");
+                sqlCommand.Connection = sqlCon;
+
+                using (var _reader = sqlCommand.ExecuteReader())
+                {
+                    if (!_reader.IsClosed)
+                    {
+                        while (_reader.Read())
+                        {
+                            AccountsCheckedListBox.Items.Add(string.Format("{0}-{1}", _reader[1], _reader[0]));
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void allAccounts_CheckedChanged(object sender, EventArgs e)
+        {
+            //foreach (var item in AccountsCheckedListBox.)
+            //{
+            //    ((CheckBox)item).Checked = true;
+            //}
+        }
+
+        private void Start_btn_Click(object sender, EventArgs e)
         {
             bool errors = false;
             ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services["validation"]);
+            
+            //Get TimePeriod
+
+            var range = new DateTimeRange()
+            {
+                Start = new DateTimeSpecification()
+                {
+                    BaseDateTime = fromDate.Value,
+                    Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
+                    Boundary = DateTimeSpecificationBounds.Lower
+                },
+
+                End = new DateTimeSpecification()
+                {
+                    BaseDateTime = toDate.Value,
+                    Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+                    Boundary = DateTimeSpecificationBounds.Upper
+                }
+            };
+
+            serviceElements.Options.Add("fromDate", range.Start.ToDateTime().ToString());
+            serviceElements.Options.Add("toDate", range.End.ToDateTime().ToString());
             
             //Get CheckLevel
             if (level1.Checked)
@@ -80,7 +216,7 @@ namespace Edge.Application.ProductionManagmentTools
             if (!errors)
             {
                 Edge.Core.Services.ServiceInstance instance = Edge.Core.Services.Service.CreateInstance(serviceElements);
-                instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
+               // instance.OutcomeReported += new EventHandler<Edge.Core.Services.>(instance_OutcomeReported);
                 instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
 
                 instance.Initialize();
@@ -88,58 +224,25 @@ namespace Edge.Application.ProductionManagmentTools
 
         }
 
-        void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
+        private void Step1StateChange(object sender, EventArgs e)
         {
-            if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
+            if (level1.Checked)
             {
-                Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-                instance.Start();
+                step1_lbl.Visible = true;
+                step1_progressBar1.Visible = true;
             }
-
-        }
-
-        void instance_OutcomeReported(object sender, EventArgs e)
-        {
-
-        }
-
-        private void DataChecks_Load(object sender, EventArgs e)
-        {
-
-            using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+            else
             {
-                sqlCon.Open();
-                SqlCommand sqlCommand = DataManager.CreateCommand(
-                    "SELECT [Account_Name] ,[Account_ID] FROM [Seperia].[dbo].[User_GUI_Account] where Status =9 group by [Account_Name] ,[Account_ID] order by [Account_ID]");
-                sqlCommand.Connection = sqlCon;
-
-                using (var _reader = sqlCommand.ExecuteReader())
-                {
-                    if (!_reader.IsClosed)
-                    {
-                        while (_reader.Read())
-                        {
-                            AccountsCheckedListBox.Items.Add(string.Format("{0}-{1}", _reader[1], _reader[0]));
-                        }
-                    }
-                }
+                step1_lbl.Visible = false;
+                step1_progressBar1.Visible = false;
             }
-
         }
-
-        private void allAccounts_CheckedChanged(object sender, EventArgs e)
-        {
-            //foreach (var item in AccountsCheckedListBox.)
-            //{
-            //    ((CheckBox)item).Checked = true;
-            //}
-        }
-
 
 
     }
     public static class Const
     {
-        public static string level1Table = "Paid_API_AllColumns_v29";
+        public static string level1Table = "dbo.Paid_API_AllColumns_v29";
     }
+    
 }
