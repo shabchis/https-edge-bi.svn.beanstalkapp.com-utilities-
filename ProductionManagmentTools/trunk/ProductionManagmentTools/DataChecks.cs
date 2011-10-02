@@ -28,8 +28,10 @@ namespace Edge.Application.ProductionManagmentTools
         UpdateButton updateBtn;
         public delegate void UpdatePictureBox(PictureBox pictureBox, Image image, bool visible = true);
         UpdatePictureBox updateResultImage;
-
-
+        public delegate void UpdatePanel(List<Panel> panels, bool enable);
+        UpdatePanel updateStepsPanel;
+        Dictionary<string, Step> Services;
+        List<ValidationResult> results;
         ResultForm resultsForm;
 
         public DataChecks()
@@ -40,14 +42,25 @@ namespace Edge.Application.ProductionManagmentTools
             updateResults = new UpdateResults(updateResultsDataGrid);
             updateBtn = new UpdateButton(updateButton);
             updateResultImage = new UpdatePictureBox(updateImage);
+            updateStepsPanel = new UpdatePanel(updatePanels);
 
+            Services = new Dictionary<string, Step>(); 
+            updatePanels(new List<Panel>() { step1, step2, step3, step4 }, false);
+            results = new List<ValidationResult>();
             report_btn.Enabled = false;
-            //resultsForm = new ResultForm();
-            //resultsForm.MdiParent = this.ParentForm;
         }
-        public void updateImage(PictureBox pictureBox, Image image , bool visible = true)
+
+        public void updatePanels(List<Panel> panels, bool enable)
         {
-            
+            foreach (Panel panel in panels)
+            {
+                panel.Enabled = enable;
+            }
+        }
+
+        public void updateImage(PictureBox pictureBox, Image image, bool visible = true)
+        {
+
             pictureBox.Image = image;
             pictureBox.Visible = visible;
 
@@ -64,8 +77,7 @@ namespace Edge.Application.ProductionManagmentTools
 
         public void updateResultsDataGrid(List<ValidationResult> results)
         {
-            resultsForm = new ResultForm();
-            resultsForm.MdiParent = this.ParentForm;
+            
 
             foreach (ValidationResult item in results)
             {
@@ -80,9 +92,22 @@ namespace Edge.Application.ProductionManagmentTools
             }
             //TO DO : Change Image By Step
             if (resultsForm.ErrorDataGridView.RowCount > 0)
+            {
                 Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon, true });
-            else if (resultsForm.WarningDataGridView.RowCount > 0 )
-                Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon,true });
+                Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step1_errorsCount},String.Format("{0}{1}",resultsForm.ErrorDataGridView.RowCount," errors"),true 
+                });
+            }
+
+            else if (resultsForm.WarningDataGridView.RowCount > 0)
+            {
+                Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon, true });
+                Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step1_warningCount},String.Format("{0}{1}",resultsForm.WarningDataGridView.RowCount," warnings"),true 
+                });
+            }
             else
                 Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, true });
 
@@ -100,79 +125,12 @@ namespace Edge.Application.ProductionManagmentTools
         {
             foreach (Label lbl in lbls)
             {
-                lbl.Text = text;
+                if (!String.IsNullOrEmpty(text)) lbl.Text = text;
                 lbl.Visible = visible;
             }
         }
 
-        void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
-        {
-            Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-
-            //setting labels on state change
-
-            // TO DO : check type of Sender ( OLTP , DWH ... ) than update status.
-            List<Label> checkedSteps = new List<Label>();
-            if (level1.Checked) checkedSteps.Add(step1_status);
-            if (level2.Checked) checkedSteps.Add(step2_status);
-            if (level3.Checked) checkedSteps.Add(step3_status);
-            Invoke(updateStep, new object[]
-                    {
-                        checkedSteps,e.StateAfter.ToString().Equals("Ended")?"Running":e.StateAfter.ToString(),true
-                    }
-                );
-
-            if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
-            {
-                instance.Start();
-            }
-
-            if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
-            {
-                List<ValidationResult> results = new List<ValidationResult>();
-                Invoke(updateProgressBar, new object[] { step1_progressBar, 70, true });
-
-                #region Getting Instance Log
-                using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
-                {
-                    sqlCon.Open();
-                    SqlCommand sqlCommand = DataManager.CreateCommand(
-                        "SELECT [Message] FROM [Source].[dbo].[Log] where [ServiceInstanceID] = @instanceID");
-                    sqlCommand.Parameters.Add(new SqlParameter() { ParameterName = "@instanceID", Value = instance.InstanceID, SqlDbType = System.Data.SqlDbType.BigInt });
-                    sqlCommand.Connection = sqlCon;
-
-                    using (var _reader = sqlCommand.ExecuteReader())
-                    {
-                        if (!_reader.IsClosed)
-                        {
-                            while (_reader.Read())
-                            {
-                                results.Add((ValidationResult)JsonConvert.DeserializeObject(_reader[0].ToString(), typeof(ValidationResult)));
-                            }
-                        }
-                    }
-                }
-                #endregion
-
-                if (results.Capacity > 0)
-                {
-                    Invoke(updateResults, new object[] { results });
-                    Invoke(updateStep, new object[]
-                    {
-                        checkedSteps,"Ended",true
-                    }
-                 );
-
-                }
-                else
-                {
-                    //TO DO :  alert : no services were found
-                }
-
-
-            }
-
-        }
+      
 
         private void DataChecks_Load(object sender, EventArgs e)
         {
@@ -184,7 +142,7 @@ namespace Edge.Application.ProductionManagmentTools
             {
                 sqlCon.Open();
                 SqlCommand sqlCommand = DataManager.CreateCommand(
-                    "SELECT [Account_Name] ,[Account_ID] FROM [seperia].[dbo].[User_GUI_Account] where Status =9 group by [Account_Name] ,[Account_ID] order by [Account_ID]");
+                    "SELECT [Account_Name] ,[Account_ID] FROM [seperia].[dbo].[User_GUI_Account] where Status =9 group by [Account_Name] ,[Account_ID]");
                 sqlCommand.Connection = sqlCon;
 
                 using (var _reader = sqlCommand.ExecuteReader())
@@ -212,15 +170,41 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void Start_btn_Click(object sender, EventArgs e)
         {
-            bool errors = false;
-            Invoke(updateProgressBar, new object[] { step1_progressBar, 0, true });
-            Invoke(updateBtn, new object[] { new List<Button>() { report_btn }, false, true });
-            Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
-            ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services["validation"]);
+            DateTimeRange timePeriod;
+            string channels, accounts;
+            
+
+            InitUI();
+            if (TryGetServicesParams(out timePeriod, out channels, out accounts))
+            {
+                if (Services.Count == 0)
+                {
+                    DialogResult dlgRes = new DialogResult();
+                    dlgRes = MessageBox.Show("Please select at least one Check level", "Check level Error",
+                    MessageBoxButtons.OK,
+                     MessageBoxIcon.Error);
+                    return;
+                }
+                foreach (var service in Services)
+                {
+                    InitServices(timePeriod, service.Key, channels, accounts);
+                }
+
+            }
+
+              
+
+
+
+        }
+
+        private bool TryGetServicesParams(out DateTimeRange timePeriod, out string channelsList, out string accountsList)
+        {
+            channelsList = "";
+            accountsList = "";
 
             #region TimePeriod
-            //Get TimePeriod
-            var range = new DateTimeRange()
+            timePeriod = new DateTimeRange()
             {
                 Start = new DateTimeSpecification()
                 {
@@ -236,41 +220,8 @@ namespace Edge.Application.ProductionManagmentTools
                     Boundary = DateTimeSpecificationBounds.Upper
                 }
             };
-
-            serviceElements.Options.Add("fromDate", range.Start.ToDateTime().ToString());
-            serviceElements.Options.Add("toDate", range.End.ToDateTime().ToString());
             #endregion
-
-            //Get CheckLevel
-            if (level1.Checked)
-                serviceElements.Options.Add("ComparisonTable", Const.level1Table);
-            //TO DO : add Dwh , Mdx tabels
-
-            //Creating Accounts Param
-            #region Account Params
-            StringBuilder accounts = new StringBuilder();
-            if (AccountsCheckedListBox.CheckedItems.Count > 0)
-            {
-                foreach (string item in AccountsCheckedListBox.CheckedItems)
-                {
-                    string[] items = item.Split('-');
-                    accounts.Append(items[0]);
-                    accounts.Append(',');
-                }
-                string accountsList = accounts.ToString().Remove(accounts.ToString().Length - 1);
-                serviceElements.Options.Add("AccountsList", accountsList);
-            }
-            else
-            {
-                DialogResult dlgRes = new DialogResult();
-                dlgRes = MessageBox.Show("Please select at least one account", "Accounts Error",
-                MessageBoxButtons.OK,
-                 MessageBoxIcon.Error);
-                //  if (dlgRes == DialogResult.OK) { System.Windows.Forms.Application.Exit(); };
-                errors = true;
-            }
-            #endregion
-
+          
             #region Channel Params
             //Creating Channel Param
             StringBuilder channels = new StringBuilder();
@@ -293,63 +244,326 @@ namespace Edge.Application.ProductionManagmentTools
                 dlgRes = MessageBox.Show("Please select at least one Data type", "Data type Error",
                 MessageBoxButtons.OK,
                  MessageBoxIcon.Error);
-                errors = true;
+                return false;
             }
-            else
-                serviceElements.Options.Add("ChannelList", channels.ToString());
+
+            channelsList = channels.ToString();
             #endregion
 
-            if (!errors)
+            #region Account Params
+            StringBuilder accounts = new StringBuilder();
+            if (AccountsCheckedListBox.CheckedItems.Count > 0)
             {
-                Edge.Core.Services.ServiceInstance instance = Edge.Core.Services.Service.CreateInstance(serviceElements);
-                instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
-                instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
-                instance.ProgressReported += new EventHandler(instance_ProgressReported);
-
-                instance.Initialize();
+                foreach (string item in AccountsCheckedListBox.CheckedItems)
+                {
+                    string[] items = item.Split('-');
+                    accounts.Append(items[0]);
+                    if (!String.IsNullOrEmpty(accounts.ToString()))
+                        accounts.Append(',');
+                }
             }
+            else
+            {
+                DialogResult dlgRes = new DialogResult();
+                dlgRes = MessageBox.Show("Please select at least one account", "Accounts Error",
+                MessageBoxButtons.OK,
+                 MessageBoxIcon.Error);
+                return false;
+            }
+            accountsList = accounts.ToString().Remove(accounts.Length -1);
+            #endregion
+
+            return true;
+        }
+
+        private void InitServices(DateTimeRange timePeriod, string service, string channels, string accounts)
+        {
+
+           
+
+            ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services[service]);
+
+            // TimePeriod
+            serviceElements.Options.Add("fromDate", timePeriod.Start.ToDateTime().ToString());
+            serviceElements.Options.Add("toDate", timePeriod.End.ToDateTime().ToString());
+
+            serviceElements.Options.Add("ChannelList", channels);
+            serviceElements.Options.Add("AccountsList", accounts);
+
+            string ComparisonTable;
+            if (service.Equals(Const.DeliveryOltpService))
+                ComparisonTable = Const.OltpTable;
+            else if (service.Equals(Const.OltpDwhService))
+                ComparisonTable = Const.DwhTable;
+            else //TO DO : Get tabels from configuration.
+                throw new Exception("ComparisonTable hasnt been implemented for this service");
+
+            serviceElements.Options.Add("ComparisonTable", ComparisonTable);
+
+            Edge.Core.Services.ServiceInstance instance = Edge.Core.Services.Service.CreateInstance(serviceElements);
+
+            instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
+            instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
+            instance.ProgressReported += new EventHandler(instance_ProgressReported);
+
+            instance.Initialize();
+
+            resultsForm = new ResultForm();
+            resultsForm.MdiParent = this.ParentForm;
+
+        }
+
+        private void InitUI()
+        {
+            //setting report_btn to be disabled
+            Invoke(updateBtn, new object[] { new List<Button>() { report_btn }, false, true });
+
+            //Setting Steps 
+            if (level1.Checked)
+            {
+                Invoke(updateProgressBar, new object[] { step1_progressBar, 0, true });
+                Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
+                Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step1_errorsCount,step1_warningCount},"",false 
+                });
+            }
+
+            if (level2.Checked)
+            {
+                Invoke(updateProgressBar, new object[] { step2_progressBar, 0, true });
+                Invoke(updateResultImage, new object[] { step2_Result, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
+                Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step2_errorsCount,step1_warningCount},"",false 
+                });
+            }
+
+            if (level3.Checked)
+            {
+                Invoke(updateProgressBar, new object[] { step3_progressBar, 0, true });
+                Invoke(updateResultImage, new object[] { step3_Result, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
+                Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step3_errorsCount,step1_warningCount},"",false 
+                });
+            }
+
+            if (level4.Checked)
+            {
+                Invoke(updateProgressBar, new object[] { step4_progressBar, 0, true });
+                Invoke(updateResultImage, new object[] { step4_Result, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
+                Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step4_errorsCount,step1_warningCount},"",false 
+                });
+            }
+
+
+
 
         }
 
         void instance_OutcomeReported(object sender, EventArgs e)
         {
             Invoke(updateProgressBar, new object[] { step1_progressBar, 100, true });
+        }
+        void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
+        {
+            Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+            Step step;
+            Services.TryGetValue(instance.Configuration.Name, out step);
+
+            Invoke(updateStep, new object[]
+                    {
+                        new List<Label>(){step.Status},e.StateAfter.ToString().Equals("Ended")?"Running":e.StateAfter.ToString(),true
+                    }
+                );
+
+            if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
+            {
+                instance.Start();
+            }
+
+            if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
+            {
+               
+                Invoke(updateProgressBar, new object[] { step.ProgressBar, 70, true });
+
+                #region Getting Instance Log for results
+                using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+                {
+                    sqlCon.Open();
+                    SqlCommand sqlCommand = DataManager.CreateCommand(
+                        "SELECT [Message] FROM [Source].[dbo].[Log] where [ServiceInstanceID] = @instanceID");
+                    sqlCommand.Parameters.Add(new SqlParameter() { ParameterName = "@instanceID", Value = instance.InstanceID, SqlDbType = System.Data.SqlDbType.BigInt });
+                    sqlCommand.Connection = sqlCon;
+
+                    using (var _reader = sqlCommand.ExecuteReader())
+                    {
+                        if (!_reader.IsClosed)
+                        {
+                            while (_reader.Read())
+                            {
+                                results.Add((ValidationResult)JsonConvert.DeserializeObject(_reader[0].ToString(), typeof(ValidationResult)));
+                            }
+                        }
+                    }
+                }
+                #endregion
+
+                if (results.Capacity > 0)
+                {
+                    Invoke(updateResults, new object[] { results });
+                    Invoke(updateStep, new object[]
+                    {
+                         new List<Label>(){step.Status},"Ended",true
+                    }
+                 );
+
+                }
+                else
+                {
+                    //  alert : no services were found
+                     Invoke(updateStep, new object[]
+                    {
+                         new List<Label>(){appErrorLbl},String.Format("Error, cannot find results from service instance id {0}",instance.InstanceID),true
+                    });
+                }
+
+
+            }
 
         }
-
         private void instance_ProgressReported(object sender, EventArgs e)
         {
-            Invoke(updateProgressBar, new object[] { step1_progressBar, (int)((ServiceInstance)sender).Progress * 70, true });
+            Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+            Step step;
+            Services.TryGetValue(instance.Configuration.Name, out step);
+            Invoke(updateProgressBar, new object[] { step.ProgressBar, (int)((ServiceInstance)sender).Progress * 70, true });
         }
 
+        #region On Step Change ( check box )
         private void Step1StateChange(object sender, EventArgs e)
         {
             if (level1.Checked)
             {
-                step1_lbl.Visible = true;
-                step1_progressBar.Visible = true;
+                Invoke(updateStepsPanel, new object[] { new List<Panel>() { step1 }, true });
+                Services.Add(Const.DeliveryOltpService, new Step
+                { 
+                    Panel = step1,
+                    ProgressBar = step1_progressBar,
+                    ResultImage = step1_ErrorImage,
+                    Status = step1_status,
+                    StepName = step1_lbl,
+                    WarningCount = step1_warningCount,
+                    ErrorsCount = step1_errorsCount
+                });
             }
             else
             {
-                step1_lbl.Visible = false;
-                step1_progressBar.Visible = false;
+                Invoke(updateStepsPanel, new object[] { new List<Panel>() { step1 }, false });
+                Services.Remove(Const.DeliveryOltpService);
             }
         }
+
+        private void Step2StateChange(object sender, EventArgs e)
+        {
+            if (level2.Checked)
+            {
+                Invoke(updateStepsPanel, new object[] { new List<Panel>() { step2 }, true });
+                Services.Add(Const.OltpDwhService, new Step
+                {
+                    Panel = step2,
+                    ProgressBar = step2_progressBar,
+                    ResultImage = step2_Result,
+                    Status = step2_status,
+                    StepName = step2_lbl,
+                    WarningCount = step2_warningCount,
+                    ErrorsCount = step2_errorsCount
+                });
+            }
+            else
+            {
+                Invoke(updateStepsPanel, new object[] { new List<Panel>() { step2 }, false });
+                Services.Remove(Const.OltpDwhService);
+            }
+        }
+
+        private void Step3StateChange(object sender, EventArgs e)
+        {
+            if (level3.Checked)
+            {
+                Invoke(updateStepsPanel, new object[] { new List<Panel>() { step3 }, true });
+                Services.Add(Const.MdxDwhService, new Step
+                {
+                    Panel = step3,
+                    ProgressBar = step3_progressBar,
+                    ResultImage = step3_Result,
+                    Status = step3_status,
+                    StepName = step3_lbl,
+                    WarningCount = step3_warningCount,
+                    ErrorsCount = step3_errorsCount
+                });
+            }
+            else
+            {
+                Invoke(updateStepsPanel, new object[] { new List<Panel>() { step3 }, false });
+                Services.Remove(Const.MdxDwhService);
+            }
+        }
+
+        private void Step4StateChange(object sender, EventArgs e)
+        {
+            if (level4.Checked)
+            {
+                Invoke(updateStepsPanel, new object[] { new List<Panel>() { step4 }, true });
+                Services.Add(Const.MdxOltpService, new Step
+                {
+                    Panel = step4,
+                    ProgressBar = step4_progressBar,
+                    ResultImage = step4_Result,
+                    Status = step4_status,
+                    StepName = step4_lbl,
+                    WarningCount = step4_warningCount,
+                    ErrorsCount = step4_errorsCount
+                });
+            }
+            else
+            {
+                Invoke(updateStepsPanel, new object[] { new List<Panel>() { step4 }, false });
+                Services.Remove(Const.MdxOltpService);
+            }
+        }
+        #endregion
 
         private void report_btn_Click(object sender, EventArgs e)
         {
             resultsForm.Show();
         }
 
-
-
-
-
-
     }
     public static class Const
     {
-        public static string level1Table = "dbo.Paid_API_AllColumns_v29";
+        // Tabels
+        public static string OltpTable = "dbo.Paid_API_AllColumns_v29";
+        public static string DwhTable = "Dwh_Fact_PPC_Campaigns";
+
+        //Services
+        public static string DeliveryOltpService = "DeliveryOltpValidation";
+        public static string OltpDwhService = "DeliveryDwhValidation";
+        public static string MdxDwhService = "MdxDwhValidation";
+        public static string MdxOltpService = "MdxOltpValidation";
     }
 
+    public class Step
+    {
+        public Panel Panel {get; set;}
+        public Label StepName { get; set; }
+        public ProgressBar ProgressBar { get; set; }
+        public Label Status { get; set; }
+        public PictureBox ResultImage { get; set; }
+        public Label WarningCount { get; set; }
+        public Label ErrorsCount { get; set; }
+    }
 }
