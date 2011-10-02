@@ -81,6 +81,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap fixErrors {
+            get {
+                object obj = ResourceManager.GetObject("fixErrors", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Flight_Tracker_icon {
             get {
                 object obj = ResourceManager.GetObject("Flight-Tracker-icon", resourceCulture);
@@ -175,6 +182,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap Warning_icon {
             get {
                 object obj = ResourceManager.GetObject("Warning-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap warning1 {
+            get {
+                object obj = ResourceManager.GetObject("warning1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
