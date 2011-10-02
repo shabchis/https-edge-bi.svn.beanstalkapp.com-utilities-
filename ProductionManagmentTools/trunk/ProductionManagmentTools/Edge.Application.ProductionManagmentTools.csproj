@@ -222,6 +222,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\warning1.png" />
+    <None Include="Resources\fixErrors.png" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

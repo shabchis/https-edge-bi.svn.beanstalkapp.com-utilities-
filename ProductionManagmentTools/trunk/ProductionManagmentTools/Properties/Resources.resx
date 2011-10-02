@@ -127,11 +127,11 @@
   <data name="google" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\google.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fixErrors" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fixErrors.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="iconFacebook" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\iconFacebook.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="step3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\step3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stopBtn2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stopBtn2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,6 +151,9 @@
   <data name="Flight-Tracker-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Flight-Tracker-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="step3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\step3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="start-button-news" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start-button-news.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -168,5 +171,8 @@
   </data>
   <data name="Warning-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Warning-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="warning1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\warning1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
