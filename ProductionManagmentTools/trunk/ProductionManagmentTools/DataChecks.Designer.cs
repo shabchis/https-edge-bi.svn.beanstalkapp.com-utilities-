@@ -70,7 +70,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.AccountsCheckedListBox = new System.Windows.Forms.CheckedListBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.GoogleAdwords = new System.Windows.Forms.CheckBox();
             this.Facebook = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -81,7 +80,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.allAccounts = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.level4 = new System.Windows.Forms.CheckBox();
             this.level3 = new System.Windows.Forms.CheckBox();
@@ -89,7 +87,6 @@
             this.level1 = new System.Windows.Forms.CheckBox();
             this.Start_btn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label19 = new System.Windows.Forms.Label();
             this.report_btn = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -99,6 +96,10 @@
             this.appErrorLbl = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.step4.SuspendLayout();
@@ -137,9 +138,9 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.groupBox1.Location = new System.Drawing.Point(456, 72);
+            this.groupBox1.Location = new System.Drawing.Point(388, 58);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(356, 88);
+            this.groupBox1.Size = new System.Drawing.Size(409, 88);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Run Data Check on the following time period";
@@ -257,7 +258,7 @@
             // 
             this.step4_status.AutoSize = true;
             this.step4_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.step4_status.Location = new System.Drawing.Point(540, 10);
+            this.step4_status.Location = new System.Drawing.Point(516, 8);
             this.step4_status.Name = "step4_status";
             this.step4_status.Size = new System.Drawing.Size(40, 16);
             this.step4_status.TabIndex = 46;
@@ -334,7 +335,7 @@
             // 
             this.step3_status.AutoSize = true;
             this.step3_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.step3_status.Location = new System.Drawing.Point(540, 11);
+            this.step3_status.Location = new System.Drawing.Point(516, 8);
             this.step3_status.Name = "step3_status";
             this.step3_status.Size = new System.Drawing.Size(40, 16);
             this.step3_status.TabIndex = 46;
@@ -368,7 +369,7 @@
             // step1_ErrorImage
             // 
             this.step1_ErrorImage.ErrorImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon;
-            this.step1_ErrorImage.Location = new System.Drawing.Point(661, 5);
+            this.step1_ErrorImage.Location = new System.Drawing.Point(661, 7);
             this.step1_ErrorImage.Name = "step1_ErrorImage";
             this.step1_ErrorImage.Size = new System.Drawing.Size(27, 26);
             this.step1_ErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -380,7 +381,7 @@
             // 
             this.step1_status.AutoSize = true;
             this.step1_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.step1_status.Location = new System.Drawing.Point(540, 12);
+            this.step1_status.Location = new System.Drawing.Point(516, 13);
             this.step1_status.Name = "step1_status";
             this.step1_status.Size = new System.Drawing.Size(40, 16);
             this.step1_status.TabIndex = 28;
@@ -490,7 +491,7 @@
             // 
             this.step2_status.AutoSize = true;
             this.step2_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.step2_status.Location = new System.Drawing.Point(540, 10);
+            this.step2_status.Location = new System.Drawing.Point(516, 10);
             this.step2_status.Name = "step2_status";
             this.step2_status.Size = new System.Drawing.Size(40, 16);
             this.step2_status.TabIndex = 46;
@@ -546,7 +547,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label8.Location = new System.Drawing.Point(660, 7);
+            this.label8.Location = new System.Drawing.Point(660, 6);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(48, 15);
             this.label8.TabIndex = 19;
@@ -557,7 +558,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label7.Location = new System.Drawing.Point(544, 7);
+            this.label7.Location = new System.Drawing.Point(515, 6);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(47, 15);
             this.label7.TabIndex = 18;
@@ -565,26 +566,17 @@
             // 
             // AccountsCheckedListBox
             // 
+            this.AccountsCheckedListBox.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.AccountsCheckedListBox.CheckOnClick = true;
             this.AccountsCheckedListBox.ColumnWidth = 180;
             this.AccountsCheckedListBox.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.AccountsCheckedListBox.FormattingEnabled = true;
-            this.AccountsCheckedListBox.Location = new System.Drawing.Point(12, 92);
+            this.AccountsCheckedListBox.Location = new System.Drawing.Point(6, 75);
             this.AccountsCheckedListBox.MultiColumn = true;
             this.AccountsCheckedListBox.Name = "AccountsCheckedListBox";
-            this.AccountsCheckedListBox.Size = new System.Drawing.Size(420, 289);
+            this.AccountsCheckedListBox.Size = new System.Drawing.Size(376, 334);
             this.AccountsCheckedListBox.Sorted = true;
             this.AccountsCheckedListBox.TabIndex = 20;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label1.Location = new System.Drawing.Point(12, 55);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 14);
-            this.label1.TabIndex = 39;
-            this.label1.Text = "Select accounts :";
             // 
             // GoogleAdwords
             // 
@@ -659,9 +651,9 @@
             this.dataTypes.Controls.Add(this.Facebook);
             this.dataTypes.Controls.Add(this.checkBox1);
             this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataTypes.Location = new System.Drawing.Point(456, 166);
+            this.dataTypes.Location = new System.Drawing.Point(388, 152);
             this.dataTypes.Name = "dataTypes";
-            this.dataTypes.Size = new System.Drawing.Size(356, 126);
+            this.dataTypes.Size = new System.Drawing.Size(409, 126);
             this.dataTypes.TabIndex = 16;
             this.dataTypes.TabStop = false;
             this.dataTypes.Text = "Data Types";
@@ -674,7 +666,7 @@
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.Location = new System.Drawing.Point(8, 88);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(18, 18);
+            this.pictureBox3.Size = new System.Drawing.Size(0, 18);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 48;
             this.pictureBox3.TabStop = false;
@@ -687,7 +679,7 @@
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(8, 65);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(18, 18);
+            this.pictureBox2.Size = new System.Drawing.Size(0, 18);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 47;
             this.pictureBox2.TabStop = false;
@@ -700,7 +692,7 @@
             this.pictureBox1.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
             this.pictureBox1.Location = new System.Drawing.Point(8, 43);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(18, 18);
+            this.pictureBox1.Size = new System.Drawing.Size(0, 18);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 46;
             this.pictureBox1.TabStop = false;
@@ -716,18 +708,6 @@
             this.label23.TabIndex = 2;
             this.label23.Text = "select data types you would like to check";
             // 
-            // allAccounts
-            // 
-            this.allAccounts.AutoSize = true;
-            this.allAccounts.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.allAccounts.Location = new System.Drawing.Point(359, 72);
-            this.allAccounts.Name = "allAccounts";
-            this.allAccounts.Size = new System.Drawing.Size(73, 19);
-            this.allAccounts.TabIndex = 46;
-            this.allAccounts.Text = "Select all ";
-            this.allAccounts.UseVisualStyleBackColor = true;
-            this.allAccounts.CheckedChanged += new System.EventHandler(this.allAccounts_CheckedChanged);
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.level4);
@@ -735,9 +715,9 @@
             this.groupBox4.Controls.Add(this.level2);
             this.groupBox4.Controls.Add(this.level1);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.groupBox4.Location = new System.Drawing.Point(456, 298);
+            this.groupBox4.Location = new System.Drawing.Point(388, 284);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(356, 71);
+            this.groupBox4.Size = new System.Drawing.Size(409, 49);
             this.groupBox4.TabIndex = 16;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Check Level";
@@ -745,8 +725,9 @@
             // level4
             // 
             this.level4.AutoSize = true;
+            this.level4.Enabled = false;
             this.level4.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.level4.Location = new System.Drawing.Point(11, 46);
+            this.level4.Location = new System.Drawing.Point(315, 23);
             this.level4.Name = "level4";
             this.level4.Size = new System.Drawing.Size(88, 19);
             this.level4.TabIndex = 44;
@@ -757,8 +738,9 @@
             // level3
             // 
             this.level3.AutoSize = true;
+            this.level3.Enabled = false;
             this.level3.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.level3.Location = new System.Drawing.Point(236, 23);
+            this.level3.Location = new System.Drawing.Point(219, 23);
             this.level3.Name = "level3";
             this.level3.Size = new System.Drawing.Size(86, 19);
             this.level3.TabIndex = 43;
@@ -795,9 +777,9 @@
             this.Start_btn.BackColor = System.Drawing.Color.Green;
             this.Start_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.Start_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Start_btn.Location = new System.Drawing.Point(664, 381);
+            this.Start_btn.Location = new System.Drawing.Point(636, 362);
             this.Start_btn.Name = "Start_btn";
-            this.Start_btn.Size = new System.Drawing.Size(71, 28);
+            this.Start_btn.Size = new System.Drawing.Size(84, 49);
             this.Start_btn.TabIndex = 47;
             this.Start_btn.Text = "Start";
             this.Start_btn.UseVisualStyleBackColor = false;
@@ -805,23 +787,14 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.AliceBlue;
-            this.panel2.Controls.Add(this.label19);
+            this.panel2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.panel2.Controls.Add(this.label6);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.comboBox1);
             this.panel2.Location = new System.Drawing.Point(6, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(806, 33);
+            this.panel2.Size = new System.Drawing.Size(806, 35);
             this.panel2.TabIndex = 22;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label19.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label19.Location = new System.Drawing.Point(10, 8);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(135, 18);
-            this.label19.TabIndex = 21;
-            this.label19.Text = "Data Check Tool";
             // 
             // report_btn
             // 
@@ -901,11 +874,13 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.DodgerBlue;
+            this.button1.Enabled = false;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button1.Location = new System.Drawing.Point(484, 381);
+            this.button1.Location = new System.Drawing.Point(726, 362);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(71, 28);
+            this.button1.Size = new System.Drawing.Size(71, 21);
             this.button1.TabIndex = 53;
             this.button1.Text = "Quick";
             this.button1.UseVisualStyleBackColor = false;
@@ -913,14 +888,61 @@
             // button5
             // 
             this.button5.BackColor = System.Drawing.Color.DarkOrange;
+            this.button5.Enabled = false;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.button5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button5.Location = new System.Drawing.Point(575, 381);
+            this.button5.Location = new System.Drawing.Point(726, 389);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(71, 28);
+            this.button5.Size = new System.Drawing.Size(71, 20);
             this.button5.TabIndex = 54;
             this.button5.Text = "Full";
             this.button5.UseVisualStyleBackColor = false;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Enabled = false;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Seperia",
+            "Edge"});
+            this.comboBox1.Location = new System.Drawing.Point(98, 8);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 55;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Enabled = false;
+            this.label4.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label4.Location = new System.Drawing.Point(6, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(86, 17);
+            this.label4.TabIndex = 56;
+            this.label4.Text = "Application :";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Enabled = false;
+            this.label6.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label6.Location = new System.Drawing.Point(740, 16);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(60, 13);
+            this.label6.TabIndex = 55;
+            this.label6.Text = "Version 1.0";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label1.Location = new System.Drawing.Point(9, 58);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 14);
+            this.label1.TabIndex = 39;
+            this.label1.Text = "Accounts :";
             // 
             // DataChecks
             // 
@@ -939,7 +961,6 @@
             this.Controls.Add(this.report_btn);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.allAccounts);
             this.Controls.Add(this.dataTypes);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.AccountsCheckedListBox);
@@ -1001,7 +1022,6 @@
         private System.Windows.Forms.Label step1_status;
         private System.Windows.Forms.ProgressBar step1_progressBar;
         private System.Windows.Forms.CheckedListBox AccountsCheckedListBox;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker fromDate;
         private System.Windows.Forms.CheckBox GoogleAdwords;
         private System.Windows.Forms.CheckBox Facebook;
@@ -1010,7 +1030,6 @@
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.GroupBox dataTypes;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.CheckBox allAccounts;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox level3;
         private System.Windows.Forms.CheckBox level2;
@@ -1018,7 +1037,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button Start_btn;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -1057,5 +1075,9 @@
         private System.Windows.Forms.Label step3_status;
         private System.Windows.Forms.CheckBox level4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label1;
 	}
 }

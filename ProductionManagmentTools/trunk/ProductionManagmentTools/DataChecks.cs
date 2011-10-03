@@ -19,20 +19,20 @@ namespace Edge.Application.ProductionManagmentTools
     public partial class DataChecks : Form
     {
         public delegate void UpdateStepStatus(List<Label> lbls, string text, bool visible);
-        UpdateStepStatus updateStep;
+        private UpdateStepStatus updateStep;
         public delegate void UpdateProgressBar(ProgressBar progressBar, int val, bool visible);
-        UpdateProgressBar updateProgressBar;
+        private UpdateProgressBar updateProgressBar;
         public delegate void UpdateResults(List<ValidationResult> results);
-        UpdateResults updateResults;
+        private UpdateResults updateResults;
         public delegate void UpdateButton(List<Button> buttons, bool Enable, bool visible = true);
-        UpdateButton updateBtn;
+        private UpdateButton updateBtn;
         public delegate void UpdatePictureBox(PictureBox pictureBox, Image image, bool visible = true);
-        UpdatePictureBox updateResultImage;
+        private UpdatePictureBox updateResultImage;
         public delegate void UpdatePanel(List<Panel> panels, bool enable);
-        UpdatePanel updateStepsPanel;
-        Dictionary<string, Step> Services;
-        List<ValidationResult> results;
-        ResultForm resultsForm;
+        private UpdatePanel updateStepsPanel;
+        private Dictionary<string, Step> Services;
+        private List<ValidationResult> results;
+        private ResultForm resultsForm;
 
         public DataChecks()
         {
@@ -44,9 +44,9 @@ namespace Edge.Application.ProductionManagmentTools
             updateResultImage = new UpdatePictureBox(updateImage);
             updateStepsPanel = new UpdatePanel(updatePanels);
 
-            Services = new Dictionary<string, Step>(); 
+            Services = new Dictionary<string, Step>();
             updatePanels(new List<Panel>() { step1, step2, step3, step4 }, false);
-            results = new List<ValidationResult>();
+            
             report_btn.Enabled = false;
         }
 
@@ -77,8 +77,6 @@ namespace Edge.Application.ProductionManagmentTools
 
         public void updateResultsDataGrid(List<ValidationResult> results)
         {
-            
-
             foreach (ValidationResult item in results)
             {
                 if (item.ResultType == ValidationResultType.Error)
@@ -90,26 +88,6 @@ namespace Edge.Application.ProductionManagmentTools
                     resultsForm.SuccessDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.ToString());
 
             }
-            //TO DO : Change Image By Step
-            if (resultsForm.ErrorDataGridView.RowCount > 0)
-            {
-                Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon, true });
-                Invoke(updateStep, new object[] 
-                { 
-                    new List<Label>(){step1_errorsCount},String.Format("{0}{1}",resultsForm.ErrorDataGridView.RowCount," errors"),true 
-                });
-            }
-
-            else if (resultsForm.WarningDataGridView.RowCount > 0)
-            {
-                Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon, true });
-                Invoke(updateStep, new object[] 
-                { 
-                    new List<Label>(){step1_warningCount},String.Format("{0}{1}",resultsForm.WarningDataGridView.RowCount," warnings"),true 
-                });
-            }
-            else
-                Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, true });
 
             report_btn.Enabled = true;
 
@@ -129,8 +107,6 @@ namespace Edge.Application.ProductionManagmentTools
                 lbl.Visible = visible;
             }
         }
-
-      
 
         private void DataChecks_Load(object sender, EventArgs e)
         {
@@ -172,11 +148,12 @@ namespace Edge.Application.ProductionManagmentTools
         {
             DateTimeRange timePeriod;
             string channels, accounts;
-            
+
 
             InitUI();
             if (TryGetServicesParams(out timePeriod, out channels, out accounts))
             {
+                //Check if no service has been selected from checked boxes
                 if (Services.Count == 0)
                 {
                     DialogResult dlgRes = new DialogResult();
@@ -187,12 +164,23 @@ namespace Edge.Application.ProductionManagmentTools
                 }
                 foreach (var service in Services)
                 {
-                    InitServices(timePeriod, service.Key, channels, accounts);
+                    try
+                    {
+                        InitServices(timePeriod, service.Key, channels, accounts);
+                    }
+                    catch (Exception ex)
+                    {
+                        Invoke(updateStep, new object[] 
+                        { 
+                            new List<Label>(){appErrorLbl},ex.Message,false 
+                        });
+                        Invoke(updateStepsPanel, new object[] { new List<Panel> { AppAlertPanel }, true });
+                    }
                 }
 
             }
 
-              
+
 
 
 
@@ -221,7 +209,7 @@ namespace Edge.Application.ProductionManagmentTools
                 }
             };
             #endregion
-          
+
             #region Channel Params
             //Creating Channel Param
             StringBuilder channels = new StringBuilder();
@@ -270,7 +258,7 @@ namespace Edge.Application.ProductionManagmentTools
                  MessageBoxIcon.Error);
                 return false;
             }
-            accountsList = accounts.ToString().Remove(accounts.Length -1);
+            accountsList = accounts.ToString().Remove(accounts.Length - 1);
             #endregion
 
             return true;
@@ -278,9 +266,6 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void InitServices(DateTimeRange timePeriod, string service, string channels, string accounts)
         {
-
-           
-
             ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services[service]);
 
             // TimePeriod
@@ -292,13 +277,16 @@ namespace Edge.Application.ProductionManagmentTools
 
             string SourceTable;
             if (service.Equals(Const.DeliveryOltpService))
-                SourceTable = Const.OltpTable;
+                serviceElements.Options.Add("SourceTable", Const.OltpTable);
             else if (service.Equals(Const.OltpDwhService))
-                SourceTable = Const.DwhTable;
+            {
+                serviceElements.Options.Add("SourceTable", Const.OltpTable);
+                serviceElements.Options.Add("TargetTable", Const.DwhTable);
+            }
             else //TO DO : Get tabels from configuration.
                 throw new Exception("ComparisonTable hasnt been implemented for this service");
 
-            serviceElements.Options.Add("SourceTable", SourceTable);
+
 
             Edge.Core.Services.ServiceInstance instance = Edge.Core.Services.Service.CreateInstance(serviceElements);
 
@@ -308,8 +296,7 @@ namespace Edge.Application.ProductionManagmentTools
 
             instance.Initialize();
 
-            resultsForm = new ResultForm();
-            resultsForm.MdiParent = this.ParentForm;
+          
 
         }
 
@@ -317,6 +304,10 @@ namespace Edge.Application.ProductionManagmentTools
         {
             //setting report_btn to be disabled
             Invoke(updateBtn, new object[] { new List<Button>() { report_btn }, false, true });
+
+            //creating new results report
+            resultsForm = new ResultForm();
+            resultsForm.MdiParent = this.ParentForm;
 
             //Setting Steps 
             if (level1.Checked)
@@ -358,15 +349,41 @@ namespace Edge.Application.ProductionManagmentTools
                     new List<Label>(){step4_errorsCount,step1_warningCount},"",false 
                 });
             }
-
-
-
-
         }
 
         void instance_OutcomeReported(object sender, EventArgs e)
         {
-            Invoke(updateProgressBar, new object[] { step1_progressBar, 100, true });
+            Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+            Step step;
+            Services.TryGetValue(instance.Configuration.Name, out step);
+
+            Invoke(updateProgressBar, new object[] { step.ProgressBar, 100, true });
+
+            if (resultsForm.ErrorDataGridView.RowCount > 0)
+            {
+                Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon, true });
+                Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step.ErrorsCount},String.Format("{0}{1}",resultsForm.ErrorDataGridView.RowCount," errors"),true 
+                });
+            }
+
+            else if (resultsForm.WarningDataGridView.RowCount > 0)
+            {
+                Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon, true });
+                Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step.WarningCount},String.Format("{0}{1}",resultsForm.WarningDataGridView.RowCount," warnings"),true 
+                });
+            }
+            else
+                Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, true });
+
+            if (instance.Outcome.Equals(ServiceOutcome.Failure))
+            {
+                //TO DO : write error to AppError Label.
+            }
+
         }
         void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
         {
@@ -387,7 +404,8 @@ namespace Edge.Application.ProductionManagmentTools
 
             if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
             {
-               
+                results = new List<ValidationResult>();
+
                 Invoke(updateProgressBar, new object[] { step.ProgressBar, 70, true });
 
                 #region Getting Instance Log for results
@@ -425,7 +443,7 @@ namespace Edge.Application.ProductionManagmentTools
                 else
                 {
                     //  alert : no services were found
-                     Invoke(updateStep, new object[]
+                    Invoke(updateStep, new object[]
                     {
                          new List<Label>(){appErrorLbl},String.Format("Error, cannot find results from service instance id {0}",instance.InstanceID),true
                     });
@@ -450,7 +468,7 @@ namespace Edge.Application.ProductionManagmentTools
             {
                 Invoke(updateStepsPanel, new object[] { new List<Panel>() { step1 }, true });
                 Services.Add(Const.DeliveryOltpService, new Step
-                { 
+                {
                     Panel = step1,
                     ProgressBar = step1_progressBar,
                     ResultImage = step1_ErrorImage,
@@ -551,14 +569,14 @@ namespace Edge.Application.ProductionManagmentTools
 
         //Services
         public static string DeliveryOltpService = "DeliveryOltpValidation";
-        public static string OltpDwhService = "DeliveryDwhValidation";
+        public static string OltpDwhService = "DwhOltpValidation";
         public static string MdxDwhService = "MdxDwhValidation";
         public static string MdxOltpService = "MdxOltpValidation";
     }
 
     public class Step
     {
-        public Panel Panel {get; set;}
+        public Panel Panel { get; set; }
         public Label StepName { get; set; }
         public ProgressBar ProgressBar { get; set; }
         public Label Status { get; set; }
