@@ -98,6 +98,7 @@
             this.AppAlertPanel = new System.Windows.Forms.Panel();
             this.appErrorLbl = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.step4.SuspendLayout();
@@ -180,9 +181,9 @@
             this.groupBox3.Controls.Add(this.step2);
             this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Controls.Add(this.panel1);
-            this.groupBox3.Location = new System.Drawing.Point(6, 387);
+            this.groupBox3.Location = new System.Drawing.Point(6, 415);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(689, 243);
+            this.groupBox3.Size = new System.Drawing.Size(806, 217);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             // 
@@ -196,7 +197,7 @@
             this.step4.Controls.Add(this.step4_status);
             this.step4.Location = new System.Drawing.Point(13, 159);
             this.step4.Name = "step4";
-            this.step4.Size = new System.Drawing.Size(654, 39);
+            this.step4.Size = new System.Drawing.Size(787, 39);
             this.step4.TabIndex = 50;
             // 
             // step4_warningCount
@@ -204,7 +205,7 @@
             this.step4_warningCount.AutoSize = true;
             this.step4_warningCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.step4_warningCount.ForeColor = System.Drawing.Color.Chocolate;
-            this.step4_warningCount.Location = new System.Drawing.Point(568, 7);
+            this.step4_warningCount.Location = new System.Drawing.Point(712, 7);
             this.step4_warningCount.Name = "step4_warningCount";
             this.step4_warningCount.Size = new System.Drawing.Size(43, 12);
             this.step4_warningCount.TabIndex = 40;
@@ -216,7 +217,7 @@
             this.step4_errorsCount.AutoSize = true;
             this.step4_errorsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.step4_errorsCount.ForeColor = System.Drawing.Color.DarkRed;
-            this.step4_errorsCount.Location = new System.Drawing.Point(568, 19);
+            this.step4_errorsCount.Location = new System.Drawing.Point(712, 19);
             this.step4_errorsCount.Name = "step4_errorsCount";
             this.step4_errorsCount.Size = new System.Drawing.Size(31, 12);
             this.step4_errorsCount.TabIndex = 41;
@@ -237,14 +238,14 @@
             // 
             this.step4_progressBar.Location = new System.Drawing.Point(160, 7);
             this.step4_progressBar.Name = "step4_progressBar";
-            this.step4_progressBar.Size = new System.Drawing.Size(197, 19);
+            this.step4_progressBar.Size = new System.Drawing.Size(332, 19);
             this.step4_progressBar.TabIndex = 47;
             // 
             // step4_Result
             // 
             this.step4_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.ErrorImage")));
             this.step4_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.InitialImage")));
-            this.step4_Result.Location = new System.Drawing.Point(517, 6);
+            this.step4_Result.Location = new System.Drawing.Point(661, 6);
             this.step4_Result.Name = "step4_Result";
             this.step4_Result.Size = new System.Drawing.Size(27, 27);
             this.step4_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -256,7 +257,7 @@
             // 
             this.step4_status.AutoSize = true;
             this.step4_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.step4_status.Location = new System.Drawing.Point(396, 10);
+            this.step4_status.Location = new System.Drawing.Point(540, 10);
             this.step4_status.Name = "step4_status";
             this.step4_status.Size = new System.Drawing.Size(40, 16);
             this.step4_status.TabIndex = 46;
@@ -273,7 +274,7 @@
             this.step3.Controls.Add(this.step3_status);
             this.step3.Location = new System.Drawing.Point(13, 120);
             this.step3.Name = "step3";
-            this.step3.Size = new System.Drawing.Size(654, 39);
+            this.step3.Size = new System.Drawing.Size(787, 39);
             this.step3.TabIndex = 49;
             // 
             // step3_warningCount
@@ -281,7 +282,7 @@
             this.step3_warningCount.AutoSize = true;
             this.step3_warningCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.step3_warningCount.ForeColor = System.Drawing.Color.Chocolate;
-            this.step3_warningCount.Location = new System.Drawing.Point(568, 7);
+            this.step3_warningCount.Location = new System.Drawing.Point(712, 8);
             this.step3_warningCount.Name = "step3_warningCount";
             this.step3_warningCount.Size = new System.Drawing.Size(43, 12);
             this.step3_warningCount.TabIndex = 40;
@@ -293,7 +294,7 @@
             this.step3_errorsCount.AutoSize = true;
             this.step3_errorsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.step3_errorsCount.ForeColor = System.Drawing.Color.DarkRed;
-            this.step3_errorsCount.Location = new System.Drawing.Point(568, 19);
+            this.step3_errorsCount.Location = new System.Drawing.Point(712, 20);
             this.step3_errorsCount.Name = "step3_errorsCount";
             this.step3_errorsCount.Size = new System.Drawing.Size(31, 12);
             this.step3_errorsCount.TabIndex = 41;
@@ -314,14 +315,14 @@
             // 
             this.step3_progressBar.Location = new System.Drawing.Point(160, 7);
             this.step3_progressBar.Name = "step3_progressBar";
-            this.step3_progressBar.Size = new System.Drawing.Size(197, 19);
+            this.step3_progressBar.Size = new System.Drawing.Size(332, 19);
             this.step3_progressBar.TabIndex = 47;
             // 
             // step3_Result
             // 
             this.step3_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.ErrorImage")));
             this.step3_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.InitialImage")));
-            this.step3_Result.Location = new System.Drawing.Point(517, 6);
+            this.step3_Result.Location = new System.Drawing.Point(661, 7);
             this.step3_Result.Name = "step3_Result";
             this.step3_Result.Size = new System.Drawing.Size(27, 27);
             this.step3_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -333,7 +334,7 @@
             // 
             this.step3_status.AutoSize = true;
             this.step3_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.step3_status.Location = new System.Drawing.Point(396, 10);
+            this.step3_status.Location = new System.Drawing.Point(540, 11);
             this.step3_status.Name = "step3_status";
             this.step3_status.Size = new System.Drawing.Size(40, 16);
             this.step3_status.TabIndex = 46;
@@ -351,7 +352,7 @@
             this.step1.Enabled = false;
             this.step1.Location = new System.Drawing.Point(13, 42);
             this.step1.Name = "step1";
-            this.step1.Size = new System.Drawing.Size(654, 39);
+            this.step1.Size = new System.Drawing.Size(787, 39);
             this.step1.TabIndex = 49;
             // 
             // step1_lbl
@@ -367,7 +368,7 @@
             // step1_ErrorImage
             // 
             this.step1_ErrorImage.ErrorImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon;
-            this.step1_ErrorImage.Location = new System.Drawing.Point(517, 5);
+            this.step1_ErrorImage.Location = new System.Drawing.Point(661, 5);
             this.step1_ErrorImage.Name = "step1_ErrorImage";
             this.step1_ErrorImage.Size = new System.Drawing.Size(27, 26);
             this.step1_ErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -379,7 +380,7 @@
             // 
             this.step1_status.AutoSize = true;
             this.step1_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.step1_status.Location = new System.Drawing.Point(396, 12);
+            this.step1_status.Location = new System.Drawing.Point(540, 12);
             this.step1_status.Name = "step1_status";
             this.step1_status.Size = new System.Drawing.Size(40, 16);
             this.step1_status.TabIndex = 28;
@@ -391,7 +392,7 @@
             this.step1_progressBar.Location = new System.Drawing.Point(160, 12);
             this.step1_progressBar.MarqueeAnimationSpeed = 10;
             this.step1_progressBar.Name = "step1_progressBar";
-            this.step1_progressBar.Size = new System.Drawing.Size(197, 19);
+            this.step1_progressBar.Size = new System.Drawing.Size(332, 19);
             this.step1_progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.step1_progressBar.TabIndex = 19;
             // 
@@ -400,7 +401,7 @@
             this.step1_warningCount.AutoSize = true;
             this.step1_warningCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.step1_warningCount.ForeColor = System.Drawing.Color.Chocolate;
-            this.step1_warningCount.Location = new System.Drawing.Point(568, 5);
+            this.step1_warningCount.Location = new System.Drawing.Point(712, 5);
             this.step1_warningCount.Name = "step1_warningCount";
             this.step1_warningCount.Size = new System.Drawing.Size(43, 12);
             this.step1_warningCount.TabIndex = 38;
@@ -412,7 +413,7 @@
             this.step1_errorsCount.AutoSize = true;
             this.step1_errorsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.step1_errorsCount.ForeColor = System.Drawing.Color.DarkRed;
-            this.step1_errorsCount.Location = new System.Drawing.Point(568, 17);
+            this.step1_errorsCount.Location = new System.Drawing.Point(712, 17);
             this.step1_errorsCount.Name = "step1_errorsCount";
             this.step1_errorsCount.Size = new System.Drawing.Size(31, 12);
             this.step1_errorsCount.TabIndex = 39;
@@ -429,7 +430,7 @@
             this.step2.Controls.Add(this.step2_status);
             this.step2.Location = new System.Drawing.Point(13, 81);
             this.step2.Name = "step2";
-            this.step2.Size = new System.Drawing.Size(654, 39);
+            this.step2.Size = new System.Drawing.Size(787, 39);
             this.step2.TabIndex = 48;
             // 
             // step2_warningCount
@@ -437,7 +438,7 @@
             this.step2_warningCount.AutoSize = true;
             this.step2_warningCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.step2_warningCount.ForeColor = System.Drawing.Color.Chocolate;
-            this.step2_warningCount.Location = new System.Drawing.Point(568, 7);
+            this.step2_warningCount.Location = new System.Drawing.Point(712, 7);
             this.step2_warningCount.Name = "step2_warningCount";
             this.step2_warningCount.Size = new System.Drawing.Size(43, 12);
             this.step2_warningCount.TabIndex = 40;
@@ -449,7 +450,7 @@
             this.step2_errorsCount.AutoSize = true;
             this.step2_errorsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.step2_errorsCount.ForeColor = System.Drawing.Color.DarkRed;
-            this.step2_errorsCount.Location = new System.Drawing.Point(568, 19);
+            this.step2_errorsCount.Location = new System.Drawing.Point(712, 19);
             this.step2_errorsCount.Name = "step2_errorsCount";
             this.step2_errorsCount.Size = new System.Drawing.Size(31, 12);
             this.step2_errorsCount.TabIndex = 41;
@@ -470,14 +471,14 @@
             // 
             this.step2_progressBar.Location = new System.Drawing.Point(160, 7);
             this.step2_progressBar.Name = "step2_progressBar";
-            this.step2_progressBar.Size = new System.Drawing.Size(197, 19);
+            this.step2_progressBar.Size = new System.Drawing.Size(332, 19);
             this.step2_progressBar.TabIndex = 47;
             // 
             // step2_Result
             // 
             this.step2_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.ErrorImage")));
             this.step2_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.InitialImage")));
-            this.step2_Result.Location = new System.Drawing.Point(517, 6);
+            this.step2_Result.Location = new System.Drawing.Point(661, 6);
             this.step2_Result.Name = "step2_Result";
             this.step2_Result.Size = new System.Drawing.Size(27, 27);
             this.step2_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -489,7 +490,7 @@
             // 
             this.step2_status.AutoSize = true;
             this.step2_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.step2_status.Location = new System.Drawing.Point(396, 10);
+            this.step2_status.Location = new System.Drawing.Point(540, 10);
             this.step2_status.Name = "step2_status";
             this.step2_status.Size = new System.Drawing.Size(40, 16);
             this.step2_status.TabIndex = 46;
@@ -515,7 +516,7 @@
             this.panel1.Controls.Add(this.label7);
             this.panel1.Location = new System.Drawing.Point(6, 9);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(671, 28);
+            this.panel1.Size = new System.Drawing.Size(794, 28);
             this.panel1.TabIndex = 19;
             // 
             // label9
@@ -534,7 +535,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label2.Location = new System.Drawing.Point(223, 7);
+            this.label2.Location = new System.Drawing.Point(298, 7);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 15);
             this.label2.TabIndex = 21;
@@ -545,7 +546,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label8.Location = new System.Drawing.Point(514, 7);
+            this.label8.Location = new System.Drawing.Point(660, 7);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(48, 15);
             this.label8.TabIndex = 19;
@@ -556,7 +557,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label7.Location = new System.Drawing.Point(398, 7);
+            this.label7.Location = new System.Drawing.Point(544, 7);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(47, 15);
             this.label7.TabIndex = 18;
@@ -736,7 +737,7 @@
             this.groupBox4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.groupBox4.Location = new System.Drawing.Point(456, 298);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(356, 83);
+            this.groupBox4.Size = new System.Drawing.Size(356, 71);
             this.groupBox4.TabIndex = 16;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Check Level";
@@ -745,7 +746,7 @@
             // 
             this.level4.AutoSize = true;
             this.level4.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.level4.Location = new System.Drawing.Point(11, 51);
+            this.level4.Location = new System.Drawing.Point(11, 46);
             this.level4.Name = "level4";
             this.level4.Size = new System.Drawing.Size(88, 19);
             this.level4.TabIndex = 44;
@@ -792,11 +793,11 @@
             // Start_btn
             // 
             this.Start_btn.BackColor = System.Drawing.Color.Green;
-            this.Start_btn.Font = new System.Drawing.Font("Trebuchet MS", 10F, System.Drawing.FontStyle.Bold);
+            this.Start_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.Start_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Start_btn.Location = new System.Drawing.Point(701, 394);
+            this.Start_btn.Location = new System.Drawing.Point(664, 381);
             this.Start_btn.Name = "Start_btn";
-            this.Start_btn.Size = new System.Drawing.Size(119, 33);
+            this.Start_btn.Size = new System.Drawing.Size(71, 28);
             this.Start_btn.TabIndex = 47;
             this.Start_btn.Text = "Start";
             this.Start_btn.UseVisualStyleBackColor = false;
@@ -825,7 +826,7 @@
             // report_btn
             // 
             this.report_btn.Enabled = false;
-            this.report_btn.Location = new System.Drawing.Point(701, 489);
+            this.report_btn.Location = new System.Drawing.Point(6, 638);
             this.report_btn.Name = "report_btn";
             this.report_btn.Size = new System.Drawing.Size(119, 28);
             this.report_btn.TabIndex = 49;
@@ -836,7 +837,7 @@
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(701, 524);
+            this.button2.Location = new System.Drawing.Point(131, 638);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(119, 28);
             this.button2.TabIndex = 50;
@@ -846,7 +847,7 @@
             // button3
             // 
             this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(701, 557);
+            this.button3.Location = new System.Drawing.Point(256, 638);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(119, 28);
             this.button3.TabIndex = 51;
@@ -856,7 +857,7 @@
             // button4
             // 
             this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(701, 590);
+            this.button4.Location = new System.Drawing.Point(381, 638);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(119, 28);
             this.button4.TabIndex = 52;
@@ -899,15 +900,27 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.Color.Green;
-            this.button1.Font = new System.Drawing.Font("Trebuchet MS", 10F, System.Drawing.FontStyle.Bold);
+            this.button1.BackColor = System.Drawing.Color.DodgerBlue;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button1.Location = new System.Drawing.Point(701, 429);
+            this.button1.Location = new System.Drawing.Point(484, 381);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(119, 33);
+            this.button1.Size = new System.Drawing.Size(71, 28);
             this.button1.TabIndex = 53;
-            this.button1.Text = "Quick Start";
+            this.button1.Text = "Quick";
             this.button1.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.DarkOrange;
+            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button5.Location = new System.Drawing.Point(575, 381);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(71, 28);
+            this.button5.TabIndex = 54;
+            this.button5.Text = "Full";
+            this.button5.UseVisualStyleBackColor = false;
             // 
             // DataChecks
             // 
@@ -916,14 +929,15 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(837, 699);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.AppAlertPanel);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.button4);
+            this.Controls.Add(this.Start_btn);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.report_btn);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.Start_btn);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.allAccounts);
             this.Controls.Add(this.dataTypes);
@@ -1042,5 +1056,6 @@
         private System.Windows.Forms.PictureBox step3_Result;
         private System.Windows.Forms.Label step3_status;
         private System.Windows.Forms.CheckBox level4;
+        private System.Windows.Forms.Button button5;
 	}
 }

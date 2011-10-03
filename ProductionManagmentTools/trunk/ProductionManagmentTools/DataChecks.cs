@@ -290,15 +290,15 @@ namespace Edge.Application.ProductionManagmentTools
             serviceElements.Options.Add("ChannelList", channels);
             serviceElements.Options.Add("AccountsList", accounts);
 
-            string ComparisonTable;
+            string SourceTable;
             if (service.Equals(Const.DeliveryOltpService))
-                ComparisonTable = Const.OltpTable;
+                SourceTable = Const.OltpTable;
             else if (service.Equals(Const.OltpDwhService))
-                ComparisonTable = Const.DwhTable;
+                SourceTable = Const.DwhTable;
             else //TO DO : Get tabels from configuration.
                 throw new Exception("ComparisonTable hasnt been implemented for this service");
 
-            serviceElements.Options.Add("ComparisonTable", ComparisonTable);
+            serviceElements.Options.Add("SourceTable", SourceTable);
 
             Edge.Core.Services.ServiceInstance instance = Edge.Core.Services.Service.CreateInstance(serviceElements);
 
