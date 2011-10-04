@@ -88,20 +88,6 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap Flight_Tracker_icon {
-            get {
-                object obj = ResourceManager.GetObject("Flight-Tracker-icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap go {
-            get {
-                object obj = ResourceManager.GetObject("go", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap google {
             get {
                 object obj = ResourceManager.GetObject("google", resourceCulture);
@@ -112,62 +98,6 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap iconFacebook {
             get {
                 object obj = ResourceManager.GetObject("iconFacebook", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap Perspective_Button_Stop {
-            get {
-                object obj = ResourceManager.GetObject("Perspective Button Stop", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap start_button_news {
-            get {
-                object obj = ResourceManager.GetObject("start-button-news", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap step1 {
-            get {
-                object obj = ResourceManager.GetObject("step1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap step2 {
-            get {
-                object obj = ResourceManager.GetObject("step2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap step3 {
-            get {
-                object obj = ResourceManager.GetObject("step3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap stop {
-            get {
-                object obj = ResourceManager.GetObject("stop", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap stop1 {
-            get {
-                object obj = ResourceManager.GetObject("stop1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap stopBtn2 {
-            get {
-                object obj = ResourceManager.GetObject("stopBtn2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

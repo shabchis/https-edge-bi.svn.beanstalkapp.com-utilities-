@@ -170,13 +170,6 @@
             this.duplicateTrackersToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.duplicateTrackersToolStripMenuItem.Text = "Duplicate Trackers";
             // 
-            // undifiendTrackersToolStripMenuItem
-            // 
-            this.undifiendTrackersToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Flight_Tracker_icon;
-            this.undifiendTrackersToolStripMenuItem.Name = "undifiendTrackersToolStripMenuItem";
-            this.undifiendTrackersToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.undifiendTrackersToolStripMenuItem.Text = "Undefined Tracker";
-            // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
