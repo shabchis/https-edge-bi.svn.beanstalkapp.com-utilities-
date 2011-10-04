@@ -114,6 +114,8 @@ namespace Edge.Application.ProductionManagmentTools
             toDate.Value = toDate.Value.AddDays(-1);
 
             #region Getting Accounts List
+            //EdgeServicesConfiguration.Load("Seperia.Services.config");
+            //AccountElementCollection accounts= EdgeServicesConfiguration.Current.Accounts;
             using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
             {
                 sqlCon.Open();
@@ -132,6 +134,7 @@ namespace Edge.Application.ProductionManagmentTools
                     }
                 }
             }
+
             #endregion
 
         }

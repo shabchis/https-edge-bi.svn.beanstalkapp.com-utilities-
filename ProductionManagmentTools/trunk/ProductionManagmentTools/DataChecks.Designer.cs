@@ -40,18 +40,15 @@
             this.step4_errorsCount = new System.Windows.Forms.Label();
             this.step4_lbl = new System.Windows.Forms.Label();
             this.step4_progressBar = new System.Windows.Forms.ProgressBar();
-            this.step4_Result = new System.Windows.Forms.PictureBox();
             this.step4_status = new System.Windows.Forms.Label();
             this.step3 = new System.Windows.Forms.Panel();
             this.step3_warningCount = new System.Windows.Forms.Label();
             this.step3_errorsCount = new System.Windows.Forms.Label();
             this.step3_lbl = new System.Windows.Forms.Label();
             this.step3_progressBar = new System.Windows.Forms.ProgressBar();
-            this.step3_Result = new System.Windows.Forms.PictureBox();
             this.step3_status = new System.Windows.Forms.Label();
             this.step1 = new System.Windows.Forms.Panel();
             this.step1_lbl = new System.Windows.Forms.Label();
-            this.step1_ErrorImage = new System.Windows.Forms.PictureBox();
             this.step1_status = new System.Windows.Forms.Label();
             this.step1_progressBar = new System.Windows.Forms.ProgressBar();
             this.step1_warningCount = new System.Windows.Forms.Label();
@@ -61,7 +58,6 @@
             this.step2_errorsCount = new System.Windows.Forms.Label();
             this.step2_lbl = new System.Windows.Forms.Label();
             this.step2_progressBar = new System.Windows.Forms.ProgressBar();
-            this.step2_Result = new System.Windows.Forms.PictureBox();
             this.step2_status = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -76,9 +72,6 @@
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.dataTypes = new System.Windows.Forms.GroupBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label23 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.level4 = new System.Windows.Forms.CheckBox();
@@ -91,7 +84,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.appErrorImage = new System.Windows.Forms.PictureBox();
             this.AppAlertPanel = new System.Windows.Forms.Panel();
             this.appErrorLbl = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -100,25 +92,33 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.appErrorImage = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.step4_Result = new System.Windows.Forms.PictureBox();
+            this.step3_Result = new System.Windows.Forms.PictureBox();
+            this.step1_ErrorImage = new System.Windows.Forms.PictureBox();
+            this.step2_Result = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.step4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.step4_Result)).BeginInit();
             this.step3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.step3_Result)).BeginInit();
             this.step1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).BeginInit();
             this.step2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.step2_Result)).BeginInit();
             this.panel1.SuspendLayout();
             this.dataTypes.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.AppAlertPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).BeginInit();
-            this.AppAlertPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.step4_Result)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.step3_Result)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.step2_Result)).BeginInit();
             this.SuspendLayout();
             // 
             // label3
@@ -242,18 +242,6 @@
             this.step4_progressBar.Size = new System.Drawing.Size(332, 19);
             this.step4_progressBar.TabIndex = 47;
             // 
-            // step4_Result
-            // 
-            this.step4_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.ErrorImage")));
-            this.step4_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.InitialImage")));
-            this.step4_Result.Location = new System.Drawing.Point(661, 6);
-            this.step4_Result.Name = "step4_Result";
-            this.step4_Result.Size = new System.Drawing.Size(27, 27);
-            this.step4_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.step4_Result.TabIndex = 45;
-            this.step4_Result.TabStop = false;
-            this.step4_Result.Visible = false;
-            // 
             // step4_status
             // 
             this.step4_status.AutoSize = true;
@@ -319,18 +307,6 @@
             this.step3_progressBar.Size = new System.Drawing.Size(332, 19);
             this.step3_progressBar.TabIndex = 47;
             // 
-            // step3_Result
-            // 
-            this.step3_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.ErrorImage")));
-            this.step3_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.InitialImage")));
-            this.step3_Result.Location = new System.Drawing.Point(661, 7);
-            this.step3_Result.Name = "step3_Result";
-            this.step3_Result.Size = new System.Drawing.Size(27, 27);
-            this.step3_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.step3_Result.TabIndex = 45;
-            this.step3_Result.TabStop = false;
-            this.step3_Result.Visible = false;
-            // 
             // step3_status
             // 
             this.step3_status.AutoSize = true;
@@ -365,17 +341,6 @@
             this.step1_lbl.Size = new System.Drawing.Size(80, 16);
             this.step1_lbl.TabIndex = 23;
             this.step1_lbl.Text = "Delivery Oltp";
-            // 
-            // step1_ErrorImage
-            // 
-            this.step1_ErrorImage.ErrorImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon;
-            this.step1_ErrorImage.Location = new System.Drawing.Point(661, 7);
-            this.step1_ErrorImage.Name = "step1_ErrorImage";
-            this.step1_ErrorImage.Size = new System.Drawing.Size(27, 26);
-            this.step1_ErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.step1_ErrorImage.TabIndex = 20;
-            this.step1_ErrorImage.TabStop = false;
-            this.step1_ErrorImage.Visible = false;
             // 
             // step1_status
             // 
@@ -475,18 +440,6 @@
             this.step2_progressBar.Size = new System.Drawing.Size(332, 19);
             this.step2_progressBar.TabIndex = 47;
             // 
-            // step2_Result
-            // 
-            this.step2_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.ErrorImage")));
-            this.step2_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.InitialImage")));
-            this.step2_Result.Location = new System.Drawing.Point(661, 6);
-            this.step2_Result.Name = "step2_Result";
-            this.step2_Result.Size = new System.Drawing.Size(27, 27);
-            this.step2_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.step2_Result.TabIndex = 45;
-            this.step2_Result.TabStop = false;
-            this.step2_Result.Visible = false;
-            // 
             // step2_status
             // 
             this.step2_status.AutoSize = true;
@@ -574,7 +527,7 @@
             this.AccountsCheckedListBox.Location = new System.Drawing.Point(6, 75);
             this.AccountsCheckedListBox.MultiColumn = true;
             this.AccountsCheckedListBox.Name = "AccountsCheckedListBox";
-            this.AccountsCheckedListBox.Size = new System.Drawing.Size(376, 334);
+            this.AccountsCheckedListBox.Size = new System.Drawing.Size(369, 334);
             this.AccountsCheckedListBox.Sorted = true;
             this.AccountsCheckedListBox.TabIndex = 20;
             // 
@@ -657,45 +610,6 @@
             this.dataTypes.TabIndex = 16;
             this.dataTypes.TabStop = false;
             this.dataTypes.Text = "Data Types";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(8, 88);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(0, 18);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 48;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(8, 65);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(0, 18);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 47;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
-            this.pictureBox1.Location = new System.Drawing.Point(8, 43);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(0, 18);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 46;
-            this.pictureBox1.TabStop = false;
             // 
             // label23
             // 
@@ -837,17 +751,6 @@
             this.button4.Text = "History";
             this.button4.UseVisualStyleBackColor = true;
             // 
-            // appErrorImage
-            // 
-            this.appErrorImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.appErrorImage.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon;
-            this.appErrorImage.Location = new System.Drawing.Point(7, -1);
-            this.appErrorImage.Name = "appErrorImage";
-            this.appErrorImage.Size = new System.Drawing.Size(20, 22);
-            this.appErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.appErrorImage.TabIndex = 53;
-            this.appErrorImage.TabStop = false;
-            // 
             // AppAlertPanel
             // 
             this.AppAlertPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -914,7 +817,6 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Enabled = false;
             this.label4.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label4.Location = new System.Drawing.Point(6, 9);
@@ -943,6 +845,103 @@
             this.label1.Size = new System.Drawing.Size(60, 14);
             this.label1.TabIndex = 39;
             this.label1.Text = "Accounts :";
+            // 
+            // appErrorImage
+            // 
+            this.appErrorImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.appErrorImage.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon;
+            this.appErrorImage.Location = new System.Drawing.Point(7, -1);
+            this.appErrorImage.Name = "appErrorImage";
+            this.appErrorImage.Size = new System.Drawing.Size(20, 22);
+            this.appErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.appErrorImage.TabIndex = 53;
+            this.appErrorImage.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(8, 88);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(0, 18);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 48;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(8, 65);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(0, 18);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 47;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
+            this.pictureBox1.Location = new System.Drawing.Point(8, 43);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(0, 18);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 46;
+            this.pictureBox1.TabStop = false;
+            // 
+            // step4_Result
+            // 
+            this.step4_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.ErrorImage")));
+            this.step4_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.InitialImage")));
+            this.step4_Result.Location = new System.Drawing.Point(661, 6);
+            this.step4_Result.Name = "step4_Result";
+            this.step4_Result.Size = new System.Drawing.Size(27, 27);
+            this.step4_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.step4_Result.TabIndex = 45;
+            this.step4_Result.TabStop = false;
+            this.step4_Result.Visible = false;
+            // 
+            // step3_Result
+            // 
+            this.step3_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.ErrorImage")));
+            this.step3_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.InitialImage")));
+            this.step3_Result.Location = new System.Drawing.Point(661, 7);
+            this.step3_Result.Name = "step3_Result";
+            this.step3_Result.Size = new System.Drawing.Size(27, 27);
+            this.step3_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.step3_Result.TabIndex = 45;
+            this.step3_Result.TabStop = false;
+            this.step3_Result.Visible = false;
+            // 
+            // step1_ErrorImage
+            // 
+            this.step1_ErrorImage.ErrorImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon;
+            this.step1_ErrorImage.Location = new System.Drawing.Point(661, 7);
+            this.step1_ErrorImage.Name = "step1_ErrorImage";
+            this.step1_ErrorImage.Size = new System.Drawing.Size(27, 26);
+            this.step1_ErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.step1_ErrorImage.TabIndex = 20;
+            this.step1_ErrorImage.TabStop = false;
+            this.step1_ErrorImage.Visible = false;
+            // 
+            // step2_Result
+            // 
+            this.step2_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.ErrorImage")));
+            this.step2_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.InitialImage")));
+            this.step2_Result.Location = new System.Drawing.Point(661, 6);
+            this.step2_Result.Name = "step2_Result";
+            this.step2_Result.Size = new System.Drawing.Size(27, 27);
+            this.step2_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.step2_Result.TabIndex = 45;
+            this.step2_Result.TabStop = false;
+            this.step2_Result.Visible = false;
             // 
             // DataChecks
             // 
@@ -976,30 +975,30 @@
             this.groupBox3.PerformLayout();
             this.step4.ResumeLayout(false);
             this.step4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.step4_Result)).EndInit();
             this.step3.ResumeLayout(false);
             this.step3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.step3_Result)).EndInit();
             this.step1.ResumeLayout(false);
             this.step1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).EndInit();
             this.step2.ResumeLayout(false);
             this.step2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.step2_Result)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.dataTypes.ResumeLayout(false);
             this.dataTypes.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).EndInit();
             this.AppAlertPanel.ResumeLayout(false);
             this.AppAlertPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.step4_Result)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.step3_Result)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.step2_Result)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
