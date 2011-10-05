@@ -110,8 +110,8 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void DataChecks_Load(object sender, EventArgs e)
         {
-            fromDate.Value = fromDate.Value.AddDays(-1);
-            toDate.Value = toDate.Value.AddDays(-1);
+            fromDate.Value = DateTime.Today.AddDays(-1);
+            toDate.Value = DateTime.Today.AddDays(-1);
 
             #region Getting Accounts List
             //EdgeServicesConfiguration.Load("Seperia.Services.config");
@@ -367,8 +367,10 @@ namespace Edge.Application.ProductionManagmentTools
                 Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon, true });
                 Invoke(updateStep, new object[] 
                 { 
-                    new List<Label>(){step.ErrorsCount},String.Format("{0}{1}",resultsForm.ErrorDataGridView.RowCount," errors"),true 
+                    new List<Label>(){step.ErrorsCount},String.Format("{0}{1}",CountRowsByLevelType(resultsForm.ErrorDataGridView.Rows, instance.Configuration.Name)," errors"),true 
                 });
+
+                
             }
 
             else if (resultsForm.WarningDataGridView.RowCount > 0)
@@ -376,8 +378,16 @@ namespace Edge.Application.ProductionManagmentTools
                 Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon, true });
                 Invoke(updateStep, new object[] 
                 { 
-                    new List<Label>(){step.WarningCount},String.Format("{0}{1}",resultsForm.WarningDataGridView.RowCount," warnings"),true 
+                    new List<Label>(){step.WarningCount},String.Format("{0}{1}",   
+                    CountRowsByLevelType(resultsForm.WarningDataGridView.Rows, instance.Configuration.Name)," warnings"),true 
                 });
+
+                //var rows = from x in resultsForm.WarningDataGridView.Rows.Cast<DataGridViewRow>()
+                //           where x.Cells[1].Value.ToString().Equals(instance.Configuration.Name)
+                //           select x;
+
+             
+                    
             }
             else
                 Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, true });
@@ -387,6 +397,15 @@ namespace Edge.Application.ProductionManagmentTools
                 //TO DO : write error to AppError Label.
             }
 
+        }
+        private int CountRowsByLevelType(DataGridViewRowCollection Rows, string type)
+        {
+            int count = 0;
+            foreach (DataGridViewRow row in Rows)
+            {
+                if (row.Cells[1].Value.ToString().Equals(type)) count++;
+            }
+            return count;
         }
         void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
         {
@@ -560,7 +579,36 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void report_btn_Click(object sender, EventArgs e)
         {
+            SortResultsDataGrid(resultsForm.ErrorDataGridView, ListSortDirection.Ascending);
+            SortResultsDataGrid(resultsForm.WarningDataGridView, ListSortDirection.Ascending);
+            SortResultsDataGrid(resultsForm.SuccessDataGridView, ListSortDirection.Ascending);
+
             resultsForm.Show();
+        }
+
+        private void SortResultsDataGrid(DataGridView dataGridView, ListSortDirection listSortDirection)
+        {
+            if (dataGridView.RowCount> 0)
+            {
+                dataGridView.Sort(dataGridView.Columns[0], listSortDirection);
+            //    dataGridView.Sort(dataGridView.Columns[1], listSortDirection);
+            //    dataGridView.Sort(dataGridView.Columns[3], listSortDirection);
+             //   dataGridView.Sort(dataGridView.Columns[4], listSortDirection);
+            }
+        }
+
+        private void checkAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkAll.Checked)
+                for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
+                {
+                   AccountsCheckedListBox.SetItemChecked(index, true);
+                }
+            else
+                for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
+                {
+                    AccountsCheckedListBox.SetItemChecked(index, false);
+                }
         }
 
     }
