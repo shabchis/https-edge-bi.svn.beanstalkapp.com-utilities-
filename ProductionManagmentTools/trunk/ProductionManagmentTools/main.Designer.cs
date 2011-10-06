@@ -36,7 +36,6 @@
             this.backofficeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getAccountMeasuersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createFileExampleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.productionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.passwordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.encToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,14 +53,14 @@
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dataChecksToolStripMenuItem,
             this.googleToolStripMenuItem,
             this.facebookToolStripMenuItem,
             this.backofficeToolStripMenuItem,
-            this.productionToolStripMenuItem,
-            this.passwordToolStripMenuItem,
-            this.dataChecksToolStripMenuItem});
+            this.passwordToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
+            this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.menuStrip.Size = new System.Drawing.Size(1072, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "MenuStrip";
@@ -111,12 +110,6 @@
             this.createFileExampleToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.createFileExampleToolStripMenuItem.Text = "Create File Example";
             // 
-            // productionToolStripMenuItem
-            // 
-            this.productionToolStripMenuItem.Name = "productionToolStripMenuItem";
-            this.productionToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
-            this.productionToolStripMenuItem.Text = "Production";
-            // 
             // passwordToolStripMenuItem
             // 
             this.passwordToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -129,13 +122,13 @@
             // encToolStripMenuItem
             // 
             this.encToolStripMenuItem.Name = "encToolStripMenuItem";
-            this.encToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.encToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.encToolStripMenuItem.Text = "Enc";
             // 
             // decToolStripMenuItem
             // 
             this.decToolStripMenuItem.Name = "decToolStripMenuItem";
-            this.decToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.decToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.decToolStripMenuItem.Text = "Dec";
             this.decToolStripMenuItem.Click += new System.EventHandler(this.decToolStripMenuItem_Click);
             // 
@@ -146,8 +139,9 @@
             this.runToolStripMenuItem,
             this.duplicateTrackersToolStripMenuItem,
             this.undifiendTrackersToolStripMenuItem});
+            this.dataChecksToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.database;
             this.dataChecksToolStripMenuItem.Name = "dataChecksToolStripMenuItem";
-            this.dataChecksToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.dataChecksToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
             this.dataChecksToolStripMenuItem.Text = "Data Checks";
             // 
             // lastDayPerformanceToolStripMenuItem
@@ -226,8 +220,7 @@
 		private System.Windows.Forms.ToolStripMenuItem getAPISettingsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem backofficeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem getAccountMeasuersToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem createFileExampleToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem productionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createFileExampleToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem dataChecksToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem duplicateTrackersToolStripMenuItem;
