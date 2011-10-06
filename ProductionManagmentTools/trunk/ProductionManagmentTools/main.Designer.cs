@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.googleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.facebookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +70,7 @@
             // 
             this.googleToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
             this.googleToolStripMenuItem.Name = "googleToolStripMenuItem";
-            this.googleToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.googleToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.googleToolStripMenuItem.Text = "Google";
             this.googleToolStripMenuItem.Click += new System.EventHandler(this.googleToolStripMenuItem_Click);
             // 
@@ -79,13 +80,13 @@
             this.getAPISettingsToolStripMenuItem});
             this.facebookToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.iconFacebook;
             this.facebookToolStripMenuItem.Name = "facebookToolStripMenuItem";
-            this.facebookToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.facebookToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
             this.facebookToolStripMenuItem.Text = "Facebook";
             // 
             // getAPISettingsToolStripMenuItem
             // 
             this.getAPISettingsToolStripMenuItem.Name = "getAPISettingsToolStripMenuItem";
-            this.getAPISettingsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.getAPISettingsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.getAPISettingsToolStripMenuItem.Text = "Get API Settings";
             // 
             // backofficeToolStripMenuItem
@@ -94,26 +95,26 @@
             this.getAccountMeasuersToolStripMenuItem,
             this.createFileExampleToolStripMenuItem});
             this.backofficeToolStripMenuItem.Name = "backofficeToolStripMenuItem";
-            this.backofficeToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.backofficeToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.backofficeToolStripMenuItem.Text = "Backoffice";
             // 
             // getAccountMeasuersToolStripMenuItem
             // 
             this.getAccountMeasuersToolStripMenuItem.Name = "getAccountMeasuersToolStripMenuItem";
-            this.getAccountMeasuersToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.getAccountMeasuersToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.getAccountMeasuersToolStripMenuItem.Text = "Get Account Measuers";
             this.getAccountMeasuersToolStripMenuItem.Click += new System.EventHandler(this.getAccountMeasuersToolStripMenuItem_Click);
             // 
             // createFileExampleToolStripMenuItem
             // 
             this.createFileExampleToolStripMenuItem.Name = "createFileExampleToolStripMenuItem";
-            this.createFileExampleToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.createFileExampleToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.createFileExampleToolStripMenuItem.Text = "Create File Example";
             // 
             // productionToolStripMenuItem
             // 
             this.productionToolStripMenuItem.Name = "productionToolStripMenuItem";
-            this.productionToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
+            this.productionToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
             this.productionToolStripMenuItem.Text = "Production";
             // 
             // passwordToolStripMenuItem
@@ -122,19 +123,19 @@
             this.encToolStripMenuItem,
             this.decToolStripMenuItem});
             this.passwordToolStripMenuItem.Name = "passwordToolStripMenuItem";
-            this.passwordToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.passwordToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.passwordToolStripMenuItem.Text = "Password";
             // 
             // encToolStripMenuItem
             // 
             this.encToolStripMenuItem.Name = "encToolStripMenuItem";
-            this.encToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.encToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.encToolStripMenuItem.Text = "Enc";
             // 
             // decToolStripMenuItem
             // 
             this.decToolStripMenuItem.Name = "decToolStripMenuItem";
-            this.decToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.decToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.decToolStripMenuItem.Text = "Dec";
             this.decToolStripMenuItem.Click += new System.EventHandler(this.decToolStripMenuItem_Click);
             // 
@@ -146,20 +147,20 @@
             this.duplicateTrackersToolStripMenuItem,
             this.undifiendTrackersToolStripMenuItem});
             this.dataChecksToolStripMenuItem.Name = "dataChecksToolStripMenuItem";
-            this.dataChecksToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
+            this.dataChecksToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.dataChecksToolStripMenuItem.Text = "Data Checks";
             // 
             // lastDayPerformanceToolStripMenuItem
             // 
             this.lastDayPerformanceToolStripMenuItem.Name = "lastDayPerformanceToolStripMenuItem";
-            this.lastDayPerformanceToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.lastDayPerformanceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.lastDayPerformanceToolStripMenuItem.Text = "Last Day Performance";
             // 
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.database;
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.runToolStripMenuItem.Text = "DB Checks";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
@@ -167,8 +168,13 @@
             // 
             this.duplicateTrackersToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.DupTracker;
             this.duplicateTrackersToolStripMenuItem.Name = "duplicateTrackersToolStripMenuItem";
-            this.duplicateTrackersToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.duplicateTrackersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.duplicateTrackersToolStripMenuItem.Text = "Duplicate Trackers";
+            // 
+            // undifiendTrackersToolStripMenuItem
+            // 
+            this.undifiendTrackersToolStripMenuItem.Name = "undifiendTrackersToolStripMenuItem";
+            this.undifiendTrackersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             // 
             // statusStrip
             // 
@@ -183,7 +189,7 @@
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(38, 17);
             this.toolStripStatusLabel.Text = "Status";
             // 
             // main
@@ -194,10 +200,11 @@
             this.ClientSize = new System.Drawing.Size(1072, 571);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "main";
-            this.Text = "main";
+            this.Text = "Production Managment Tools";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
