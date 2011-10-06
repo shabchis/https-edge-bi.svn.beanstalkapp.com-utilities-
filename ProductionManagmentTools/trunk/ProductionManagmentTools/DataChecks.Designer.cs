@@ -170,7 +170,7 @@
             this.label5.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label5.Location = new System.Drawing.Point(9, 59);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(19, 13);
+            this.label5.Size = new System.Drawing.Size(20, 13);
             this.label5.TabIndex = 14;
             this.label5.Text = "To";
             // 
@@ -726,7 +726,6 @@
             // level4
             // 
             this.level4.AutoSize = true;
-            this.level4.Enabled = false;
             this.level4.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.level4.Location = new System.Drawing.Point(315, 23);
             this.level4.Name = "level4";
@@ -739,7 +738,6 @@
             // level3
             // 
             this.level3.AutoSize = true;
-            this.level3.Enabled = false;
             this.level3.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.level3.Location = new System.Drawing.Point(219, 23);
             this.level3.Name = "level3";
