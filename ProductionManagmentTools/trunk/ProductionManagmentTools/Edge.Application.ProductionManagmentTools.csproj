@@ -49,6 +49,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>checked_shield_green.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Google.AdWords">
       <HintPath>..\..\..\(third party)\GoogleAdwords\Google.AdWords.dll</HintPath>
@@ -225,6 +228,7 @@
   <ItemGroup>
     <None Include="Resources\warning1.png" />
     <None Include="Resources\fixErrors.png" />
+    <Content Include="checked_shield_green.ico" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
