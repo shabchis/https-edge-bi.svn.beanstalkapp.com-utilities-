@@ -286,7 +286,12 @@ namespace Edge.Application.ProductionManagmentTools
                 serviceElements.Options.Add("SourceTable", Const.OltpTable);
                 serviceElements.Options.Add("TargetTable", Const.DwhTable);
             }
-            else //TO DO : Get tabels from configuration.
+            else if (service.Equals(Const.MdxOltpService))
+                serviceElements.Options.Add("SourceTable", Const.OltpTable);
+            else if (service.Equals(Const.MdxDwhService))
+                serviceElements.Options.Add("SourceTable", Const.DwhTable);
+            else   
+                //TO DO : Get tabels from configuration.
                 throw new Exception("ComparisonTable hasnt been implemented for this service");
 
 
