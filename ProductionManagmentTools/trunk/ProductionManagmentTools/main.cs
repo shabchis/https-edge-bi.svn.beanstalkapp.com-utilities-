@@ -133,6 +133,14 @@ namespace Edge.Application.ProductionManagmentTools
 			f.Show();
 		}
 
+        private void deliverySearchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeliverySearch f = new DeliverySearch();
+            f.MdiParent = this;
+            f.WindowState = FormWindowState.Maximized;
+            f.Show();
+        }
+
 	
 
 	
