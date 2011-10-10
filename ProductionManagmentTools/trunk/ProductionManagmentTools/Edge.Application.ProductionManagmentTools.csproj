@@ -80,6 +80,12 @@
     <Compile Include="DataChecks.Designer.cs">
       <DependentUpon>DataChecks.cs</DependentUpon>
     </Compile>
+    <Compile Include="DeliverySearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeliverySearch.Designer.cs">
+      <DependentUpon>DeliverySearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="Password.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,9 @@
     <EmbeddedResource Include="DataChecks.resx">
       <DependentUpon>DataChecks.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeliverySearch.resx">
+      <DependentUpon>DeliverySearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Password.resx">
       <DependentUpon>Password.cs</DependentUpon>
