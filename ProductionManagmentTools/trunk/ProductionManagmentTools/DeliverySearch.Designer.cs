@@ -493,7 +493,7 @@
             this.TargetPeriodEnd});
             this.DeliveryDataGridView.Location = new System.Drawing.Point(320, 26);
             this.DeliveryDataGridView.Name = "DeliveryDataGridView";
-            this.DeliveryDataGridView.Size = new System.Drawing.Size(776, 218);
+            this.DeliveryDataGridView.Size = new System.Drawing.Size(1031, 218);
             this.DeliveryDataGridView.TabIndex = 67;
             this.DeliveryDataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DeliveryDataGridView_CellMouseClick);
             this.DeliveryDataGridView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DeliveryDataGridView_CellMouseEnter);
