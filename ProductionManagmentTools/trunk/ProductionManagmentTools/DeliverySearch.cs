@@ -70,7 +70,7 @@ namespace Edge.Application.ProductionManagmentTools
                 {
                     if (!string.IsNullOrWhiteSpace(item.Value))
                     {
-                        whereQuery.Append(string.Format(" and {0} = {1}",item.Key,item.Value));
+                        whereQuery.Append(string.Format(" and {0} = '{1}'",item.Key,item.Value));
                     }
                 }
 
