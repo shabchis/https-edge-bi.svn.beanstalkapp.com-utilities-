@@ -129,7 +129,7 @@ namespace Edge.Applications.TempScheduler
 			WillNotRunEventArgs ev = (WillNotRunEventArgs)e;
 			foreach (SchedulingData notRunService in ev.WillNotRun)
 			{
-				this.Invoke(setLogMethod, new object[] { string.Format("Service: {0} for account: {1} will not run at all!!!!!!!!", notRunService.Configuration.Name, notRunService.profileID) });
+				//this.Invoke(setLogMethod, new object[] { string.Format("Service: {0} for account: {1} will not run at all!!!!!!!!", notRunService.Configuration.Name, notRunService.profileID) });
 			}
 
 		}
@@ -239,10 +239,10 @@ namespace Edge.Applications.TempScheduler
 				if (!string.IsNullOrEmpty(_strNotScheduled.ToString()))
 					try
 					{
-						Exception notScheduleException = new Exception(string.Format("Some servies could not be schedule:\n{0}", _strNotScheduled.ToString()));
+						//Exception notScheduleException = new Exception(string.Format("Some servies could not be schedule:\n{0}", _strNotScheduled.ToString()));
 						//Edge.Core.Utilities.Log.Write("Scheduler", "Some services could not be scheduled", null, Edge.Core.Utilities.LogMessageType.Information);
 
-						this.Invoke(setLogMethod, new Object[] { _strNotScheduled.ToString() });
+						//this.Invoke(setLogMethod, new Object[] { _strNotScheduled.ToString() });
 					}
 					catch (Exception)
 					{
