@@ -390,17 +390,13 @@ namespace Edge.Application.ProductionManagmentTools
                 //var rows = from x in resultsForm.WarningDataGridView.Rows.Cast<DataGridViewRow>()
                 //           where x.Cells[1].Value.ToString().Equals(instance.Configuration.Name)
                 //           select x;
-
-             
-                    
             }
             else
                 Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, true });
+            
+            //setting report_btn to be Enable
+            //Invoke(updateBtn, new object[] { new List<Button>() { report_btn }, true, true });
 
-            if (instance.Outcome.Equals(ServiceOutcome.Failure))
-            {
-                //TO DO : write error to AppError Label.
-            }
 
         }
         private int CountRowsByLevelType(DataGridViewRowCollection Rows, string type)
@@ -440,7 +436,7 @@ namespace Edge.Application.ProductionManagmentTools
                 {
                     sqlCon.Open();
                     SqlCommand sqlCommand = DataManager.CreateCommand(
-                        "SELECT [Message] FROM [Source].[dbo].[Log] where [ServiceInstanceID] = @instanceID");
+                        "SELECT [Message] FROM [dbo].[Log] where [ServiceInstanceID] = @instanceID");
                     sqlCommand.Parameters.Add(new SqlParameter() { ParameterName = "@instanceID", Value = instance.InstanceID, SqlDbType = System.Data.SqlDbType.BigInt });
                     sqlCommand.Connection = sqlCon;
 
