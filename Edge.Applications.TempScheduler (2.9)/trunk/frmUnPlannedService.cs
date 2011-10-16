@@ -184,13 +184,13 @@ namespace Edge.Applications.TempScheduler
 										{
 											BaseDateTime = from,
 											Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
-											Boundary = DateTimeSpecificationBounds.Lower
+											
 										},
 										End = new DateTimeSpecification()
 										{
 											BaseDateTime = to,
 											Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
-											Boundary = DateTimeSpecificationBounds.Upper
+											
 										}
 									};
 									options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, daterange.ToAbsolute().ToString());
