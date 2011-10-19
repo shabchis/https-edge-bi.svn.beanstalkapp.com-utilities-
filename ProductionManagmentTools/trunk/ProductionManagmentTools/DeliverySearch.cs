@@ -37,14 +37,14 @@ namespace Edge.Application.ProductionManagmentTools
                 {
                     BaseDateTime = fromDate.Value,
                     Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
-                    Boundary = DateTimeSpecificationBounds.Lower
+                    //Boundary = DateTimeSpecificationBounds.Lower
                 },
 
                 End = new DateTimeSpecification()
                 {
                     BaseDateTime = toDate.Value,
                     Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
-                    Boundary = DateTimeSpecificationBounds.Upper
+                   // Boundary = DateTimeSpecificationBounds.Upper
                 }
             };
             #endregion

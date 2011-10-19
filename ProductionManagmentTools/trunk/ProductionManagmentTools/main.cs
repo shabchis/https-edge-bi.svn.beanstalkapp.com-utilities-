@@ -141,6 +141,15 @@ namespace Edge.Application.ProductionManagmentTools
             f.Show();
         }
 
+        private void getAPISettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FaceBookSettingsRetriever.Form1 f = new FaceBookSettingsRetriever.Form1();
+            f.MdiParent = this;
+            f.WindowState = FormWindowState.Maximized;
+            f.Show();
+        }
+
+    
 	
 
 	

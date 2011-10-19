@@ -29,6 +29,9 @@
 		private void InitializeComponent()
 		{
             this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.googleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.facebookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getAPISettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backofficeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getAccountMeasuersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createFileExampleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,14 +41,11 @@
             this.decToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataChecksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lastDayPerformanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.deliverySearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.googleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.facebookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getAPISettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicateTrackersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deliverySearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -64,6 +64,30 @@
             this.menuStrip.Size = new System.Drawing.Size(1072, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "MenuStrip";
+            // 
+            // googleToolStripMenuItem
+            // 
+            this.googleToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
+            this.googleToolStripMenuItem.Name = "googleToolStripMenuItem";
+            this.googleToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.googleToolStripMenuItem.Text = "Google";
+            this.googleToolStripMenuItem.Click += new System.EventHandler(this.googleToolStripMenuItem_Click);
+            // 
+            // facebookToolStripMenuItem
+            // 
+            this.facebookToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.getAPISettingsToolStripMenuItem});
+            this.facebookToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.iconFacebook;
+            this.facebookToolStripMenuItem.Name = "facebookToolStripMenuItem";
+            this.facebookToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.facebookToolStripMenuItem.Text = "Facebook";
+            // 
+            // getAPISettingsToolStripMenuItem
+            // 
+            this.getAPISettingsToolStripMenuItem.Name = "getAPISettingsToolStripMenuItem";
+            this.getAPISettingsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.getAPISettingsToolStripMenuItem.Text = "Get API Settings";
+            this.getAPISettingsToolStripMenuItem.Click += new System.EventHandler(this.getAPISettingsToolStripMenuItem_Click);
             // 
             // backofficeToolStripMenuItem
             // 
@@ -105,13 +129,13 @@
             // encToolStripMenuItem
             // 
             this.encToolStripMenuItem.Name = "encToolStripMenuItem";
-            this.encToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.encToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.encToolStripMenuItem.Text = "Enc";
             // 
             // decToolStripMenuItem
             // 
             this.decToolStripMenuItem.Name = "decToolStripMenuItem";
-            this.decToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.decToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.decToolStripMenuItem.Text = "Dec";
             this.decToolStripMenuItem.Click += new System.EventHandler(this.decToolStripMenuItem_Click);
             // 
@@ -132,6 +156,28 @@
             this.lastDayPerformanceToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.lastDayPerformanceToolStripMenuItem.Text = "Last Day Performance";
             // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.database;
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.runToolStripMenuItem.Text = "DB Checks";
+            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            // 
+            // duplicateTrackersToolStripMenuItem
+            // 
+            this.duplicateTrackersToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.DupTracker;
+            this.duplicateTrackersToolStripMenuItem.Name = "duplicateTrackersToolStripMenuItem";
+            this.duplicateTrackersToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.duplicateTrackersToolStripMenuItem.Text = "Duplicate Trackers";
+            // 
+            // deliverySearchToolStripMenuItem
+            // 
+            this.deliverySearchToolStripMenuItem.Name = "deliverySearchToolStripMenuItem";
+            this.deliverySearchToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.deliverySearchToolStripMenuItem.Text = "Delivery Search";
+            this.deliverySearchToolStripMenuItem.Click += new System.EventHandler(this.deliverySearchToolStripMenuItem_Click);
+            // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -147,51 +193,6 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
             this.toolStripStatusLabel.Text = "Status";
-            // 
-            // deliverySearchToolStripMenuItem
-            // 
-            this.deliverySearchToolStripMenuItem.Name = "deliverySearchToolStripMenuItem";
-            this.deliverySearchToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.deliverySearchToolStripMenuItem.Text = "Delivery Search";
-            this.deliverySearchToolStripMenuItem.Click += new System.EventHandler(this.deliverySearchToolStripMenuItem_Click);
-            // 
-            // googleToolStripMenuItem
-            // 
-            this.googleToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
-            this.googleToolStripMenuItem.Name = "googleToolStripMenuItem";
-            this.googleToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
-            this.googleToolStripMenuItem.Text = "Google";
-            this.googleToolStripMenuItem.Click += new System.EventHandler(this.googleToolStripMenuItem_Click);
-            // 
-            // facebookToolStripMenuItem
-            // 
-            this.facebookToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getAPISettingsToolStripMenuItem});
-            this.facebookToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.iconFacebook;
-            this.facebookToolStripMenuItem.Name = "facebookToolStripMenuItem";
-            this.facebookToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
-            this.facebookToolStripMenuItem.Text = "Facebook";
-            // 
-            // getAPISettingsToolStripMenuItem
-            // 
-            this.getAPISettingsToolStripMenuItem.Name = "getAPISettingsToolStripMenuItem";
-            this.getAPISettingsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.getAPISettingsToolStripMenuItem.Text = "Get API Settings";
-            // 
-            // runToolStripMenuItem
-            // 
-            this.runToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.database;
-            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.runToolStripMenuItem.Text = "DB Checks";
-            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
-            // 
-            // duplicateTrackersToolStripMenuItem
-            // 
-            this.duplicateTrackersToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.DupTracker;
-            this.duplicateTrackersToolStripMenuItem.Name = "duplicateTrackersToolStripMenuItem";
-            this.duplicateTrackersToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.duplicateTrackersToolStripMenuItem.Text = "Duplicate Trackers";
             // 
             // main
             // 
