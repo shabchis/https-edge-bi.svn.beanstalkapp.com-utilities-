@@ -195,6 +195,10 @@
     <None Include="Resources\google.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\doc\Projects2010\FaceBookSettingsRetriever\FaceBookSettingsRetriever\FaceBookSettingsRetriever.csproj">
+      <Project>{BEC01DA8-0A7B-41B5-A895-72E9B42153EC}</Project>
+      <Name>FaceBookSettingsRetriever</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Framework\Edge.Core\Edge.Core.csproj">
       <Project>{AD4B53AD-B28A-4E90-9483-D2F7C8E6D436}</Project>
       <Name>Edge.Core</Name>
