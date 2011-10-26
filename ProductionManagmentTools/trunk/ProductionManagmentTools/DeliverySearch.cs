@@ -44,25 +44,25 @@ namespace Edge.Application.ProductionManagmentTools
                 {
                     BaseDateTime = toDate.Value,
                     Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
-                   // Boundary = DateTimeSpecificationBounds.Upper
+                    // Boundary = DateTimeSpecificationBounds.Upper
                 }
             };
             #endregion
 
             using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(this, "DeliveryDB")))
             {
-                
+
                 sqlCon.Open();
                 StringBuilder whereQuery = new StringBuilder();
                 Dictionary<string, string> parameters = new Dictionary<string, string>();
-                
+
                 if (!string.IsNullOrWhiteSpace(accountID.Text))
-                parameters.Add("AccountID",accountID.Text);
-              
+                    parameters.Add("AccountID", accountID.Text);
+
                 if (!string.IsNullOrWhiteSpace(DeliveryID_tb.Text))
                     parameters.Add("DeliveryID", DeliveryID_tb.Text);
 
-               
+
                 string query = "SELECT DeliveryID,AccountID,OriginalID,ChannelID,DateCreated,TargetPeriodStart,TargetPeriodEnd from dbo.Delivery " +
                    " where TargetPeriodStart between @TargetPeriodStart and @TargetPeriodEnd ";
 
@@ -70,12 +70,12 @@ namespace Edge.Application.ProductionManagmentTools
                 {
                     if (!string.IsNullOrWhiteSpace(item.Value))
                     {
-                        whereQuery.Append(string.Format(" and {0} = '{1}'",item.Key,item.Value));
+                        whereQuery.Append(string.Format(" and {0} = '{1}'", item.Key, item.Value));
                     }
                 }
 
-                query  = string.Concat(query, whereQuery.ToString());
-                SqlCommand sqlCommand = DataManager.CreateCommand(query);       
+                query = string.Concat(query, whereQuery.ToString());
+                SqlCommand sqlCommand = DataManager.CreateCommand(query);
                 SqlParameter targetPeriodStartParam = new SqlParameter("@TargetPeriodStart", System.Data.SqlDbType.DateTime2);
                 SqlParameter targetPeriodEndParam = new SqlParameter("@TargetPeriodEnd", System.Data.SqlDbType.DateTime2);
 
@@ -87,7 +87,7 @@ namespace Edge.Application.ProductionManagmentTools
                 sqlCommand.Parameters.Add(targetPeriodStartParam);
                 sqlCommand.Parameters.Add(targetPeriodEndParam);
 
-                
+
 
                 sqlCommand.Connection = sqlCon;
 
@@ -109,7 +109,7 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void DeliveryDataGridView_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-         
+
         }
 
         private void DeliveryDataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -123,7 +123,7 @@ namespace Edge.Application.ProductionManagmentTools
                  MessageBoxIcon.Error);
                 return;
             }
-            else if(rows.Count != 0)
+            else if (rows.Count != 0)
             {
                 #region DeliveryHistory
                 using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(this, "DeliveryDB")))
@@ -152,7 +152,7 @@ namespace Edge.Application.ProductionManagmentTools
                             }
                         }
                     }
-                } 
+                }
                 #endregion
 
                 #region DeliveryHistoryParameters
@@ -244,6 +244,37 @@ namespace Edge.Application.ProductionManagmentTools
                     }
                 }
                 #endregion
+
+                #region DeliveryMeasuers
+                using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(this, "DeliveryDB")))
+                {
+                    sqlCon.Open();
+                    SqlCommand sqlCommand = DataManager.CreateCommand(
+                        "SELECT Account_ID,SUM(cost),SUM(clicks),SUM(imps)" +
+                        "FROM [dbo].[Paid_API_AllColumns_v29]" +
+                        "where [DeliveryID] = @DeliveryID" +
+                        "group by Account_ID"
+                       );
+                    SqlParameter delId = new SqlParameter("@DeliveryID", System.Data.SqlDbType.Char);
+                    delId.Value = rows[0].Cells[0].Value.ToString();
+                    sqlCommand.Parameters.Add(delId);
+                    sqlCommand.Connection = sqlCon;
+
+                    using (var _reader = sqlCommand.ExecuteReader())
+                    {
+                        if (!_reader.IsClosed)
+                        {
+                            while (_reader.Read())
+                            {
+                                if (!_reader[0].Equals(DBNull.Value))
+                                {
+                                    MeasuresTable.Rows.Add(_reader[0], _reader[1], _reader[2], _reader[3]);
+                                }
+                            }
+                        }
+                    }
+                }
+                #endregion
             }
         }
 
@@ -265,7 +296,7 @@ namespace Edge.Application.ProductionManagmentTools
                  MessageBoxIcon.Error);
                 return;
             }
-            else if(rows.Count != 0)
+            else if (rows.Count != 0)
             {
 
                 #region DeliveryFileHistoryParameters
@@ -323,7 +354,7 @@ namespace Edge.Application.ProductionManagmentTools
                     }
                 }
                 #endregion
-                
+
             }
         }
 
@@ -334,6 +365,6 @@ namespace Edge.Application.ProductionManagmentTools
             DeliveryFileHistoryParams.Rows.Clear();
         }
 
-      
+
     }
 }
