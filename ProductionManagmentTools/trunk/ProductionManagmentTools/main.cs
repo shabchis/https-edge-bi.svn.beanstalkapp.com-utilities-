@@ -114,10 +114,10 @@ namespace Edge.Application.ProductionManagmentTools
 
 		private void googleToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            GoogleApiUtility.Form1 f = new GoogleApiUtility.Form1();
-            f.MdiParent = this;
-            f.WindowState = FormWindowState.Maximized;
-            f.Show();
+            //GoogleApiUtility.Form1 f = new GoogleApiUtility.Form1();
+            //f.MdiParent = this;
+            //f.WindowState = FormWindowState.Maximized;
+            //f.Show();
 		}
 
 		private void runToolStripMenuItem_Click(object sender, EventArgs e)
@@ -146,10 +146,10 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void getAPISettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FaceBookSettingsRetriever.Form1 f = new FaceBookSettingsRetriever.Form1();
-            f.MdiParent = this;
-            f.WindowState = FormWindowState.Maximized;
-            f.Show();
+            //FaceBookSettingsRetriever.Form1 f = new FaceBookSettingsRetriever.Form1();
+            //f.MdiParent = this;
+            //f.WindowState = FormWindowState.Maximized;
+            //f.Show();
         }
 
     

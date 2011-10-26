@@ -195,10 +195,6 @@
     <None Include="Resources\google.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\doc\Projects2010\FaceBookSettingsRetriever\FaceBookSettingsRetriever\FaceBookSettingsRetriever.csproj">
-      <Project>{BEC01DA8-0A7B-41B5-A895-72E9B42153EC}</Project>
-      <Name>FaceBookSettingsRetriever</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Framework\Edge.Core\Edge.Core.csproj">
       <Project>{AD4B53AD-B28A-4E90-9483-D2F7C8E6D436}</Project>
       <Name>Edge.Core</Name>
@@ -214,10 +210,6 @@
     <ProjectReference Include="..\..\Edge.Applications.TempScheduler\Edge.Applications.TempScheduler.csproj">
       <Project>{1C3E1103-65B9-48D0-8583-A38B0AD6E771}</Project>
       <Name>Edge.Applications.TempScheduler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\GoogleApiUtility\GoogleApiUtility.csproj">
-      <Project>{68CDF4C6-D737-45E5-831B-A8DFDEA7BBD9}</Project>
-      <Name>GoogleApiUtility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
