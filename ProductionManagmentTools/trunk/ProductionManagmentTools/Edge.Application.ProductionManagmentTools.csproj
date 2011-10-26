@@ -215,6 +215,10 @@
       <Project>{1C3E1103-65B9-48D0-8583-A38B0AD6E771}</Project>
       <Name>Edge.Applications.TempScheduler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\GoogleApiUtility\GoogleApiUtility.csproj">
+      <Project>{68CDF4C6-D737-45E5-831B-A8DFDEA7BBD9}</Project>
+      <Name>GoogleApiUtility</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
