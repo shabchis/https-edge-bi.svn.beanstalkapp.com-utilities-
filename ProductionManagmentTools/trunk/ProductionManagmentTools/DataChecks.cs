@@ -614,7 +614,7 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (profile.SelectedValue.ToString() == "custom")
+            if (profile_cb.SelectedValue.ToString() == "custom")
             {
                 DialogResult dlgRes = new DialogResult();
                 dlgRes = MessageBox.Show("Do you want to save this profile", "New Profile",

@@ -91,17 +91,16 @@
             this.appErrorLbl = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.Profile_lbl = new System.Windows.Forms.Label();
             this.checkAll = new System.Windows.Forms.CheckBox();
-            this.profile = new System.Windows.Forms.ComboBox();
+            this.profile_cb = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button9 = new System.Windows.Forms.Button();
+            this.profileName_lbl = new System.Windows.Forms.Label();
+            this.profile_tb = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.button6 = new System.Windows.Forms.Button();
+            this.delete_btn = new System.Windows.Forms.Button();
+            this.add_btn = new System.Windows.Forms.Button();
+            this.save_btn = new System.Windows.Forms.Button();
             this.appErrorImage = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -535,10 +534,10 @@
             this.AccountsCheckedListBox.ColumnWidth = 180;
             this.AccountsCheckedListBox.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.AccountsCheckedListBox.FormattingEnabled = true;
-            this.AccountsCheckedListBox.Location = new System.Drawing.Point(6, 150);
+            this.AccountsCheckedListBox.Location = new System.Drawing.Point(6, 180);
             this.AccountsCheckedListBox.MultiColumn = true;
             this.AccountsCheckedListBox.Name = "AccountsCheckedListBox";
-            this.AccountsCheckedListBox.Size = new System.Drawing.Size(369, 259);
+            this.AccountsCheckedListBox.Size = new System.Drawing.Size(369, 229);
             this.AccountsCheckedListBox.Sorted = true;
             this.AccountsCheckedListBox.TabIndex = 20;
             // 
@@ -844,20 +843,20 @@
             this.button5.Text = "Full";
             this.button5.UseVisualStyleBackColor = false;
             // 
-            // label1
+            // Profile_lbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label1.Location = new System.Drawing.Point(6, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 14);
-            this.label1.TabIndex = 39;
-            this.label1.Text = "Profile :";
+            this.Profile_lbl.AutoSize = true;
+            this.Profile_lbl.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.Profile_lbl.Location = new System.Drawing.Point(8, 34);
+            this.Profile_lbl.Name = "Profile_lbl";
+            this.Profile_lbl.Size = new System.Drawing.Size(43, 14);
+            this.Profile_lbl.TabIndex = 39;
+            this.Profile_lbl.Text = "Profile :";
             // 
             // checkAll
             // 
             this.checkAll.AutoSize = true;
-            this.checkAll.Location = new System.Drawing.Point(306, 131);
+            this.checkAll.Location = new System.Drawing.Point(313, 152);
             this.checkAll.Name = "checkAll";
             this.checkAll.Size = new System.Drawing.Size(69, 17);
             this.checkAll.TabIndex = 55;
@@ -865,114 +864,87 @@
             this.checkAll.UseVisualStyleBackColor = true;
             this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);
             // 
-            // profile
+            // profile_cb
             // 
-            this.profile.Enabled = false;
-            this.profile.FormattingEnabled = true;
-            this.profile.Items.AddRange(new object[] {
-            "custom"});
-            this.profile.Location = new System.Drawing.Point(76, 15);
-            this.profile.Name = "profile";
-            this.profile.Size = new System.Drawing.Size(131, 21);
-            this.profile.TabIndex = 57;
+            this.profile_cb.Enabled = false;
+            this.profile_cb.FormattingEnabled = true;
+            this.profile_cb.Items.AddRange(new object[] {
+            "Custom"});
+            this.profile_cb.Location = new System.Drawing.Point(78, 31);
+            this.profile_cb.Name = "profile_cb";
+            this.profile_cb.Size = new System.Drawing.Size(131, 21);
+            this.profile_cb.TabIndex = 57;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label10.Location = new System.Drawing.Point(3, 132);
+            this.label10.Location = new System.Drawing.Point(3, 155);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(60, 14);
             this.label10.TabIndex = 58;
             this.label10.Text = "Accounts :";
             // 
-            // button7
+            // profileName_lbl
             // 
-            this.button7.BackColor = System.Drawing.Color.DodgerBlue;
-            this.button7.Enabled = false;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button7.Location = new System.Drawing.Point(275, 14);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(33, 21);
-            this.button7.TabIndex = 60;
-            this.button7.Text = "New";
-            this.button7.UseVisualStyleBackColor = false;
+            this.profileName_lbl.AutoSize = true;
+            this.profileName_lbl.Location = new System.Drawing.Point(9, 61);
+            this.profileName_lbl.Name = "profileName_lbl";
+            this.profileName_lbl.Size = new System.Drawing.Size(68, 13);
+            this.profileName_lbl.TabIndex = 62;
+            this.profileName_lbl.Text = "Profile name:";
             // 
-            // button8
+            // profile_tb
             // 
-            this.button8.BackColor = System.Drawing.Color.DodgerBlue;
-            this.button8.Enabled = false;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button8.Location = new System.Drawing.Point(314, 14);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(33, 21);
-            this.button8.TabIndex = 61;
-            this.button8.Text = "Del";
-            this.button8.UseVisualStyleBackColor = false;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 45);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(68, 13);
-            this.label11.TabIndex = 62;
-            this.label11.Text = "Profile name:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(76, 43);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(131, 20);
-            this.textBox1.TabIndex = 63;
-            // 
-            // button9
-            // 
-            this.button9.BackColor = System.Drawing.Color.DodgerBlue;
-            this.button9.Enabled = false;
-            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button9.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button9.Location = new System.Drawing.Point(218, 43);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(51, 21);
-            this.button9.TabIndex = 64;
-            this.button9.Text = "Cancel";
-            this.button9.UseVisualStyleBackColor = false;
+            this.profile_tb.Location = new System.Drawing.Point(78, 59);
+            this.profile_tb.Name = "profile_tb";
+            this.profile_tb.Size = new System.Drawing.Size(131, 20);
+            this.profile_tb.TabIndex = 63;
             // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.Control;
-            this.panel3.Controls.Add(this.profile);
-            this.panel3.Controls.Add(this.button9);
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Controls.Add(this.textBox1);
-            this.panel3.Controls.Add(this.label11);
-            this.panel3.Controls.Add(this.button7);
-            this.panel3.Controls.Add(this.button8);
+            this.panel3.Controls.Add(this.delete_btn);
+            this.panel3.Controls.Add(this.add_btn);
+            this.panel3.Controls.Add(this.save_btn);
+            this.panel3.Controls.Add(this.profile_cb);
+            this.panel3.Controls.Add(this.Profile_lbl);
+            this.panel3.Controls.Add(this.profile_tb);
+            this.panel3.Controls.Add(this.profileName_lbl);
             this.panel3.Location = new System.Drawing.Point(6, 53);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(369, 72);
+            this.panel3.Size = new System.Drawing.Size(369, 93);
             this.panel3.TabIndex = 57;
             // 
-            // button6
+            // delete_btn
             // 
-            this.button6.BackColor = System.Drawing.Color.DodgerBlue;
-            this.button6.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.media_floppy_green;
-            this.button6.Enabled = false;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button6.Location = new System.Drawing.Point(418, 320);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(109, 91);
-            this.button6.TabIndex = 59;
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.delete_btn.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.delete__1_;
+            this.delete_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.delete_btn.Location = new System.Drawing.Point(321, 3);
+            this.delete_btn.Name = "delete_btn";
+            this.delete_btn.Size = new System.Drawing.Size(29, 28);
+            this.delete_btn.TabIndex = 64;
+            this.delete_btn.UseVisualStyleBackColor = true;
+            // 
+            // add_btn
+            // 
+            this.add_btn.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.window_new;
+            this.add_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.add_btn.Location = new System.Drawing.Point(251, 3);
+            this.add_btn.Name = "add_btn";
+            this.add_btn.Size = new System.Drawing.Size(29, 28);
+            this.add_btn.TabIndex = 60;
+            this.add_btn.UseVisualStyleBackColor = true;
+            // 
+            // save_btn
+            // 
+            this.save_btn.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.media_floppy_green;
+            this.save_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.save_btn.Location = new System.Drawing.Point(286, 3);
+            this.save_btn.Name = "save_btn";
+            this.save_btn.Size = new System.Drawing.Size(29, 28);
+            this.save_btn.TabIndex = 59;
+            this.save_btn.UseVisualStyleBackColor = true;
             // 
             // appErrorImage
             // 
@@ -1082,7 +1054,6 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.checkAll);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button6);
             this.Controls.Add(this.AppAlertPanel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button4);
@@ -1210,16 +1181,15 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Profile_lbl;
         private System.Windows.Forms.CheckBox checkAll;
-        private System.Windows.Forms.ComboBox profile;
+        private System.Windows.Forms.ComboBox profile_cb;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Label profileName_lbl;
+        private System.Windows.Forms.TextBox profile_tb;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button save_btn;
+        private System.Windows.Forms.Button add_btn;
+        private System.Windows.Forms.Button delete_btn;
 	}
 }
