@@ -86,6 +86,12 @@
     <Compile Include="DeliverySearch.Designer.cs">
       <DependentUpon>DeliverySearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataCheckProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataCheckProfile.Designer.cs">
+      <DependentUpon>DataCheckProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Password.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,9 @@
     <Compile Include="ResultForm.Designer.cs">
       <DependentUpon>ResultForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DataCheckProfile.resx">
+      <DependentUpon>DataCheckProfile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataChecks.resx">
       <DependentUpon>DataChecks.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -238,6 +247,7 @@
     <None Include="Resources\warning1.png" />
     <None Include="Resources\fixErrors.png" />
     <Content Include="checked_shield_green.ico" />
+    <None Include="Resources\media_floppy_green.png" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

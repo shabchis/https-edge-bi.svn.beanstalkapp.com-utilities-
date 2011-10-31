@@ -46,7 +46,7 @@ namespace Edge.Application.ProductionManagmentTools
 
             Services = new Dictionary<string, Step>();
             updatePanels(new List<Panel>() { step1, step2, step3, step4 }, false);
-            
+
             report_btn.Enabled = false;
         }
 
@@ -290,7 +290,7 @@ namespace Edge.Application.ProductionManagmentTools
                 serviceElements.Options.Add("SourceTable", Const.OltpTable);
             else if (service.Equals(Const.MdxDwhService))
                 serviceElements.Options.Add("SourceTable", Const.DwhTable);
-            else   
+            else
                 //TO DO : Get tabels from configuration.
                 throw new Exception("ComparisonTable hasnt been implemented for this service");
 
@@ -304,7 +304,7 @@ namespace Edge.Application.ProductionManagmentTools
 
             instance.Initialize();
 
-          
+
 
         }
 
@@ -375,7 +375,7 @@ namespace Edge.Application.ProductionManagmentTools
                     new List<Label>(){step.ErrorsCount},String.Format("{0}{1}",CountRowsByLevelType(resultsForm.ErrorDataGridView.Rows, instance.Configuration.Name)," errors"),true 
                 });
 
-                
+
             }
 
             else if (resultsForm.WarningDataGridView.RowCount > 0)
@@ -393,7 +393,7 @@ namespace Edge.Application.ProductionManagmentTools
             }
             else
                 Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, true });
-            
+
             //setting report_btn to be Enable
             //Invoke(updateBtn, new object[] { new List<Button>() { report_btn }, true, true });
 
@@ -589,12 +589,12 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void SortResultsDataGrid(DataGridView dataGridView, ListSortDirection listSortDirection)
         {
-            if (dataGridView.RowCount> 0)
+            if (dataGridView.RowCount > 0)
             {
                 dataGridView.Sort(dataGridView.Columns[0], listSortDirection);
-            //    dataGridView.Sort(dataGridView.Columns[1], listSortDirection);
-            //    dataGridView.Sort(dataGridView.Columns[3], listSortDirection);
-             //   dataGridView.Sort(dataGridView.Columns[4], listSortDirection);
+                //    dataGridView.Sort(dataGridView.Columns[1], listSortDirection);
+                //    dataGridView.Sort(dataGridView.Columns[3], listSortDirection);
+                //   dataGridView.Sort(dataGridView.Columns[4], listSortDirection);
             }
         }
 
@@ -603,13 +603,39 @@ namespace Edge.Application.ProductionManagmentTools
             if (checkAll.Checked)
                 for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
                 {
-                   AccountsCheckedListBox.SetItemChecked(index, true);
+                    AccountsCheckedListBox.SetItemChecked(index, true);
                 }
             else
                 for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
                 {
                     AccountsCheckedListBox.SetItemChecked(index, false);
                 }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (profile.SelectedValue.ToString() == "custom")
+            {
+                DialogResult dlgRes = new DialogResult();
+                dlgRes = MessageBox.Show("Do you want to save this profile", "New Profile",
+                MessageBoxButtons.YesNo,
+                 MessageBoxIcon.Question);
+
+                switch (dlgRes)
+                {
+                    case DialogResult.Yes:
+                        {
+                            DialogResult r = new DialogResult();
+                            r= Mess.Show(
+                            break;
+                        }
+                    case System.Windows.Forms.DialogResult.Cancel:
+                        {
+                            break;
+                        }
+                }
+
+            }
         }
 
     }
