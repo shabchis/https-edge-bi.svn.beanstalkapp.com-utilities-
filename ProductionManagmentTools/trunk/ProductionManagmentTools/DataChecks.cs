@@ -87,6 +87,10 @@ namespace Edge.Application.ProductionManagmentTools
                 else
                     resultsForm.SuccessDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.ToString());
 
+                resultsForm.errCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.ErrorDataGridView.RowCount);
+                resultsForm.warningsCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.WarningDataGridView.RowCount);
+                resultsForm.sucessCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.SuccessDataGridView.RowCount);
+
             }
 
             report_btn.Enabled = true;
@@ -583,7 +587,7 @@ namespace Edge.Application.ProductionManagmentTools
             SortResultsDataGrid(resultsForm.ErrorDataGridView, ListSortDirection.Ascending);
             SortResultsDataGrid(resultsForm.WarningDataGridView, ListSortDirection.Ascending);
             SortResultsDataGrid(resultsForm.SuccessDataGridView, ListSortDirection.Ascending);
-
+            
             resultsForm.Show();
         }
 
@@ -625,8 +629,6 @@ namespace Edge.Application.ProductionManagmentTools
                 {
                     case DialogResult.Yes:
                         {
-                            DialogResult r = new DialogResult();
-                            r= Mess.Show(
                             break;
                         }
                     case System.Windows.Forms.DialogResult.Cancel:
@@ -637,6 +639,26 @@ namespace Edge.Application.ProductionManagmentTools
 
             }
         }
+
+        private void quick_btn_Click(object sender, EventArgs e)
+        {
+            level1.Checked = true;
+            level2.Checked = false;
+            level3.Checked = false;
+            level4.Checked = true;
+            Start_btn_Click(sender, e);
+        }
+
+        private void full_btn_Click(object sender, EventArgs e)
+        {
+            level1.Checked = true;
+            level2.Checked = true;
+            level3.Checked = true;
+            level4.Checked = true;
+            Start_btn_Click(sender, e);
+        }
+
+      
 
     }
     public static class Const

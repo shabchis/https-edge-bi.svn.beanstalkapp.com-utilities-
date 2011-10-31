@@ -31,14 +31,27 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ResultForm));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ErrorDataGridView = new System.Windows.Forms.DataGridView();
+            this.AccountID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TestLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.message = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ChannelID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label17 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.errCountResult_lbl = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.Errors = new System.Windows.Forms.Label();
             this.step1_ErrorImage = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.SuccessDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.sucessCountResult_lbl = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -50,30 +63,15 @@
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.warningsCountResult_lbl = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.totalErrors = new System.Windows.Forms.Label();
-            this.AccountID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TestLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.message = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ChannelID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorDataGridView)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SuccessDataGridView)).BeginInit();
@@ -83,7 +81,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.WarningDataGridView)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -119,6 +116,41 @@
             this.ErrorDataGridView.Size = new System.Drawing.Size(997, 179);
             this.ErrorDataGridView.TabIndex = 33;
             // 
+            // AccountID
+            // 
+            this.AccountID.FillWeight = 90F;
+            this.AccountID.HeaderText = "Account ID";
+            this.AccountID.Name = "AccountID";
+            this.AccountID.ReadOnly = true;
+            this.AccountID.Width = 70;
+            // 
+            // TestLevel
+            // 
+            this.TestLevel.HeaderText = "Level";
+            this.TestLevel.Name = "TestLevel";
+            this.TestLevel.ReadOnly = true;
+            // 
+            // message
+            // 
+            this.message.FillWeight = 300F;
+            this.message.HeaderText = "Message";
+            this.message.Name = "message";
+            this.message.ReadOnly = true;
+            this.message.Width = 250;
+            // 
+            // ChannelID
+            // 
+            this.ChannelID.HeaderText = "Channel ID";
+            this.ChannelID.Name = "ChannelID";
+            this.ChannelID.ReadOnly = true;
+            // 
+            // Date
+            // 
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            this.Date.Width = 200;
+            // 
             // label17
             // 
             this.label17.AutoSize = true;
@@ -131,8 +163,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel1.Controls.Add(this.totalErrors);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.errCountResult_lbl);
             this.panel1.Controls.Add(this.pictureBox3);
             this.panel1.Controls.Add(this.Errors);
             this.panel1.Controls.Add(this.step1_ErrorImage);
@@ -140,6 +171,28 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(998, 28);
             this.panel1.TabIndex = 19;
+            // 
+            // errCountResult_lbl
+            // 
+            this.errCountResult_lbl.AutoSize = true;
+            this.errCountResult_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.errCountResult_lbl.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.errCountResult_lbl.Location = new System.Drawing.Point(874, 7);
+            this.errCountResult_lbl.Name = "errCountResult_lbl";
+            this.errCountResult_lbl.Size = new System.Drawing.Size(69, 13);
+            this.errCountResult_lbl.TabIndex = 40;
+            this.errCountResult_lbl.Text = "Totals ( 0 )";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.ErrorImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon;
+            this.pictureBox3.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.fixErrors;
+            this.pictureBox3.Location = new System.Drawing.Point(966, 0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(29, 28);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 39;
+            this.pictureBox3.TabStop = false;
             // 
             // Errors
             // 
@@ -195,6 +248,40 @@
             this.SuccessDataGridView.Size = new System.Drawing.Size(998, 172);
             this.SuccessDataGridView.TabIndex = 34;
             // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.FillWeight = 90F;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Account ID";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            this.dataGridViewTextBoxColumn6.Width = 70;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "Level";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.HeaderText = "Message";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            this.dataGridViewTextBoxColumn8.Width = 250;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.HeaderText = "Channel ID";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            this.dataGridViewTextBoxColumn10.HeaderText = "Date";
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            this.dataGridViewTextBoxColumn10.ReadOnly = true;
+            this.dataGridViewTextBoxColumn10.Width = 200;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -207,14 +294,24 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.label9);
+            this.panel2.Controls.Add(this.sucessCountResult_lbl);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.pictureBox2);
             this.panel2.Location = new System.Drawing.Point(6, 9);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(998, 28);
             this.panel2.TabIndex = 19;
+            // 
+            // sucessCountResult_lbl
+            // 
+            this.sucessCountResult_lbl.AutoSize = true;
+            this.sucessCountResult_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.sucessCountResult_lbl.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.sucessCountResult_lbl.Location = new System.Drawing.Point(877, 7);
+            this.sucessCountResult_lbl.Name = "sucessCountResult_lbl";
+            this.sucessCountResult_lbl.Size = new System.Drawing.Size(69, 13);
+            this.sucessCountResult_lbl.TabIndex = 44;
+            this.sucessCountResult_lbl.Text = "Totals ( 0 )";
             // 
             // label3
             // 
@@ -223,9 +320,9 @@
             this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label3.Location = new System.Drawing.Point(33, 7);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 15);
+            this.label3.Size = new System.Drawing.Size(60, 15);
             this.label3.TabIndex = 21;
-            this.label3.Text = "Sucess";
+            this.label3.Text = "Success";
             // 
             // pictureBox2
             // 
@@ -316,14 +413,24 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel3.Controls.Add(this.label4);
-            this.panel3.Controls.Add(this.label7);
+            this.panel3.Controls.Add(this.warningsCountResult_lbl);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.pictureBox1);
             this.panel3.Location = new System.Drawing.Point(6, 9);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(995, 28);
             this.panel3.TabIndex = 19;
+            // 
+            // warningsCountResult_lbl
+            // 
+            this.warningsCountResult_lbl.AutoSize = true;
+            this.warningsCountResult_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.warningsCountResult_lbl.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.warningsCountResult_lbl.Location = new System.Drawing.Point(874, 7);
+            this.warningsCountResult_lbl.Name = "warningsCountResult_lbl";
+            this.warningsCountResult_lbl.Size = new System.Drawing.Size(69, 13);
+            this.warningsCountResult_lbl.TabIndex = 42;
+            this.warningsCountResult_lbl.Text = "Totals ( 0 )";
             // 
             // label6
             // 
@@ -370,152 +477,6 @@
             this.button2.Text = "Close";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.ErrorImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon;
-            this.pictureBox3.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.fixErrors;
-            this.pictureBox3.Location = new System.Drawing.Point(966, 0);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(29, 28);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 39;
-            this.pictureBox3.TabStop = false;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.FillWeight = 90F;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Account ID";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            this.dataGridViewTextBoxColumn6.Width = 70;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.HeaderText = "Level";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.HeaderText = "Message";
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            this.dataGridViewTextBoxColumn8.ReadOnly = true;
-            this.dataGridViewTextBoxColumn8.Width = 250;
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.HeaderText = "Channel ID";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.HeaderText = "Date";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            this.dataGridViewTextBoxColumn10.ReadOnly = true;
-            this.dataGridViewTextBoxColumn10.Width = 200;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label1.Location = new System.Drawing.Point(874, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 40;
-            this.label1.Text = "Total (";
-            // 
-            // totalErrors
-            // 
-            this.totalErrors.AutoSize = true;
-            this.totalErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.totalErrors.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.totalErrors.Location = new System.Drawing.Point(920, 7);
-            this.totalErrors.Name = "totalErrors";
-            this.totalErrors.Size = new System.Drawing.Size(36, 13);
-            this.totalErrors.TabIndex = 41;
-            this.totalErrors.Text = "257 )";
-            // 
-            // AccountID
-            // 
-            this.AccountID.FillWeight = 90F;
-            this.AccountID.HeaderText = "Account ID";
-            this.AccountID.Name = "AccountID";
-            this.AccountID.ReadOnly = true;
-            this.AccountID.Width = 70;
-            // 
-            // TestLevel
-            // 
-            this.TestLevel.HeaderText = "Level";
-            this.TestLevel.Name = "TestLevel";
-            this.TestLevel.ReadOnly = true;
-            // 
-            // message
-            // 
-            this.message.FillWeight = 300F;
-            this.message.HeaderText = "Message";
-            this.message.Name = "message";
-            this.message.ReadOnly = true;
-            this.message.Width = 250;
-            // 
-            // ChannelID
-            // 
-            this.ChannelID.HeaderText = "Channel ID";
-            this.ChannelID.Name = "ChannelID";
-            this.ChannelID.ReadOnly = true;
-            // 
-            // Date
-            // 
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            this.Date.ReadOnly = true;
-            this.Date.Width = 200;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label4.Location = new System.Drawing.Point(920, 7);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(36, 13);
-            this.label4.TabIndex = 43;
-            this.label4.Text = "257 )";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label7.Location = new System.Drawing.Point(874, 7);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 13);
-            this.label7.TabIndex = 42;
-            this.label7.Text = "Total (";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label8.Location = new System.Drawing.Point(923, 7);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(36, 13);
-            this.label8.TabIndex = 45;
-            this.label8.Text = "257 )";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label9.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label9.Location = new System.Drawing.Point(877, 7);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(44, 13);
-            this.label9.TabIndex = 44;
-            this.label9.Text = "Total (";
-            // 
             // ResultForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -533,6 +494,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ErrorDataGridView)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -546,7 +508,6 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -589,11 +550,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn message;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChannelID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
-        private System.Windows.Forms.Label totalErrors;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label7;
+        public System.Windows.Forms.Label errCountResult_lbl;
+        public System.Windows.Forms.Label sucessCountResult_lbl;
+        public System.Windows.Forms.Label warningsCountResult_lbl;
     }
 }
