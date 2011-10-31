@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.dataChecksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lastDayPerformanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicateTrackersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deliverySearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,7 +67,6 @@
             // dataChecksToolStripMenuItem
             // 
             this.dataChecksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lastDayPerformanceToolStripMenuItem,
             this.runToolStripMenuItem,
             this.duplicateTrackersToolStripMenuItem,
             this.deliverySearchToolStripMenuItem});
@@ -76,17 +74,11 @@
             this.dataChecksToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
             this.dataChecksToolStripMenuItem.Text = "Data Checks";
             // 
-            // lastDayPerformanceToolStripMenuItem
-            // 
-            this.lastDayPerformanceToolStripMenuItem.Name = "lastDayPerformanceToolStripMenuItem";
-            this.lastDayPerformanceToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.lastDayPerformanceToolStripMenuItem.Text = "Last Day Performance";
-            // 
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.database;
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.runToolStripMenuItem.Text = "DB Checks";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
@@ -94,13 +86,13 @@
             // 
             this.duplicateTrackersToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.DupTracker;
             this.duplicateTrackersToolStripMenuItem.Name = "duplicateTrackersToolStripMenuItem";
-            this.duplicateTrackersToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.duplicateTrackersToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.duplicateTrackersToolStripMenuItem.Text = "Duplicate Trackers";
             // 
             // deliverySearchToolStripMenuItem
             // 
             this.deliverySearchToolStripMenuItem.Name = "deliverySearchToolStripMenuItem";
-            this.deliverySearchToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.deliverySearchToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.deliverySearchToolStripMenuItem.Text = "Delivery Search";
             this.deliverySearchToolStripMenuItem.Click += new System.EventHandler(this.deliverySearchToolStripMenuItem_Click);
             // 
@@ -218,8 +210,7 @@
 		private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem duplicateTrackersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem passwordToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem decToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem lastDayPerformanceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem decToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deliverySearchToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip;
 	}
