@@ -179,7 +179,7 @@
             this.label5.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label5.Location = new System.Drawing.Point(9, 59);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(19, 13);
+            this.label5.Size = new System.Drawing.Size(20, 13);
             this.label5.TabIndex = 14;
             this.label5.Text = "To";
             // 
@@ -584,7 +584,7 @@
             this.AccountsCheckedListBox.Location = new System.Drawing.Point(6, 180);
             this.AccountsCheckedListBox.MultiColumn = true;
             this.AccountsCheckedListBox.Name = "AccountsCheckedListBox";
-            this.AccountsCheckedListBox.Size = new System.Drawing.Size(369, 229);
+            this.AccountsCheckedListBox.Size = new System.Drawing.Size(483, 229);
             this.AccountsCheckedListBox.Sorted = true;
             this.AccountsCheckedListBox.TabIndex = 20;
             // 
@@ -661,9 +661,9 @@
             this.dataTypes.Controls.Add(this.Facebook);
             this.dataTypes.Controls.Add(this.checkBox1);
             this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataTypes.Location = new System.Drawing.Point(388, 152);
+            this.dataTypes.Location = new System.Drawing.Point(495, 152);
             this.dataTypes.Name = "dataTypes";
-            this.dataTypes.Size = new System.Drawing.Size(409, 126);
+            this.dataTypes.Size = new System.Drawing.Size(302, 126);
             this.dataTypes.TabIndex = 16;
             this.dataTypes.TabStop = false;
             this.dataTypes.Text = "Data Types";
@@ -725,9 +725,9 @@
             this.groupBox4.Controls.Add(this.level2);
             this.groupBox4.Controls.Add(this.level1);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.groupBox4.Location = new System.Drawing.Point(388, 284);
+            this.groupBox4.Location = new System.Drawing.Point(495, 284);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(409, 49);
+            this.groupBox4.Size = new System.Drawing.Size(302, 72);
             this.groupBox4.TabIndex = 16;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Check Level";
@@ -736,7 +736,7 @@
             // 
             this.level4.AutoSize = true;
             this.level4.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.level4.Location = new System.Drawing.Point(315, 23);
+            this.level4.Location = new System.Drawing.Point(123, 47);
             this.level4.Name = "level4";
             this.level4.Size = new System.Drawing.Size(88, 19);
             this.level4.TabIndex = 44;
@@ -748,7 +748,7 @@
             // 
             this.level3.AutoSize = true;
             this.level3.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.level3.Location = new System.Drawing.Point(219, 23);
+            this.level3.Location = new System.Drawing.Point(11, 47);
             this.level3.Name = "level3";
             this.level3.Size = new System.Drawing.Size(86, 19);
             this.level3.TabIndex = 43;
@@ -1008,6 +1008,7 @@
             this.panel3.Controls.Add(this.Profile_lbl);
             this.panel3.Controls.Add(this.profile_tb);
             this.panel3.Controls.Add(this.profileName_lbl);
+            this.panel3.Enabled = false;
             this.panel3.Location = new System.Drawing.Point(6, 53);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(369, 93);

@@ -139,6 +139,11 @@ namespace Edge.Application.ProductionManagmentTools
                 }
             }
 
+            if (AccountsCheckedListBox.Items.Count > 0)
+            {
+                AccountsCheckedListBox.Sorted = true;
+            }
+
             #endregion
 
         }
