@@ -60,9 +60,30 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap button_minus_red {
+            get {
+                object obj = ResourceManager.GetObject("button_minus_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap database {
             get {
                 object obj = ResourceManager.GetObject("database", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap delete {
+            get {
+                object obj = ResourceManager.GetObject("delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap delete__1_ {
+            get {
+                object obj = ResourceManager.GetObject("delete (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -126,6 +147,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap warning1 {
             get {
                 object obj = ResourceManager.GetObject("warning1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap window_new {
+            get {
+                object obj = ResourceManager.GetObject("window_new", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
