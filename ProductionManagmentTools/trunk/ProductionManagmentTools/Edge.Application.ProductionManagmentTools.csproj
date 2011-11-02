@@ -216,10 +216,6 @@
       <Project>{C6504C8B-C482-41B9-BC6E-BEF92AF9D6FE}</Project>
       <Name>Edge.Services.AdMetrics.Validations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Edge.Applications.TempScheduler\Edge.Applications.TempScheduler.csproj">
-      <Project>{1C3E1103-65B9-48D0-8583-A38B0AD6E771}</Project>
-      <Name>Edge.Applications.TempScheduler</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
