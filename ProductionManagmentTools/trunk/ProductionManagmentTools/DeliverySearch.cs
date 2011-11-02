@@ -245,36 +245,36 @@ namespace Edge.Application.ProductionManagmentTools
                 }
                 #endregion
 
-                #region DeliveryMeasuers
-                using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(this, "DeliveryDB")))
-                {
-                    sqlCon.Open();
-                    SqlCommand sqlCommand = DataManager.CreateCommand(
-                        "SELECT Account_ID,SUM(cost),SUM(clicks),SUM(imps)" +
-                        "FROM [dbo].[Paid_API_AllColumns_v29]" +
-                        "where [DeliveryID] = @DeliveryID" +
-                        "group by Account_ID"
-                       );
-                    SqlParameter delId = new SqlParameter("@DeliveryID", System.Data.SqlDbType.Char);
-                    delId.Value = rows[0].Cells[0].Value.ToString();
-                    sqlCommand.Parameters.Add(delId);
-                    sqlCommand.Connection = sqlCon;
+                //#region DeliveryMeasuers
+                //using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(this, "DeliveryDB")))
+                //{
+                //    sqlCon.Open();
+                //    SqlCommand sqlCommand = DataManager.CreateCommand(
+                //        "SELECT Account_ID,SUM(cost),SUM(clicks),SUM(imps)" +
+                //        "FROM [dbo].[Paid_API_AllColumns_v29]" +
+                //        "where [DeliveryID] = @DeliveryID" +
+                //        " group by Account_ID"
+                //       );
+                //    SqlParameter delId = new SqlParameter("@DeliveryID", System.Data.SqlDbType.Char);
+                //    delId.Value = rows[0].Cells[0].Value.ToString();
+                //    sqlCommand.Parameters.Add(delId);
+                //    sqlCommand.Connection = sqlCon;
 
-                    using (var _reader = sqlCommand.ExecuteReader())
-                    {
-                        if (!_reader.IsClosed)
-                        {
-                            while (_reader.Read())
-                            {
-                                if (!_reader[0].Equals(DBNull.Value))
-                                {
-                                    MeasuresTable.Rows.Add(_reader[0], _reader[1], _reader[2], _reader[3]);
-                                }
-                            }
-                        }
-                    }
-                }
-                #endregion
+                //    using (var _reader = sqlCommand.ExecuteReader())
+                //    {
+                //        if (!_reader.IsClosed)
+                //        {
+                //            while (_reader.Read())
+                //            {
+                //                if (!_reader[0].Equals(DBNull.Value))
+                //                {
+                //                    MeasuresTable.Rows.Add(_reader[0], _reader[1], _reader[2], _reader[3]);
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
+                //#endregion
             }
         }
 
