@@ -33,6 +33,11 @@ namespace Edge.Application.ProductionManagmentTools
         private Dictionary<string, Step> Services;
         private List<ValidationResult> results;
         private ResultForm resultsForm;
+        private List<Account> _checkedAccountList;
+        private List<CheckBox> _checkedChannels;
+        private List<CheckBox> _checkedServices;
+        private Profile _profile = new Profile();
+
 
         public DataChecks()
         {
@@ -48,6 +53,12 @@ namespace Edge.Application.ProductionManagmentTools
             updatePanels(new List<Panel>() { step1, step2, step3, step4 }, false);
 
             report_btn.Enabled = false;
+            _checkedAccountList = new List<Account>();
+            _checkedChannels = new List<CheckBox>();
+            _checkedServices = new List<CheckBox>();
+
+            GoogleAdwords.BindingContext= new BindingContext() { };
+            
         }
 
         public void updatePanels(List<Panel> panels, bool enable)
@@ -191,10 +202,6 @@ namespace Edge.Application.ProductionManagmentTools
                 }
 
             }
-
-
-
-
 
         }
 
@@ -601,9 +608,6 @@ namespace Edge.Application.ProductionManagmentTools
             if (dataGridView.RowCount > 0)
             {
                 dataGridView.Sort(dataGridView.Columns[0], listSortDirection);
-                //    dataGridView.Sort(dataGridView.Columns[1], listSortDirection);
-                //    dataGridView.Sort(dataGridView.Columns[3], listSortDirection);
-                //   dataGridView.Sort(dataGridView.Columns[4], listSortDirection);
             }
         }
 
@@ -663,7 +667,68 @@ namespace Edge.Application.ProductionManagmentTools
             Start_btn_Click(sender, e);
         }
 
-      
+        private void save_btn_Click(object sender, EventArgs e)
+        {
+            List<string> checkedAccounts = new List<string>();
+
+            foreach (string item in AccountsCheckedListBox.CheckedItems)
+            {
+                _profile.Accounts.Add(item.Split('-')[0]);
+            }
+            _profile.Name = profile_tb.Text;
+
+            bool result = _profile.TrySave();
+            
+        }
+
+        private void Channel_CheckedChanged(object sender)
+        {
+            if (((CheckBox)sender).Checked)
+                _profile.AddChannel((CheckBox)sender);
+            else _profile.RemoveChannel((CheckBox)sender);
+        }
+
+        private void CheckLevel_CheckedChanged(object sender)
+        {
+            if (((CheckBox)sender).Checked)
+                _profile.ValidationServices.Add((CBox)sender);
+            else _profile.ValidationServices.Remove((CBox)sender);
+        }
+
+        private void GoogleAdwords_CheckedChanged(object sender, EventArgs e)
+        {
+            Channel_CheckedChanged(sender);
+        }
+
+        private void Facebook_CheckedChanged(object sender, EventArgs e)
+        {
+            Channel_CheckedChanged(sender);
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Channel_CheckedChanged(sender);
+        }
+
+        private void level1_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckLevel_CheckedChanged(sender);
+        }
+
+        private void level3_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckLevel_CheckedChanged(sender);
+        }
+
+        private void level2_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckLevel_CheckedChanged(sender);
+        }
+
+        private void level4_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckLevel_CheckedChanged(sender);
+        }
 
     }
     public static class Const
@@ -689,4 +754,10 @@ namespace Edge.Application.ProductionManagmentTools
         public Label WarningCount { get; set; }
         public Label ErrorsCount { get; set; }
     }
+    public class Account
+    {
+        public int Id { set; get; }
+        public string AccountName { set; get; }
+    }
+    
 }

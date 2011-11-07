@@ -102,6 +102,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap find {
+            get {
+                object obj = ResourceManager.GetObject("find", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap fixErrors {
             get {
                 object obj = ResourceManager.GetObject("fixErrors", resourceCulture);
@@ -112,6 +119,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap google {
             get {
                 object obj = ResourceManager.GetObject("google", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap human_folder_saved_search {
+            get {
+                object obj = ResourceManager.GetObject("human_folder_saved_search", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

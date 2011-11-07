@@ -179,7 +179,7 @@
             this.label5.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label5.Location = new System.Drawing.Point(9, 59);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(20, 13);
+            this.label5.Size = new System.Drawing.Size(19, 13);
             this.label5.TabIndex = 14;
             this.label5.Text = "To";
             // 
@@ -591,8 +591,6 @@
             // GoogleAdwords
             // 
             this.GoogleAdwords.AutoSize = true;
-            this.GoogleAdwords.Checked = true;
-            this.GoogleAdwords.CheckState = System.Windows.Forms.CheckState.Checked;
             this.GoogleAdwords.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GoogleAdwords.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.GoogleAdwords.Location = new System.Drawing.Point(30, 43);
@@ -601,6 +599,7 @@
             this.GoogleAdwords.TabIndex = 40;
             this.GoogleAdwords.Text = "Google Adwords";
             this.GoogleAdwords.UseVisualStyleBackColor = true;
+            this.GoogleAdwords.CheckedChanged += new System.EventHandler(this.GoogleAdwords_CheckedChanged);
             // 
             // Facebook
             // 
@@ -612,6 +611,7 @@
             this.Facebook.TabIndex = 41;
             this.Facebook.Text = "Facebook";
             this.Facebook.UseVisualStyleBackColor = true;
+            this.Facebook.CheckedChanged += new System.EventHandler(this.Facebook_CheckedChanged);
             // 
             // checkBox1
             // 
@@ -624,6 +624,7 @@
             this.checkBox1.TabIndex = 43;
             this.checkBox1.Text = "Bing  / Yahoo";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // checkBox3
             // 
@@ -742,6 +743,7 @@
             this.level4.TabIndex = 44;
             this.level4.Text = "MDX -  OLTP";
             this.level4.UseVisualStyleBackColor = true;
+            this.level4.CheckedChanged += new System.EventHandler(this.level4_CheckedChanged);
             this.level4.CheckStateChanged += new System.EventHandler(this.Step4StateChange);
             // 
             // level3
@@ -754,6 +756,7 @@
             this.level3.TabIndex = 43;
             this.level3.Text = "DWH - MDX";
             this.level3.UseVisualStyleBackColor = true;
+            this.level3.CheckedChanged += new System.EventHandler(this.level3_CheckedChanged);
             this.level3.CheckStateChanged += new System.EventHandler(this.Step3StateChange);
             // 
             // level2
@@ -766,6 +769,7 @@
             this.level2.TabIndex = 42;
             this.level2.Text = "OLTP -  DWH";
             this.level2.UseVisualStyleBackColor = true;
+            this.level2.CheckedChanged += new System.EventHandler(this.level2_CheckedChanged);
             this.level2.CheckStateChanged += new System.EventHandler(this.Step2StateChange);
             // 
             // level1
@@ -778,6 +782,7 @@
             this.level1.TabIndex = 41;
             this.level1.Text = "Delivery - OLTP";
             this.level1.UseVisualStyleBackColor = true;
+            this.level1.CheckedChanged += new System.EventHandler(this.level1_CheckedChanged);
             this.level1.CheckStateChanged += new System.EventHandler(this.Step1StateChange);
             // 
             // Start_btn
@@ -812,7 +817,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(60, 13);
             this.label6.TabIndex = 55;
-            this.label6.Text = "Version 1.0";
+            this.label6.Text = "Version 2.0";
             // 
             // label4
             // 
@@ -1008,7 +1013,6 @@
             this.panel3.Controls.Add(this.Profile_lbl);
             this.panel3.Controls.Add(this.profile_tb);
             this.panel3.Controls.Add(this.profileName_lbl);
-            this.panel3.Enabled = false;
             this.panel3.Location = new System.Drawing.Point(6, 53);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(369, 93);
@@ -1043,6 +1047,7 @@
             this.save_btn.Size = new System.Drawing.Size(29, 28);
             this.save_btn.TabIndex = 59;
             this.save_btn.UseVisualStyleBackColor = true;
+            this.save_btn.Click += new System.EventHandler(this.save_btn_Click);
             // 
             // DataChecks
             // 
