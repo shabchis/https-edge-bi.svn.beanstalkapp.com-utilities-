@@ -251,6 +251,7 @@
     <None Include="Resources\delete %281%29.png" />
     <None Include="Resources\human_folder_saved_search.png" />
     <None Include="Resources\find.png" />
+    <None Include="Resources\kontact.png" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

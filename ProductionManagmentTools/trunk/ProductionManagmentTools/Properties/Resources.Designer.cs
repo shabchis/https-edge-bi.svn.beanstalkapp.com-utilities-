@@ -137,6 +137,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kontact {
+            get {
+                object obj = ResourceManager.GetObject("kontact", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap media_floppy_green {
             get {
                 object obj = ResourceManager.GetObject("media_floppy_green", resourceCulture);
