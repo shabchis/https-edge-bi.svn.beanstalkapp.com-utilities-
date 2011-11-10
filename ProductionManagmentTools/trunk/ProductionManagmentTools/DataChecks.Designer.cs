@@ -72,7 +72,7 @@
 			this.AccountsCheckedListBox = new System.Windows.Forms.CheckedListBox();
 			this.GoogleAdwords = new System.Windows.Forms.CheckBox();
 			this.Facebook = new System.Windows.Forms.CheckBox();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.Bing = new System.Windows.Forms.CheckBox();
 			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.checkBox4 = new System.Windows.Forms.CheckBox();
 			this.dataTypes = new System.Windows.Forms.GroupBox();
@@ -613,18 +613,17 @@
 			this.Facebook.UseVisualStyleBackColor = true;
 			this.Facebook.CheckedChanged += new System.EventHandler(this.Facebook_CheckedChanged);
 			// 
-			// checkBox1
+			// Bing
 			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Enabled = false;
-			this.checkBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBox1.Location = new System.Drawing.Point(30, 89);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(89, 19);
-			this.checkBox1.TabIndex = 43;
-			this.checkBox1.Text = "Bing  / Yahoo";
-			this.checkBox1.UseVisualStyleBackColor = true;
-			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+			this.Bing.AutoSize = true;
+			this.Bing.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Bing.Location = new System.Drawing.Point(30, 89);
+			this.Bing.Name = "Bing";
+			this.Bing.Size = new System.Drawing.Size(89, 19);
+			this.Bing.TabIndex = 43;
+			this.Bing.Text = "Bing  / Yahoo";
+			this.Bing.UseVisualStyleBackColor = true;
+			this.Bing.CheckedChanged += new System.EventHandler(this.full_btn_Click);
 			// 
 			// checkBox3
 			// 
@@ -660,7 +659,7 @@
 			this.dataTypes.Controls.Add(this.GoogleAdwords);
 			this.dataTypes.Controls.Add(this.checkBox4);
 			this.dataTypes.Controls.Add(this.Facebook);
-			this.dataTypes.Controls.Add(this.checkBox1);
+			this.dataTypes.Controls.Add(this.Bing);
 			this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.dataTypes.Location = new System.Drawing.Point(495, 152);
 			this.dataTypes.Name = "dataTypes";
@@ -1136,7 +1135,7 @@
         private System.Windows.Forms.DateTimePicker fromDate;
         private System.Windows.Forms.CheckBox GoogleAdwords;
         private System.Windows.Forms.CheckBox Facebook;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox Bing;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.GroupBox dataTypes;

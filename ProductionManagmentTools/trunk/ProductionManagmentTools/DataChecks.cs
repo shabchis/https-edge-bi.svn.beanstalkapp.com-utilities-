@@ -245,6 +245,13 @@ namespace Edge.Application.ProductionManagmentTools
                 channels.Append(1); // add facebook channel id code
             }
 
+			if (Bing.Checked == true)
+			{
+				if (!String.IsNullOrEmpty(channels.ToString()))
+					channels.Append(',');
+				channels.Append(14); // add Bing channel id code
+			}
+
             if (string.IsNullOrEmpty(channels.ToString()))
             {
                 DialogResult dlgRes = new DialogResult();
