@@ -159,14 +159,6 @@ namespace Edge.Application.ProductionManagmentTools
 
         }
 
-        private void allAccounts_CheckedChanged(object sender, EventArgs e)
-        {
-            //foreach (var item in AccountsCheckedListBox.)
-            //{
-            //    ((CheckBox)item).Checked = true;
-            //}
-        }
-
         private void Start_btn_Click(object sender, EventArgs e)
         {
             DateTimeRange timePeriod;

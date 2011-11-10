@@ -40,18 +40,15 @@
 			this.step4_errorsCount = new System.Windows.Forms.Label();
 			this.step4_lbl = new System.Windows.Forms.Label();
 			this.step4_progressBar = new System.Windows.Forms.ProgressBar();
-			this.step4_Result = new System.Windows.Forms.PictureBox();
 			this.step4_status = new System.Windows.Forms.Label();
 			this.step3 = new System.Windows.Forms.Panel();
 			this.step3_warningCount = new System.Windows.Forms.Label();
 			this.step3_errorsCount = new System.Windows.Forms.Label();
 			this.step3_lbl = new System.Windows.Forms.Label();
 			this.step3_progressBar = new System.Windows.Forms.ProgressBar();
-			this.step3_Result = new System.Windows.Forms.PictureBox();
 			this.step3_status = new System.Windows.Forms.Label();
 			this.step1 = new System.Windows.Forms.Panel();
 			this.step1_lbl = new System.Windows.Forms.Label();
-			this.step1_ErrorImage = new System.Windows.Forms.PictureBox();
 			this.step1_status = new System.Windows.Forms.Label();
 			this.step1_progressBar = new System.Windows.Forms.ProgressBar();
 			this.step1_warningCount = new System.Windows.Forms.Label();
@@ -61,7 +58,6 @@
 			this.step2_errorsCount = new System.Windows.Forms.Label();
 			this.step2_lbl = new System.Windows.Forms.Label();
 			this.step2_progressBar = new System.Windows.Forms.ProgressBar();
-			this.step2_Result = new System.Windows.Forms.PictureBox();
 			this.step2_status = new System.Windows.Forms.Label();
 			this.label17 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
@@ -76,9 +72,6 @@
 			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.checkBox4 = new System.Windows.Forms.CheckBox();
 			this.dataTypes = new System.Windows.Forms.GroupBox();
-			this.pictureBox3 = new System.Windows.Forms.PictureBox();
-			this.pictureBox2 = new System.Windows.Forms.PictureBox();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.label23 = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.level4 = new System.Windows.Forms.CheckBox();
@@ -95,7 +88,6 @@
 			this.button3 = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
 			this.AppAlertPanel = new System.Windows.Forms.Panel();
-			this.appErrorImage = new System.Windows.Forms.PictureBox();
 			this.appErrorLbl = new System.Windows.Forms.Label();
 			this.quick_btn = new System.Windows.Forms.Button();
 			this.full_btn = new System.Windows.Forms.Button();
@@ -106,29 +98,44 @@
 			this.profileName_lbl = new System.Windows.Forms.Label();
 			this.profile_tb = new System.Windows.Forms.TextBox();
 			this.panel3 = new System.Windows.Forms.Panel();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.delete_btn = new System.Windows.Forms.Button();
 			this.add_btn = new System.Windows.Forms.Button();
 			this.save_btn = new System.Windows.Forms.Button();
+			this.appErrorImage = new System.Windows.Forms.PictureBox();
+			this.pictureBox6 = new System.Windows.Forms.PictureBox();
+			this.pictureBox5 = new System.Windows.Forms.PictureBox();
+			this.pictureBox4 = new System.Windows.Forms.PictureBox();
+			this.pictureBox3 = new System.Windows.Forms.PictureBox();
+			this.pictureBox2 = new System.Windows.Forms.PictureBox();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.step4_Result = new System.Windows.Forms.PictureBox();
+			this.step3_Result = new System.Windows.Forms.PictureBox();
+			this.step1_ErrorImage = new System.Windows.Forms.PictureBox();
+			this.step2_Result = new System.Windows.Forms.PictureBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.step4.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.step4_Result)).BeginInit();
 			this.step3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.step3_Result)).BeginInit();
 			this.step1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).BeginInit();
 			this.step2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.step2_Result)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.dataTypes.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.groupBox4.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.AppAlertPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).BeginInit();
 			this.panel3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.step4_Result)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.step3_Result)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.step2_Result)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label3
@@ -252,18 +259,6 @@
 			this.step4_progressBar.Size = new System.Drawing.Size(332, 19);
 			this.step4_progressBar.TabIndex = 47;
 			// 
-			// step4_Result
-			// 
-			this.step4_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.ErrorImage")));
-			this.step4_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.InitialImage")));
-			this.step4_Result.Location = new System.Drawing.Point(661, 6);
-			this.step4_Result.Name = "step4_Result";
-			this.step4_Result.Size = new System.Drawing.Size(27, 27);
-			this.step4_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.step4_Result.TabIndex = 45;
-			this.step4_Result.TabStop = false;
-			this.step4_Result.Visible = false;
-			// 
 			// step4_status
 			// 
 			this.step4_status.AutoSize = true;
@@ -329,18 +324,6 @@
 			this.step3_progressBar.Size = new System.Drawing.Size(332, 19);
 			this.step3_progressBar.TabIndex = 47;
 			// 
-			// step3_Result
-			// 
-			this.step3_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.ErrorImage")));
-			this.step3_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.InitialImage")));
-			this.step3_Result.Location = new System.Drawing.Point(661, 7);
-			this.step3_Result.Name = "step3_Result";
-			this.step3_Result.Size = new System.Drawing.Size(27, 27);
-			this.step3_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.step3_Result.TabIndex = 45;
-			this.step3_Result.TabStop = false;
-			this.step3_Result.Visible = false;
-			// 
 			// step3_status
 			// 
 			this.step3_status.AutoSize = true;
@@ -375,17 +358,6 @@
 			this.step1_lbl.Size = new System.Drawing.Size(80, 16);
 			this.step1_lbl.TabIndex = 23;
 			this.step1_lbl.Text = "Delivery Oltp";
-			// 
-			// step1_ErrorImage
-			// 
-			this.step1_ErrorImage.ErrorImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon;
-			this.step1_ErrorImage.Location = new System.Drawing.Point(661, 7);
-			this.step1_ErrorImage.Name = "step1_ErrorImage";
-			this.step1_ErrorImage.Size = new System.Drawing.Size(27, 26);
-			this.step1_ErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.step1_ErrorImage.TabIndex = 20;
-			this.step1_ErrorImage.TabStop = false;
-			this.step1_ErrorImage.Visible = false;
 			// 
 			// step1_status
 			// 
@@ -485,18 +457,6 @@
 			this.step2_progressBar.Size = new System.Drawing.Size(332, 19);
 			this.step2_progressBar.TabIndex = 47;
 			// 
-			// step2_Result
-			// 
-			this.step2_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.ErrorImage")));
-			this.step2_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.InitialImage")));
-			this.step2_Result.Location = new System.Drawing.Point(661, 6);
-			this.step2_Result.Name = "step2_Result";
-			this.step2_Result.Size = new System.Drawing.Size(27, 27);
-			this.step2_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.step2_Result.TabIndex = 45;
-			this.step2_Result.TabStop = false;
-			this.step2_Result.Visible = false;
-			// 
 			// step2_status
 			// 
 			this.step2_status.AutoSize = true;
@@ -519,7 +479,7 @@
 			// 
 			// panel1
 			// 
-			this.panel1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+			this.panel1.BackColor = System.Drawing.Color.DarkOrange;
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel1.Controls.Add(this.label9);
 			this.panel1.Controls.Add(this.label2);
@@ -534,7 +494,7 @@
 			// 
 			this.label9.AutoSize = true;
 			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label9.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+			this.label9.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.label9.Location = new System.Drawing.Point(38, 7);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(36, 15);
@@ -545,7 +505,7 @@
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+			this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.label2.Location = new System.Drawing.Point(298, 7);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(64, 15);
@@ -556,7 +516,7 @@
 			// 
 			this.label8.AutoSize = true;
 			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+			this.label8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.label8.Location = new System.Drawing.Point(660, 6);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(48, 15);
@@ -567,7 +527,7 @@
 			// 
 			this.label7.AutoSize = true;
 			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+			this.label7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.label7.Location = new System.Drawing.Point(515, 6);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(47, 15);
@@ -605,7 +565,7 @@
 			// 
 			this.Facebook.AutoSize = true;
 			this.Facebook.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Facebook.Location = new System.Drawing.Point(30, 66);
+			this.Facebook.Location = new System.Drawing.Point(30, 62);
 			this.Facebook.Name = "Facebook";
 			this.Facebook.Size = new System.Drawing.Size(70, 19);
 			this.Facebook.TabIndex = 41;
@@ -617,24 +577,23 @@
 			// 
 			this.Bing.AutoSize = true;
 			this.Bing.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Bing.Location = new System.Drawing.Point(30, 89);
+			this.Bing.Location = new System.Drawing.Point(30, 83);
 			this.Bing.Name = "Bing";
-			this.Bing.Size = new System.Drawing.Size(89, 19);
+			this.Bing.Size = new System.Drawing.Size(47, 19);
 			this.Bing.TabIndex = 43;
-			this.Bing.Text = "Bing  / Yahoo";
+			this.Bing.Text = "Bing";
 			this.Bing.UseVisualStyleBackColor = true;
-			this.Bing.CheckedChanged += new System.EventHandler(this.full_btn_Click);
 			// 
 			// checkBox3
 			// 
 			this.checkBox3.AutoSize = true;
 			this.checkBox3.Enabled = false;
 			this.checkBox3.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBox3.Location = new System.Drawing.Point(180, 66);
+			this.checkBox3.Location = new System.Drawing.Point(169, 62);
 			this.checkBox3.Name = "checkBox3";
-			this.checkBox3.Size = new System.Drawing.Size(95, 19);
+			this.checkBox3.Size = new System.Drawing.Size(43, 19);
 			this.checkBox3.TabIndex = 45;
-			this.checkBox3.Text = "Imported Data";
+			this.checkBox3.Text = "FTP";
 			this.checkBox3.UseVisualStyleBackColor = true;
 			// 
 			// checkBox4
@@ -642,22 +601,26 @@
 			this.checkBox4.AutoSize = true;
 			this.checkBox4.Enabled = false;
 			this.checkBox4.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBox4.Location = new System.Drawing.Point(180, 43);
+			this.checkBox4.Location = new System.Drawing.Point(169, 43);
 			this.checkBox4.Name = "checkBox4";
-			this.checkBox4.Size = new System.Drawing.Size(92, 19);
+			this.checkBox4.Size = new System.Drawing.Size(127, 19);
 			this.checkBox4.TabIndex = 44;
-			this.checkBox4.Text = "Automatic BO";
+			this.checkBox4.Text = "BackOffice Automatic";
 			this.checkBox4.UseVisualStyleBackColor = true;
 			// 
 			// dataTypes
 			// 
+			this.dataTypes.Controls.Add(this.pictureBox6);
+			this.dataTypes.Controls.Add(this.pictureBox5);
+			this.dataTypes.Controls.Add(this.pictureBox4);
+			this.dataTypes.Controls.Add(this.checkBox1);
 			this.dataTypes.Controls.Add(this.pictureBox3);
-			this.dataTypes.Controls.Add(this.pictureBox2);
-			this.dataTypes.Controls.Add(this.pictureBox1);
 			this.dataTypes.Controls.Add(this.label23);
+			this.dataTypes.Controls.Add(this.pictureBox2);
 			this.dataTypes.Controls.Add(this.checkBox3);
 			this.dataTypes.Controls.Add(this.GoogleAdwords);
 			this.dataTypes.Controls.Add(this.checkBox4);
+			this.dataTypes.Controls.Add(this.pictureBox1);
 			this.dataTypes.Controls.Add(this.Facebook);
 			this.dataTypes.Controls.Add(this.Bing);
 			this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -667,45 +630,6 @@
 			this.dataTypes.TabIndex = 16;
 			this.dataTypes.TabStop = false;
 			this.dataTypes.Text = "Data Types";
-			// 
-			// pictureBox3
-			// 
-			this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-			this.pictureBox3.Location = new System.Drawing.Point(8, 88);
-			this.pictureBox3.Name = "pictureBox3";
-			this.pictureBox3.Size = new System.Drawing.Size(0, 18);
-			this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBox3.TabIndex = 48;
-			this.pictureBox3.TabStop = false;
-			// 
-			// pictureBox2
-			// 
-			this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-			this.pictureBox2.Location = new System.Drawing.Point(8, 65);
-			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(0, 18);
-			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBox2.TabIndex = 47;
-			this.pictureBox2.TabStop = false;
-			// 
-			// pictureBox1
-			// 
-			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox1.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
-			this.pictureBox1.Location = new System.Drawing.Point(8, 43);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(0, 18);
-			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBox1.TabIndex = 46;
-			this.pictureBox1.TabStop = false;
 			// 
 			// label23
 			// 
@@ -895,17 +819,6 @@
 			this.AppAlertPanel.TabIndex = 23;
 			this.AppAlertPanel.Visible = false;
 			// 
-			// appErrorImage
-			// 
-			this.appErrorImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.appErrorImage.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon;
-			this.appErrorImage.Location = new System.Drawing.Point(7, -1);
-			this.appErrorImage.Name = "appErrorImage";
-			this.appErrorImage.Size = new System.Drawing.Size(20, 22);
-			this.appErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.appErrorImage.TabIndex = 53;
-			this.appErrorImage.TabStop = false;
-			// 
 			// appErrorLbl
 			// 
 			this.appErrorLbl.AutoSize = true;
@@ -1016,6 +929,18 @@
 			this.panel3.Size = new System.Drawing.Size(369, 93);
 			this.panel3.TabIndex = 57;
 			// 
+			// checkBox1
+			// 
+			this.checkBox1.AutoSize = true;
+			this.checkBox1.Enabled = false;
+			this.checkBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBox1.Location = new System.Drawing.Point(30, 105);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(55, 19);
+			this.checkBox1.TabIndex = 49;
+			this.checkBox1.Text = "Yahoo";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			// 
 			// delete_btn
 			// 
 			this.delete_btn.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.delete__1_;
@@ -1049,6 +974,142 @@
 			this.save_btn.TabIndex = 59;
 			this.save_btn.UseVisualStyleBackColor = true;
 			this.save_btn.Click += new System.EventHandler(this.save_btn_Click);
+			// 
+			// appErrorImage
+			// 
+			this.appErrorImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.appErrorImage.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon;
+			this.appErrorImage.Location = new System.Drawing.Point(7, -1);
+			this.appErrorImage.Name = "appErrorImage";
+			this.appErrorImage.Size = new System.Drawing.Size(20, 22);
+			this.appErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.appErrorImage.TabIndex = 53;
+			this.appErrorImage.TabStop = false;
+			// 
+			// pictureBox6
+			// 
+			this.pictureBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox6.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.documents;
+			this.pictureBox6.Location = new System.Drawing.Point(150, 44);
+			this.pictureBox6.Name = "pictureBox6";
+			this.pictureBox6.Size = new System.Drawing.Size(15, 14);
+			this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox6.TabIndex = 52;
+			this.pictureBox6.TabStop = false;
+			// 
+			// pictureBox5
+			// 
+			this.pictureBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox5.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.gnome_ftp;
+			this.pictureBox5.Location = new System.Drawing.Point(150, 64);
+			this.pictureBox5.Name = "pictureBox5";
+			this.pictureBox5.Size = new System.Drawing.Size(15, 14);
+			this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox5.TabIndex = 51;
+			this.pictureBox5.TabStop = false;
+			// 
+			// pictureBox4
+			// 
+			this.pictureBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox4.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.yahoo__1_;
+			this.pictureBox4.Location = new System.Drawing.Point(12, 107);
+			this.pictureBox4.Name = "pictureBox4";
+			this.pictureBox4.Size = new System.Drawing.Size(15, 14);
+			this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox4.TabIndex = 50;
+			this.pictureBox4.TabStop = false;
+			// 
+			// pictureBox3
+			// 
+			this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+			this.pictureBox3.Location = new System.Drawing.Point(12, 85);
+			this.pictureBox3.Name = "pictureBox3";
+			this.pictureBox3.Size = new System.Drawing.Size(15, 14);
+			this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox3.TabIndex = 48;
+			this.pictureBox3.TabStop = false;
+			// 
+			// pictureBox2
+			// 
+			this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+			this.pictureBox2.Location = new System.Drawing.Point(12, 63);
+			this.pictureBox2.Name = "pictureBox2";
+			this.pictureBox2.Size = new System.Drawing.Size(15, 14);
+			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox2.TabIndex = 47;
+			this.pictureBox2.TabStop = false;
+			// 
+			// pictureBox1
+			// 
+			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox1.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
+			this.pictureBox1.Location = new System.Drawing.Point(12, 44);
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(15, 14);
+			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox1.TabIndex = 46;
+			this.pictureBox1.TabStop = false;
+			// 
+			// step4_Result
+			// 
+			this.step4_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.ErrorImage")));
+			this.step4_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step4_Result.InitialImage")));
+			this.step4_Result.Location = new System.Drawing.Point(661, 6);
+			this.step4_Result.Name = "step4_Result";
+			this.step4_Result.Size = new System.Drawing.Size(27, 27);
+			this.step4_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.step4_Result.TabIndex = 45;
+			this.step4_Result.TabStop = false;
+			this.step4_Result.Visible = false;
+			// 
+			// step3_Result
+			// 
+			this.step3_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.ErrorImage")));
+			this.step3_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step3_Result.InitialImage")));
+			this.step3_Result.Location = new System.Drawing.Point(661, 7);
+			this.step3_Result.Name = "step3_Result";
+			this.step3_Result.Size = new System.Drawing.Size(27, 27);
+			this.step3_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.step3_Result.TabIndex = 45;
+			this.step3_Result.TabStop = false;
+			this.step3_Result.Visible = false;
+			// 
+			// step1_ErrorImage
+			// 
+			this.step1_ErrorImage.ErrorImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon;
+			this.step1_ErrorImage.Location = new System.Drawing.Point(661, 7);
+			this.step1_ErrorImage.Name = "step1_ErrorImage";
+			this.step1_ErrorImage.Size = new System.Drawing.Size(27, 26);
+			this.step1_ErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.step1_ErrorImage.TabIndex = 20;
+			this.step1_ErrorImage.TabStop = false;
+			this.step1_ErrorImage.Visible = false;
+			// 
+			// step2_Result
+			// 
+			this.step2_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.ErrorImage")));
+			this.step2_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step2_Result.InitialImage")));
+			this.step2_Result.Location = new System.Drawing.Point(661, 6);
+			this.step2_Result.Name = "step2_Result";
+			this.step2_Result.Size = new System.Drawing.Size(27, 27);
+			this.step2_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.step2_Result.TabIndex = 45;
+			this.step2_Result.TabStop = false;
+			this.step2_Result.Visible = false;
 			// 
 			// DataChecks
 			// 
@@ -1084,32 +1145,35 @@
 			this.groupBox3.PerformLayout();
 			this.step4.ResumeLayout(false);
 			this.step4.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.step4_Result)).EndInit();
 			this.step3.ResumeLayout(false);
 			this.step3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.step3_Result)).EndInit();
 			this.step1.ResumeLayout(false);
 			this.step1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).EndInit();
 			this.step2.ResumeLayout(false);
 			this.step2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.step2_Result)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.dataTypes.ResumeLayout(false);
 			this.dataTypes.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
 			this.AppAlertPanel.ResumeLayout(false);
 			this.AppAlertPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).EndInit();
 			this.panel3.ResumeLayout(false);
 			this.panel3.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.step4_Result)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.step3_Result)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.step2_Result)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1198,5 +1262,9 @@
         private System.Windows.Forms.Button save_btn;
         private System.Windows.Forms.Button add_btn;
         private System.Windows.Forms.Button delete_btn;
+		private System.Windows.Forms.PictureBox pictureBox4;
+		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.PictureBox pictureBox5;
+		private System.Windows.Forms.PictureBox pictureBox6;
 	}
 }
