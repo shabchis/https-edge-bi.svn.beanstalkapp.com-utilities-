@@ -63,7 +63,7 @@ namespace Edge.Application.ProductionManagmentTools
                     parameters.Add("DeliveryID", DeliveryID_tb.Text);
 
 
-                string query = "SELECT DeliveryID,AccountID,OriginalID,ChannelID,DateCreated,TargetPeriodStart,TargetPeriodEnd from dbo.Delivery " +
+				string query = "SELECT DeliveryID,AccountID,OriginalID,ChannelID,DateCreated,TargetPeriodStart,TargetPeriodEnd,[Committed] from dbo.Delivery " +
                    " where TargetPeriodStart between @TargetPeriodStart and @TargetPeriodEnd ";
 
                 foreach (var item in parameters)
@@ -99,7 +99,7 @@ namespace Edge.Application.ProductionManagmentTools
                         {
                             if (!_reader[0].Equals(DBNull.Value))
                             {
-                                DeliveryDataGridView.Rows.Add(_reader[0], _reader[1], _reader[2], _reader[3], _reader[4], _reader[5], _reader[6]);
+                                DeliveryDataGridView.Rows.Add(_reader[0], _reader[1], _reader[2], _reader[3], _reader[4], _reader[5], _reader[6],_reader[7]);
                             }
                         }
                     }
@@ -365,7 +365,6 @@ namespace Edge.Application.ProductionManagmentTools
             DeliveryFileHistoryParams.Rows.Clear();
         }
 
-		
 
     }
 }
