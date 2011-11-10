@@ -157,7 +157,7 @@
 			this.groupBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.groupBox1.Location = new System.Drawing.Point(388, 53);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(409, 93);
+			this.groupBox1.Size = new System.Drawing.Size(424, 93);
 			this.groupBox1.TabIndex = 14;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Run Data Check on the following time period";
@@ -610,6 +610,7 @@
 			// 
 			// dataTypes
 			// 
+			this.dataTypes.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.dataTypes.Controls.Add(this.pictureBox6);
 			this.dataTypes.Controls.Add(this.pictureBox5);
 			this.dataTypes.Controls.Add(this.pictureBox4);
@@ -623,8 +624,9 @@
 			this.dataTypes.Controls.Add(this.pictureBox1);
 			this.dataTypes.Controls.Add(this.Facebook);
 			this.dataTypes.Controls.Add(this.Bing);
+			this.dataTypes.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.dataTypes.Location = new System.Drawing.Point(495, 152);
+			this.dataTypes.Location = new System.Drawing.Point(510, 152);
 			this.dataTypes.Name = "dataTypes";
 			this.dataTypes.Size = new System.Drawing.Size(302, 126);
 			this.dataTypes.TabIndex = 16;
@@ -649,7 +651,7 @@
 			this.groupBox4.Controls.Add(this.level2);
 			this.groupBox4.Controls.Add(this.level1);
 			this.groupBox4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.groupBox4.Location = new System.Drawing.Point(495, 284);
+			this.groupBox4.Location = new System.Drawing.Point(510, 282);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(302, 72);
 			this.groupBox4.TabIndex = 16;
@@ -713,7 +715,7 @@
 			this.Start_btn.BackColor = System.Drawing.Color.DimGray;
 			this.Start_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.Start_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.Start_btn.Location = new System.Drawing.Point(687, 369);
+			this.Start_btn.Location = new System.Drawing.Point(510, 370);
 			this.Start_btn.Name = "Start_btn";
 			this.Start_btn.Size = new System.Drawing.Size(84, 31);
 			this.Start_btn.TabIndex = 47;
@@ -835,9 +837,9 @@
 			this.quick_btn.BackColor = System.Drawing.Color.DarkGreen;
 			this.quick_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.quick_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.quick_btn.Location = new System.Drawing.Point(507, 370);
+			this.quick_btn.Location = new System.Drawing.Point(688, 370);
 			this.quick_btn.Name = "quick_btn";
-			this.quick_btn.Size = new System.Drawing.Size(85, 30);
+			this.quick_btn.Size = new System.Drawing.Size(57, 30);
 			this.quick_btn.TabIndex = 53;
 			this.quick_btn.Text = "Quick";
 			this.quick_btn.UseVisualStyleBackColor = false;
@@ -848,9 +850,9 @@
 			this.full_btn.BackColor = System.Drawing.Color.DarkOrange;
 			this.full_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.full_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.full_btn.Location = new System.Drawing.Point(598, 369);
+			this.full_btn.Location = new System.Drawing.Point(751, 370);
 			this.full_btn.Name = "full_btn";
-			this.full_btn.Size = new System.Drawing.Size(83, 31);
+			this.full_btn.Size = new System.Drawing.Size(55, 31);
 			this.full_btn.TabIndex = 54;
 			this.full_btn.Text = "Full";
 			this.full_btn.UseVisualStyleBackColor = false;
@@ -869,7 +871,7 @@
 			// checkAll
 			// 
 			this.checkAll.AutoSize = true;
-			this.checkAll.Location = new System.Drawing.Point(313, 152);
+			this.checkAll.Location = new System.Drawing.Point(420, 163);
 			this.checkAll.Name = "checkAll";
 			this.checkAll.Size = new System.Drawing.Size(69, 17);
 			this.checkAll.TabIndex = 55;
@@ -892,7 +894,7 @@
 			// 
 			this.label10.AutoSize = true;
 			this.label10.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label10.Location = new System.Drawing.Point(3, 155);
+			this.label10.Location = new System.Drawing.Point(3, 164);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(60, 14);
 			this.label10.TabIndex = 58;
@@ -1122,10 +1124,10 @@
 			this.Controls.Add(this.label10);
 			this.Controls.Add(this.checkAll);
 			this.Controls.Add(this.full_btn);
+			this.Controls.Add(this.Start_btn);
 			this.Controls.Add(this.AppAlertPanel);
 			this.Controls.Add(this.quick_btn);
 			this.Controls.Add(this.button4);
-			this.Controls.Add(this.Start_btn);
 			this.Controls.Add(this.button3);
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.report_btn);
