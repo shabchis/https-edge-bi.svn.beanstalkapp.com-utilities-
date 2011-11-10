@@ -88,6 +88,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap documents {
+            get {
+                object obj = ResourceManager.GetObject("documents", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DupTracker {
             get {
                 object obj = ResourceManager.GetObject("DupTracker", resourceCulture);
@@ -112,6 +119,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap fixErrors {
             get {
                 object obj = ResourceManager.GetObject("fixErrors", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap gnome_ftp {
+            get {
+                object obj = ResourceManager.GetObject("gnome_ftp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,6 +189,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap window_new {
             get {
                 object obj = ResourceManager.GetObject("window_new", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap yahoo__1_ {
+            get {
+                object obj = ResourceManager.GetObject("yahoo (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

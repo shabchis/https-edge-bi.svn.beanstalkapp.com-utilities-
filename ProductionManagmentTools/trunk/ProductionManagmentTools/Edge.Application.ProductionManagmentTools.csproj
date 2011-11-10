@@ -241,6 +241,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\yahoo %281%29.png" />
     <None Include="Resources\window_new.png" />
     <None Include="Resources\warning1.png" />
     <None Include="Resources\fixErrors.png" />
@@ -252,6 +253,8 @@
     <None Include="Resources\human_folder_saved_search.png" />
     <None Include="Resources\find.png" />
     <None Include="Resources\kontact.png" />
+    <None Include="Resources\gnome_ftp.png" />
+    <None Include="Resources\documents.png" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
