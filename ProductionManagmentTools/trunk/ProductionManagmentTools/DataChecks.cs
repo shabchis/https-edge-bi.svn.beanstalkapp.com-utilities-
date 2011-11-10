@@ -669,6 +669,8 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void save_btn_Click(object sender, EventArgs e)
         {
+			//TO DO : Create Profile in XM: format 
+
             List<string> checkedAccounts = new List<string>();
 
             foreach (string item in AccountsCheckedListBox.CheckedItems)
@@ -683,16 +685,12 @@ namespace Edge.Application.ProductionManagmentTools
 
         private void Channel_CheckedChanged(object sender)
         {
-            if (((CheckBox)sender).Checked)
-                _profile.AddChannel((CheckBox)sender);
-            else _profile.RemoveChannel((CheckBox)sender);
+            //TO DO : add to Profile temp
         }
 
         private void CheckLevel_CheckedChanged(object sender)
         {
-            if (((CheckBox)sender).Checked)
-                _profile.ValidationServices.Add((CBox)sender);
-            else _profile.ValidationServices.Remove((CBox)sender);
+			//TO DO : add to Profile temp
         }
 
         private void GoogleAdwords_CheckedChanged(object sender, EventArgs e)
