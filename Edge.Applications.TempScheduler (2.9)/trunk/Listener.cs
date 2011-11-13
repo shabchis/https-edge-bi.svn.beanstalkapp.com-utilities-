@@ -176,12 +176,13 @@ namespace Edge.Applications.TempScheduler
 				foreach (string option in options.Keys)
 					activeServiceElement.Options[option] = options[option];
 			}
-			ServiceElement serviceElement = EdgeServicesConfiguration.Current.Services[activeServiceElement.Name];
+				
+			//ServiceElement serviceElement = EdgeServicesConfiguration.Current.Services[activeServiceElement.Name];
 
 			//base configuration;
-			baseConfiguration.Name = serviceElement.Name;
-			baseConfiguration.MaxConcurrent = serviceElement.MaxInstances;
-			baseConfiguration.MaxCuncurrentPerProfile = serviceElement.MaxInstancesPerAccount;
+			baseConfiguration.Name = activeServiceElement.Name;
+			baseConfiguration.MaxConcurrent = activeServiceElement.MaxInstances;
+			baseConfiguration.MaxCuncurrentPerProfile = activeServiceElement.MaxInstancesPerAccount;
 		  
 
 			//configuration per profile
