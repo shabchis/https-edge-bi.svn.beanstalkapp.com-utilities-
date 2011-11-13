@@ -355,7 +355,7 @@
 			this.checkBox2.TabIndex = 40;
 			this.checkBox2.Text = "Show only Commited Deliveries";
 			this.checkBox2.UseVisualStyleBackColor = true;
-			this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+			
 			// 
 			// DeliveryDataGridView
 			// 
@@ -1065,7 +1065,6 @@
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.DeliveryDataGridView);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-			this.Name = "DeliverySearch";
 			this.ShowIcon = false;
 			this.Text = "DeliverySearch";
 			this.dataTypes.ResumeLayout(false);

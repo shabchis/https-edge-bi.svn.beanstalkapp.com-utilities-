@@ -72,13 +72,13 @@
 			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.checkBox4 = new System.Windows.Forms.CheckBox();
 			this.dataTypes = new System.Windows.Forms.GroupBox();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.label23 = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.level4 = new System.Windows.Forms.CheckBox();
 			this.level3 = new System.Windows.Forms.CheckBox();
 			this.level2 = new System.Windows.Forms.CheckBox();
 			this.level1 = new System.Windows.Forms.CheckBox();
-			this.Start_btn = new System.Windows.Forms.Button();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
@@ -95,14 +95,14 @@
 			this.checkAll = new System.Windows.Forms.CheckBox();
 			this.profile_cb = new System.Windows.Forms.ComboBox();
 			this.label10 = new System.Windows.Forms.Label();
-			this.profileName_lbl = new System.Windows.Forms.Label();
-			this.profile_tb = new System.Windows.Forms.TextBox();
 			this.panel3 = new System.Windows.Forms.Panel();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.delete_btn = new System.Windows.Forms.Button();
-			this.add_btn = new System.Windows.Forms.Button();
-			this.save_btn = new System.Windows.Forms.Button();
+			this.panel4 = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.pictureBox13 = new System.Windows.Forms.PictureBox();
+			this.pictureBox11 = new System.Windows.Forms.PictureBox();
+			this.Start_btn = new System.Windows.Forms.Button();
 			this.appErrorImage = new System.Windows.Forms.PictureBox();
+			this.pictureBox12 = new System.Windows.Forms.PictureBox();
 			this.pictureBox6 = new System.Windows.Forms.PictureBox();
 			this.pictureBox5 = new System.Windows.Forms.PictureBox();
 			this.pictureBox4 = new System.Windows.Forms.PictureBox();
@@ -113,6 +113,8 @@
 			this.step3_Result = new System.Windows.Forms.PictureBox();
 			this.step1_ErrorImage = new System.Windows.Forms.PictureBox();
 			this.step2_Result = new System.Windows.Forms.PictureBox();
+			this.pictureBox7 = new System.Windows.Forms.PictureBox();
+			this.panel5 = new System.Windows.Forms.Panel();
 			this.groupBox1.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.step4.SuspendLayout();
@@ -125,7 +127,11 @@
 			this.panel2.SuspendLayout();
 			this.AppAlertPanel.SuspendLayout();
 			this.panel3.SuspendLayout();
+			this.panel4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -136,13 +142,15 @@
 			((System.ComponentModel.ISupportInitialize)(this.step3_Result)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.step2_Result)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+			this.panel5.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
 			this.label3.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label3.Location = new System.Drawing.Point(9, 33);
+			this.label3.Location = new System.Drawing.Point(23, 27);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(31, 13);
 			this.label3.TabIndex = 12;
@@ -155,9 +163,9 @@
 			this.groupBox1.Controls.Add(this.label5);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.groupBox1.Location = new System.Drawing.Point(388, 53);
+			this.groupBox1.Location = new System.Drawing.Point(15, 53);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(424, 93);
+			this.groupBox1.Size = new System.Drawing.Size(474, 63);
 			this.groupBox1.TabIndex = 14;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Run Data Check on the following time period";
@@ -165,18 +173,18 @@
 			// fromDate
 			// 
 			this.fromDate.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.fromDate.Location = new System.Drawing.Point(94, 30);
+			this.fromDate.Location = new System.Drawing.Point(60, 24);
 			this.fromDate.Name = "fromDate";
-			this.fromDate.Size = new System.Drawing.Size(185, 20);
+			this.fromDate.Size = new System.Drawing.Size(141, 20);
 			this.fromDate.TabIndex = 15;
 			this.fromDate.Value = new System.DateTime(2011, 9, 27, 0, 0, 0, 0);
 			// 
 			// toDate
 			// 
 			this.toDate.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.toDate.Location = new System.Drawing.Point(94, 56);
+			this.toDate.Location = new System.Drawing.Point(271, 24);
 			this.toDate.Name = "toDate";
-			this.toDate.Size = new System.Drawing.Size(185, 20);
+			this.toDate.Size = new System.Drawing.Size(141, 20);
 			this.toDate.TabIndex = 13;
 			this.toDate.Value = new System.DateTime(2011, 9, 27, 0, 0, 0, 0);
 			// 
@@ -184,7 +192,7 @@
 			// 
 			this.label5.AutoSize = true;
 			this.label5.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label5.Location = new System.Drawing.Point(9, 59);
+			this.label5.Location = new System.Drawing.Point(246, 27);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(19, 13);
 			this.label5.TabIndex = 14;
@@ -479,8 +487,9 @@
 			// 
 			// panel1
 			// 
-			this.panel1.BackColor = System.Drawing.Color.DarkOrange;
+			this.panel1.BackColor = System.Drawing.Color.Gainsboro;
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.pictureBox7);
 			this.panel1.Controls.Add(this.label9);
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.label8);
@@ -541,10 +550,10 @@
 			this.AccountsCheckedListBox.ColumnWidth = 180;
 			this.AccountsCheckedListBox.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.AccountsCheckedListBox.FormattingEnabled = true;
-			this.AccountsCheckedListBox.Location = new System.Drawing.Point(6, 180);
+			this.AccountsCheckedListBox.Location = new System.Drawing.Point(15, 153);
 			this.AccountsCheckedListBox.MultiColumn = true;
 			this.AccountsCheckedListBox.Name = "AccountsCheckedListBox";
-			this.AccountsCheckedListBox.Size = new System.Drawing.Size(483, 229);
+			this.AccountsCheckedListBox.Size = new System.Drawing.Size(474, 244);
 			this.AccountsCheckedListBox.Sorted = true;
 			this.AccountsCheckedListBox.TabIndex = 20;
 			// 
@@ -610,7 +619,7 @@
 			// 
 			// dataTypes
 			// 
-			this.dataTypes.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+			this.dataTypes.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.dataTypes.Controls.Add(this.pictureBox6);
 			this.dataTypes.Controls.Add(this.pictureBox5);
 			this.dataTypes.Controls.Add(this.pictureBox4);
@@ -626,12 +635,24 @@
 			this.dataTypes.Controls.Add(this.Bing);
 			this.dataTypes.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.dataTypes.Location = new System.Drawing.Point(510, 152);
+			this.dataTypes.Location = new System.Drawing.Point(3, 38);
 			this.dataTypes.Name = "dataTypes";
 			this.dataTypes.Size = new System.Drawing.Size(302, 126);
 			this.dataTypes.TabIndex = 16;
 			this.dataTypes.TabStop = false;
 			this.dataTypes.Text = "Data Types";
+			// 
+			// checkBox1
+			// 
+			this.checkBox1.AutoSize = true;
+			this.checkBox1.Enabled = false;
+			this.checkBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBox1.Location = new System.Drawing.Point(30, 105);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(55, 19);
+			this.checkBox1.TabIndex = 49;
+			this.checkBox1.Text = "Yahoo";
+			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
 			// label23
 			// 
@@ -651,7 +672,7 @@
 			this.groupBox4.Controls.Add(this.level2);
 			this.groupBox4.Controls.Add(this.level1);
 			this.groupBox4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.groupBox4.Location = new System.Drawing.Point(510, 282);
+			this.groupBox4.Location = new System.Drawing.Point(3, 188);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(302, 72);
 			this.groupBox4.TabIndex = 16;
@@ -662,7 +683,7 @@
 			// 
 			this.level4.AutoSize = true;
 			this.level4.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.level4.Location = new System.Drawing.Point(123, 47);
+			this.level4.Location = new System.Drawing.Point(162, 45);
 			this.level4.Name = "level4";
 			this.level4.Size = new System.Drawing.Size(88, 19);
 			this.level4.TabIndex = 44;
@@ -675,7 +696,7 @@
 			// 
 			this.level3.AutoSize = true;
 			this.level3.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.level3.Location = new System.Drawing.Point(11, 47);
+			this.level3.Location = new System.Drawing.Point(28, 45);
 			this.level3.Name = "level3";
 			this.level3.Size = new System.Drawing.Size(86, 19);
 			this.level3.TabIndex = 43;
@@ -688,7 +709,7 @@
 			// 
 			this.level2.AutoSize = true;
 			this.level2.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.level2.Location = new System.Drawing.Point(123, 23);
+			this.level2.Location = new System.Drawing.Point(162, 21);
 			this.level2.Name = "level2";
 			this.level2.Size = new System.Drawing.Size(90, 19);
 			this.level2.TabIndex = 42;
@@ -701,7 +722,7 @@
 			// 
 			this.level1.AutoSize = true;
 			this.level1.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.level1.Location = new System.Drawing.Point(11, 23);
+			this.level1.Location = new System.Drawing.Point(28, 21);
 			this.level1.Name = "level1";
 			this.level1.Size = new System.Drawing.Size(101, 19);
 			this.level1.TabIndex = 41;
@@ -710,23 +731,12 @@
 			this.level1.CheckedChanged += new System.EventHandler(this.level1_CheckedChanged);
 			this.level1.CheckStateChanged += new System.EventHandler(this.Step1StateChange);
 			// 
-			// Start_btn
-			// 
-			this.Start_btn.BackColor = System.Drawing.Color.DimGray;
-			this.Start_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.Start_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.Start_btn.Location = new System.Drawing.Point(510, 370);
-			this.Start_btn.Name = "Start_btn";
-			this.Start_btn.Size = new System.Drawing.Size(84, 31);
-			this.Start_btn.TabIndex = 47;
-			this.Start_btn.Text = "Start";
-			this.Start_btn.UseVisualStyleBackColor = false;
-			this.Start_btn.Click += new System.EventHandler(this.Start_btn_Click);
-			// 
 			// panel2
 			// 
 			this.panel2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-			this.panel2.Controls.Add(this.label6);
+			this.panel2.Controls.Add(this.pictureBox12);
+			this.panel2.Controls.Add(this.profile_cb);
+			this.panel2.Controls.Add(this.Profile_lbl);
 			this.panel2.Controls.Add(this.label4);
 			this.panel2.Controls.Add(this.comboBox1);
 			this.panel2.Location = new System.Drawing.Point(6, 12);
@@ -737,10 +747,11 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.label6.Location = new System.Drawing.Point(740, 16);
+			this.label6.Font = new System.Drawing.Font("Modern No. 20", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.label6.Location = new System.Drawing.Point(780, 654);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(60, 13);
+			this.label6.Size = new System.Drawing.Size(57, 14);
 			this.label6.TabIndex = 55;
 			this.label6.Text = "Version 2.0";
 			// 
@@ -749,7 +760,7 @@
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.label4.Location = new System.Drawing.Point(6, 9);
+			this.label4.Location = new System.Drawing.Point(587, 10);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(86, 17);
 			this.label4.TabIndex = 56;
@@ -762,7 +773,7 @@
 			this.comboBox1.Items.AddRange(new object[] {
             "Seperia",
             "Edge"});
-			this.comboBox1.Location = new System.Drawing.Point(98, 8);
+			this.comboBox1.Location = new System.Drawing.Point(679, 9);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(121, 21);
 			this.comboBox1.TabIndex = 55;
@@ -834,10 +845,10 @@
 			// 
 			// quick_btn
 			// 
-			this.quick_btn.BackColor = System.Drawing.Color.DarkGreen;
+			this.quick_btn.BackColor = System.Drawing.Color.DimGray;
 			this.quick_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.quick_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.quick_btn.Location = new System.Drawing.Point(688, 370);
+			this.quick_btn.Location = new System.Drawing.Point(642, 351);
 			this.quick_btn.Name = "quick_btn";
 			this.quick_btn.Size = new System.Drawing.Size(57, 30);
 			this.quick_btn.TabIndex = 53;
@@ -847,10 +858,10 @@
 			// 
 			// full_btn
 			// 
-			this.full_btn.BackColor = System.Drawing.Color.DarkOrange;
+			this.full_btn.BackColor = System.Drawing.Color.DimGray;
 			this.full_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.full_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.full_btn.Location = new System.Drawing.Point(751, 370);
+			this.full_btn.Location = new System.Drawing.Point(705, 351);
 			this.full_btn.Name = "full_btn";
 			this.full_btn.Size = new System.Drawing.Size(55, 31);
 			this.full_btn.TabIndex = 54;
@@ -861,121 +872,118 @@
 			// Profile_lbl
 			// 
 			this.Profile_lbl.AutoSize = true;
-			this.Profile_lbl.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.Profile_lbl.Location = new System.Drawing.Point(8, 34);
+			this.Profile_lbl.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold);
+			this.Profile_lbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.Profile_lbl.Location = new System.Drawing.Point(45, 10);
 			this.Profile_lbl.Name = "Profile_lbl";
-			this.Profile_lbl.Size = new System.Drawing.Size(43, 14);
+			this.Profile_lbl.Size = new System.Drawing.Size(55, 17);
 			this.Profile_lbl.TabIndex = 39;
 			this.Profile_lbl.Text = "Profile :";
 			// 
 			// checkAll
 			// 
 			this.checkAll.AutoSize = true;
-			this.checkAll.Location = new System.Drawing.Point(420, 163);
+			this.checkAll.Location = new System.Drawing.Point(107, 7);
 			this.checkAll.Name = "checkAll";
-			this.checkAll.Size = new System.Drawing.Size(69, 17);
+			this.checkAll.Size = new System.Drawing.Size(15, 14);
 			this.checkAll.TabIndex = 55;
-			this.checkAll.Text = "check all";
 			this.checkAll.UseVisualStyleBackColor = true;
 			this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);
 			// 
 			// profile_cb
 			// 
-			this.profile_cb.Enabled = false;
 			this.profile_cb.FormattingEnabled = true;
 			this.profile_cb.Items.AddRange(new object[] {
             "Custom"});
-			this.profile_cb.Location = new System.Drawing.Point(78, 31);
+			this.profile_cb.Location = new System.Drawing.Point(106, 9);
 			this.profile_cb.Name = "profile_cb";
-			this.profile_cb.Size = new System.Drawing.Size(131, 21);
+			this.profile_cb.Size = new System.Drawing.Size(152, 21);
 			this.profile_cb.TabIndex = 57;
+			this.profile_cb.Text = "Custom";
+			this.profile_cb.SelectedValueChanged += new System.EventHandler(this.profile_cb_SelectedValueChanged);
 			// 
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label10.Location = new System.Drawing.Point(3, 164);
+			this.label10.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold);
+			this.label10.Location = new System.Drawing.Point(35, 5);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(60, 14);
+			this.label10.Size = new System.Drawing.Size(66, 17);
 			this.label10.TabIndex = 58;
-			this.label10.Text = "Accounts :";
-			// 
-			// profileName_lbl
-			// 
-			this.profileName_lbl.AutoSize = true;
-			this.profileName_lbl.Location = new System.Drawing.Point(9, 61);
-			this.profileName_lbl.Name = "profileName_lbl";
-			this.profileName_lbl.Size = new System.Drawing.Size(68, 13);
-			this.profileName_lbl.TabIndex = 62;
-			this.profileName_lbl.Text = "Profile name:";
-			// 
-			// profile_tb
-			// 
-			this.profile_tb.Location = new System.Drawing.Point(78, 59);
-			this.profile_tb.Name = "profile_tb";
-			this.profile_tb.Size = new System.Drawing.Size(131, 20);
-			this.profile_tb.TabIndex = 63;
+			this.label10.Text = "Accounts";
 			// 
 			// panel3
 			// 
-			this.panel3.BackColor = System.Drawing.SystemColors.Control;
-			this.panel3.Controls.Add(this.delete_btn);
-			this.panel3.Controls.Add(this.add_btn);
-			this.panel3.Controls.Add(this.save_btn);
-			this.panel3.Controls.Add(this.profile_cb);
-			this.panel3.Controls.Add(this.Profile_lbl);
-			this.panel3.Controls.Add(this.profile_tb);
-			this.panel3.Controls.Add(this.profileName_lbl);
-			this.panel3.Location = new System.Drawing.Point(6, 53);
+			this.panel3.BackColor = System.Drawing.Color.Gainsboro;
+			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel3.Controls.Add(this.pictureBox11);
+			this.panel3.Controls.Add(this.label10);
+			this.panel3.Controls.Add(this.checkAll);
+			this.panel3.Location = new System.Drawing.Point(15, 123);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(369, 93);
-			this.panel3.TabIndex = 57;
+			this.panel3.Size = new System.Drawing.Size(474, 28);
+			this.panel3.TabIndex = 23;
 			// 
-			// checkBox1
+			// panel4
 			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Enabled = false;
-			this.checkBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBox1.Location = new System.Drawing.Point(30, 105);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(55, 19);
-			this.checkBox1.TabIndex = 49;
-			this.checkBox1.Text = "Yahoo";
-			this.checkBox1.UseVisualStyleBackColor = true;
+			this.panel4.BackColor = System.Drawing.Color.Gainsboro;
+			this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel4.Controls.Add(this.pictureBox13);
+			this.panel4.Controls.Add(this.label1);
+			this.panel4.Location = new System.Drawing.Point(3, 4);
+			this.panel4.Name = "panel4";
+			this.panel4.Size = new System.Drawing.Size(302, 28);
+			this.panel4.TabIndex = 59;
 			// 
-			// delete_btn
+			// label1
 			// 
-			this.delete_btn.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.delete__1_;
-			this.delete_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.delete_btn.Enabled = false;
-			this.delete_btn.Location = new System.Drawing.Point(321, 3);
-			this.delete_btn.Name = "delete_btn";
-			this.delete_btn.Size = new System.Drawing.Size(29, 28);
-			this.delete_btn.TabIndex = 64;
-			this.delete_btn.UseVisualStyleBackColor = true;
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold);
+			this.label1.Location = new System.Drawing.Point(40, 5);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(59, 17);
+			this.label1.TabIndex = 58;
+			this.label1.Text = "Settings";
 			// 
-			// add_btn
+			// pictureBox13
 			// 
-			this.add_btn.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.window_new;
-			this.add_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.add_btn.Enabled = false;
-			this.add_btn.Location = new System.Drawing.Point(251, 3);
-			this.add_btn.Name = "add_btn";
-			this.add_btn.Size = new System.Drawing.Size(29, 28);
-			this.add_btn.TabIndex = 60;
-			this.add_btn.UseVisualStyleBackColor = true;
+			this.pictureBox13.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox13.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.settings;
+			this.pictureBox13.Location = new System.Drawing.Point(-1, -1);
+			this.pictureBox13.Name = "pictureBox13";
+			this.pictureBox13.Size = new System.Drawing.Size(30, 28);
+			this.pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox13.TabIndex = 59;
+			this.pictureBox13.TabStop = false;
 			// 
-			// save_btn
+			// pictureBox11
 			// 
-			this.save_btn.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.media_floppy_green;
-			this.save_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.save_btn.Enabled = false;
-			this.save_btn.Location = new System.Drawing.Point(286, 3);
-			this.save_btn.Name = "save_btn";
-			this.save_btn.Size = new System.Drawing.Size(29, 28);
-			this.save_btn.TabIndex = 59;
-			this.save_btn.UseVisualStyleBackColor = true;
-			this.save_btn.Click += new System.EventHandler(this.save_btn_Click);
+			this.pictureBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox11.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.users;
+			this.pictureBox11.Location = new System.Drawing.Point(-2, -2);
+			this.pictureBox11.Name = "pictureBox11";
+			this.pictureBox11.Size = new System.Drawing.Size(30, 29);
+			this.pictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox11.TabIndex = 53;
+			this.pictureBox11.TabStop = false;
+			// 
+			// Start_btn
+			// 
+			this.Start_btn.BackColor = System.Drawing.Color.Green;
+			this.Start_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.Start_btn.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold);
+			this.Start_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.Start_btn.Location = new System.Drawing.Point(552, 351);
+			this.Start_btn.Name = "Start_btn";
+			this.Start_btn.Size = new System.Drawing.Size(84, 30);
+			this.Start_btn.TabIndex = 47;
+			this.Start_btn.Text = "START";
+			this.Start_btn.UseVisualStyleBackColor = false;
+			this.Start_btn.Click += new System.EventHandler(this.Start_btn_Click);
 			// 
 			// appErrorImage
 			// 
@@ -987,6 +995,19 @@
 			this.appErrorImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.appErrorImage.TabIndex = 53;
 			this.appErrorImage.TabStop = false;
+			// 
+			// pictureBox12
+			// 
+			this.pictureBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox12.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.users_folder_graphite;
+			this.pictureBox12.Location = new System.Drawing.Point(9, 4);
+			this.pictureBox12.Name = "pictureBox12";
+			this.pictureBox12.Size = new System.Drawing.Size(30, 28);
+			this.pictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox12.TabIndex = 59;
+			this.pictureBox12.TabStop = false;
 			// 
 			// pictureBox6
 			// 
@@ -1113,17 +1134,41 @@
 			this.step2_Result.TabStop = false;
 			this.step2_Result.Visible = false;
 			// 
+			// pictureBox7
+			// 
+			this.pictureBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox7.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Stats;
+			this.pictureBox7.Location = new System.Drawing.Point(-1, -1);
+			this.pictureBox7.Name = "pictureBox7";
+			this.pictureBox7.Size = new System.Drawing.Size(30, 29);
+			this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox7.TabIndex = 59;
+			this.pictureBox7.TabStop = false;
+			// 
+			// panel5
+			// 
+			this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel5.Controls.Add(this.panel4);
+			this.panel5.Controls.Add(this.dataTypes);
+			this.panel5.Controls.Add(this.groupBox4);
+			this.panel5.Location = new System.Drawing.Point(497, 60);
+			this.panel5.Name = "panel5";
+			this.panel5.Size = new System.Drawing.Size(309, 280);
+			this.panel5.TabIndex = 60;
+			// 
 			// DataChecks
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
-			this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.ClientSize = new System.Drawing.Size(837, 699);
+			this.Controls.Add(this.panel5);
 			this.Controls.Add(this.panel3);
-			this.Controls.Add(this.label10);
-			this.Controls.Add(this.checkAll);
 			this.Controls.Add(this.full_btn);
+			this.Controls.Add(this.label6);
 			this.Controls.Add(this.Start_btn);
 			this.Controls.Add(this.AppAlertPanel);
 			this.Controls.Add(this.quick_btn);
@@ -1132,8 +1177,6 @@
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.report_btn);
 			this.Controls.Add(this.panel2);
-			this.Controls.Add(this.groupBox4);
-			this.Controls.Add(this.dataTypes);
 			this.Controls.Add(this.AccountsCheckedListBox);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.groupBox3);
@@ -1165,7 +1208,12 @@
 			this.AppAlertPanel.PerformLayout();
 			this.panel3.ResumeLayout(false);
 			this.panel3.PerformLayout();
+			this.panel4.ResumeLayout(false);
+			this.panel4.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.appErrorImage)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -1176,6 +1224,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.step3_Result)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.step1_ErrorImage)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.step2_Result)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+			this.panel5.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1257,16 +1307,18 @@
         private System.Windows.Forms.Label Profile_lbl;
         private System.Windows.Forms.CheckBox checkAll;
         private System.Windows.Forms.ComboBox profile_cb;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label profileName_lbl;
-        private System.Windows.Forms.TextBox profile_tb;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button save_btn;
-        private System.Windows.Forms.Button add_btn;
-        private System.Windows.Forms.Button delete_btn;
+		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.PictureBox pictureBox4;
 		private System.Windows.Forms.CheckBox checkBox1;
 		private System.Windows.Forms.PictureBox pictureBox5;
 		private System.Windows.Forms.PictureBox pictureBox6;
+		private System.Windows.Forms.Panel panel3;
+		private System.Windows.Forms.PictureBox pictureBox11;
+		private System.Windows.Forms.Panel panel4;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.PictureBox pictureBox12;
+		private System.Windows.Forms.PictureBox pictureBox13;
+		private System.Windows.Forms.PictureBox pictureBox7;
+		private System.Windows.Forms.Panel panel5;
 	}
 }

@@ -255,6 +255,18 @@
     <None Include="Resources\kontact.png" />
     <None Include="Resources\gnome_ftp.png" />
     <None Include="Resources\documents.png" />
+    <None Include="Resources\glass_numbers_1.png" />
+    <None Include="Resources\glass_numbers_2.png" />
+    <None Include="Resources\glass_numbers_3.png" />
+    <None Include="Resources\glass_numbers_4.png" />
+    <None Include="Resources\users_folder_graphite.png" />
+    <None Include="Resources\users.png" />
+    <None Include="Resources\package_settings.png" />
+    <None Include="Resources\settings.png" />
+    <None Include="Resources\kontact1.png" />
+    <None Include="Resources\report.png" />
+    <None Include="Resources\Stats.png" />
+    <None Include="Resources\Go-Button.png" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
