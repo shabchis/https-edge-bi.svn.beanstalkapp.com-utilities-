@@ -123,9 +123,44 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap glass_numbers_1 {
+            get {
+                object obj = ResourceManager.GetObject("glass_numbers_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap glass_numbers_2 {
+            get {
+                object obj = ResourceManager.GetObject("glass_numbers_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap glass_numbers_3 {
+            get {
+                object obj = ResourceManager.GetObject("glass_numbers_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap glass_numbers_4 {
+            get {
+                object obj = ResourceManager.GetObject("glass_numbers_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap gnome_ftp {
             get {
                 object obj = ResourceManager.GetObject("gnome_ftp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Go_Button {
+            get {
+                object obj = ResourceManager.GetObject("Go-Button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -158,6 +193,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kontact1 {
+            get {
+                object obj = ResourceManager.GetObject("kontact1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap media_floppy_green {
             get {
                 object obj = ResourceManager.GetObject("media_floppy_green", resourceCulture);
@@ -165,9 +207,51 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap package_settings {
+            get {
+                object obj = ResourceManager.GetObject("package_settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap report {
+            get {
+                object obj = ResourceManager.GetObject("report", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap settings {
+            get {
+                object obj = ResourceManager.GetObject("settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Stats {
+            get {
+                object obj = ResourceManager.GetObject("Stats", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap success_icon {
             get {
                 object obj = ResourceManager.GetObject("success_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap users {
+            get {
+                object obj = ResourceManager.GetObject("users", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap users_folder_graphite {
+            get {
+                object obj = ResourceManager.GetObject("users_folder_graphite", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
