@@ -102,6 +102,7 @@
 			this.scheduleInfoGrid.ReadOnly = true;
 			this.scheduleInfoGrid.Size = new System.Drawing.Size(1263, 250);
 			this.scheduleInfoGrid.TabIndex = 2;
+			this.scheduleInfoGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.scheduleInfoGrid_MouseDown);
 			// 
 			// shceduledID
 			// 
