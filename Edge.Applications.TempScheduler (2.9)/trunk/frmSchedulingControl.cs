@@ -408,6 +408,8 @@ namespace Edge.Applications.TempScheduler
                     });
 					scheduleInfoGrid.Rows[row].DefaultCellStyle.BackColor = GetColorByState(scheduledService.Value.LegacyInstance.State, scheduledService.Value.LegacyInstance.Outcome, scheduledService.Value.Deleted);
 					scheduleInfoGrid.Rows[row].Tag = scheduledService.Value.LegacyInstance;
+					
+					
 
 				}
 
@@ -419,7 +421,18 @@ namespace Edge.Applications.TempScheduler
 				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
 			}
 		}
-
+		private void ViewLog_newForm(object sender, EventArgs e)
+		{
+			//Get Log from DB per instance id
+			frmInstanceLog form = new frmInstanceLog();
+			form.UpdateForm(
+				Convert.ToInt64(scheduleInfoGrid.SelectedRows[0].Cells[1].Value),
+				instanceName: scheduleInfoGrid.SelectedRows[0].Cells[2].Value.ToString(),
+				accountId: scheduleInfoGrid.SelectedRows[0].Cells[3].Value.ToString()
+				);
+			form.Show();
+			
+		}
 		private void endServiceBtn_Click(object sender, EventArgs e)
 		{
 			try
@@ -602,8 +615,18 @@ namespace Edge.Applications.TempScheduler
 
 		}
 
-		
-
+		private void scheduleInfoGrid_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				int currentMouseOverRow = scheduleInfoGrid.HitTest(e.X, e.Y).RowIndex;
+				scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip = new ContextMenuStrip();
+				scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip.Items.Add("View Log");
+				scheduleInfoGrid.Rows[currentMouseOverRow].Selected = true;
+				scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(ViewLog_newForm);
+					
+			}
+		}
 
 	}
 }
