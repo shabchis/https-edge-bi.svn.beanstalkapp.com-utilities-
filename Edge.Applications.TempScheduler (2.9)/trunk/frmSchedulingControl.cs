@@ -620,10 +620,14 @@ namespace Edge.Applications.TempScheduler
 			if (e.Button == MouseButtons.Right)
 			{
 				int currentMouseOverRow = scheduleInfoGrid.HitTest(e.X, e.Y).RowIndex;
-				scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip = new ContextMenuStrip();
-				scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip.Items.Add("View Log");
-				scheduleInfoGrid.Rows[currentMouseOverRow].Selected = true;
-				scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(ViewLog_newForm);
+				if (currentMouseOverRow != -1)
+				{
+					scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip = new ContextMenuStrip();
+					scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip.Items.Add("View Log");
+					scheduleInfoGrid.Rows[currentMouseOverRow].Selected = true;
+					scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(ViewLog_newForm);
+				}
+				
 					
 			}
 		}
