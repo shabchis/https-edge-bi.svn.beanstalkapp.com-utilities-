@@ -11,6 +11,12 @@ using Edge.Core.Configuration;
 using System.Xml;
 using System.Data.SqlTypes;
 using System.IO;
+using Edge.Core.Services;
+using Edge.Core.Scheduling;
+using Edge.Core;
+using Edge.Data.Pipeline;
+using Newtonsoft.Json;
+using Edge.Data.Pipeline.Services;
 
 namespace Edge.Applications.TempScheduler
 {
@@ -25,7 +31,17 @@ namespace Edge.Applications.TempScheduler
 
 		public void UpdateForm(long parentInstanceId, string instanceName, string accountId)
 		{
-			instances = GetServicesInstaceIdList(parentInstanceId);
+			string deliveryId = string.Empty;
+			DateTimeRange dateTimeRange = new DateTimeRange();
+			string TargetPeriodDefinition;
+
+
+			this.instaceIDValue.Text = parentInstanceId.ToString();
+			this.SourceNameValue.Text = instanceName;
+			this.AccountIdValue.Text = accountId;
+
+			#region Getting Instaces
+			instances = GetWorkFlowServicesInstaceIdList(parentInstanceId);
 			if (instances.Count > 0)
 			{
 				InstancesListBox.Items.Clear();
@@ -33,40 +49,123 @@ namespace Edge.Applications.TempScheduler
 				{
 					InstancesListBox.Items.Add(string.Format("{0} ({1})", instance.Value, instance.Key));
 				}
-				string delivery;
-				if (TryGetDeliveryId(instances, out delivery))
+
+				if (TryGetDeliveryId(instances, out deliveryId))
 				{
-					deliveryID_lbl.Text = delivery;
+					deliveryID_lbl.Text = deliveryId;
 				}
 				else deliveryID_lbl.Text = "No Delivery";
 			}
+			#endregion
 
-			this.instaceIDValue.Text = parentInstanceId.ToString();
-			this.SourceNameValue.Text = instanceName;
-			this.AccountIdValue.Text = accountId;
+			#region Getting Time Period
+			//TO DO : somthing if not getting target period !!!!
 
+			if (TryGetDeliveryTargetPeriod(deliveryId, out TargetPeriodDefinition))
+			{
+				dateTimeRange = (DateTimeRange)JsonConvert.DeserializeObject(TargetPeriodDefinition, typeof(DateTimeRange));
+			}
+			#endregion
+		
+			
+			#region Setting instances List in overview
 			InstaceEntity parent = GetInstanceLogById(parentInstanceId);
-			//this.parentException_tb.Text = String.IsNullOrEmpty(parent.ExceptionDetails) ? "None" : parent.ExceptionDetails;
-			//this.parentInformation_lbl.Text = parent.Message;
 			if (!string.IsNullOrEmpty(parent.Message))
 				this.instacesSummaryDataGrid.Rows.Add(
 					parent.Id, parent.Source, string.Format("{0} {1}", parent.Message, parent.ExceptionDetails), parent.MessageType);
+			#endregion
 
-			//Setting instances summary grid
+			#region Setting instances Summary Grid
 			foreach (var id in instances)
 			{
 				InstaceEntity entity = GetInstanceLogById(id.Key);
 				this.instacesSummaryDataGrid.Rows.Add(
 					entity.Id, entity.Source, string.Format("{0} {1}", entity.Message, entity.ExceptionDetails), entity.MessageType);
 			}
+			#endregion
 
+			#region Service init
 			//Loading Service Configuration
+			XmlDocument xmlDoc = new XmlDocument();
+			Dictionary<string, string> attributes = new Dictionary<string, string>();
+			try
+			{
+				string xmlContent = this.xmlContent_rtb.Text = GetConfigurationFromDB(parentInstanceId);
+				xmlDoc.LoadXml(xmlContent);
+				foreach (XmlAttribute attribute in xmlDoc.DocumentElement.Attributes)
+				{
+					attributes.Add(attribute.Name, attribute.Value);
+					optionsListView.Items.Add(new ListViewItem(new string[] { attribute.Name, attribute.Value }));
+				}
 
-			//XmlReader xmlReader = GetConfigurationFromDB(parentInstanceId);
-		
+			}
+			catch
+			{
+				//TO DO : throw exception
+			}
+
+			//set service configuration and run service.
+			if (attributes.ContainsKey("Name"))
+			{
+				string serviceName = attributes["Name"];
+				ServiceClient<IScheduleManager> scheduleManager = new ServiceClient<IScheduleManager>();
+				SettingsCollection options = new SettingsCollection();
+				//DateTime targetDateTime = new DateTime(dateToRunPicker.Value.Year, dateToRunPicker.Value.Month, dateToRunPicker.Value.Day, timeToRunPicker.Value.Hour, timeToRunPicker.Value.Minute, 0);
+
+				foreach (var item in attributes)
+				{
+					options.Add(item.Key, item.Value);
+				}
+				options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, dateTimeRange.ToAbsolute().ToString());
+				//run the service
+		//		scheduleManager.Service.AddToSchedule(serviceName, Convert.ToInt32(accountId), DateTime.Now, options);
+
+			}
+			#endregion
 		}
 
-		private XmlReader GetConfigurationFromDB(long instanceId)
+		private bool TryGetDeliveryTargetPeriod(string deliveryId, out string TargetPeriodDefinition)
+		{
+			TargetPeriodDefinition = GetDeliveryTargetPeriodFromDB(deliveryId);
+			if (!string.IsNullOrEmpty(TargetPeriodDefinition))
+				return true;
+			return false;
+		}
+
+		private string GetDeliveryTargetPeriodFromDB(string deliveryId)
+		{
+			string TargetPeriod = String.Empty;
+			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+			{
+				sqlCon.Open();
+				SqlCommand sqlCommand = new SqlCommand(
+					  @"SELECT [TargetPeriodDefinition] FROM [dbo].[Delivery] where [DeliveryID] = @deliveryId"
+					  );
+
+				sqlCommand.Parameters.Add(new SqlParameter()
+				{
+					ParameterName = "@deliveryId",
+					Value = deliveryId,
+					SqlDbType = System.Data.SqlDbType.Char
+				});
+				sqlCommand.Connection = sqlCon;
+
+				using (var _reader = sqlCommand.ExecuteReader())
+				{
+					if (!_reader.IsClosed)
+					{
+						while (_reader.Read())
+						{
+							TargetPeriod = _reader[0].ToString();
+						}
+					}
+				}
+
+			}
+			return TargetPeriod;
+		}
+
+		private string GetConfigurationFromDB(long instanceId)
 		{
 			string config = String.Empty;
 			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
@@ -84,15 +183,15 @@ namespace Edge.Applications.TempScheduler
 				});
 				sqlCommand.Connection = sqlCon;
 
-				using (var _reader = sqlCommand.ExecuteXmlReader())
+				using (var _reader = sqlCommand.ExecuteReader())
 				{
-					if (_reader.Read())
+					while (_reader.Read())
 					{
-						return _reader;
+						config = _reader[0].ToString();
 					}
 				}
 			}
-			return null;
+			return config;
 		}
 
 		private bool TryGetDeliveryId(Dictionary<long, string> instances, out string id)
@@ -100,12 +199,11 @@ namespace Edge.Applications.TempScheduler
 			id = string.Empty;
 			foreach (var item in instances)
 			{
-				id = GetDeliveryId(item.Key);
-				if (!string.IsNullOrEmpty(id)) break;
+				id = GetDeliveryIdFromDB(item.Key);
+				if (!string.IsNullOrEmpty(id))
+					return true;
 			}
-
-			if (string.IsNullOrEmpty(id)) return false;
-			else return true;
+			return false;
 		}
 
 		private InstaceEntity GetInstanceLogById(long instanceId)
@@ -147,7 +245,7 @@ namespace Edge.Applications.TempScheduler
 			}
 		}
 
-		private Dictionary<long, string> GetServicesInstaceIdList(long parentInstaceId)
+		private Dictionary<long, string> GetWorkFlowServicesInstaceIdList(long parentInstaceId)
 		{
 			Dictionary<long, string> instances = new Dictionary<long, string>();
 
@@ -175,7 +273,7 @@ namespace Edge.Applications.TempScheduler
 
 		}
 
-		private string GetDeliveryId(long instanceId)
+		private string GetDeliveryIdFromDB(long instanceId)
 		{
 			string deliveryId = String.Empty;
 			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
