@@ -352,7 +352,7 @@ namespace Edge.Applications.TempScheduler
 				}
 
 				if (ConflictBehavior.Checked && !optionsListView.Items.ContainsKey("ConflictBehavior"))
-					_options.Add("ConflictBehavior", "true");
+					_options.Add("ConflictBehavior", "Ignore");
 
 				//Run Service
 				_options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, _dateTimeRange.ToAbsolute().ToString());
