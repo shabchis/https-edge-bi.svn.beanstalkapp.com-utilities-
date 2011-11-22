@@ -424,7 +424,7 @@ namespace Edge.Applications.TempScheduler
 		private void ViewLog_newForm(object sender, EventArgs e)
 		{
 			//Get Log from DB per instance id
-			frmInstanceLog form = new frmInstanceLog();
+			frmInstanceLog form = new frmInstanceLog(this._listner);
 			form.UpdateForm(
 				Convert.ToInt64(scheduleInfoGrid.SelectedRows[0].Cells[1].Value),
 				instanceName: scheduleInfoGrid.SelectedRows[0].Cells[2].Value.ToString(),
