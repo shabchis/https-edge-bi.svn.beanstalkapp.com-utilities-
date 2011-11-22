@@ -22,35 +22,40 @@ namespace Edge.Applications.TempScheduler
 {
 	public partial class frmInstanceLog : Form
 	{
-		Dictionary<long, string> instances = new Dictionary<long, string>(); //<InstanceId , name > 
+		private Dictionary<long, string> _instances = new Dictionary<long, string>(); //<InstanceId , name > 
+		private Dictionary<string, string> _attributes = new Dictionary<string, string>();
+		private SettingsCollection _options = new SettingsCollection();
+		private DateTimeRange _dateTimeRange = new DateTimeRange();
+		private Listener _listner;
+		private int _accountId;
 
-		public frmInstanceLog()
+		public frmInstanceLog(Listener listner)
 		{
 			InitializeComponent();
+			_listner = listner;
 		}
 
 		public void UpdateForm(long parentInstanceId, string instanceName, string accountId)
 		{
 			string deliveryId = string.Empty;
-			DateTimeRange dateTimeRange = new DateTimeRange();
-			string TargetPeriodDefinition;
-
-
 			this.instaceIDValue.Text = parentInstanceId.ToString();
 			this.SourceNameValue.Text = instanceName;
 			this.AccountIdValue.Text = accountId;
+			this._accountId = Convert.ToInt32(accountId);
+			FromPicker.Value = FromPicker.Value.AddDays(-1);
+			ToPicker.Value = ToPicker.Value.AddDays(-1);
 
 			#region Getting Instaces
-			instances = GetWorkFlowServicesInstaceIdList(parentInstanceId);
-			if (instances.Count > 0)
+			_instances = GetWorkFlowServicesInstaceIdList(parentInstanceId);
+			if (_instances.Count > 0)
 			{
 				InstancesListBox.Items.Clear();
-				foreach (var instance in instances)
+				foreach (var instance in _instances)
 				{
 					InstancesListBox.Items.Add(string.Format("{0} ({1})", instance.Value, instance.Key));
 				}
 
-				if (TryGetDeliveryId(instances, out deliveryId))
+				if (TryGetDeliveryId(_instances, out deliveryId))
 				{
 					deliveryID_lbl.Text = deliveryId;
 				}
@@ -58,16 +63,6 @@ namespace Edge.Applications.TempScheduler
 			}
 			#endregion
 
-			#region Getting Time Period
-			//TO DO : somthing if not getting target period !!!!
-
-			if (TryGetDeliveryTargetPeriod(deliveryId, out TargetPeriodDefinition))
-			{
-				dateTimeRange = (DateTimeRange)JsonConvert.DeserializeObject(TargetPeriodDefinition, typeof(DateTimeRange));
-			}
-			#endregion
-		
-			
 			#region Setting instances List in overview
 			InstaceEntity parent = GetInstanceLogById(parentInstanceId);
 			if (!string.IsNullOrEmpty(parent.Message))
@@ -76,7 +71,7 @@ namespace Edge.Applications.TempScheduler
 			#endregion
 
 			#region Setting instances Summary Grid
-			foreach (var id in instances)
+			foreach (var id in _instances)
 			{
 				InstaceEntity entity = GetInstanceLogById(id.Key);
 				this.instacesSummaryDataGrid.Rows.Add(
@@ -84,17 +79,17 @@ namespace Edge.Applications.TempScheduler
 			}
 			#endregion
 
-			#region Service init
+			#region Service Configuration
 			//Loading Service Configuration
 			XmlDocument xmlDoc = new XmlDocument();
-			Dictionary<string, string> attributes = new Dictionary<string, string>();
+
 			try
 			{
-				string xmlContent = this.xmlContent_rtb.Text = GetConfigurationFromDB(parentInstanceId);
+				string xmlContent = GetConfigurationFromDB(parentInstanceId);
 				xmlDoc.LoadXml(xmlContent);
 				foreach (XmlAttribute attribute in xmlDoc.DocumentElement.Attributes)
 				{
-					attributes.Add(attribute.Name, attribute.Value);
+					_attributes.Add(attribute.Name, attribute.Value);
 					optionsListView.Items.Add(new ListViewItem(new string[] { attribute.Name, attribute.Value }));
 				}
 
@@ -104,42 +99,47 @@ namespace Edge.Applications.TempScheduler
 				//TO DO : throw exception
 			}
 
-			//set service configuration and run service.
-			if (attributes.ContainsKey("Name"))
+			//Getting TimePeriod
+			if (TryGetDeliveryTargetPeriod(deliveryId, out _dateTimeRange))
 			{
-				string serviceName = attributes["Name"];
-				ServiceClient<IScheduleManager> scheduleManager = new ServiceClient<IScheduleManager>();
-				SettingsCollection options = new SettingsCollection();
-				//DateTime targetDateTime = new DateTime(dateToRunPicker.Value.Year, dateToRunPicker.Value.Month, dateToRunPicker.Value.Day, timeToRunPicker.Value.Hour, timeToRunPicker.Value.Minute, 0);
-
-				foreach (var item in attributes)
-				{
-					options.Add(item.Key, item.Value);
-				}
-				options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, dateTimeRange.ToAbsolute().ToString());
-				//run the service
-		//		scheduleManager.Service.AddToSchedule(serviceName, Convert.ToInt32(accountId), DateTime.Now, options);
-
+				_options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, _dateTimeRange.ToAbsolute().ToString());
+				FromPicker.Value = _dateTimeRange.Start.ToDateTime();
+				ToPicker.Value = _dateTimeRange.End.ToDateTime();
 			}
+			else
+			{
+				this.deliveryID_lbl.Text = "Unavailable";
+			}
+
+
+
 			#endregion
 		}
 
-		private bool TryGetDeliveryTargetPeriod(string deliveryId, out string TargetPeriodDefinition)
+		private bool TryGetDeliveryTargetPeriod(string deliveryId, out DateTimeRange TargetPeriodDefinition)
 		{
-			TargetPeriodDefinition = GetDeliveryTargetPeriodFromDB(deliveryId);
-			if (!string.IsNullOrEmpty(TargetPeriodDefinition))
+			TargetPeriodDefinition = new DateTimeRange();
+			string TargetPeriodStart = String.Empty;
+			string TargetPeriodEnd = String.Empty;
+			GetDeliveryTargetPeriodFromDB(deliveryId, out TargetPeriodStart, out TargetPeriodEnd);
+
+			if (!string.IsNullOrEmpty(TargetPeriodStart) && !string.IsNullOrEmpty(TargetPeriodEnd))
+			{
+				TargetPeriodDefinition.Start = DateTimeSpecification.Parse(TargetPeriodStart);
+				TargetPeriodDefinition.End = DateTimeSpecification.Parse(TargetPeriodEnd);
 				return true;
+			}
 			return false;
 		}
 
-		private string GetDeliveryTargetPeriodFromDB(string deliveryId)
+		private void GetDeliveryTargetPeriodFromDB(string deliveryId, out string TargetPeriodStart, out string TargetPeriodEnd)
 		{
-			string TargetPeriod = String.Empty;
+			TargetPeriodStart = TargetPeriodEnd = String.Empty;
 			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
 			{
 				sqlCon.Open();
 				SqlCommand sqlCommand = new SqlCommand(
-					  @"SELECT [TargetPeriodDefinition] FROM [dbo].[Delivery] where [DeliveryID] = @deliveryId"
+					  @"SELECT [TargetPeriodStart],[TargetPeriodEnd] FROM [dbo].[Delivery] where [DeliveryID] = @deliveryId"
 					  );
 
 				sqlCommand.Parameters.Add(new SqlParameter()
@@ -156,13 +156,13 @@ namespace Edge.Applications.TempScheduler
 					{
 						while (_reader.Read())
 						{
-							TargetPeriod = _reader[0].ToString();
+							TargetPeriodStart = _reader[0].ToString();
+							TargetPeriodEnd = _reader[1].ToString();
 						}
 					}
 				}
 
 			}
-			return TargetPeriod;
 		}
 
 		private string GetConfigurationFromDB(long instanceId)
@@ -310,17 +310,17 @@ namespace Edge.Applications.TempScheduler
 		private void addOptionBtn_Click(object sender, EventArgs e)
 		{
 			bool exist = false;
-			foreach (ListViewItem item in optionsListView.Items)
+
+			foreach (ListViewItem item in AttributesToRunList.Items)
 			{
 				if (item.SubItems[0].Text.Trim() == cmbKey.Text)
 					exist = true;
-
 			}
 			if (!string.IsNullOrEmpty(cmbKey.Text) && !string.IsNullOrEmpty(cmbValue.Text))
 			{
 				if (!exist)
 				{
-					optionsListView.Items.Add(new ListViewItem(new string[] { cmbKey.Text, cmbValue.Text }));
+					AttributesToRunList.Items.Add(new ListViewItem(new string[] { cmbKey.Text, cmbValue.Text }));
 					cmbKey.Text = string.Empty;
 					cmbValue.Text = string.Empty;
 				}
@@ -331,12 +331,67 @@ namespace Edge.Applications.TempScheduler
 
 		private void removeOptionBtn_Click(object sender, EventArgs e)
 		{
-			foreach (ListViewItem item in optionsListView.SelectedItems)
+			foreach (ListViewItem item in AttributesToRunList.SelectedItems)
 			{
 				item.Remove();
-
+				optionsListView.Items.Add(item);
 			}
 		}
+
+		private void run_btn_Click(object sender, EventArgs e)
+		{
+
+			if (_attributes.ContainsKey("Name"))
+			{
+				string serviceName = _attributes["Name"];
+				ServiceClient<IScheduleManager> scheduleManager = new ServiceClient<IScheduleManager>();
+
+				foreach (ListViewItem item in AttributesToRunList.Items)
+				{
+					_options.Add(item.SubItems[0].Text.Trim(), item.SubItems[1].Text.Trim());
+				}
+
+				if (ConflictBehavior.Checked)
+					_options.Add("ConflictBehavior", "true");
+
+				//Run Service
+				_options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, _dateTimeRange.ToAbsolute().ToString());
+				bool result = _listner.FormAddToSchedule(serviceName, _accountId, DateTime.Now, _options, ServicePriority.Normal);
+				if (!result)
+				{
+					MessageBox.Show(string.Format("Service {0} for account {1} did not run", serviceName, _accountId));
+				}
+			}
+
+		}
+
+		private void RemoveOption(string option)
+		{
+			_attributes.Remove(option);
+			_options.Remove(option);
+		}
+
+		private void AddFromAvailable_Click(object sender, EventArgs e)
+		{
+			foreach (ListViewItem item in optionsListView.SelectedItems)
+			{
+				optionsListView.Items.Remove(item);
+				if (!AttributesToRunList.Items.Contains(item))
+				AttributesToRunList.Items.Add(item);
+			}
+		}
+
+		private void ClearAttributes_Click(object sender, EventArgs e)
+		{
+			foreach (ListViewItem item in AttributesToRunList.SelectedItems)
+			{
+				item.Remove();
+				if (!optionsListView.Items.Contains(item))
+					optionsListView.Items.Add(item);
+			}
+		}
+
+
 	}
 
 	public class InstaceEntity
