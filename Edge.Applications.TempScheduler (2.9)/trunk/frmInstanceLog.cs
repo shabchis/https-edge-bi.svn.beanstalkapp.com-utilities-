@@ -351,7 +351,7 @@ namespace Edge.Applications.TempScheduler
 					_options.Add(item.SubItems[0].Text.Trim(), item.SubItems[1].Text.Trim());
 				}
 
-				if (ConflictBehavior.Checked)
+				if (ConflictBehavior.Checked && !optionsListView.Items.ContainsKey("ConflictBehavior"))
 					_options.Add("ConflictBehavior", "true");
 
 				//Run Service
