@@ -97,6 +97,7 @@ namespace Edge.Applications.TempScheduler
 
 				}
 			}));
+					_timerToStartScheduling.IsBackground = true;
 					_timerToStartScheduling.Start();
 
 

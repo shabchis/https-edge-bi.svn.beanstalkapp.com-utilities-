@@ -23,7 +23,7 @@ namespace Edge.Applications.TempScheduler
 			// Get an alternate file name
 			try
 			{
-				
+
 				string configFileName = EdgeServicesConfiguration.DefaultFileName;
 				if (args.Length > 0 && args[0].StartsWith("/") && args[0].Length > 1)
 				{
@@ -41,41 +41,45 @@ namespace Edge.Applications.TempScheduler
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
 				Application.Run(new frmSchedulingControl());
-				
+
 			}
 			catch (Exception ex)
 			{
-				
-				MessageBox.Show(ex.Message + ex.StackTrace + ex.InnerException + ex.Data+ex.TargetSite);
+
+				MessageBox.Show(ex.Message + ex.StackTrace + ex.InnerException + ex.Data + ex.TargetSite);
 			}
 		}
 
 		static void Application_ThreadExit(object sender, EventArgs e)
 		{
-			
+			System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess();
+			p.Kill();
+
+
 		}
 
-		
 
-        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
-        {
-            
-            MessageBox.Show(e.Exception.Message);
-            Smtp.Send("SchedulerTester  exception", true, string.Format("Message:\n{0}\nInner Exception:\n{1}\nExeption.ToString():\n{2}\nIsTerminating:{3}\nStack:\n{4}", e.Exception.Message, e.Exception.InnerException, e.Exception, "true", e.Exception.StackTrace), false, string.Empty);
-            Log.Write("SchedulerTester", e.Exception.Message, e.Exception, LogMessageType.Error);
-            MessageBox.Show(e.Exception.Message);
-        }
 
-        static void currentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
 
-            
-            Exception ex=(Exception)e.ExceptionObject;           
-            Smtp.Send("SchedulerTester  exception", true, string.Format("Message:\n{0}\nInner Exception:\n{1}\nExeption.ToString():\n{2}\nIsTerminating:{3}\nStack:\n{4}", ex.Message, ex.InnerException, ex, e.IsTerminating,ex.StackTrace), false, string.Empty);
-            Log.Write("SchedulerTester", ex.Message, ex, LogMessageType.Error);
-            MessageBox.Show(ex.Message);
-            
+		static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+		{
 
-        }
+			MessageBox.Show(e.Exception.Message);
+			Smtp.Send("SchedulerTester  exception", true, string.Format("Message:\n{0}\nInner Exception:\n{1}\nExeption.ToString():\n{2}\nIsTerminating:{3}\nStack:\n{4}", e.Exception.Message, e.Exception.InnerException, e.Exception, "true", e.Exception.StackTrace), false, string.Empty);
+			Log.Write("SchedulerTester", e.Exception.Message, e.Exception, LogMessageType.Error);
+			MessageBox.Show(e.Exception.Message);
+		}
+
+		static void currentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+
+
+			Exception ex = (Exception)e.ExceptionObject;
+			Smtp.Send("SchedulerTester  exception", true, string.Format("Message:\n{0}\nInner Exception:\n{1}\nExeption.ToString():\n{2}\nIsTerminating:{3}\nStack:\n{4}", ex.Message, ex.InnerException, ex, e.IsTerminating, ex.StackTrace), false, string.Empty);
+			Log.Write("SchedulerTester", ex.Message, ex, LogMessageType.Error);
+			MessageBox.Show(ex.Message);
+
+
+		}
 	}
 }
