@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Edge.Core.Configuration;
-using Edge.Data.Pipeline;
 using Edge.Core.Scheduling;
 using Edge.Core.Services;
 using Edge.Core;
-using Edge.Data.Pipeline.Services;
 
 namespace Edge.Anaylysis.Validation
 {
