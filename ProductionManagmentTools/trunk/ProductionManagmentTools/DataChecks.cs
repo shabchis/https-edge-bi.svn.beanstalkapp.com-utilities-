@@ -20,6 +20,8 @@ namespace Edge.Application.ProductionManagmentTools
 {
 	public partial class DataChecks : Form
 	{
+		#region Deligate members
+		/*============================*/
 		public delegate void UpdateStepStatus(List<Label> lbls, string text, bool visible);
 		private UpdateStepStatus updateStep;
 		public delegate void UpdateProgressBar(ProgressBar progressBar, int val, bool visible);
@@ -32,6 +34,8 @@ namespace Edge.Application.ProductionManagmentTools
 		private UpdatePictureBox updateResultImage;
 		public delegate void UpdatePanel(List<Panel> panels, bool enable);
 		private UpdatePanel updateStepsPanel;
+		/*============================*/
+		#endregion
 		private Dictionary<string, Step> Services;
 		private List<ValidationResult> results;
 		private ResultForm resultsForm;
@@ -39,7 +43,8 @@ namespace Edge.Application.ProductionManagmentTools
 		private List<CheckBox> _checkedChannels;
 		private List<CheckBox> _checkedServices;
 		List<AccountServiceElement> profiles = new List<AccountServiceElement>();
-
+		private string _currentProduction = string.Empty;
+		
 
 		public DataChecks()
 		{
@@ -60,9 +65,84 @@ namespace Edge.Application.ProductionManagmentTools
 			_checkedServices = new List<CheckBox>();
 
 			GoogleAdwords.BindingContext = new BindingContext() { };
-
 		}
 
+		private void DataChecks_Load(object sender, EventArgs e)
+		{
+			fromDate.Value = DateTime.Today.AddDays(-1);
+			toDate.Value = DateTime.Today.AddDays(-1);
+		}
+
+		private void GetAccountsFromDB(string SystemDatabase, CheckedListBox accountsListBox, Dictionary<string, string> availableAccountList)
+		{
+			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(this, SystemDatabase)))
+			{
+				sqlCon.Open();
+				SqlCommand sqlCommand = DataManager.CreateCommand(
+					"SELECT [Account_Name] ,[Account_ID] FROM [dbo].[User_GUI_Account] group by [Account_Name] ,[Account_ID]");
+				sqlCommand.Connection = sqlCon;
+
+				using (var _reader = sqlCommand.ExecuteReader())
+				{
+					if (!_reader.IsClosed)
+					{
+						while (_reader.Read())
+						{
+							accountsListBox.Items.Add(string.Format("{0}-{1}", _reader[1], _reader[0]));
+							availableAccountList.Add(_reader[1].ToString(), _reader[0].ToString());
+						}
+					}
+				}
+			}
+
+			if (AccountsCheckedListBox.Items.Count > 0)
+			{
+				AccountsCheckedListBox.Sorted = true;
+			}
+		}
+			private bool TryGetProfilesFromConfiguration(string key, ComboBox profilesCombo ,List<AccountServiceElement> serviceElement)
+		{
+			//saving current configuration
+			string current = EdgeServicesConfiguration.Current.CurrentConfiguration.FilePath;
+			try
+			{
+				
+			//Getting configuration path from configuration.
+			string productionConfig = ConfigurationManager.AppSettings.Get(key);
+
+			EdgeServicesConfiguration.Load(productionConfig);
+			AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
+			AccountElement account = accounts.GetAccount(-1);
+
+			foreach (AccountServiceElement service in account.Services)
+			{
+				if (service.Options.ContainsKey("ProfileName"))
+				{
+					serviceElement.Add(service);
+					profilesCombo.Items.Add(service.Options["ProfileName"]);
+				}
+			}
+
+			profilesCombo.Tag = profiles;
+			
+			
+			}
+			catch
+			{
+				//Loading original configuration
+				EdgeServicesConfiguration.Load(current);
+				return false;
+			}
+
+			//Loading original configuration
+			EdgeServicesConfiguration.Load(current);
+			return true;
+			
+			
+		}
+
+		#region Delegate functions
+		/*=========================*/
 		public void updatePanels(List<Panel> panels, bool enable)
 		{
 			foreach (Panel panel in panels)
@@ -126,80 +206,113 @@ namespace Edge.Application.ProductionManagmentTools
 			}
 		}
 
-		private void DataChecks_Load(object sender, EventArgs e)
+		/*=========================*/
+		#endregion
+
+		#region On Step Change ( check box )
+		private void Step1StateChange(object sender, EventArgs e)
 		{
-			fromDate.Value = DateTime.Today.AddDays(-1);
-			toDate.Value = DateTime.Today.AddDays(-1);
-
-			#region Getting Accounts List
-			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+			if (level1.Checked)
 			{
-				sqlCon.Open();
-				SqlCommand sqlCommand = DataManager.CreateCommand(
-					"SELECT [Account_Name] ,[Account_ID] FROM [seperia].[dbo].[User_GUI_Account] where Status =9 group by [Account_Name] ,[Account_ID]");
-				sqlCommand.Connection = sqlCon;
-
-				using (var _reader = sqlCommand.ExecuteReader())
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step1 }, true });
+				Services.Add(Const.DeliveryOltpService, new Step
 				{
-					if (!_reader.IsClosed)
-					{
-						while (_reader.Read())
-						{
-							AccountsCheckedListBox.Items.Add(string.Format("{0}-{1}", _reader[1], _reader[0]));
-							_availableAccountList.Add(_reader[1].ToString(), _reader[0].ToString());
-
-						}
-					}
-				}
+					Panel = step1,
+					ProgressBar = step1_progressBar,
+					ResultImage = step1_ErrorImage,
+					Status = step1_status,
+					StepName = step1_lbl,
+					WarningCount = step1_warningCount,
+					ErrorsCount = step1_errorsCount
+				});
 			}
-
-			if (AccountsCheckedListBox.Items.Count > 0)
+			else
 			{
-				AccountsCheckedListBox.Sorted = true;
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step1 }, false });
+				Services.Remove(Const.DeliveryOltpService);
 			}
-			#endregion
-
-			#region Get Profile
-
-			string current = EdgeServicesConfiguration.Current.CurrentConfiguration.FilePath;
-
-			
-			//TO DO : get configuration path from configuration.
-			string productionConfig = ConfigurationManager.AppSettings.Get("ProductionConfigurationPath");
-
-			EdgeServicesConfiguration.Load(productionConfig);
-
-			AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
-			AccountElement account = accounts.GetAccount(-1);
-
-
-			foreach (AccountServiceElement service in account.Services)
-			{
-				if (service.Options.ContainsKey("ProfileName"))
-				{
-					profiles.Add(service);
-					profile_cb.Items.Add(service.Options["ProfileName"]);
-				}
-			}
-			profile_cb.Tag = profiles;
-			EdgeServicesConfiguration.Load(current);
-
-			#endregion
-
-
-
-
-
 		}
 
+		private void Step2StateChange(object sender, EventArgs e)
+		{
+			if (level2.Checked)
+			{
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step2 }, true });
+				Services.Add(Const.OltpDwhService, new Step
+				{
+					Panel = step2,
+					ProgressBar = step2_progressBar,
+					ResultImage = step2_Result,
+					Status = step2_status,
+					StepName = step2_lbl,
+					WarningCount = step2_warningCount,
+					ErrorsCount = step2_errorsCount
+				});
+			}
+			else
+			{
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step2 }, false });
+				Services.Remove(Const.OltpDwhService);
+			}
+		}
+
+		private void Step3StateChange(object sender, EventArgs e)
+		{
+			if (level3.Checked)
+			{
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step3 }, true });
+				Services.Add(Const.MdxDwhService, new Step
+				{
+					Panel = step3,
+					ProgressBar = step3_progressBar,
+					ResultImage = step3_Result,
+					Status = step3_status,
+					StepName = step3_lbl,
+					WarningCount = step3_warningCount,
+					ErrorsCount = step3_errorsCount
+				});
+			}
+			else
+			{
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step3 }, false });
+				Services.Remove(Const.MdxDwhService);
+			}
+		}
+
+		private void Step4StateChange(object sender, EventArgs e)
+		{
+			if (level4.Checked)
+			{
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step4 }, true });
+				Services.Add(Const.MdxOltpService, new Step
+				{
+					Panel = step4,
+					ProgressBar = step4_progressBar,
+					ResultImage = step4_Result,
+					Status = step4_status,
+					StepName = step4_lbl,
+					WarningCount = step4_warningCount,
+					ErrorsCount = step4_errorsCount
+				});
+			}
+			else
+			{
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step4 }, false });
+				Services.Remove(Const.MdxOltpService);
+			}
+		}
+		#endregion
+
+		#region Run button click functions
+		/*=========================*/
 		private void Start_btn_Click(object sender, EventArgs e)
 		{
 			DateTimeRange timePeriod;
 			string channels, accounts;
 
-
 			InitUI();
-			if (TryGetServicesParams(out timePeriod, out channels, out accounts))
+
+			if (TryGetServicesParams(AccountsCheckedListBox,out timePeriod, out channels, out accounts))
 			{
 				//Check if no service has been selected from checked boxes
 				if (Services.Count == 0)
@@ -229,8 +342,70 @@ namespace Edge.Application.ProductionManagmentTools
 			}
 
 		}
+		private void quick_btn_Click(object sender, EventArgs e)
+		{
+			level1.Checked = true;
+			level2.Checked = false;
+			level3.Checked = false;
+			level4.Checked = true;
+			Start_btn_Click(sender, e);
+		}
 
-		private bool TryGetServicesParams(out DateTimeRange timePeriod, out string channelsList, out string accountsList)
+		private void full_btn_Click(object sender, EventArgs e)
+		{
+			level1.Checked = true;
+			level2.Checked = true;
+			level3.Checked = true;
+			level4.Checked = true;
+			Start_btn_Click(sender, e);
+		}
+
+
+		/*=========================*/
+		#endregion
+
+		#region On Channel Change
+		/*========================*/
+		private void Channel_CheckedChanged(object sender)
+		{
+			//TO DO : add to Profile temp
+		}
+		private void GoogleAdwords_CheckedChanged(object sender, EventArgs e)
+		{
+			Channel_CheckedChanged(sender);
+		}
+		private void Facebook_CheckedChanged(object sender, EventArgs e)
+		{
+			Channel_CheckedChanged(sender);
+		}
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		{
+			Channel_CheckedChanged(sender);
+		}
+		/*========================*/
+		#endregion
+
+		#region Clear checked box functions
+		/*================================*/
+		private void ClearCheckTypeCheckBox()
+		{
+			level1.Checked = false;
+			level2.Checked = false;
+			level3.Checked = false;
+			level4.Checked = false;
+		}
+		private void ClearChannelsCheckBox()
+		{
+			GoogleAdwords.Checked = false;
+			Facebook.Checked = false;
+			Bing.Checked = false;
+		}
+		/*================================*/
+		#endregion
+		
+		#region Service
+		/*=======================*/
+		private bool TryGetServicesParams(CheckedListBox accountsCheckedListBox, out DateTimeRange timePeriod, out string channelsList, out string accountsList)
 		{
 			channelsList = "";
 			accountsList = "";
@@ -291,9 +466,9 @@ namespace Edge.Application.ProductionManagmentTools
 
 			#region Account Params
 			StringBuilder accounts = new StringBuilder();
-			if (AccountsCheckedListBox.CheckedItems.Count > 0)
+			if (accountsCheckedListBox.CheckedItems.Count > 0)
 			{
-				foreach (string item in AccountsCheckedListBox.CheckedItems)
+				foreach (string item in accountsCheckedListBox.CheckedItems)
 				{
 					string[] items = item.Split('-');
 					accounts.Append(items[0]);
@@ -407,6 +582,11 @@ namespace Edge.Application.ProductionManagmentTools
 			}
 		}
 
+		/*=======================*/
+		#endregion
+
+		#region Instances Handler functions
+		/*=================================*/
 		void instance_OutcomeReported(object sender, EventArgs e)
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
@@ -446,15 +626,6 @@ namespace Edge.Application.ProductionManagmentTools
 			//Invoke(updateBtn, new object[] { new List<Button>() { report_btn }, true, true });
 
 
-		}
-		private int CountRowsByLevelType(DataGridViewRowCollection Rows, string type)
-		{
-			int count = 0;
-			foreach (DataGridViewRow row in Rows)
-			{
-				if (row.Cells[1].Value.ToString().Equals(type)) count++;
-			}
-			return count;
 		}
 		void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
 		{
@@ -531,101 +702,18 @@ namespace Edge.Application.ProductionManagmentTools
 			Services.TryGetValue(instance.Configuration.Name, out step);
 			Invoke(updateProgressBar, new object[] { step.ProgressBar, (int)((ServiceInstance)sender).Progress * 70, true });
 		}
-
-		#region On Step Change ( check box )
-		private void Step1StateChange(object sender, EventArgs e)
-		{
-			if (level1.Checked)
-			{
-				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step1 }, true });
-				Services.Add(Const.DeliveryOltpService, new Step
-				{
-					Panel = step1,
-					ProgressBar = step1_progressBar,
-					ResultImage = step1_ErrorImage,
-					Status = step1_status,
-					StepName = step1_lbl,
-					WarningCount = step1_warningCount,
-					ErrorsCount = step1_errorsCount
-				});
-			}
-			else
-			{
-				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step1 }, false });
-				Services.Remove(Const.DeliveryOltpService);
-			}
-		}
-
-		private void Step2StateChange(object sender, EventArgs e)
-		{
-			if (level2.Checked)
-			{
-				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step2 }, true });
-				Services.Add(Const.OltpDwhService, new Step
-				{
-					Panel = step2,
-					ProgressBar = step2_progressBar,
-					ResultImage = step2_Result,
-					Status = step2_status,
-					StepName = step2_lbl,
-					WarningCount = step2_warningCount,
-					ErrorsCount = step2_errorsCount
-				});
-			}
-			else
-			{
-				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step2 }, false });
-				Services.Remove(Const.OltpDwhService);
-			}
-		}
-
-		private void Step3StateChange(object sender, EventArgs e)
-		{
-			if (level3.Checked)
-			{
-				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step3 }, true });
-				Services.Add(Const.MdxDwhService, new Step
-				{
-					Panel = step3,
-					ProgressBar = step3_progressBar,
-					ResultImage = step3_Result,
-					Status = step3_status,
-					StepName = step3_lbl,
-					WarningCount = step3_warningCount,
-					ErrorsCount = step3_errorsCount
-				});
-			}
-			else
-			{
-				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step3 }, false });
-				Services.Remove(Const.MdxDwhService);
-			}
-		}
-
-		private void Step4StateChange(object sender, EventArgs e)
-		{
-			if (level4.Checked)
-			{
-				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step4 }, true });
-				Services.Add(Const.MdxOltpService, new Step
-				{
-					Panel = step4,
-					ProgressBar = step4_progressBar,
-					ResultImage = step4_Result,
-					Status = step4_status,
-					StepName = step4_lbl,
-					WarningCount = step4_warningCount,
-					ErrorsCount = step4_errorsCount
-				});
-			}
-			else
-			{
-				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step4 }, false });
-				Services.Remove(Const.MdxOltpService);
-			}
-		}
+		/*=================================*/
 		#endregion
 
+		private int CountRowsByLevelType(DataGridViewRowCollection Rows, string type)
+		{
+			int count = 0;
+			foreach (DataGridViewRow row in Rows)
+			{
+				if (row.Cells[1].Value.ToString().Equals(type)) count++;
+			}
+			return count;
+		}
 		private void report_btn_Click(object sender, EventArgs e)
 		{
 			SortResultsDataGrid(resultsForm.ErrorDataGridView, ListSortDirection.Ascending);
@@ -634,7 +722,6 @@ namespace Edge.Application.ProductionManagmentTools
 
 			resultsForm.Show();
 		}
-
 		private void SortResultsDataGrid(DataGridView dataGridView, ListSortDirection listSortDirection)
 		{
 			if (dataGridView.RowCount > 0)
@@ -642,130 +729,6 @@ namespace Edge.Application.ProductionManagmentTools
 				dataGridView.Sort(dataGridView.Columns[0], listSortDirection);
 			}
 		}
-
-		private void CheckAllAccounts(bool isChecked)
-		{
-			if (isChecked)
-				for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
-				{
-					AccountsCheckedListBox.SetItemChecked(index, true);
-				}
-			else
-				for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
-				{
-					AccountsCheckedListBox.SetItemChecked(index, false);
-				}
-		}
-
-		private void checkAll_CheckedChanged(object sender, EventArgs e)
-		{
-			if (checkAll.Checked) CheckAllAccounts(true);
-			else CheckAllAccounts(false);
-		}
-
-		private void button6_Click(object sender, EventArgs e)
-		{
-			if (profile_cb.SelectedValue.ToString() == "custom")
-			{
-				DialogResult dlgRes = new DialogResult();
-				dlgRes = MessageBox.Show("Do you want to save this profile", "New Profile",
-				MessageBoxButtons.YesNo,
-				 MessageBoxIcon.Question);
-
-				switch (dlgRes)
-				{
-					case DialogResult.Yes:
-						{
-							break;
-						}
-					case System.Windows.Forms.DialogResult.Cancel:
-						{
-							break;
-						}
-				}
-
-			}
-		}
-
-		private void quick_btn_Click(object sender, EventArgs e)
-		{
-			level1.Checked = true;
-			level2.Checked = false;
-			level3.Checked = false;
-			level4.Checked = true;
-			Start_btn_Click(sender, e);
-		}
-
-		private void full_btn_Click(object sender, EventArgs e)
-		{
-			level1.Checked = true;
-			level2.Checked = true;
-			level3.Checked = true;
-			level4.Checked = true;
-			Start_btn_Click(sender, e);
-		}
-
-		private void save_btn_Click(object sender, EventArgs e)
-		{
-			//TO DO : Create Profile in XM: format 
-
-			//List<string> checkedAccounts = new List<string>();
-
-			//foreach (string item in AccountsCheckedListBox.CheckedItems)
-			//{
-			//    _profile.Accounts.Add(item.Split('-')[0]);
-			//}
-			//_profile.Name = profile_tb.Text;
-
-			//bool result = _profile.TrySave();
-
-		}
-
-		private void Channel_CheckedChanged(object sender)
-		{
-			//TO DO : add to Profile temp
-		}
-
-		private void CheckLevel_CheckedChanged(object sender)
-		{
-			//TO DO : add to Profile temp
-		}
-
-		private void GoogleAdwords_CheckedChanged(object sender, EventArgs e)
-		{
-			Channel_CheckedChanged(sender);
-		}
-
-		private void Facebook_CheckedChanged(object sender, EventArgs e)
-		{
-			Channel_CheckedChanged(sender);
-		}
-
-		private void checkBox1_CheckedChanged(object sender, EventArgs e)
-		{
-			Channel_CheckedChanged(sender);
-		}
-
-		private void level1_CheckedChanged(object sender, EventArgs e)
-		{
-			CheckLevel_CheckedChanged(sender);
-		}
-
-		private void level3_CheckedChanged(object sender, EventArgs e)
-		{
-			CheckLevel_CheckedChanged(sender);
-		}
-
-		private void level2_CheckedChanged(object sender, EventArgs e)
-		{
-			CheckLevel_CheckedChanged(sender);
-		}
-
-		private void level4_CheckedChanged(object sender, EventArgs e)
-		{
-			CheckLevel_CheckedChanged(sender);
-		}
-
 		private void profile_cb_SelectedValueChanged(object sender, EventArgs e)
 		{
 			CheckAllAccounts(false);
@@ -820,15 +783,11 @@ namespace Edge.Application.ProductionManagmentTools
 				Invoke(updateStepsPanel, new object[] { new List<Panel> { AppAlertPanel }, true });
 			}
 		}
-
-		private void ClearCheckTypeCheckBox()
+		private void checkAll_CheckedChanged(object sender, EventArgs e)
 		{
-			level1.Checked = false;
-			level2.Checked = false;
-			level3.Checked = false;
-			level4.Checked = false;
+			if (checkAll.Checked) CheckAllAccounts(true);
+			else CheckAllAccounts(false);
 		}
-
 		private void SetCheckType(string type)
 		{
 			switch (type)
@@ -856,14 +815,6 @@ namespace Edge.Application.ProductionManagmentTools
 				
 			}
 		}
-
-		private void ClearChannelsCheckBox()
-		{
-			GoogleAdwords.Checked = false;
-			Facebook.Checked = false;
-			Bing.Checked = false;
-		}
-
 		private void SetChannelCheckedBox(string id)
 		{
 			switch (id)
@@ -885,21 +836,62 @@ namespace Edge.Application.ProductionManagmentTools
 					}
 			}
 		}
+		private void CheckAllAccounts(bool isChecked)
+		{
+			if (isChecked)
+				for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
+				{
+					AccountsCheckedListBox.SetItemChecked(index, true);
+				}
+			else
+				for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
+				{
+					AccountsCheckedListBox.SetItemChecked(index, false);
+				}
+		}
+
+		private void application_cb_SelectedValueChanged(object sender, EventArgs e)
+		{
+			string key = string.Empty;
+			
+			if (((ComboBox)sender).SelectedItem.Equals(Const.EdgeApp))
+				key = Const.EdgeProductionPathKey;
+			else
+				key = Const.SeperiaProductionPathKey;
+
+			AccountsCheckedListBox.Items.Clear();
+			_availableAccountList.Clear();
+			profile_cb.Items.Clear();
+			profile_cb.Text = "Select Profile";
+
+
+			GetAccountsFromDB(application_cb.SelectedItem.ToString(), AccountsCheckedListBox, _availableAccountList);
+			if (!TryGetProfilesFromConfiguration(key, profile_cb, profiles))
+				TryGetProfilesFromConfiguration(Const.SeperiaProductionPathKey, profile_cb, profiles);
+		}
 
 	}
 	public static class Const
 	{
 		// Tabels
-		public const string OltpTable = "dbo.Paid_API_AllColumns_v29";
-		public const string DwhTable = "Dwh_Fact_PPC_Campaigns";
+		public static string OltpTable = "dbo.Paid_API_AllColumns_v29";
+		public static string DwhTable = "Dwh_Fact_PPC_Campaigns";
 
 		//Services
 		public const string DeliveryOltpService = "DeliveryOltpValidation";
 		public const string OltpDwhService = "DwhOltpValidation";
 		public const string MdxDwhService = "MdxDwhValidation";
 		public const string MdxOltpService = "MdxOltpValidation";
-	}
 
+		//ProductionKeys
+		public const string SeperiaProductionPathKey = "SeperiaProductionConfigurationPath";
+		public const string EdgeProductionPathKey = "EdgeProductionConfigurationPath";
+
+		//ApplicationTypes
+		public const string SeperiaApp = "Seperia";
+		public const string EdgeApp = "Edge.BI";
+
+	}
 	public class Step
 	{
 		public Panel Panel { get; set; }
