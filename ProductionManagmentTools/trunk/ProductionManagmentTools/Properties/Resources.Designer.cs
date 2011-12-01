@@ -60,9 +60,23 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap _24 {
+            get {
+                object obj = ResourceManager.GetObject("24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap button_minus_red {
             get {
                 object obj = ResourceManager.GetObject("button_minus_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap configuration {
+            get {
+                object obj = ResourceManager.GetObject("configuration", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -214,6 +228,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap preferences_system_windows_actions {
+            get {
+                object obj = ResourceManager.GetObject("preferences_system_windows_actions", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap report {
             get {
                 object obj = ResourceManager.GetObject("report", resourceCulture);
@@ -231,6 +252,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap Stats {
             get {
                 object obj = ResourceManager.GetObject("Stats", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap stock_calendar_view_year {
+            get {
+                object obj = ResourceManager.GetObject("stock_calendar_view_year", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

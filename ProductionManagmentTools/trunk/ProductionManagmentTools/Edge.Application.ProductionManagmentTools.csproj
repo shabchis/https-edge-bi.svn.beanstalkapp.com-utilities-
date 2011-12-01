@@ -267,6 +267,10 @@
     <None Include="Resources\report.png" />
     <None Include="Resources\Stats.png" />
     <None Include="Resources\Go-Button.png" />
+    <None Include="Resources\stock_calendar_view_year.png" />
+    <None Include="Resources\24.png" />
+    <None Include="Resources\preferences_system_windows_actions.png" />
+    <None Include="Resources\configuration.png" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
