@@ -53,8 +53,28 @@
     <ApplicationIcon>checked_shield_green.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.AdWords">
-      <HintPath>..\..\..\(third party)\GoogleAdwords\Google.AdWords.dll</HintPath>
+    <Reference Include="Edge.Core, Version=2.9.0.344, Culture=neutral, PublicKeyToken=6b685b1954c6e690, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Services\Edge.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Edge.Core.Scheduling, Version=2.9.0.348, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Services\Edge.Core.Scheduling.dll</HintPath>
+    </Reference>
+    <Reference Include="Edge.Data.Pipeline, Version=2.9.0.341, Culture=neutral, PublicKeyToken=870d634827984ae8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Services\Edge.Data.Pipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="Edge.Services.AdMetrics, Version=2.9.0.358, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Services\Edge.Services.AdMetrics.dll</HintPath>
+    </Reference>
+    <Reference Include="Edge.Services.Google.AdWords">
+      <HintPath>..\..\..\..\..\..\Services\Edge.Services.Google.AdWords.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.AdWords, Version=12.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Services\Google.AdWords.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -63,6 +83,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -92,6 +113,7 @@
     <Compile Include="DataCheckProfile.Designer.cs">
       <DependentUpon>DataCheckProfile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Listener.cs" />
     <Compile Include="Password.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,7 +167,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Seperia.Services.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -203,20 +224,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\google.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Edge.Core\Edge.Core.csproj">
-      <Project>{AD4B53AD-B28A-4E90-9483-D2F7C8E6D436}</Project>
-      <Name>Edge.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Framework\Edge.Data.Pipeline\Edge.Data.Pipeline.csproj">
-      <Project>{53391A99-E8CA-4262-A8E0-5F05A1CC6608}</Project>
-      <Name>Edge.Data.Pipeline</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Services\Edge.Services.AdMetrics.Validations\Edge.Services.AdMetrics.Validations.csproj">
-      <Project>{C6504C8B-C482-41B9-BC6E-BEF92AF9D6FE}</Project>
-      <Name>Edge.Services.AdMetrics.Validations</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
