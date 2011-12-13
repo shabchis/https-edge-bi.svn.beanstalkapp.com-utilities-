@@ -85,6 +85,7 @@
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.level5 = new System.Windows.Forms.CheckBox();
 			this.level4 = new System.Windows.Forms.CheckBox();
 			this.level3 = new System.Windows.Forms.CheckBox();
 			this.level2 = new System.Windows.Forms.CheckBox();
@@ -117,6 +118,13 @@
 			this.panel5 = new System.Windows.Forms.Panel();
 			this.pictureBox10 = new System.Windows.Forms.PictureBox();
 			this.label6 = new System.Windows.Forms.Label();
+			this.step5 = new System.Windows.Forms.Panel();
+			this.step5_warningCount = new System.Windows.Forms.Label();
+			this.step5_errorsCount = new System.Windows.Forms.Label();
+			this.step5_lbl = new System.Windows.Forms.Label();
+			this.step5_progressBar = new System.Windows.Forms.ProgressBar();
+			this.step5_Result = new System.Windows.Forms.PictureBox();
+			this.step5_status = new System.Windows.Forms.Label();
 			this.groupBox3.SuspendLayout();
 			this.step4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.step4_Result)).BeginInit();
@@ -149,6 +157,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
 			this.panel5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+			this.step5.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.step5_Result)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label3
@@ -194,6 +204,7 @@
 			// groupBox3
 			// 
 			this.groupBox3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.groupBox3.Controls.Add(this.step5);
 			this.groupBox3.Controls.Add(this.step4);
 			this.groupBox3.Controls.Add(this.step3);
 			this.groupBox3.Controls.Add(this.step1);
@@ -202,7 +213,7 @@
 			this.groupBox3.Controls.Add(this.panel1);
 			this.groupBox3.Location = new System.Drawing.Point(6, 449);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(806, 217);
+			this.groupBox3.Size = new System.Drawing.Size(806, 257);
 			this.groupBox3.TabIndex = 18;
 			this.groupBox3.TabStop = false;
 			// 
@@ -214,7 +225,7 @@
 			this.step4.Controls.Add(this.step4_progressBar);
 			this.step4.Controls.Add(this.step4_Result);
 			this.step4.Controls.Add(this.step4_status);
-			this.step4.Location = new System.Drawing.Point(13, 159);
+			this.step4.Location = new System.Drawing.Point(13, 160);
 			this.step4.Name = "step4";
 			this.step4.Size = new System.Drawing.Size(787, 39);
 			this.step4.TabIndex = 50;
@@ -688,7 +699,7 @@
 			this.dataTypes.Controls.Add(this.Bing);
 			this.dataTypes.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.dataTypes.Location = new System.Drawing.Point(491, 168);
+			this.dataTypes.Location = new System.Drawing.Point(491, 270);
 			this.dataTypes.Name = "dataTypes";
 			this.dataTypes.Size = new System.Drawing.Size(302, 128);
 			this.dataTypes.TabIndex = 16;
@@ -798,17 +809,30 @@
 			// 
 			// groupBox4
 			// 
+			this.groupBox4.Controls.Add(this.level5);
 			this.groupBox4.Controls.Add(this.level4);
 			this.groupBox4.Controls.Add(this.level3);
 			this.groupBox4.Controls.Add(this.level2);
 			this.groupBox4.Controls.Add(this.level1);
 			this.groupBox4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.groupBox4.Location = new System.Drawing.Point(491, 326);
+			this.groupBox4.Location = new System.Drawing.Point(491, 169);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(302, 72);
+			this.groupBox4.Size = new System.Drawing.Size(302, 96);
 			this.groupBox4.TabIndex = 16;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Check Level";
+			// 
+			// level5
+			// 
+			this.level5.AutoSize = true;
+			this.level5.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.level5.Location = new System.Drawing.Point(28, 70);
+			this.level5.Name = "level5";
+			this.level5.Size = new System.Drawing.Size(77, 19);
+			this.level5.TabIndex = 45;
+			this.level5.Text = "API - OLTP";
+			this.level5.UseVisualStyleBackColor = true;
+			this.level5.CheckStateChanged += new System.EventHandler(this.level5_CheckStateChanged);
 			// 
 			// level4
 			// 
@@ -1009,7 +1033,7 @@
 			this.AppAlertPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.AppAlertPanel.Controls.Add(this.appErrorImage);
 			this.AppAlertPanel.Controls.Add(this.appErrorLbl);
-			this.AppAlertPanel.Location = new System.Drawing.Point(6, 671);
+			this.AppAlertPanel.Location = new System.Drawing.Point(6, 712);
 			this.AppAlertPanel.Name = "AppAlertPanel";
 			this.AppAlertPanel.Size = new System.Drawing.Size(831, 27);
 			this.AppAlertPanel.TabIndex = 23;
@@ -1190,13 +1214,90 @@
 			this.label6.TabIndex = 58;
 			this.label6.Text = "Time Period";
 			// 
+			// step5
+			// 
+			this.step5.Controls.Add(this.step5_warningCount);
+			this.step5.Controls.Add(this.step5_errorsCount);
+			this.step5.Controls.Add(this.step5_lbl);
+			this.step5.Controls.Add(this.step5_progressBar);
+			this.step5.Controls.Add(this.step5_Result);
+			this.step5.Controls.Add(this.step5_status);
+			this.step5.Location = new System.Drawing.Point(13, 199);
+			this.step5.Name = "step5";
+			this.step5.Size = new System.Drawing.Size(787, 39);
+			this.step5.TabIndex = 51;
+			// 
+			// step5_warningCount
+			// 
+			this.step5_warningCount.AutoSize = true;
+			this.step5_warningCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.step5_warningCount.ForeColor = System.Drawing.Color.Chocolate;
+			this.step5_warningCount.Location = new System.Drawing.Point(712, 7);
+			this.step5_warningCount.Name = "step5_warningCount";
+			this.step5_warningCount.Size = new System.Drawing.Size(43, 12);
+			this.step5_warningCount.TabIndex = 40;
+			this.step5_warningCount.Text = "warnings";
+			this.step5_warningCount.Visible = false;
+			// 
+			// step5_errorsCount
+			// 
+			this.step5_errorsCount.AutoSize = true;
+			this.step5_errorsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.step5_errorsCount.ForeColor = System.Drawing.Color.DarkRed;
+			this.step5_errorsCount.Location = new System.Drawing.Point(712, 19);
+			this.step5_errorsCount.Name = "step5_errorsCount";
+			this.step5_errorsCount.Size = new System.Drawing.Size(31, 12);
+			this.step5_errorsCount.TabIndex = 41;
+			this.step5_errorsCount.Text = "errors ";
+			this.step5_errorsCount.Visible = false;
+			// 
+			// step5_lbl
+			// 
+			this.step5_lbl.AutoSize = true;
+			this.step5_lbl.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.step5_lbl.Location = new System.Drawing.Point(6, 8);
+			this.step5_lbl.Name = "step5_lbl";
+			this.step5_lbl.Size = new System.Drawing.Size(58, 16);
+			this.step5_lbl.TabIndex = 44;
+			this.step5_lbl.Text = "API - Oltp";
+			// 
+			// step5_progressBar
+			// 
+			this.step5_progressBar.Location = new System.Drawing.Point(160, 7);
+			this.step5_progressBar.Name = "step5_progressBar";
+			this.step5_progressBar.Size = new System.Drawing.Size(332, 19);
+			this.step5_progressBar.TabIndex = 47;
+			// 
+			// step5_Result
+			// 
+			this.step5_Result.ErrorImage = ((System.Drawing.Image)(resources.GetObject("step5_Result.ErrorImage")));
+			this.step5_Result.InitialImage = ((System.Drawing.Image)(resources.GetObject("step5_Result.InitialImage")));
+			this.step5_Result.Location = new System.Drawing.Point(661, 6);
+			this.step5_Result.Name = "step5_Result";
+			this.step5_Result.Size = new System.Drawing.Size(27, 27);
+			this.step5_Result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.step5_Result.TabIndex = 45;
+			this.step5_Result.TabStop = false;
+			this.step5_Result.Visible = false;
+			// 
+			// step5_status
+			// 
+			this.step5_status.AutoSize = true;
+			this.step5_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.step5_status.Location = new System.Drawing.Point(516, 8);
+			this.step5_status.Name = "step5_status";
+			this.step5_status.Size = new System.Drawing.Size(40, 16);
+			this.step5_status.TabIndex = 46;
+			this.step5_status.Text = "--------";
+			this.step5_status.Visible = false;
+			// 
 			// DataChecks
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.ClientSize = new System.Drawing.Size(837, 699);
+			this.ClientSize = new System.Drawing.Size(837, 740);
 			this.Controls.Add(this.panel5);
 			this.Controls.Add(this.panel4);
 			this.Controls.Add(this.dataTypes);
@@ -1264,6 +1365,9 @@
 			this.panel5.ResumeLayout(false);
 			this.panel5.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+			this.step5.ResumeLayout(false);
+			this.step5.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.step5_Result)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1360,5 +1464,13 @@
 		private System.Windows.Forms.Panel panel6;
 		private System.Windows.Forms.PictureBox pictureBox12;
 		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.CheckBox level5;
+		private System.Windows.Forms.Panel step5;
+		private System.Windows.Forms.Label step5_warningCount;
+		private System.Windows.Forms.Label step5_errorsCount;
+		private System.Windows.Forms.Label step5_lbl;
+		private System.Windows.Forms.ProgressBar step5_progressBar;
+		private System.Windows.Forms.PictureBox step5_Result;
+		private System.Windows.Forms.Label step5_status;
 	}
 }

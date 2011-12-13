@@ -15,6 +15,7 @@ using Edge.Data.Pipeline.Services;
 using Edge.Core.Services;
 using System.Configuration;
 using System.Collections;
+using System.IO;
 
 namespace Edge.Application.ProductionManagmentTools
 {
@@ -43,8 +44,8 @@ namespace Edge.Application.ProductionManagmentTools
 		private List<CheckBox> _checkedChannels;
 		private List<CheckBox> _checkedServices;
 		List<AccountServiceElement> profiles = new List<AccountServiceElement>();
-		private string _currentProduction = string.Empty;
-		
+		private string _currentProductionPath = string.Empty;
+
 
 		public DataChecks()
 		{
@@ -67,11 +68,49 @@ namespace Edge.Application.ProductionManagmentTools
 			GoogleAdwords.BindingContext = new BindingContext() { };
 		}
 
+		private bool TryGetServiceUseByCahnnel(string channelId, out string serviceUse)
+		{
+			switch (channelId)
+			{
+				case "1":
+					serviceUse = Const.AdwordsServiceName;
+					return true;
+				case "6":
+					serviceUse = Const.FacebookServiceName;
+					return true;
+			}
+
+			//for not supported channels
+			serviceUse = string.Empty;
+			return false;
+		}
+
 		private void DataChecks_Load(object sender, EventArgs e)
 		{
 			fromDate.Value = DateTime.Today.AddDays(-1);
 			toDate.Value = DateTime.Today.AddDays(-1);
+
+			try
+			{
+				using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+				{
+					conn.Open();
+					using (SqlCommand command = DataManager.CreateCommand("ResetUnendedServices", CommandType.StoredProcedure))
+					{
+						command.Connection = conn;
+						int numOfRows = command.ExecuteNonQuery();
+						string msg = String.Format("{0} row(s) affected", numOfRows);
+						MessageBox.Show(msg);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
 		}
+
 
 		private void GetAccountsFromDB(string SystemDatabase, CheckedListBox accountsListBox, Dictionary<string, string> availableAccountList)
 		{
@@ -100,45 +139,70 @@ namespace Edge.Application.ProductionManagmentTools
 				AccountsCheckedListBox.Sorted = true;
 			}
 		}
-			private bool TryGetProfilesFromConfiguration(string key, ComboBox profilesCombo ,List<AccountServiceElement> serviceElement)
+
+		private bool TryGetAccountFromExtrernalConfig(string fullPath, int accountId, out AccountElement accountElement)
 		{
-			//saving current configuration
-			string current = EdgeServicesConfiguration.Current.CurrentConfiguration.FilePath;
 			try
 			{
-				
-			//Getting configuration path from configuration.
-			string productionConfig = ConfigurationManager.AppSettings.Get(key);
-
-			EdgeServicesConfiguration.Load(productionConfig);
-			AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
-			AccountElement account = accounts.GetAccount(-1);
-
-			foreach (AccountServiceElement service in account.Services)
-			{
-				if (service.Options.ContainsKey("ProfileName"))
-				{
-					serviceElement.Add(service);
-					profilesCombo.Items.Add(service.Options["ProfileName"]);
-				}
+				Directory.SetCurrentDirectory(Path.GetDirectoryName(fullPath));
+				EdgeServicesConfiguration.Load(fullPath);
+				AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
+				accountElement = accounts.GetAccount(accountId);
+				return true;
 			}
+			catch
+			{
+				accountElement = null;
+				return false;
+			}
+		}
 
-			profilesCombo.Tag = profiles;
-			
-			
+		private bool TryGetProfilesFromConfiguration(string key, ComboBox profilesCombo, List<AccountServiceElement> serviceElement)
+		{
+			//saving current configuration
+			string currentConfigurationFullPath = EdgeServicesConfiguration.Current.CurrentConfiguration.FilePath;
+			try
+			{
+
+				//Getting configuration path from configuration.
+
+				_currentProductionPath = ConfigurationManager.AppSettings.Get(key);
+
+
+				AccountElement account;
+				TryGetAccountFromExtrernalConfig(_currentProductionPath, -1, out account);
+
+				//EdgeServicesConfiguration.Load(productionConfig);
+				//AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
+				//AccountElement account = accounts.GetAccount(-1);
+
+				foreach (AccountServiceElement service in account.Services)
+				{
+					if (service.Options.ContainsKey("ProfileName"))
+					{
+						serviceElement.Add(service);
+						profilesCombo.Items.Add(service.Options["ProfileName"]);
+					}
+				}
+
+				profilesCombo.Tag = profiles;
+
+
 			}
 			catch
 			{
 				//Loading original configuration
-				EdgeServicesConfiguration.Load(current);
+				EdgeServicesConfiguration.Load(currentConfigurationFullPath);
+				Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
 				return false;
 			}
 
 			//Loading original configuration
-			EdgeServicesConfiguration.Load(current);
+			EdgeServicesConfiguration.Load(currentConfigurationFullPath);
+			Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
 			return true;
-			
-			
+
+
 		}
 
 		#region Delegate functions
@@ -174,12 +238,17 @@ namespace Edge.Application.ProductionManagmentTools
 			foreach (ValidationResult item in results)
 			{
 				if (item.ResultType == ValidationResultType.Error)
-					resultsForm.ErrorDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.Date.ToString());
-
+				{
+					int rowId = resultsForm.ErrorDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.Date.ToString());
+					resultsForm.ErrorDataGridView.Rows[rowId].Tag = item;
+				}
 				else if (item.ResultType == ValidationResultType.Warning)
 					resultsForm.WarningDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.ToString());
 				else
-					resultsForm.SuccessDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.ToString());
+				{
+					int rowId = resultsForm.SuccessDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.ToString());
+					resultsForm.SuccessDataGridView.Rows[rowId].Tag = item;
+				}
 
 				resultsForm.errCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.ErrorDataGridView.RowCount);
 				resultsForm.warningsCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.WarningDataGridView.RowCount);
@@ -301,6 +370,29 @@ namespace Edge.Application.ProductionManagmentTools
 				Services.Remove(Const.MdxOltpService);
 			}
 		}
+
+		private void level5_CheckStateChanged(object sender, EventArgs e)
+		{
+			if (level5.Checked)
+			{
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step5 }, true });
+				Services.Add(Const.AdwordsServiceName, new Step
+				{
+					Panel = step5,
+					ProgressBar = step5_progressBar,
+					ResultImage = step5_Result,
+					Status = step5_status,
+					StepName = step5_lbl,
+					WarningCount = step5_warningCount,
+					ErrorsCount = step5_errorsCount
+				});
+			}
+			else
+			{
+				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step5 }, false });
+				Services.Remove(Const.AdwordsServiceName);
+			}
+		}
 		#endregion
 
 		#region Run button click functions
@@ -312,7 +404,7 @@ namespace Edge.Application.ProductionManagmentTools
 
 			InitUI();
 
-			if (TryGetServicesParams(AccountsCheckedListBox,out timePeriod, out channels, out accounts))
+			if (TryGetServicesParams(AccountsCheckedListBox, out timePeriod, out channels, out accounts))
 			{
 				//Check if no service has been selected from checked boxes
 				if (Services.Count == 0)
@@ -323,11 +415,17 @@ namespace Edge.Application.ProductionManagmentTools
 					 MessageBoxIcon.Error);
 					return;
 				}
+
 				foreach (var service in Services)
 				{
 					try
 					{
-						InitServices(timePeriod, service.Key, channels, accounts);
+						if (service.Value.StepName.Equals(step5_lbl))
+							//Get Service from production configuration and Run
+							InitProductionService(timePeriod, channels, accounts);
+						else
+							// Get Service from Local Configurartion and run 
+							InitServices(timePeriod, service.Key, channels, accounts);
 					}
 					catch (Exception ex)
 					{
@@ -342,6 +440,8 @@ namespace Edge.Application.ProductionManagmentTools
 			}
 
 		}
+
+
 		private void quick_btn_Click(object sender, EventArgs e)
 		{
 			level1.Checked = true;
@@ -402,7 +502,7 @@ namespace Edge.Application.ProductionManagmentTools
 		}
 		/*================================*/
 		#endregion
-		
+
 		#region Service
 		/*=======================*/
 		private bool TryGetServicesParams(CheckedListBox accountsCheckedListBox, out DateTimeRange timePeriod, out string channelsList, out string accountsList)
@@ -490,6 +590,92 @@ namespace Edge.Application.ProductionManagmentTools
 			return true;
 		}
 
+		private void InitProductionService(DateTimeRange timePeriod, string channels, string accounts)
+		{
+			Edge.Core.Services.ServiceInstance instance;
+			ActiveServiceElement serviceElements;
+
+			//Loading Production Configuration -Foreach account and channel
+			foreach (string accountId in accounts.Split(','))
+			{
+				foreach (string channelId in channels.Split(','))
+				{
+					AccountElement account;
+					if (TryGetAccountFromExtrernalConfig(_currentProductionPath, Convert.ToInt32(accountId), out account))
+					{
+						string serviceUses;
+						if (TryGetServiceUseByCahnnel(channelId, out serviceUses))
+						{
+							int workFlowChangesFlag = 0;
+							foreach (AccountServiceElement service in account.Services)
+							{
+								if (service.Uses.Element.Name == serviceUses)
+								{
+									serviceElements = new ActiveServiceElement(service);
+									instance = Edge.Core.Services.Service.CreateInstance(serviceElements);
+									instance.Configuration.Options.Add("ConflictBehavior", "Ignore");
+
+									#region Setting WorkFlow Configuration
+									/*============================================================*/
+									foreach (WorkflowStepElement wf in serviceElements.Workflow)
+									{
+										switch (wf.ActualName)
+										{
+											case Const.WorkflowServices.CommitServiceName:
+												{
+													wf.IsEnabled = false;
+													workFlowChangesFlag++;
+													break;
+												}
+											case Const.WorkflowServices.OltpDeliveryCheckServiceName:
+												{
+													wf.IsEnabled = true;
+													workFlowChangesFlag++;
+													break;
+												}
+											case Const.WorkflowServices.ResultsHandlerServiceName:
+												{
+													wf.IsEnabled = false;
+													workFlowChangesFlag++;
+													break;
+												}
+										}
+
+									}
+									/*============================================================*/
+									#endregion
+
+									//If workFlowChangesFlag != 3 it means that some of changes havnt been done in workflows, probably due to missing workflow in configuration
+									if (workFlowChangesFlag >= 3)
+									{
+										instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
+										instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
+										instance.ProgressReported += new EventHandler(instance_ProgressReported);
+										instance.ChildServiceRequested += new EventHandler<ServiceRequestedEventArgs>(instance_ChildServiceRequested);
+										instance.Initialize();
+									}
+
+									//Takes the first service that uses current service name
+									break;
+								}
+							}//End
+						}
+					}
+
+				} // End of Channel foreach
+
+			}//End of acounts foreach
+		}
+
+		void instance_ChildServiceRequested(object sender, ServiceRequestedEventArgs e)
+		{
+			e.RequestedService.OutcomeReported += new EventHandler(instance_OutcomeReported);
+			e.RequestedService.StateChanged += new EventHandler<ServiceStateChangedEventArgs>(instance_StateChanged);
+
+			e.RequestedService.Initialize();
+
+		}
+
 		private void InitServices(DateTimeRange timePeriod, string service, string channels, string accounts)
 		{
 			ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services[service]);
@@ -503,14 +689,22 @@ namespace Edge.Application.ProductionManagmentTools
 
 			string SourceTable;
 			if (service.Equals(Const.DeliveryOltpService))
-				serviceElements.Options.Add("SourceTable", Const.OltpTable);
+			{
+				if (!serviceElements.Options.Keys.Contains("SourceTable"))
+					serviceElements.Options.Add("SourceTable", Const.OltpTable);
+			}
 			else if (service.Equals(Const.OltpDwhService))
 			{
-				serviceElements.Options.Add("SourceTable", Const.OltpTable);
-				serviceElements.Options.Add("TargetTable", Const.DwhTable);
+				if (!serviceElements.Options.Keys.Contains("SourceTable"))
+					serviceElements.Options.Add("SourceTable", Const.OltpTable);
+				if (!serviceElements.Options.Keys.Contains("TargetTable"))
+					serviceElements.Options.Add("TargetTable", Const.OltpTable);
 			}
 			else if (service.Equals(Const.MdxOltpService))
-				serviceElements.Options.Add("SourceTable", Const.OltpTable);
+			{
+				if (!serviceElements.Options.Keys.Contains("SourceTable"))
+					serviceElements.Options.Add("SourceTable", Const.OltpTable);
+			}
 			else if (service.Equals(Const.MdxDwhService))
 				serviceElements.Options.Add("SourceTable", Const.DwhTable);
 			else
@@ -591,7 +785,7 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 			Step step;
-			Services.TryGetValue(instance.Configuration.Name, out step);
+			Services.TryGetValue(GetStepNameByInstance(instance), out step);
 
 			Invoke(updateProgressBar, new object[] { step.ProgressBar, 100, true });
 
@@ -627,17 +821,30 @@ namespace Edge.Application.ProductionManagmentTools
 
 
 		}
+
+		public string GetStepNameByInstance(ServiceInstance instance)
+		{
+			if (instance.Configuration.Workflow.Count > 0)
+			{
+				return instance.Configuration.Name;
+			}
+			else
+				return instance.ParentInstance.Configuration.Name;
+
+		}
+
 		void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 			Step step;
-			Services.TryGetValue(instance.Configuration.Name, out step);
-
-			Invoke(updateStep, new object[]
+			if (Services.TryGetValue(GetStepNameByInstance(instance), out step))
+			{
+				Invoke(updateStep, new object[]
                     {
                         new List<Label>(){step.Status},e.StateAfter.ToString().Equals("Ended")?"Running":e.StateAfter.ToString(),true
                     }
 				);
+			}
 
 			if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
 			{
@@ -699,7 +906,7 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 			Step step;
-			Services.TryGetValue(instance.Configuration.Name, out step);
+			Services.TryGetValue(GetStepNameByInstance(instance), out step);
 			Invoke(updateProgressBar, new object[] { step.ProgressBar, (int)((ServiceInstance)sender).Progress * 70, true });
 		}
 		/*=================================*/
@@ -740,7 +947,7 @@ namespace Edge.Application.ProductionManagmentTools
 									 where b.Options["ProfileName"].ToString() == profile_cb.SelectedItem.ToString()
 									 select b;
 
-				if (profileService.FirstOrDefault<AccountServiceElement>() != null )
+				if (profileService.FirstOrDefault<AccountServiceElement>() != null)
 				{
 					//set accounts
 					if (profileService.First<AccountServiceElement>().Options.ContainsKey("AccountsList"))
@@ -778,8 +985,7 @@ namespace Edge.Application.ProductionManagmentTools
 			}
 			catch (Exception ex)
 			{
-				Invoke(updateStep, new object[] 
-                        { new List<Label>(){appErrorLbl},ex.Message,true});
+				Invoke(updateStep, new object[] { new List<Label>() { appErrorLbl }, ex.Message, true });
 				Invoke(updateStepsPanel, new object[] { new List<Panel> { AppAlertPanel }, true });
 			}
 		}
@@ -792,7 +998,7 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			switch (type)
 			{
-				case Const.DeliveryOltpService: 
+				case Const.DeliveryOltpService:
 					{
 						level1.Checked = true;
 						break;
@@ -812,7 +1018,7 @@ namespace Edge.Application.ProductionManagmentTools
 						level4.Checked = true;
 						break;
 					}
-				
+
 			}
 		}
 		private void SetChannelCheckedBox(string id)
@@ -853,9 +1059,11 @@ namespace Edge.Application.ProductionManagmentTools
 		private void application_cb_SelectedValueChanged(object sender, EventArgs e)
 		{
 			string key = string.Empty;
-			
+
 			if (((ComboBox)sender).SelectedItem.Equals(Const.EdgeApp))
+			{
 				key = Const.EdgeProductionPathKey;
+			}
 			else
 				key = Const.SeperiaProductionPathKey;
 
@@ -870,7 +1078,10 @@ namespace Edge.Application.ProductionManagmentTools
 				TryGetProfilesFromConfiguration(Const.SeperiaProductionPathKey, profile_cb, profiles);
 		}
 
+
+
 	}
+
 	public static class Const
 	{
 		// Tabels
@@ -882,6 +1093,18 @@ namespace Edge.Application.ProductionManagmentTools
 		public const string OltpDwhService = "DwhOltpValidation";
 		public const string MdxDwhService = "MdxDwhValidation";
 		public const string MdxOltpService = "MdxOltpValidation";
+		public const string AdwordsApiCheck = "AdowrdsValidation";
+		public const string AdwordsServiceName = "Google.AdWords";
+		public const string FacebookServiceName = "facebook";
+
+		//WorkflowServices
+		public static class WorkflowServices
+		{
+			public const string CommitServiceName = "AdMetricsCommit";
+			public const string OltpDeliveryCheckServiceName = "DataChecks.OltpDelivery";
+			public const string ResultsHandlerServiceName = "DataChecks.ResultsHandler";
+		}
+
 
 		//ProductionKeys
 		public const string SeperiaProductionPathKey = "SeperiaProductionConfigurationPath";
@@ -892,6 +1115,7 @@ namespace Edge.Application.ProductionManagmentTools
 		public const string EdgeApp = "Edge.BI";
 
 	}
+
 	public class Step
 	{
 		public Panel Panel { get; set; }
