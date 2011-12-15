@@ -90,24 +90,7 @@ namespace Edge.Application.ProductionManagmentTools
 			fromDate.Value = DateTime.Today.AddDays(-1);
 			toDate.Value = DateTime.Today.AddDays(-1);
 
-			try
-			{
-				using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
-				{
-					conn.Open();
-					using (SqlCommand command = DataManager.CreateCommand("ResetUnendedServices", CommandType.StoredProcedure))
-					{
-						command.Connection = conn;
-						int numOfRows = command.ExecuteNonQuery();
-						string msg = String.Format("{0} row(s) affected", numOfRows);
-						MessageBox.Show(msg);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
+			
 
 		}
 
@@ -144,7 +127,7 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			try
 			{
-				Directory.SetCurrentDirectory(Path.GetDirectoryName(fullPath));
+				//Directory.SetCurrentDirectory(Path.GetDirectoryName(fullPath));
 				EdgeServicesConfiguration.Load(fullPath);
 				AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
 				accountElement = accounts.GetAccount(accountId);
@@ -193,13 +176,13 @@ namespace Edge.Application.ProductionManagmentTools
 			{
 				//Loading original configuration
 				EdgeServicesConfiguration.Load(currentConfigurationFullPath);
-				Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
+				//Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
 				return false;
 			}
 
 			//Loading original configuration
 			EdgeServicesConfiguration.Load(currentConfigurationFullPath);
-			Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
+			//Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
 			return true;
 
 
@@ -375,6 +358,13 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			if (level5.Checked)
 			{
+
+				this.ClearCheckTypeCheckBox();
+				level1.Enabled = false;
+				level2.Enabled = false;
+				level3.Enabled = false;
+				level4.Enabled = false;
+				
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step5 }, true });
 				Services.Add(Const.AdwordsServiceName, new Step
 				{
@@ -389,6 +379,10 @@ namespace Edge.Application.ProductionManagmentTools
 			}
 			else
 			{
+				level1.Enabled = true;
+				level2.Enabled = true;
+				level3.Enabled = true;
+				level4.Enabled = true;
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step5 }, false });
 				Services.Remove(Const.AdwordsServiceName);
 			}
@@ -611,9 +605,11 @@ namespace Edge.Application.ProductionManagmentTools
 							{
 								if (service.Uses.Element.Name == serviceUses)
 								{
+
+									//EdgeServicesConfiguration.Current.Accounts.GetAccount(accountID).Services[serviceName])
+
 									serviceElements = new ActiveServiceElement(service);
-									instance = Edge.Core.Services.Service.CreateInstance(serviceElements);
-									instance.Configuration.Options.Add("ConflictBehavior", "Ignore");
+									
 
 									#region Setting WorkFlow Configuration
 									/*============================================================*/
@@ -648,10 +644,13 @@ namespace Edge.Application.ProductionManagmentTools
 									//If workFlowChangesFlag != 3 it means that some of changes havnt been done in workflows, probably due to missing workflow in configuration
 									if (workFlowChangesFlag >= 3)
 									{
+										instance = Edge.Core.Services.Service.CreateInstance(serviceElements, Convert.ToInt32(accountId));
+										instance.Configuration.Options.Add("ConflictBehavior", "Ignore");
 										instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
 										instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
 										instance.ProgressReported += new EventHandler(instance_ProgressReported);
 										instance.ChildServiceRequested += new EventHandler<ServiceRequestedEventArgs>(instance_ChildServiceRequested);
+										
 										instance.Initialize();
 									}
 
@@ -828,8 +827,11 @@ namespace Edge.Application.ProductionManagmentTools
 			{
 				return instance.Configuration.Name;
 			}
-			else
+			else if (instance.ParentInstance != null ) 
 				return instance.ParentInstance.Configuration.Name;
+			
+			else //stand alone service
+				return instance.Configuration.Name;
 
 		}
 
@@ -917,7 +919,7 @@ namespace Edge.Application.ProductionManagmentTools
 			int count = 0;
 			foreach (DataGridViewRow row in Rows)
 			{
-				if (row.Cells[1].Value.ToString().Equals(type)) count++;
+				if((row.Cells[1].Value != null) && (row.Cells[1].Value.ToString().Equals(type))) count++;
 			}
 			return count;
 		}
@@ -1076,6 +1078,28 @@ namespace Edge.Application.ProductionManagmentTools
 			GetAccountsFromDB(application_cb.SelectedItem.ToString(), AccountsCheckedListBox, _availableAccountList);
 			if (!TryGetProfilesFromConfiguration(key, profile_cb, profiles))
 				TryGetProfilesFromConfiguration(Const.SeperiaProductionPathKey, profile_cb, profiles);
+		}
+
+		private void clear_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+				{
+					conn.Open();
+					using (SqlCommand command = DataManager.CreateCommand("ResetUnendedServices", CommandType.StoredProcedure))
+					{
+						command.Connection = conn;
+						int numOfRows = command.ExecuteNonQuery();
+						string msg = String.Format("{0} row(s) affected", numOfRows);
+						MessageBox.Show(msg);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 
 
