@@ -89,9 +89,6 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			fromDate.Value = DateTime.Today.AddDays(-1);
 			toDate.Value = DateTime.Today.AddDays(-1);
-
-			
-
 		}
 
 
@@ -127,7 +124,6 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			try
 			{
-				//Directory.SetCurrentDirectory(Path.GetDirectoryName(fullPath));
 				EdgeServicesConfiguration.Load(fullPath);
 				AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
 				accountElement = accounts.GetAccount(accountId);
@@ -146,18 +142,11 @@ namespace Edge.Application.ProductionManagmentTools
 			string currentConfigurationFullPath = EdgeServicesConfiguration.Current.CurrentConfiguration.FilePath;
 			try
 			{
-
 				//Getting configuration path from configuration.
-
 				_currentProductionPath = ConfigurationManager.AppSettings.Get(key);
-
 
 				AccountElement account;
 				TryGetAccountFromExtrernalConfig(_currentProductionPath, -1, out account);
-
-				//EdgeServicesConfiguration.Load(productionConfig);
-				//AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
-				//AccountElement account = accounts.GetAccount(-1);
 
 				foreach (AccountServiceElement service in account.Services)
 				{
@@ -697,7 +686,7 @@ namespace Edge.Application.ProductionManagmentTools
 				if (!serviceElements.Options.Keys.Contains("SourceTable"))
 					serviceElements.Options.Add("SourceTable", Const.OltpTable);
 				if (!serviceElements.Options.Keys.Contains("TargetTable"))
-					serviceElements.Options.Add("TargetTable", Const.OltpTable);
+					serviceElements.Options.Add("TargetTable", Const.DwhTable);
 			}
 			else if (service.Equals(Const.MdxOltpService))
 			{
@@ -1074,10 +1063,18 @@ namespace Edge.Application.ProductionManagmentTools
 			profile_cb.Items.Clear();
 			profile_cb.Text = "Select Profile";
 
+			LoadProductionConfiguration(key);
 
 			GetAccountsFromDB(application_cb.SelectedItem.ToString(), AccountsCheckedListBox, _availableAccountList);
+
 			if (!TryGetProfilesFromConfiguration(key, profile_cb, profiles))
 				TryGetProfilesFromConfiguration(Const.SeperiaProductionPathKey, profile_cb, profiles);
+		}
+
+		private void LoadProductionConfiguration(string key)
+		{
+			string productionPath = ConfigurationManager.AppSettings.Get(key);
+			EdgeServicesConfiguration.Load(productionPath);
 		}
 
 		private void clear_Click(object sender, EventArgs e)
@@ -1102,8 +1099,6 @@ namespace Edge.Application.ProductionManagmentTools
 			}
 		}
 
-
-
 	}
 
 	public static class Const
@@ -1113,11 +1108,11 @@ namespace Edge.Application.ProductionManagmentTools
 		public static string DwhTable = "Dwh_Fact_PPC_Campaigns";
 
 		//Services
-		public const string DeliveryOltpService = "DeliveryOltpValidation";
-		public const string OltpDwhService = "DwhOltpValidation";
-		public const string MdxDwhService = "MdxDwhValidation";
-		public const string MdxOltpService = "MdxOltpValidation";
-		public const string AdwordsApiCheck = "AdowrdsValidation";
+		public const string DeliveryOltpService = "DataChecks.OltpDelivery";
+		public const string OltpDwhService = "DataChecks.DwhOltp";
+		public const string MdxDwhService = "DataChecks.MdxDwh";
+		public const string MdxOltpService = "DataChecks.MdxOltp";
+		
 		public const string AdwordsServiceName = "Google.AdWords";
 		public const string FacebookServiceName = "facebook";
 
