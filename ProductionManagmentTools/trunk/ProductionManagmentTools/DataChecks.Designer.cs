@@ -98,6 +98,7 @@
 			this.level2 = new System.Windows.Forms.CheckBox();
 			this.level1 = new System.Windows.Forms.CheckBox();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.clear = new System.Windows.Forms.Button();
 			this.panel6 = new System.Windows.Forms.Panel();
 			this.pictureBox12 = new System.Windows.Forms.PictureBox();
 			this.label12 = new System.Windows.Forms.Label();
@@ -125,7 +126,6 @@
 			this.panel5 = new System.Windows.Forms.Panel();
 			this.pictureBox10 = new System.Windows.Forms.PictureBox();
 			this.label6 = new System.Windows.Forms.Label();
-			this.clear = new System.Windows.Forms.Button();
 			this.groupBox3.SuspendLayout();
 			this.step5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.step5_Result)).BeginInit();
@@ -692,10 +692,10 @@
 			this.AccountsCheckedListBox.ColumnWidth = 180;
 			this.AccountsCheckedListBox.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.AccountsCheckedListBox.FormattingEnabled = true;
-			this.AccountsCheckedListBox.Location = new System.Drawing.Point(12, 169);
+			this.AccountsCheckedListBox.Location = new System.Drawing.Point(12, 189);
 			this.AccountsCheckedListBox.MultiColumn = true;
 			this.AccountsCheckedListBox.Name = "AccountsCheckedListBox";
-			this.AccountsCheckedListBox.Size = new System.Drawing.Size(464, 229);
+			this.AccountsCheckedListBox.Size = new System.Drawing.Size(464, 214);
 			this.AccountsCheckedListBox.Sorted = true;
 			this.AccountsCheckedListBox.TabIndex = 20;
 			// 
@@ -779,7 +779,7 @@
 			this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.dataTypes.Location = new System.Drawing.Point(491, 270);
 			this.dataTypes.Name = "dataTypes";
-			this.dataTypes.Size = new System.Drawing.Size(302, 128);
+			this.dataTypes.Size = new System.Drawing.Size(302, 134);
 			this.dataTypes.TabIndex = 16;
 			this.dataTypes.TabStop = false;
 			this.dataTypes.Text = "Data Types";
@@ -792,7 +792,7 @@
 			this.pictureBox6.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.documents;
 			this.pictureBox6.Location = new System.Drawing.Point(150, 44);
 			this.pictureBox6.Name = "pictureBox6";
-			this.pictureBox6.Size = new System.Drawing.Size(15, 16);
+			this.pictureBox6.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox6.TabIndex = 52;
 			this.pictureBox6.TabStop = false;
@@ -805,7 +805,7 @@
 			this.pictureBox5.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.gnome_ftp;
 			this.pictureBox5.Location = new System.Drawing.Point(150, 64);
 			this.pictureBox5.Name = "pictureBox5";
-			this.pictureBox5.Size = new System.Drawing.Size(15, 16);
+			this.pictureBox5.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox5.TabIndex = 51;
 			this.pictureBox5.TabStop = false;
@@ -818,7 +818,7 @@
 			this.pictureBox4.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.yahoo__1_;
 			this.pictureBox4.Location = new System.Drawing.Point(12, 105);
 			this.pictureBox4.Name = "pictureBox4";
-			this.pictureBox4.Size = new System.Drawing.Size(15, 16);
+			this.pictureBox4.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox4.TabIndex = 50;
 			this.pictureBox4.TabStop = false;
@@ -843,7 +843,7 @@
 			this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
 			this.pictureBox3.Location = new System.Drawing.Point(12, 83);
 			this.pictureBox3.Name = "pictureBox3";
-			this.pictureBox3.Size = new System.Drawing.Size(15, 16);
+			this.pictureBox3.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox3.TabIndex = 48;
 			this.pictureBox3.TabStop = false;
@@ -867,7 +867,7 @@
 			this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
 			this.pictureBox2.Location = new System.Drawing.Point(12, 63);
 			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(15, 16);
+			this.pictureBox2.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox2.TabIndex = 47;
 			this.pictureBox2.TabStop = false;
@@ -880,7 +880,7 @@
 			this.pictureBox1.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
 			this.pictureBox1.Location = new System.Drawing.Point(12, 44);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(15, 16);
+			this.pictureBox1.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox1.TabIndex = 46;
 			this.pictureBox1.TabStop = false;
@@ -963,7 +963,6 @@
 			// panel2
 			// 
 			this.panel2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-			this.panel2.Controls.Add(this.clear);
 			this.panel2.Controls.Add(this.panel6);
 			this.panel2.Controls.Add(this.pictureBox9);
 			this.panel2.Controls.Add(this.label11);
@@ -977,10 +976,21 @@
 			this.panel2.Size = new System.Drawing.Size(469, 98);
 			this.panel2.TabIndex = 22;
 			// 
+			// clear
+			// 
+			this.clear.Location = new System.Drawing.Point(414, 0);
+			this.clear.Name = "clear";
+			this.clear.Size = new System.Drawing.Size(44, 23);
+			this.clear.TabIndex = 61;
+			this.clear.Text = "Clear";
+			this.clear.UseVisualStyleBackColor = true;
+			this.clear.Click += new System.EventHandler(this.clear_Click);
+			// 
 			// panel6
 			// 
-			this.panel6.BackColor = System.Drawing.Color.Gainsboro;
+			this.panel6.BackColor = System.Drawing.Color.Tan;
 			this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel6.Controls.Add(this.clear);
 			this.panel6.Controls.Add(this.pictureBox12);
 			this.panel6.Controls.Add(this.label12);
 			this.panel6.Location = new System.Drawing.Point(3, 3);
@@ -1033,7 +1043,7 @@
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(120, 13);
 			this.label11.TabIndex = 64;
-			this.label11.Text = "Data Validation Tool [v 3.0]";
+			this.label11.Text = "Data Validation Tool [v 4.0]";
 			// 
 			// pictureBox8
 			// 
@@ -1169,10 +1179,12 @@
 			// checkAll
 			// 
 			this.checkAll.AutoSize = true;
-			this.checkAll.Location = new System.Drawing.Point(107, 7);
+			this.checkAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.checkAll.Location = new System.Drawing.Point(15, 169);
 			this.checkAll.Name = "checkAll";
-			this.checkAll.Size = new System.Drawing.Size(15, 14);
+			this.checkAll.Size = new System.Drawing.Size(66, 16);
 			this.checkAll.TabIndex = 55;
+			this.checkAll.Text = " Check  all";
 			this.checkAll.UseVisualStyleBackColor = true;
 			this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);
 			// 
@@ -1188,11 +1200,10 @@
 			// 
 			// panel3
 			// 
-			this.panel3.BackColor = System.Drawing.Color.Gainsboro;
+			this.panel3.BackColor = System.Drawing.Color.Tan;
 			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel3.Controls.Add(this.pictureBox11);
 			this.panel3.Controls.Add(this.label10);
-			this.panel3.Controls.Add(this.checkAll);
 			this.panel3.Location = new System.Drawing.Point(11, 135);
 			this.panel3.Name = "panel3";
 			this.panel3.Size = new System.Drawing.Size(464, 28);
@@ -1293,16 +1304,6 @@
 			this.label6.TabIndex = 58;
 			this.label6.Text = "Time Period";
 			// 
-			// clear
-			// 
-			this.clear.Location = new System.Drawing.Point(358, 38);
-			this.clear.Name = "clear";
-			this.clear.Size = new System.Drawing.Size(75, 23);
-			this.clear.TabIndex = 61;
-			this.clear.Text = "Clear";
-			this.clear.UseVisualStyleBackColor = true;
-			this.clear.Click += new System.EventHandler(this.clear_Click);
-			// 
 			// DataChecks
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1312,6 +1313,7 @@
 			this.ClientSize = new System.Drawing.Size(837, 740);
 			this.Controls.Add(this.panel5);
 			this.Controls.Add(this.panel4);
+			this.Controls.Add(this.checkAll);
 			this.Controls.Add(this.dataTypes);
 			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.fromDate);
