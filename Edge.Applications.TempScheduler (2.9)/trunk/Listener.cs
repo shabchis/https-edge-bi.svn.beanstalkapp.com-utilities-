@@ -201,7 +201,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				Scope = SchedulingScope.UnPlanned,
 				SpecificDateTime = targetTime,
-				MaxDeviationAfter = new TimeSpan(0, 0, 45, 0, 0),
+				MaxDeviationAfter = new TimeSpan(0, 0, 120, 0, 0),
 				Hours = new List<TimeSpan>(),
 				GuidForUnplaned = Guid.NewGuid()
 			});
