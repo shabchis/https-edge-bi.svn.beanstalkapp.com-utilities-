@@ -90,7 +90,11 @@ namespace Edge.Applications.TempScheduler
 				foreach (XmlAttribute attribute in xmlDoc.DocumentElement.Attributes)
 				{
 					_attributes.Add(attribute.Name, attribute.Value);
-					optionsListView.Items.Add(new ListViewItem(new string[] { attribute.Name, attribute.Value }));
+
+					if (!attribute.Name.Equals(PipelineService.ConfigurationOptionNames.TargetPeriod))
+						optionsListView.Items.Add(new ListViewItem(new string[] { attribute.Name, attribute.Value }));
+					else
+						AttributesToRunList.Items.Add(new ListViewItem(new string[] { attribute.Name, attribute.Value }));
 				}
 
 			}
