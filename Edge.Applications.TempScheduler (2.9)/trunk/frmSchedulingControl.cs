@@ -552,6 +552,8 @@ namespace Edge.Applications.TempScheduler
 			{
 				lock (logtextBox)
 				{
+					if (logtextBox.Text.Length > 4000)
+						logtextBox.Text = logtextBox.Text.Remove(4000);
 					logtextBox.Text = logtextBox.Text.Insert(0, lineText);
 				}
 			}

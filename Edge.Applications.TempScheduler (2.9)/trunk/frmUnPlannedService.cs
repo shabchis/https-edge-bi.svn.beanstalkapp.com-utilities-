@@ -168,6 +168,7 @@ namespace Edge.Applications.TempScheduler
 										//For backward compatbility
 										options["Date"] = from.ToString("yyyyMMdd");
 										result = _listner.FormAddToSchedule(service, account, targetDateTime, options, servicePriority);
+										options.Clear();
 										if (!result)
 										{
 											allSucceed = result;
@@ -193,8 +194,9 @@ namespace Edge.Applications.TempScheduler
 											
 										}
 									};
-									options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, daterange.ToAbsolute().ToString());
+									options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, daterange.ToAbsolute().ToString());									
 									result = _listner.FormAddToSchedule(service, account, targetDateTime, options, servicePriority);
+									options.Clear();
 									if (!result)
 									{
 										allSucceed = result;
