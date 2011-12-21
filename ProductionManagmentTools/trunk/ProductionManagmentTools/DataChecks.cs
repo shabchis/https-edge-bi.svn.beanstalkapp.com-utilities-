@@ -576,84 +576,111 @@ namespace Edge.Application.ProductionManagmentTools
 
 		private void InitProductionService(DateTimeRange timePeriod, string channels, string accounts)
 		{
-			Edge.Core.Services.ServiceInstance instance;
-			ActiveServiceElement serviceElements;
+			
+			//Getting TimePeriod
+            DateTime fromDate, toDate;
+			fromDate = timePeriod.Start.ToDateTime();
+			toDate = timePeriod.End.ToDateTime();
 
-			//Loading Production Configuration -Foreach account and channel
-			foreach (string accountId in accounts.Split(','))
-			{
-				foreach (string channelId in channels.Split(','))
+            while (fromDate <= toDate)
+            {
+                // {start: {base : '2009-01-01', h:0}, end: {base: '2009-01-01', h:'*'}}
+                var subRange = new DateTimeRange()
+                {
+                    Start = new DateTimeSpecification()
+                    {
+                        BaseDateTime = fromDate,
+                        Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
+                    },
+
+                    End = new DateTimeSpecification()
+                    {
+                        BaseDateTime = fromDate,
+                        Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+                    }
+                };
+
+				Edge.Core.Services.ServiceInstance instance;
+				ActiveServiceElement serviceElements;
+
+				//Loading Production Configuration -Foreach account and channel
+				foreach (string accountId in accounts.Split(','))
 				{
-					AccountElement account;
-					if (TryGetAccountFromExtrernalConfig(_currentProductionPath, Convert.ToInt32(accountId), out account))
+					foreach (string channelId in channels.Split(','))
 					{
-						string serviceUses;
-						if (TryGetServiceUseByCahnnel(channelId, out serviceUses))
+						AccountElement account;
+						if (TryGetAccountFromExtrernalConfig(_currentProductionPath, Convert.ToInt32(accountId), out account))
 						{
-							int workFlowChangesFlag = 0;
-							foreach (AccountServiceElement service in account.Services)
+							string serviceUses;
+							if (TryGetServiceUseByCahnnel(channelId, out serviceUses))
 							{
-								if (service.Uses.Element.Name == serviceUses)
+								int workFlowChangesFlag = 0;
+								foreach (AccountServiceElement service in account.Services)
 								{
-
-									//EdgeServicesConfiguration.Current.Accounts.GetAccount(accountID).Services[serviceName])
-
-									serviceElements = new ActiveServiceElement(service);
-
-
-									#region Setting WorkFlow Configuration
-									/*============================================================*/
-									foreach (WorkflowStepElement wf in serviceElements.Workflow)
+									if (service.Uses.Element.Name == serviceUses)
 									{
-										switch (wf.ActualName)
+
+										//EdgeServicesConfiguration.Current.Accounts.GetAccount(accountID).Services[serviceName])
+
+										serviceElements = new ActiveServiceElement(service);
+
+										#region Setting WorkFlow Configuration
+										/*============================================================*/
+										foreach (WorkflowStepElement wf in serviceElements.Workflow)
 										{
-											case Const.WorkflowServices.CommitServiceName:
-												{
-													wf.IsEnabled = false;
-													workFlowChangesFlag++;
-													break;
-												}
-											case Const.WorkflowServices.OltpDeliveryCheckServiceName:
-												{
-													wf.IsEnabled = true;
-													workFlowChangesFlag++;
-													break;
-												}
-											case Const.WorkflowServices.ResultsHandlerServiceName:
-												{
-													wf.IsEnabled = false;
-													workFlowChangesFlag++;
-													break;
-												}
+											switch (wf.ActualName)
+											{
+												case Const.WorkflowServices.CommitServiceName:
+													{
+														wf.IsEnabled = false;
+														workFlowChangesFlag++;
+														break;
+													}
+												case Const.WorkflowServices.OltpDeliveryCheckServiceName:
+													{
+														wf.IsEnabled = true;
+														workFlowChangesFlag++;
+														break;
+													}
+												case Const.WorkflowServices.ResultsHandlerServiceName:
+													{
+														wf.IsEnabled = false;
+														workFlowChangesFlag++;
+														break;
+													}
+											}
+
+										}
+										/*============================================================*/
+										#endregion
+
+										//If workFlowChangesFlag != 3 it means that some of changes havnt been done in workflows, probably due to missing workflow in configuration
+										if (workFlowChangesFlag >= 3)
+										{
+											instance = Edge.Core.Services.Service.CreateInstance(serviceElements, Convert.ToInt32(accountId));
+											instance.Configuration.Options.Add("ConflictBehavior", "Ignore");
+											instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
+											instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
+											instance.ProgressReported += new EventHandler(instance_ProgressReported);
+											instance.ChildServiceRequested += new EventHandler<ServiceRequestedEventArgs>(instance_ChildServiceRequested);
+
+											instance.Initialize();
 										}
 
+										//Takes the first service that uses current service name
+										break;
 									}
-									/*============================================================*/
-									#endregion
-
-									//If workFlowChangesFlag != 3 it means that some of changes havnt been done in workflows, probably due to missing workflow in configuration
-									if (workFlowChangesFlag >= 3)
-									{
-										instance = Edge.Core.Services.Service.CreateInstance(serviceElements, Convert.ToInt32(accountId));
-										instance.Configuration.Options.Add("ConflictBehavior", "Ignore");
-										instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
-										instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
-										instance.ProgressReported += new EventHandler(instance_ProgressReported);
-										instance.ChildServiceRequested += new EventHandler<ServiceRequestedEventArgs>(instance_ChildServiceRequested);
-
-										instance.Initialize();
-									}
-
-									//Takes the first service that uses current service name
-									break;
-								}
-							}//End
+								}//End
+							}
 						}
-					}
 
-				} // End of Channel foreach
+					} // End of Channel foreach
 
-			}//End of acounts foreach
+				}//End of acounts foreach
+                fromDate = fromDate.AddDays(1);
+            }
+			
+			
 		}
 
 		void instance_ChildServiceRequested(object sender, ServiceRequestedEventArgs e)
