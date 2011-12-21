@@ -17,17 +17,41 @@ namespace Edge.Application.ProductionManagmentTools
 	public partial class ResultForm : Form
 	{
 		private List<ValidationResult> _repairList;
-
 		public ResultForm()
 		{
 			_repairList = new List<ValidationResult>();
 			InitializeComponent();
 		}
 
+		public ResultForm(ref DataGridViewRowCollection errorDataGridViewRows, ref DataGridViewRowCollection warningDataGridViewRows,ref DataGridViewRowCollection successDataGridViewRows)
+		{
+			_repairList = new List<ValidationResult>();
+			InitializeComponent();
+
+			this.errCountResult_lbl.Text = string.Format("Totals ( {0} )", errorDataGridViewRows.Count);
+			this.warningsCountResult_lbl.Text = string.Format("Totals ( {0} )", warningDataGridViewRows.Count);
+			this.sucessCountResult_lbl.Text = string.Format("Totals ( {0} )", successDataGridViewRows.Count);
+
+			foreach (DataGridViewRow row in errorDataGridViewRows)
+			{
+				this.ErrorDataGridView.Rows.Add(row);
+			}
+			foreach (DataGridViewRow row in warningDataGridViewRows)
+			{
+				this.WarningDataGridView.Rows.Add(row);
+			}
+			foreach (DataGridViewRow row in successDataGridViewRows)
+			{
+				this.SuccessDataGridView.Rows.Add(row);
+			}
+		
+		}
+			
+
+		
 		private void button3_Click(object sender, EventArgs e)
 		{
 			
-
 			foreach (DataGridViewRow row in this.ErrorDataGridView.Rows)
 			{
 				if ((bool)row.Cells["Repair"].Value)
@@ -36,15 +60,15 @@ namespace Edge.Application.ProductionManagmentTools
 				}
 			}
 
-			RunCommitServices();
+			RunCommitServices(_repairList);
 
 		}
 
-		private void RunCommitServices()
+		private void RunCommitServices(List<ValidationResult> repairList)
 		{
 			SettingsCollection _options = new SettingsCollection();
 
-			foreach (ValidationResult itemToFix in _repairList)
+			foreach (ValidationResult itemToFix in repairList)
 			{
 				DateTimeRange _dateTimeRange = new DateTimeRange();
 				string TargetPeriodStart = String.Empty;
