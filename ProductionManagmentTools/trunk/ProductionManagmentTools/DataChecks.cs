@@ -58,7 +58,9 @@ namespace Edge.Application.ProductionManagmentTools
 			updateStepsPanel = new UpdatePanel(updatePanels);
 
 			Services = new Dictionary<string, Step>();
-			updatePanels(new List<Panel>() { step1, step2, step3, step4 }, false);
+			
+			//Set all panels to be enabled = false
+			updatePanels(new List<Panel>() { step1, step2, step3, step4 ,step5 }, false);
 
 			report_btn.Enabled = false;
 			_availableAccountList = new Dictionary<string, string>();
@@ -90,7 +92,6 @@ namespace Edge.Application.ProductionManagmentTools
 			fromDate.Value = DateTime.Today.AddDays(-1);
 			toDate.Value = DateTime.Today.AddDays(-1);
 		}
-
 
 		private void GetAccountsFromDB(string SystemDatabase, CheckedListBox accountsListBox, Dictionary<string, string> availableAccountList)
 		{
@@ -222,9 +223,9 @@ namespace Edge.Application.ProductionManagmentTools
 					resultsForm.SuccessDataGridView.Rows[rowId].Tag = item;
 				}
 
-				resultsForm.errCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.ErrorDataGridView.RowCount);
-				resultsForm.warningsCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.WarningDataGridView.RowCount);
-				resultsForm.sucessCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.SuccessDataGridView.RowCount);
+				//resultsForm.errCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.ErrorDataGridView.RowCount);
+				//resultsForm.warningsCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.WarningDataGridView.RowCount);
+				//resultsForm.sucessCountResult_lbl.Text = string.Format("Totals ( {0} )", resultsForm.SuccessDataGridView.RowCount);
 
 			}
 
@@ -353,7 +354,7 @@ namespace Edge.Application.ProductionManagmentTools
 				level2.Enabled = false;
 				level3.Enabled = false;
 				level4.Enabled = false;
-				
+
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step5 }, true });
 				Services.Add(Const.AdwordsServiceName, new Step
 				{
@@ -598,7 +599,7 @@ namespace Edge.Application.ProductionManagmentTools
 									//EdgeServicesConfiguration.Current.Accounts.GetAccount(accountID).Services[serviceName])
 
 									serviceElements = new ActiveServiceElement(service);
-									
+
 
 									#region Setting WorkFlow Configuration
 									/*============================================================*/
@@ -639,7 +640,7 @@ namespace Edge.Application.ProductionManagmentTools
 										instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
 										instance.ProgressReported += new EventHandler(instance_ProgressReported);
 										instance.ChildServiceRequested += new EventHandler<ServiceRequestedEventArgs>(instance_ChildServiceRequested);
-										
+
 										instance.Initialize();
 									}
 
@@ -767,6 +768,38 @@ namespace Edge.Application.ProductionManagmentTools
 		/*=======================*/
 		#endregion
 
+		private bool HasParent(ServiceInstance instance, out int NumOfChildrens)
+		{
+			if (instance.ParentInstance != null) // if child
+			{
+				NumOfChildrens = 0;
+				foreach (WorkflowStepElement element in instance.ParentInstance.Configuration.Workflow)
+				{
+					if (element.IsEnabled == true)
+						NumOfChildrens++;
+				}
+				return true;
+			}
+			else
+			{
+				NumOfChildrens = 1;
+				return false;
+			}
+		}
+		public string GetStepNameByInstance(ServiceInstance instance)
+		{
+			if (instance.Configuration.Workflow.Count > 0)
+			{
+				return instance.Configuration.Name;
+			}
+			else if (instance.ParentInstance != null)
+				return instance.ParentInstance.Configuration.Name;
+
+			else //stand alone service
+				return instance.Configuration.Name;
+
+		}
+
 		#region Instances Handler functions
 		/*=================================*/
 		void instance_OutcomeReported(object sender, EventArgs e)
@@ -775,20 +808,26 @@ namespace Edge.Application.ProductionManagmentTools
 			Step step;
 			Services.TryGetValue(GetStepNameByInstance(instance), out step);
 
-			Invoke(updateProgressBar, new object[] { step.ProgressBar, 100, true });
+			int numOfChildrens;
+
+			if (!HasParent(instance, out numOfChildrens))
+				Invoke(updateProgressBar, new object[] { step.ProgressBar, 100, true });
+			else 
+			Invoke(updateProgressBar, new object[] { step.ProgressBar, 100 / numOfChildrens, true });
 
 			if (resultsForm.ErrorDataGridView.RowCount > 0)
+			#region
 			{
 				Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon, true });
 				Invoke(updateStep, new object[] 
                 { 
                     new List<Label>(){step.ErrorsCount},String.Format("{0}{1}",CountRowsByLevelType(resultsForm.ErrorDataGridView.Rows, instance.Configuration.Name)," errors"),true 
                 });
-
-
 			}
-
+			#endregion
+			
 			else if (resultsForm.WarningDataGridView.RowCount > 0)
+			#region 
 			{
 				Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon, true });
 				Invoke(updateStep, new object[] 
@@ -796,12 +835,12 @@ namespace Edge.Application.ProductionManagmentTools
                     new List<Label>(){step.WarningCount},String.Format("{0}{1}",   
                     CountRowsByLevelType(resultsForm.WarningDataGridView.Rows, instance.Configuration.Name)," warnings"),true 
                 });
-
-				//var rows = from x in resultsForm.WarningDataGridView.Rows.Cast<DataGridViewRow>()
-				//           where x.Cells[1].Value.ToString().Equals(instance.Configuration.Name)
-				//           select x;
 			}
+			#endregion
+			
 			else
+				
+				if (!HasParent(instance, out numOfChildrens))
 				Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, true });
 
 			//setting report_btn to be Enable
@@ -809,25 +848,12 @@ namespace Edge.Application.ProductionManagmentTools
 
 
 		}
-
-		public string GetStepNameByInstance(ServiceInstance instance)
-		{
-			if (instance.Configuration.Workflow.Count > 0)
-			{
-				return instance.Configuration.Name;
-			}
-			else if (instance.ParentInstance != null ) 
-				return instance.ParentInstance.Configuration.Name;
-			
-			else //stand alone service
-				return instance.Configuration.Name;
-
-		}
-
 		void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 			Step step;
+			int num;
+
 			if (Services.TryGetValue(GetStepNameByInstance(instance), out step))
 			{
 				Invoke(updateStep, new object[]
@@ -845,49 +871,48 @@ namespace Edge.Application.ProductionManagmentTools
 			if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
 			{
 				results = new List<ValidationResult>();
+				HasParent(instance, out num);
 
 				Invoke(updateProgressBar, new object[] { step.ProgressBar, 70, true });
 
-				#region Getting Instance Log for results
-				using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
-				{
-					sqlCon.Open();
-					SqlCommand sqlCommand = DataManager.CreateCommand(
-						"SELECT [Message] FROM [dbo].[Log] where [ServiceInstanceID] = @instanceID");
-					sqlCommand.Parameters.Add(new SqlParameter() { ParameterName = "@instanceID", Value = instance.InstanceID, SqlDbType = System.Data.SqlDbType.BigInt });
-					sqlCommand.Connection = sqlCon;
-
-					using (var _reader = sqlCommand.ExecuteReader())
+			
+					#region Getting Instance Log for results
+					using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
 					{
-						if (!_reader.IsClosed)
+						sqlCon.Open();
+						SqlCommand sqlCommand = DataManager.CreateCommand(
+							"SELECT [Message] FROM [dbo].[Log] where [ServiceInstanceID] = @instanceID");
+						sqlCommand.Parameters.Add(new SqlParameter() { ParameterName = "@instanceID", Value = instance.InstanceID, SqlDbType = System.Data.SqlDbType.BigInt });
+						sqlCommand.Connection = sqlCon;
+
+						using (var _reader = sqlCommand.ExecuteReader())
 						{
-							while (_reader.Read())
+							if (!_reader.IsClosed)
 							{
-								results.Add((ValidationResult)JsonConvert.DeserializeObject(_reader[0].ToString(), typeof(ValidationResult)));
+								while (_reader.Read())
+								{
+									results.Add((ValidationResult)JsonConvert.DeserializeObject(_reader[0].ToString(), typeof(ValidationResult)));
+								}
 							}
 						}
 					}
-				}
-				#endregion
+					#endregion
 
-				if (results.Capacity > 0)
-				{
-					Invoke(updateResults, new object[] { results });
-					Invoke(updateStep, new object[]
-                    {
-                         new List<Label>(){step.Status},"Ended",true
-                    }
-				 );
+					if (results.Capacity > 0)
+					{
+						Invoke(updateResults, new object[] { results });
+						//if (!HasParent(instance, out num))
+							Invoke(updateStep, new object[] {new List<Label>(){step.Status},"Ended",true});
+					}
 
-				}
-				else
-				{
-					//  alert : no services were found
-					Invoke(updateStep, new object[]
-                    {
-                         new List<Label>(){appErrorLbl},String.Format("Error, cannot find results from service instance id {0}",instance.InstanceID),true
-                    });
-				}
+				//else
+				//{
+				//    //  alert : no services were found
+				//    Invoke(updateStep, new object[]
+				//    {
+				//         new List<Label>(){appErrorLbl},String.Format("Error, cannot find results from service instance id {0}",instance.InstanceID),true
+				//    });
+				//}
 
 
 			}
@@ -897,6 +922,8 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 			Step step;
+			int num;
+			HasParent(instance, out num);
 			Services.TryGetValue(GetStepNameByInstance(instance), out step);
 			Invoke(updateProgressBar, new object[] { step.ProgressBar, (int)((ServiceInstance)sender).Progress * 70, true });
 		}
@@ -908,12 +935,13 @@ namespace Edge.Application.ProductionManagmentTools
 			int count = 0;
 			foreach (DataGridViewRow row in Rows)
 			{
-				if((row.Cells[1].Value != null) && (row.Cells[1].Value.ToString().Equals(type))) count++;
+				if ((row.Cells[1].Value != null) && (row.Cells[1].Value.ToString().Equals(type))) count++;
 			}
 			return count;
 		}
 		private void report_btn_Click(object sender, EventArgs e)
 		{
+			//ResultForm results = new ResultForm(ref resultsForm.ErrorDataGridView.Rows, ref resultsForm.WarningDataGridView.Rows, ref resultsForm.SuccessDataGridView.Rows);
 			SortResultsDataGrid(resultsForm.ErrorDataGridView, ListSortDirection.Ascending);
 			SortResultsDataGrid(resultsForm.WarningDataGridView, ListSortDirection.Ascending);
 			SortResultsDataGrid(resultsForm.SuccessDataGridView, ListSortDirection.Ascending);
@@ -1112,7 +1140,7 @@ namespace Edge.Application.ProductionManagmentTools
 		public const string OltpDwhService = "DataChecks.DwhOltp";
 		public const string MdxDwhService = "DataChecks.MdxDwh";
 		public const string MdxOltpService = "DataChecks.MdxOltp";
-		
+
 		public const string AdwordsServiceName = "Google.AdWords";
 		public const string FacebookServiceName = "facebook";
 
@@ -1123,7 +1151,6 @@ namespace Edge.Application.ProductionManagmentTools
 			public const string OltpDeliveryCheckServiceName = "DataChecks.OltpDelivery";
 			public const string ResultsHandlerServiceName = "DataChecks.ResultsHandler";
 		}
-
 
 		//ProductionKeys
 		public const string SeperiaProductionPathKey = "SeperiaProductionConfigurationPath";
