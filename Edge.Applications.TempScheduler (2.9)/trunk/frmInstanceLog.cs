@@ -111,8 +111,6 @@ namespace Edge.Applications.TempScheduler
 				this.deliveryID_lbl.Text = "Unavailable";
 			}
 
-
-
 			#endregion
 		}
 
@@ -355,8 +353,10 @@ namespace Edge.Applications.TempScheduler
 					_options.Add("ConflictBehavior", "Ignore");
 
 				//Run Service
-				_options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, _dateTimeRange.ToAbsolute().ToString());
+				if (!_options.ContainsKey(PipelineService.ConfigurationOptionNames.TargetPeriod))
+					_options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, _dateTimeRange.ToAbsolute().ToString());
 				bool result = _listner.FormAddToSchedule(serviceName, _accountId, DateTime.Now, _options, ServicePriority.Normal);
+				MessageBox.Show("Service has been submited");
 				if (!result)
 				{
 					MessageBox.Show(string.Format("Service {0} for account {1} did not run", serviceName, _accountId));
@@ -377,7 +377,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				optionsListView.Items.Remove(item);
 				if (!AttributesToRunList.Items.Contains(item))
-				AttributesToRunList.Items.Add(item);
+					AttributesToRunList.Items.Add(item);
 			}
 		}
 
