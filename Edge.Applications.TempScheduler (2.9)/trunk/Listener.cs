@@ -43,6 +43,7 @@ namespace Edge.Applications.TempScheduler
 				ServiceConfiguration myServiceConfiguration = new ServiceConfiguration();
 				ServiceConfiguration baseConfiguration = new ServiceConfiguration();
 				ActiveServiceElement activeServiceElement = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(accountID).Services[serviceName]);
+				//activeServiceElement.Workflow[0].n
 				if (options != null)
 				{
 					foreach (string option in options.Keys)
