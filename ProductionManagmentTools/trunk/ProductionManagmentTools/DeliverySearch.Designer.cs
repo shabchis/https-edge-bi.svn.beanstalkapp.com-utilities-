@@ -28,15 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeliverySearch));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.dataTypes = new System.Windows.Forms.GroupBox();
-			this.pictureBox3 = new System.Windows.Forms.PictureBox();
-			this.pictureBox2 = new System.Windows.Forms.PictureBox();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.GoogleAdwords = new System.Windows.Forms.CheckBox();
-			this.Facebook = new System.Windows.Forms.CheckBox();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeliverySearch));
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.fromDate = new System.Windows.Forms.DateTimePicker();
@@ -46,7 +39,6 @@
 			this.accountID = new System.Windows.Forms.TextBox();
 			this.DeliveryID_tb = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.button1 = new System.Windows.Forms.Button();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.DeliveryDataGridView = new System.Windows.Forms.DataGridView();
 			this.DeliveryID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -114,12 +106,15 @@
 			this.fileParamIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.pictureBox7 = new System.Windows.Forms.PictureBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.dataTypes.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.pictureBox3 = new System.Windows.Forms.PictureBox();
+			this.pictureBox2 = new System.Windows.Forms.PictureBox();
+			this.pictureBox11 = new System.Windows.Forms.PictureBox();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.application_cb = new System.Windows.Forms.ComboBox();
+			this.label15 = new System.Windows.Forms.Label();
+			this.pictureBox7 = new System.Windows.Forms.PictureBox();
+			this.button1 = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryDataGridView)).BeginInit();
 			this.tabPage5.SuspendLayout();
@@ -139,116 +134,25 @@
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryFiles)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryFileHistory)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryFileHistoryParams)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
 			this.panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// dataTypes
-			// 
-			this.dataTypes.BackColor = System.Drawing.Color.Transparent;
-			this.dataTypes.Controls.Add(this.pictureBox3);
-			this.dataTypes.Controls.Add(this.pictureBox2);
-			this.dataTypes.Controls.Add(this.pictureBox1);
-			this.dataTypes.Controls.Add(this.GoogleAdwords);
-			this.dataTypes.Controls.Add(this.Facebook);
-			this.dataTypes.Controls.Add(this.checkBox1);
-			this.dataTypes.Enabled = false;
-			this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.dataTypes.ForeColor = System.Drawing.SystemColors.ButtonFace;
-			this.dataTypes.Location = new System.Drawing.Point(7, 166);
-			this.dataTypes.Name = "dataTypes";
-			this.dataTypes.Size = new System.Drawing.Size(260, 90);
-			this.dataTypes.TabIndex = 57;
-			this.dataTypes.TabStop = false;
-			this.dataTypes.Text = "Data Types";
-			// 
-			// pictureBox3
-			// 
-			this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-			this.pictureBox3.Location = new System.Drawing.Point(8, 88);
-			this.pictureBox3.Name = "pictureBox3";
-			this.pictureBox3.Size = new System.Drawing.Size(5, 0);
-			this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBox3.TabIndex = 48;
-			this.pictureBox3.TabStop = false;
-			// 
-			// pictureBox2
-			// 
-			this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-			this.pictureBox2.Location = new System.Drawing.Point(8, 65);
-			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(5, 0);
-			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBox2.TabIndex = 47;
-			this.pictureBox2.TabStop = false;
-			// 
-			// pictureBox1
-			// 
-			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox1.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
-			this.pictureBox1.Location = new System.Drawing.Point(8, 43);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(5, 0);
-			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBox1.TabIndex = 46;
-			this.pictureBox1.TabStop = false;
-			// 
-			// GoogleAdwords
-			// 
-			this.GoogleAdwords.AutoSize = true;
-			this.GoogleAdwords.Checked = true;
-			this.GoogleAdwords.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.GoogleAdwords.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.GoogleAdwords.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.GoogleAdwords.Location = new System.Drawing.Point(20, 34);
-			this.GoogleAdwords.Name = "GoogleAdwords";
-			this.GoogleAdwords.Size = new System.Drawing.Size(105, 19);
-			this.GoogleAdwords.TabIndex = 40;
-			this.GoogleAdwords.Text = "Google Adwords";
-			this.GoogleAdwords.UseVisualStyleBackColor = true;
-			// 
-			// Facebook
-			// 
-			this.Facebook.AutoSize = true;
-			this.Facebook.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Facebook.Location = new System.Drawing.Point(20, 57);
-			this.Facebook.Name = "Facebook";
-			this.Facebook.Size = new System.Drawing.Size(70, 19);
-			this.Facebook.TabIndex = 41;
-			this.Facebook.Text = "Facebook";
-			this.Facebook.UseVisualStyleBackColor = true;
-			// 
-			// checkBox1
-			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Enabled = false;
-			this.checkBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBox1.Location = new System.Drawing.Point(132, 34);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(89, 19);
-			this.checkBox1.TabIndex = 43;
-			this.checkBox1.Text = "Bing  / Yahoo";
-			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
 			this.label1.BackColor = System.Drawing.Color.Transparent;
-			this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
 			this.label1.ForeColor = System.Drawing.Color.Transparent;
-			this.label1.Location = new System.Drawing.Point(10, 12);
+			this.label1.Location = new System.Drawing.Point(26, 116);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(69, 14);
+			this.label1.Size = new System.Drawing.Size(71, 15);
 			this.label1.TabIndex = 59;
-			this.label1.Text = "Accounts ID:";
+			this.label1.Text = "Accounts ID";
 			// 
 			// groupBox1
 			// 
@@ -259,9 +163,9 @@
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.groupBox1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-			this.groupBox1.Location = new System.Drawing.Point(7, 279);
+			this.groupBox1.Location = new System.Drawing.Point(29, 216);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(260, 88);
+			this.groupBox1.Size = new System.Drawing.Size(237, 88);
 			this.groupBox1.TabIndex = 56;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Time period";
@@ -287,59 +191,52 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.label5.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
 			this.label5.Location = new System.Drawing.Point(9, 59);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(19, 13);
+			this.label5.Size = new System.Drawing.Size(20, 15);
 			this.label5.TabIndex = 14;
 			this.label5.Text = "To";
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.label3.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
 			this.label3.Location = new System.Drawing.Point(9, 33);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(31, 13);
+			this.label3.Size = new System.Drawing.Size(34, 15);
 			this.label3.TabIndex = 12;
 			this.label3.Text = "From";
 			// 
 			// accountID
 			// 
-			this.accountID.Location = new System.Drawing.Point(13, 29);
+			this.accountID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.accountID.ForeColor = System.Drawing.Color.White;
+			this.accountID.Location = new System.Drawing.Point(114, 113);
 			this.accountID.Name = "accountID";
-			this.accountID.Size = new System.Drawing.Size(100, 20);
+			this.accountID.Size = new System.Drawing.Size(152, 20);
 			this.accountID.TabIndex = 60;
 			// 
 			// DeliveryID_tb
 			// 
-			this.DeliveryID_tb.Location = new System.Drawing.Point(13, 108);
+			this.DeliveryID_tb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.DeliveryID_tb.ForeColor = System.Drawing.Color.White;
+			this.DeliveryID_tb.Location = new System.Drawing.Point(114, 147);
 			this.DeliveryID_tb.Name = "DeliveryID_tb";
-			this.DeliveryID_tb.Size = new System.Drawing.Size(249, 20);
+			this.DeliveryID_tb.Size = new System.Drawing.Size(152, 20);
 			this.DeliveryID_tb.TabIndex = 62;
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
 			this.label2.BackColor = System.Drawing.Color.Transparent;
-			this.label2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.label2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
 			this.label2.ForeColor = System.Drawing.Color.Transparent;
-			this.label2.Location = new System.Drawing.Point(10, 91);
+			this.label2.Location = new System.Drawing.Point(26, 150);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(61, 14);
+			this.label2.Size = new System.Drawing.Size(66, 15);
 			this.label2.TabIndex = 61;
 			this.label2.Text = "Delivery ID:";
-			// 
-			// button1
-			// 
-			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.button1.Location = new System.Drawing.Point(187, 402);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 27);
-			this.button1.TabIndex = 66;
-			this.button1.Text = "Search";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// checkBox2
 			// 
@@ -349,13 +246,12 @@
 			this.checkBox2.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.checkBox2.ForeColor = System.Drawing.SystemColors.ButtonFace;
 			this.checkBox2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkBox2.Location = new System.Drawing.Point(13, 62);
+			this.checkBox2.Location = new System.Drawing.Point(29, 326);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(180, 19);
 			this.checkBox2.TabIndex = 40;
 			this.checkBox2.Text = "Show only Commited Deliveries";
 			this.checkBox2.UseVisualStyleBackColor = true;
-			
 			// 
 			// DeliveryDataGridView
 			// 
@@ -441,7 +337,7 @@
 			// 
 			// tabPage5
 			// 
-			this.tabPage5.BackColor = System.Drawing.Color.Black;
+			this.tabPage5.BackColor = System.Drawing.Color.Gray;
 			this.tabPage5.Controls.Add(this.label12);
 			this.tabPage5.Controls.Add(this.dataGridView1);
 			this.tabPage5.Controls.Add(this.groupBox6);
@@ -553,7 +449,7 @@
 			// 
 			// tabPage2
 			// 
-			this.tabPage2.BackColor = System.Drawing.Color.Black;
+			this.tabPage2.BackColor = System.Drawing.Color.DimGray;
 			this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.tabPage2.Controls.Add(this.label11);
 			this.tabPage2.Controls.Add(this.MeasuresTable);
@@ -621,7 +517,7 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+			this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.tabPage1.Controls.Add(this.pictureBox8);
 			this.tabPage1.Controls.Add(this.label14);
@@ -654,7 +550,7 @@
 			this.label14.AutoSize = true;
 			this.label14.BackColor = System.Drawing.Color.Transparent;
 			this.label14.Font = new System.Drawing.Font("Calibri", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label14.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.label14.ForeColor = System.Drawing.Color.White;
 			this.label14.Location = new System.Drawing.Point(73, 16);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(265, 23);
@@ -666,7 +562,7 @@
 			this.label13.AutoSize = true;
 			this.label13.BackColor = System.Drawing.Color.Transparent;
 			this.label13.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label13.ForeColor = System.Drawing.Color.DimGray;
+			this.label13.ForeColor = System.Drawing.Color.Gainsboro;
 			this.label13.Location = new System.Drawing.Point(25, 64);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(86, 14);
@@ -733,7 +629,7 @@
 			this.label9.AutoSize = true;
 			this.label9.BackColor = System.Drawing.Color.Transparent;
 			this.label9.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label9.ForeColor = System.Drawing.Color.DimGray;
+			this.label9.ForeColor = System.Drawing.Color.Gainsboro;
 			this.label9.Location = new System.Drawing.Point(456, 64);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(107, 14);
@@ -787,7 +683,7 @@
 			this.label10.AutoSize = true;
 			this.label10.BackColor = System.Drawing.Color.Transparent;
 			this.label10.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label10.ForeColor = System.Drawing.Color.DimGray;
+			this.label10.ForeColor = System.Drawing.Color.Gainsboro;
 			this.label10.Location = new System.Drawing.Point(25, 270);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(144, 14);
@@ -838,7 +734,7 @@
 			// 
 			// tabPage3
 			// 
-			this.tabPage3.BackColor = System.Drawing.Color.Black;
+			this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.tabPage3.Controls.Add(this.groupBox4);
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
@@ -1025,6 +921,110 @@
 			this.Value.ReadOnly = true;
 			this.Value.Width = 50;
 			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel1.Controls.Add(this.pictureBox3);
+			this.panel1.Controls.Add(this.pictureBox2);
+			this.panel1.Controls.Add(this.pictureBox11);
+			this.panel1.Controls.Add(this.pictureBox1);
+			this.panel1.Controls.Add(this.application_cb);
+			this.panel1.Controls.Add(this.label15);
+			this.panel1.Controls.Add(this.accountID);
+			this.panel1.Controls.Add(this.groupBox1);
+			this.panel1.Controls.Add(this.pictureBox7);
+			this.panel1.Controls.Add(this.label1);
+			this.panel1.Controls.Add(this.checkBox2);
+			this.panel1.Controls.Add(this.label2);
+			this.panel1.Controls.Add(this.DeliveryID_tb);
+			this.panel1.Controls.Add(this.button1);
+			this.panel1.Location = new System.Drawing.Point(12, 12);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(299, 783);
+			this.panel1.TabIndex = 89;
+			// 
+			// pictureBox3
+			// 
+			this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.pictureBox3.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.clock_green;
+			this.pictureBox3.Location = new System.Drawing.Point(5, 216);
+			this.pictureBox3.Name = "pictureBox3";
+			this.pictureBox3.Size = new System.Drawing.Size(15, 15);
+			this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox3.TabIndex = 93;
+			this.pictureBox3.TabStop = false;
+			// 
+			// pictureBox2
+			// 
+			this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.pictureBox2.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Shoppingcart48;
+			this.pictureBox2.Location = new System.Drawing.Point(5, 150);
+			this.pictureBox2.Name = "pictureBox2";
+			this.pictureBox2.Size = new System.Drawing.Size(15, 15);
+			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox2.TabIndex = 92;
+			this.pictureBox2.TabStop = false;
+			// 
+			// pictureBox11
+			// 
+			this.pictureBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox11.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.users;
+			this.pictureBox11.Location = new System.Drawing.Point(5, 116);
+			this.pictureBox11.Name = "pictureBox11";
+			this.pictureBox11.Size = new System.Drawing.Size(15, 15);
+			this.pictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox11.TabIndex = 91;
+			this.pictureBox11.TabStop = false;
+			// 
+			// pictureBox1
+			// 
+			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox1.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources._24;
+			this.pictureBox1.Location = new System.Drawing.Point(5, 34);
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(15, 15);
+			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox1.TabIndex = 88;
+			this.pictureBox1.TabStop = false;
+			// 
+			// application_cb
+			// 
+			this.application_cb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.application_cb.ForeColor = System.Drawing.Color.White;
+			this.application_cb.FormattingEnabled = true;
+			this.application_cb.Items.AddRange(new object[] {
+            "Seperia",
+            "Edge.BI"});
+			this.application_cb.Location = new System.Drawing.Point(114, 32);
+			this.application_cb.Name = "application_cb";
+			this.application_cb.Size = new System.Drawing.Size(152, 21);
+			this.application_cb.TabIndex = 90;
+			this.application_cb.Text = "Select Application";
+			this.application_cb.SelectedValueChanged += new System.EventHandler(this.application_cb_SelectedValueChanged);
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.BackColor = System.Drawing.Color.Transparent;
+			this.label15.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label15.ForeColor = System.Drawing.Color.SkyBlue;
+			this.label15.Location = new System.Drawing.Point(26, 35);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(68, 15);
+			this.label15.TabIndex = 89;
+			this.label15.Text = "Application";
+			// 
 			// pictureBox7
 			// 
 			this.pictureBox7.BackColor = System.Drawing.Color.Transparent;
@@ -1035,23 +1035,16 @@
 			this.pictureBox7.TabIndex = 87;
 			this.pictureBox7.TabStop = false;
 			// 
-			// panel1
+			// button1
 			// 
-			this.panel1.BackColor = System.Drawing.Color.Black;
-			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel1.Controls.Add(this.accountID);
-			this.panel1.Controls.Add(this.groupBox1);
-			this.panel1.Controls.Add(this.pictureBox7);
-			this.panel1.Controls.Add(this.label1);
-			this.panel1.Controls.Add(this.checkBox2);
-			this.panel1.Controls.Add(this.label2);
-			this.panel1.Controls.Add(this.dataTypes);
-			this.panel1.Controls.Add(this.DeliveryID_tb);
-			this.panel1.Controls.Add(this.button1);
-			this.panel1.Location = new System.Drawing.Point(12, 12);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(299, 783);
-			this.panel1.TabIndex = 89;
+			this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.button1.Location = new System.Drawing.Point(29, 372);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(237, 37);
+			this.button1.TabIndex = 66;
+			this.button1.Text = "Search";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// DeliverySearch
 			// 
@@ -1065,13 +1058,9 @@
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.DeliveryDataGridView);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+			this.Name = "DeliverySearch";
 			this.ShowIcon = false;
 			this.Text = "DeliverySearch";
-			this.dataTypes.ResumeLayout(false);
-			this.dataTypes.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryDataGridView)).EndInit();
@@ -1096,9 +1085,13 @@
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryFiles)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryFileHistory)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryFileHistoryParams)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1106,14 +1099,7 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox dataTypes;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.CheckBox GoogleAdwords;
-        private System.Windows.Forms.CheckBox Facebook;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DateTimePicker fromDate;
         private System.Windows.Forms.DateTimePicker toDate;
@@ -1192,5 +1178,11 @@
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Commited;
+		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.ComboBox application_cb;
+		private System.Windows.Forms.Label label15;
+		private System.Windows.Forms.PictureBox pictureBox11;
+		private System.Windows.Forms.PictureBox pictureBox2;
+		private System.Windows.Forms.PictureBox pictureBox3;
     }
 }

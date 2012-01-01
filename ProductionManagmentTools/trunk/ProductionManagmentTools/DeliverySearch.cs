@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using Edge.Core.Configuration;
 using Edge.Core.Data;
 using Edge.Data.Pipeline;
+using System.Configuration;
 
 namespace Edge.Application.ProductionManagmentTools
 {
@@ -364,7 +365,22 @@ namespace Edge.Application.ProductionManagmentTools
             DeliveryFileHistory.Rows.Clear();
             DeliveryFileHistoryParams.Rows.Clear();
         }
+	
+		private void application_cb_SelectedValueChanged(object sender, EventArgs e)
+		{
+			string key = string.Empty;
 
+			if (((ComboBox)sender).SelectedItem.Equals(Const.EdgeApp))
+			{
+				key = Const.EdgeProductionPathKey;
+			}
+			else
+				key = Const.SeperiaProductionPathKey;
+
+			string productionPath = ConfigurationManager.AppSettings.Get(key);
+			EdgeServicesConfiguration.Load(productionPath);
+			
+		}
 
     }
 }

@@ -74,6 +74,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap clock_green {
+            get {
+                object obj = ResourceManager.GetObject("clock green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap configuration {
             get {
                 object obj = ResourceManager.GetObject("configuration", resourceCulture);
@@ -249,6 +256,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Shoppingcart48 {
+            get {
+                object obj = ResourceManager.GetObject("Shoppingcart48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Stats {
             get {
                 object obj = ResourceManager.GetObject("Stats", resourceCulture);
@@ -308,6 +322,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap yahoo__1_ {
             get {
                 object obj = ResourceManager.GetObject("yahoo (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Zoom_in48 {
+            get {
+                object obj = ResourceManager.GetObject("Zoom_in48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
