@@ -232,6 +232,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Zoom_in48.png" />
     <None Include="Resources\yahoo %281%29.png" />
     <None Include="Resources\window_new.png" />
     <None Include="Resources\warning1.png" />
@@ -262,6 +263,9 @@
     <None Include="Resources\24.png" />
     <None Include="Resources\preferences_system_windows_actions.png" />
     <None Include="Resources\configuration.png" />
+    <None Include="Resources\Shoppingcart16.png" />
+    <None Include="Resources\Shoppingcart48.png" />
+    <None Include="Resources\clock green.png" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <ItemGroup>
