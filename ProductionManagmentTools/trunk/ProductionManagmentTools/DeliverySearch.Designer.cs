@@ -39,7 +39,7 @@
 			this.accountID = new System.Windows.Forms.TextBox();
 			this.DeliveryID_tb = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.checkBox2 = new System.Windows.Forms.CheckBox();
+			this.commitedOption = new System.Windows.Forms.CheckBox();
 			this.DeliveryDataGridView = new System.Windows.Forms.DataGridView();
 			this.DeliveryID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Account_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,7 +69,6 @@
 			this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Imps = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.pictureBox8 = new System.Windows.Forms.PictureBox();
 			this.label14 = new System.Windows.Forms.Label();
 			this.label13 = new System.Windows.Forms.Label();
 			this.DeliveryHistory = new System.Windows.Forms.DataGridView();
@@ -115,6 +114,7 @@
 			this.label15 = new System.Windows.Forms.Label();
 			this.pictureBox7 = new System.Windows.Forms.PictureBox();
 			this.button1 = new System.Windows.Forms.Button();
+			this.searchParamsPanel = new System.Windows.Forms.Panel();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryDataGridView)).BeginInit();
 			this.tabPage5.SuspendLayout();
@@ -124,7 +124,6 @@
 			this.tabPage2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MeasuresTable)).BeginInit();
 			this.tabPage1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryHistory)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryHistoryParams)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryParams)).BeginInit();
@@ -140,6 +139,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+			this.searchParamsPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -148,7 +148,7 @@
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
 			this.label1.ForeColor = System.Drawing.Color.Transparent;
-			this.label1.Location = new System.Drawing.Point(26, 116);
+			this.label1.Location = new System.Drawing.Point(26, 15);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(71, 15);
 			this.label1.TabIndex = 59;
@@ -163,7 +163,7 @@
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.groupBox1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-			this.groupBox1.Location = new System.Drawing.Point(29, 216);
+			this.groupBox1.Location = new System.Drawing.Point(29, 115);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(237, 88);
 			this.groupBox1.TabIndex = 56;
@@ -212,7 +212,7 @@
 			// 
 			this.accountID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.accountID.ForeColor = System.Drawing.Color.White;
-			this.accountID.Location = new System.Drawing.Point(114, 113);
+			this.accountID.Location = new System.Drawing.Point(114, 12);
 			this.accountID.Name = "accountID";
 			this.accountID.Size = new System.Drawing.Size(152, 20);
 			this.accountID.TabIndex = 60;
@@ -221,7 +221,7 @@
 			// 
 			this.DeliveryID_tb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.DeliveryID_tb.ForeColor = System.Drawing.Color.White;
-			this.DeliveryID_tb.Location = new System.Drawing.Point(114, 147);
+			this.DeliveryID_tb.Location = new System.Drawing.Point(114, 46);
 			this.DeliveryID_tb.Name = "DeliveryID_tb";
 			this.DeliveryID_tb.Size = new System.Drawing.Size(152, 20);
 			this.DeliveryID_tb.TabIndex = 62;
@@ -232,26 +232,26 @@
 			this.label2.BackColor = System.Drawing.Color.Transparent;
 			this.label2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
 			this.label2.ForeColor = System.Drawing.Color.Transparent;
-			this.label2.Location = new System.Drawing.Point(26, 150);
+			this.label2.Location = new System.Drawing.Point(26, 49);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(66, 15);
 			this.label2.TabIndex = 61;
 			this.label2.Text = "Delivery ID:";
 			// 
-			// checkBox2
+			// commitedOption
 			// 
-			this.checkBox2.AutoSize = true;
-			this.checkBox2.Checked = true;
-			this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBox2.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBox2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-			this.checkBox2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkBox2.Location = new System.Drawing.Point(29, 326);
-			this.checkBox2.Name = "checkBox2";
-			this.checkBox2.Size = new System.Drawing.Size(180, 19);
-			this.checkBox2.TabIndex = 40;
-			this.checkBox2.Text = "Show only Commited Deliveries";
-			this.checkBox2.UseVisualStyleBackColor = true;
+			this.commitedOption.AutoSize = true;
+			this.commitedOption.Checked = true;
+			this.commitedOption.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.commitedOption.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.commitedOption.ForeColor = System.Drawing.SystemColors.ButtonFace;
+			this.commitedOption.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.commitedOption.Location = new System.Drawing.Point(29, 225);
+			this.commitedOption.Name = "commitedOption";
+			this.commitedOption.Size = new System.Drawing.Size(180, 19);
+			this.commitedOption.TabIndex = 40;
+			this.commitedOption.Text = "Show only Commited Deliveries";
+			this.commitedOption.UseVisualStyleBackColor = true;
 			// 
 			// DeliveryDataGridView
 			// 
@@ -519,7 +519,6 @@
 			// 
 			this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.tabPage1.Controls.Add(this.pictureBox8);
 			this.tabPage1.Controls.Add(this.label14);
 			this.tabPage1.Controls.Add(this.label13);
 			this.tabPage1.Controls.Add(this.DeliveryHistory);
@@ -535,23 +534,13 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Delivery History and Parameters";
 			// 
-			// pictureBox8
-			// 
-			this.pictureBox8.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.kontact;
-			this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBox8.Location = new System.Drawing.Point(28, 6);
-			this.pictureBox8.Name = "pictureBox8";
-			this.pictureBox8.Size = new System.Drawing.Size(39, 38);
-			this.pictureBox8.TabIndex = 88;
-			this.pictureBox8.TabStop = false;
-			// 
 			// label14
 			// 
 			this.label14.AutoSize = true;
 			this.label14.BackColor = System.Drawing.Color.Transparent;
 			this.label14.Font = new System.Drawing.Font("Calibri", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label14.ForeColor = System.Drawing.Color.White;
-			this.label14.Location = new System.Drawing.Point(73, 16);
+			this.label14.Location = new System.Drawing.Point(24, 18);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(265, 23);
 			this.label14.TabIndex = 87;
@@ -657,23 +646,26 @@
 			this.DeliveryHistoryParams.ShowCellToolTips = false;
 			this.DeliveryHistoryParams.ShowEditingIcon = false;
 			this.DeliveryHistoryParams.ShowRowErrors = false;
-			this.DeliveryHistoryParams.Size = new System.Drawing.Size(396, 178);
+			this.DeliveryHistoryParams.Size = new System.Drawing.Size(744, 178);
 			this.DeliveryHistoryParams.TabIndex = 77;
 			// 
 			// dataGridViewTextBoxColumn1
 			// 
+			this.dataGridViewTextBoxColumn1.FillWeight = 23.37446F;
 			this.dataGridViewTextBoxColumn1.HeaderText = "Index";
 			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
 			this.dataGridViewTextBoxColumn1.ReadOnly = true;
 			// 
 			// dataGridViewTextBoxColumn2
 			// 
+			this.dataGridViewTextBoxColumn2.FillWeight = 76.14214F;
 			this.dataGridViewTextBoxColumn2.HeaderText = "Key";
 			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
 			this.dataGridViewTextBoxColumn2.ReadOnly = true;
 			// 
 			// dataGridViewTextBoxColumn3
 			// 
+			this.dataGridViewTextBoxColumn3.FillWeight = 200.4834F;
 			this.dataGridViewTextBoxColumn3.HeaderText = "Value";
 			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
 			this.dataGridViewTextBoxColumn3.ReadOnly = true;
@@ -719,6 +711,7 @@
 			this.dataGridViewTextBoxColumn6.HeaderText = "Value";
 			this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
 			this.dataGridViewTextBoxColumn6.ReadOnly = true;
+			this.dataGridViewTextBoxColumn6.Width = 500;
 			// 
 			// tabControl1
 			// 
@@ -925,20 +918,11 @@
 			// 
 			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel1.Controls.Add(this.pictureBox3);
-			this.panel1.Controls.Add(this.pictureBox2);
-			this.panel1.Controls.Add(this.pictureBox11);
+			this.panel1.Controls.Add(this.searchParamsPanel);
 			this.panel1.Controls.Add(this.pictureBox1);
 			this.panel1.Controls.Add(this.application_cb);
 			this.panel1.Controls.Add(this.label15);
-			this.panel1.Controls.Add(this.accountID);
-			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Controls.Add(this.pictureBox7);
-			this.panel1.Controls.Add(this.label1);
-			this.panel1.Controls.Add(this.checkBox2);
-			this.panel1.Controls.Add(this.label2);
-			this.panel1.Controls.Add(this.DeliveryID_tb);
-			this.panel1.Controls.Add(this.button1);
 			this.panel1.Location = new System.Drawing.Point(12, 12);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(299, 783);
@@ -949,11 +933,11 @@
 			this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
 			this.pictureBox3.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.clock_green;
-			this.pictureBox3.Location = new System.Drawing.Point(5, 216);
+			this.pictureBox3.Location = new System.Drawing.Point(5, 115);
 			this.pictureBox3.Name = "pictureBox3";
-			this.pictureBox3.Size = new System.Drawing.Size(15, 15);
+			this.pictureBox3.Size = new System.Drawing.Size(16, 0);
 			this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox3.TabIndex = 93;
 			this.pictureBox3.TabStop = false;
@@ -965,9 +949,9 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
 			this.pictureBox2.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Shoppingcart48;
-			this.pictureBox2.Location = new System.Drawing.Point(5, 150);
+			this.pictureBox2.Location = new System.Drawing.Point(5, 49);
 			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(15, 15);
+			this.pictureBox2.Size = new System.Drawing.Size(15, 0);
 			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox2.TabIndex = 92;
 			this.pictureBox2.TabStop = false;
@@ -978,9 +962,9 @@
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox11.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.users;
-			this.pictureBox11.Location = new System.Drawing.Point(5, 116);
+			this.pictureBox11.Location = new System.Drawing.Point(5, 15);
 			this.pictureBox11.Name = "pictureBox11";
-			this.pictureBox11.Size = new System.Drawing.Size(15, 15);
+			this.pictureBox11.Size = new System.Drawing.Size(16, 0);
 			this.pictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox11.TabIndex = 91;
 			this.pictureBox11.TabStop = false;
@@ -1038,13 +1022,30 @@
 			// button1
 			// 
 			this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.button1.Location = new System.Drawing.Point(29, 372);
+			this.button1.Location = new System.Drawing.Point(29, 271);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(237, 37);
 			this.button1.TabIndex = 66;
 			this.button1.Text = "Search";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// searchParamsPanel
+			// 
+			this.searchParamsPanel.Controls.Add(this.accountID);
+			this.searchParamsPanel.Controls.Add(this.pictureBox3);
+			this.searchParamsPanel.Controls.Add(this.button1);
+			this.searchParamsPanel.Controls.Add(this.pictureBox2);
+			this.searchParamsPanel.Controls.Add(this.DeliveryID_tb);
+			this.searchParamsPanel.Controls.Add(this.pictureBox11);
+			this.searchParamsPanel.Controls.Add(this.label2);
+			this.searchParamsPanel.Controls.Add(this.commitedOption);
+			this.searchParamsPanel.Controls.Add(this.label1);
+			this.searchParamsPanel.Controls.Add(this.groupBox1);
+			this.searchParamsPanel.Location = new System.Drawing.Point(5, 69);
+			this.searchParamsPanel.Name = "searchParamsPanel";
+			this.searchParamsPanel.Size = new System.Drawing.Size(287, 325);
+			this.searchParamsPanel.TabIndex = 94;
 			// 
 			// DeliverySearch
 			// 
@@ -1058,7 +1059,6 @@
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.DeliveryDataGridView);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-			this.Name = "DeliverySearch";
 			this.ShowIcon = false;
 			this.Text = "DeliverySearch";
 			this.groupBox1.ResumeLayout(false);
@@ -1074,7 +1074,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.MeasuresTable)).EndInit();
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryHistory)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryHistoryParams)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.DeliveryParams)).EndInit();
@@ -1092,6 +1091,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+			this.searchParamsPanel.ResumeLayout(false);
+			this.searchParamsPanel.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1109,7 +1110,7 @@
         private System.Windows.Forms.TextBox DeliveryID_tb;
         private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox commitedOption;
 		private System.Windows.Forms.DataGridView DeliveryDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn DeliveryID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Account_ID;
@@ -1146,13 +1147,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Operation_DH;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateRecorded;
         private System.Windows.Forms.Button DhistoryClear;
-        private System.Windows.Forms.DataGridView DeliveryHistoryParams;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridView DeliveryParams;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+		private System.Windows.Forms.DataGridView DeliveryHistoryParams;
+		private System.Windows.Forms.DataGridView DeliveryParams;
         private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TabControl tabControl1;
@@ -1174,7 +1170,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn fileParamIndex;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Key;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Value;
-		private System.Windows.Forms.PictureBox pictureBox8;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Commited;
@@ -1184,5 +1179,11 @@
 		private System.Windows.Forms.PictureBox pictureBox11;
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.PictureBox pictureBox3;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+		private System.Windows.Forms.Panel searchParamsPanel;
     }
 }
