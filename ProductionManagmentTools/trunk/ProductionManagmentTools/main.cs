@@ -152,6 +152,12 @@ namespace Edge.Application.ProductionManagmentTools
             //f.Show();
         }
 
+		private void jobsAgentToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FrmSqlJobs frmjobs = new FrmSqlJobs();
+			frmjobs.Show();
+		}
+
     
 	
 
