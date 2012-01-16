@@ -31,6 +31,9 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.dataChecksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.duplicateTrackersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.deliverySearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.googleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.facebookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.getAPISettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,9 +44,8 @@
 			this.decToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.duplicateTrackersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.deliverySearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.sqlManagmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.jobsAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -56,7 +58,8 @@
             this.googleToolStripMenuItem,
             this.facebookToolStripMenuItem,
             this.backofficeToolStripMenuItem,
-            this.passwordToolStripMenuItem});
+            this.passwordToolStripMenuItem,
+            this.sqlManagmentToolStripMenuItem});
 			this.menuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
@@ -73,6 +76,29 @@
 			this.dataChecksToolStripMenuItem.Name = "dataChecksToolStripMenuItem";
 			this.dataChecksToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
 			this.dataChecksToolStripMenuItem.Text = "Data Checks";
+			// 
+			// runToolStripMenuItem
+			// 
+			this.runToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.database;
+			this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+			this.runToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.runToolStripMenuItem.Text = "DB Checks";
+			this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+			// 
+			// duplicateTrackersToolStripMenuItem
+			// 
+			this.duplicateTrackersToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.DupTracker;
+			this.duplicateTrackersToolStripMenuItem.Name = "duplicateTrackersToolStripMenuItem";
+			this.duplicateTrackersToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.duplicateTrackersToolStripMenuItem.Text = "Duplicate Trackers";
+			// 
+			// deliverySearchToolStripMenuItem
+			// 
+			this.deliverySearchToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.find;
+			this.deliverySearchToolStripMenuItem.Name = "deliverySearchToolStripMenuItem";
+			this.deliverySearchToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.deliverySearchToolStripMenuItem.Text = "Delivery Search";
+			this.deliverySearchToolStripMenuItem.Click += new System.EventHandler(this.deliverySearchToolStripMenuItem_Click);
 			// 
 			// googleToolStripMenuItem
 			// 
@@ -150,28 +176,20 @@
 			this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
 			this.toolStripStatusLabel.Text = "Status";
 			// 
-			// runToolStripMenuItem
+			// sqlManagmentToolStripMenuItem
 			// 
-			this.runToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.database;
-			this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-			this.runToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-			this.runToolStripMenuItem.Text = "DB Checks";
-			this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+			this.sqlManagmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.jobsAgentToolStripMenuItem});
+			this.sqlManagmentToolStripMenuItem.Name = "sqlManagmentToolStripMenuItem";
+			this.sqlManagmentToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
+			this.sqlManagmentToolStripMenuItem.Text = "Sql Managment";
 			// 
-			// duplicateTrackersToolStripMenuItem
+			// jobsAgentToolStripMenuItem
 			// 
-			this.duplicateTrackersToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.DupTracker;
-			this.duplicateTrackersToolStripMenuItem.Name = "duplicateTrackersToolStripMenuItem";
-			this.duplicateTrackersToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-			this.duplicateTrackersToolStripMenuItem.Text = "Duplicate Trackers";
-			// 
-			// deliverySearchToolStripMenuItem
-			// 
-			this.deliverySearchToolStripMenuItem.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.find;
-			this.deliverySearchToolStripMenuItem.Name = "deliverySearchToolStripMenuItem";
-			this.deliverySearchToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-			this.deliverySearchToolStripMenuItem.Text = "Delivery Search";
-			this.deliverySearchToolStripMenuItem.Click += new System.EventHandler(this.deliverySearchToolStripMenuItem_Click);
+			this.jobsAgentToolStripMenuItem.Name = "jobsAgentToolStripMenuItem";
+			this.jobsAgentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.jobsAgentToolStripMenuItem.Text = "Jobs Agent";
+			this.jobsAgentToolStripMenuItem.Click += new System.EventHandler(this.jobsAgentToolStripMenuItem_Click);
 			// 
 			// main
 			// 
@@ -214,6 +232,8 @@
         private System.Windows.Forms.ToolStripMenuItem decToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deliverySearchToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip;
+		private System.Windows.Forms.ToolStripMenuItem sqlManagmentToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem jobsAgentToolStripMenuItem;
 	}
 }
 
