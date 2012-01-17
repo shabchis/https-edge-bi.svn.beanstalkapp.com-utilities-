@@ -36,6 +36,8 @@
 			// 
 			// jobsGridView
 			// 
+			this.jobsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.jobsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.jobsGridView.Location = new System.Drawing.Point(25, 66);
 			this.jobsGridView.Name = "jobsGridView";
@@ -45,6 +47,7 @@
 			// 
 			// btnConnectServer
 			// 
+			this.btnConnectServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnConnectServer.Location = new System.Drawing.Point(701, 27);
 			this.btnConnectServer.Name = "btnConnectServer";
 			this.btnConnectServer.Size = new System.Drawing.Size(125, 23);
@@ -55,6 +58,7 @@
 			// 
 			// btnRefresh
 			// 
+			this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnRefresh.Location = new System.Drawing.Point(612, 27);
 			this.btnRefresh.Name = "btnRefresh";
 			this.btnRefresh.Size = new System.Drawing.Size(75, 23);
@@ -72,8 +76,7 @@
 			this.Controls.Add(this.btnConnectServer);
 			this.Controls.Add(this.jobsGridView);
 			this.Name = "FrmSqlJobs";
-			this.Text = "FrmSqlJobs";
-			this.Load += new System.EventHandler(this.FrmSqlJobs_Load);
+			this.Text = "Sql Job Agent";			
 			((System.ComponentModel.ISupportInitialize)(this.jobsGridView)).EndInit();
 			this.ResumeLayout(false);
 
