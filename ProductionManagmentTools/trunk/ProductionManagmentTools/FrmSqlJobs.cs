@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Smo.Agent;
 using Edge.Application.ProductionManagmentTools.Objects;
+using Edge.Core.Configuration;
 
 namespace Edge.Application.ProductionManagmentTools
 {
@@ -32,10 +33,7 @@ namespace Edge.Application.ProductionManagmentTools
 
 		
 
-		private void FrmSqlJobs_Load(object sender, EventArgs e)
-		{
-			
-		}
+		
 
 		private void LoadJobs()
 		{
@@ -67,10 +65,10 @@ namespace Edge.Application.ProductionManagmentTools
 		private void ConnectServer()
 		{
 			_jobs = new List<SqlJob>();
-			_server = new Server(@"console.edge-bi.com");
+			_server = new Server(AppSettings.Get("SqlAgentServer",string.Empty));
 			_server.ConnectionContext.LoginSecure = false;
-			_server.ConnectionContext.Login = "edge1";
-			_server.ConnectionContext.Password = "Blublu*2!";
+			_server.ConnectionContext.Login = AppSettings.Get("SqlAgentUser", string.Empty);
+			_server.ConnectionContext.Password = AppSettings.Get("SqlAgentPassword", string.Empty);
 			try
 			{
 				_server.ConnectionContext.Connect();
