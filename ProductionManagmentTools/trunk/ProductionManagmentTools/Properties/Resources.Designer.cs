@@ -67,6 +67,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Add_user24 {
+            get {
+                object obj = ResourceManager.GetObject("Add_user24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap button_minus_red {
             get {
                 object obj = ResourceManager.GetObject("button_minus_red", resourceCulture);
@@ -119,6 +126,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap DupTracker {
             get {
                 object obj = ResourceManager.GetObject("DupTracker", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap erase {
+            get {
+                object obj = ResourceManager.GetObject("erase", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -207,6 +221,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Key16 {
+            get {
+                object obj = ResourceManager.GetObject("Key16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kontact {
             get {
                 object obj = ResourceManager.GetObject("kontact", resourceCulture);
@@ -224,6 +245,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap media_floppy_green {
             get {
                 object obj = ResourceManager.GetObject("media_floppy_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap new_table {
+            get {
+                object obj = ResourceManager.GetObject("new_table", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -280,6 +308,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
         internal static System.Drawing.Bitmap success_icon {
             get {
                 object obj = ResourceManager.GetObject("success_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_pic {
+            get {
+                object obj = ResourceManager.GetObject("user_pic", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

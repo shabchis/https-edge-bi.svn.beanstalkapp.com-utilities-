@@ -42,10 +42,11 @@
 			this.createFileExampleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.passwordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.decToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.statusStrip = new System.Windows.Forms.StatusStrip();
-			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sqlManagmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.jobsAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.statusStrip = new System.Windows.Forms.StatusStrip();
+			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.billingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -103,6 +104,8 @@
 			// googleToolStripMenuItem
 			// 
 			this.googleToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.googleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.billingToolStripMenuItem});
 			this.googleToolStripMenuItem.Name = "googleToolStripMenuItem";
 			this.googleToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
 			this.googleToolStripMenuItem.Text = "Google";
@@ -160,6 +163,21 @@
 			this.decToolStripMenuItem.Text = "Enc \\ Dec";
 			this.decToolStripMenuItem.Click += new System.EventHandler(this.decToolStripMenuItem_Click);
 			// 
+			// sqlManagmentToolStripMenuItem
+			// 
+			this.sqlManagmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.jobsAgentToolStripMenuItem});
+			this.sqlManagmentToolStripMenuItem.Name = "sqlManagmentToolStripMenuItem";
+			this.sqlManagmentToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
+			this.sqlManagmentToolStripMenuItem.Text = "Sql Managment";
+			// 
+			// jobsAgentToolStripMenuItem
+			// 
+			this.jobsAgentToolStripMenuItem.Name = "jobsAgentToolStripMenuItem";
+			this.jobsAgentToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.jobsAgentToolStripMenuItem.Text = "Jobs Agent";
+			this.jobsAgentToolStripMenuItem.Click += new System.EventHandler(this.jobsAgentToolStripMenuItem_Click);
+			// 
 			// statusStrip
 			// 
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -176,20 +194,12 @@
 			this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
 			this.toolStripStatusLabel.Text = "Status";
 			// 
-			// sqlManagmentToolStripMenuItem
+			// billingToolStripMenuItem
 			// 
-			this.sqlManagmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.jobsAgentToolStripMenuItem});
-			this.sqlManagmentToolStripMenuItem.Name = "sqlManagmentToolStripMenuItem";
-			this.sqlManagmentToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
-			this.sqlManagmentToolStripMenuItem.Text = "Sql Managment";
-			// 
-			// jobsAgentToolStripMenuItem
-			// 
-			this.jobsAgentToolStripMenuItem.Name = "jobsAgentToolStripMenuItem";
-			this.jobsAgentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.jobsAgentToolStripMenuItem.Text = "Jobs Agent";
-			this.jobsAgentToolStripMenuItem.Click += new System.EventHandler(this.jobsAgentToolStripMenuItem_Click);
+			this.billingToolStripMenuItem.Name = "billingToolStripMenuItem";
+			this.billingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.billingToolStripMenuItem.Text = "Billing";
+			this.billingToolStripMenuItem.Click += new System.EventHandler(this.billingToolStripMenuItem_Click);
 			// 
 			// main
 			// 
@@ -234,6 +244,7 @@
         private System.Windows.Forms.MenuStrip menuStrip;
 		private System.Windows.Forms.ToolStripMenuItem sqlManagmentToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem jobsAgentToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem billingToolStripMenuItem;
 	}
 }
 
