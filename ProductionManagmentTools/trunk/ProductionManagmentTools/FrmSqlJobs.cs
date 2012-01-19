@@ -10,6 +10,7 @@ using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Smo.Agent;
 using Edge.Application.ProductionManagmentTools.Objects;
 using Edge.Core.Configuration;
+using System.Configuration;
 
 namespace Edge.Application.ProductionManagmentTools
 {
@@ -64,11 +65,12 @@ namespace Edge.Application.ProductionManagmentTools
 		}
 		private void ConnectServer()
 		{
+			
 			_jobs = new List<SqlJob>();
-			_server = new Server(AppSettings.Get("SqlAgentServer",string.Empty));
+			_server = new Server(ConfigurationManager.AppSettings.Get("SqlAgentServer"));
 			_server.ConnectionContext.LoginSecure = false;
-			_server.ConnectionContext.Login = AppSettings.Get("SqlAgentUser", string.Empty);
-			_server.ConnectionContext.Password = AppSettings.Get("SqlAgentPassword", string.Empty);
+			_server.ConnectionContext.Login = ConfigurationManager.AppSettings.Get("SqlAgentUser");
+			_server.ConnectionContext.Password = ConfigurationManager.AppSettings.Get("SqlAgentPassword");
 			try
 			{
 				_server.ConnectionContext.Connect();

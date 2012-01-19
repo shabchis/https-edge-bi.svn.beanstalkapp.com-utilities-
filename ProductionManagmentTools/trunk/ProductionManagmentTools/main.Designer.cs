@@ -35,6 +35,7 @@
 			this.duplicateTrackersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deliverySearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.googleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.billingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.facebookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.getAPISettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.backofficeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +47,7 @@
 			this.jobsAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.billingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.usersGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -60,7 +61,8 @@
             this.facebookToolStripMenuItem,
             this.backofficeToolStripMenuItem,
             this.passwordToolStripMenuItem,
-            this.sqlManagmentToolStripMenuItem});
+            this.sqlManagmentToolStripMenuItem,
+            this.usersGroupsToolStripMenuItem});
 			this.menuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
@@ -110,6 +112,12 @@
 			this.googleToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
 			this.googleToolStripMenuItem.Text = "Google";
 			this.googleToolStripMenuItem.Click += new System.EventHandler(this.googleToolStripMenuItem_Click);
+			// 
+			// billingToolStripMenuItem
+			// 
+			this.billingToolStripMenuItem.Name = "billingToolStripMenuItem";
+			this.billingToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.billingToolStripMenuItem.Text = "Billing";
 			// 
 			// facebookToolStripMenuItem
 			// 
@@ -194,12 +202,12 @@
 			this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
 			this.toolStripStatusLabel.Text = "Status";
 			// 
-			// billingToolStripMenuItem
+			// usersGroupsToolStripMenuItem
 			// 
-			this.billingToolStripMenuItem.Name = "billingToolStripMenuItem";
-			this.billingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.billingToolStripMenuItem.Text = "Billing";
-			this.billingToolStripMenuItem.Click += new System.EventHandler(this.billingToolStripMenuItem_Click);
+			this.usersGroupsToolStripMenuItem.Name = "usersGroupsToolStripMenuItem";
+			this.usersGroupsToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+			this.usersGroupsToolStripMenuItem.Text = "Users & Groups";
+			this.usersGroupsToolStripMenuItem.Click += new System.EventHandler(this.usersGroupsToolStripMenuItem_Click);
 			// 
 			// main
 			// 
@@ -245,6 +253,9 @@
 		private System.Windows.Forms.ToolStripMenuItem sqlManagmentToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem jobsAgentToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem billingToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem usersGroupsToolStripMenuItem;
+
+		public System.EventHandler billingToolStripMenuItem_Click { get; set; }
 	}
 }
 

@@ -53,6 +53,9 @@
     <ApplicationIcon>checked_shield_green.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Edge.Objects">
+      <HintPath>..\..\..\..\EdgeApiRest\API\Edge.Api\bin\Edge.Objects.dll</HintPath>
+    </Reference>
     <Reference Include="Google.AdWords, Version=12.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\(third party)\GoogleAdwords\Google.AdWords.dll</HintPath>
@@ -210,6 +213,7 @@
       <DependentUpon>FrmSqlJobs.cs</DependentUpon>
     </Compile>
     <Compile Include="Listener.cs" />
+    <Compile Include="Objects\UsersGroupsDataLayer.cs" />
     <Compile Include="Objects\SqlJob.cs" />
     <Compile Include="Password.cs">
       <SubType>Form</SubType>
