@@ -158,6 +158,12 @@ namespace Edge.Application.ProductionManagmentTools
 			frmjobs.Show();
 		}
 
+		private void usersGroupsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Permissions f = new Permissions();
+			f.Show();
+		}
+
 		
 
     
