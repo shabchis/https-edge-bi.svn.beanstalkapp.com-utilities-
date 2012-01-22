@@ -28,6 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Permissions));
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.Users = new System.Windows.Forms.TabPage();
 			this.relatedGroupsView = new System.Windows.Forms.DataGridView();
@@ -38,7 +40,7 @@
 			this.pictureBox5 = new System.Windows.Forms.PictureBox();
 			this.pictureBox6 = new System.Windows.Forms.PictureBox();
 			this.pictureBox4 = new System.Windows.Forms.PictureBox();
-			this.treeView2 = new System.Windows.Forms.TreeView();
+			this.permissionTree = new System.Windows.Forms.TreeView();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
@@ -50,6 +52,9 @@
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.btnConnect = new System.Windows.Forms.Button();
+			this.contextMenuPermissions = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripMenuAllow = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1.SuspendLayout();
 			this.Users.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.relatedGroupsView)).BeginInit();
@@ -62,6 +67,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.usersGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.contextMenuPermissions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -85,7 +91,7 @@
 			this.Users.Controls.Add(this.pictureBox5);
 			this.Users.Controls.Add(this.pictureBox6);
 			this.Users.Controls.Add(this.pictureBox4);
-			this.Users.Controls.Add(this.treeView2);
+			this.Users.Controls.Add(this.permissionTree);
 			this.Users.Controls.Add(this.label5);
 			this.Users.Controls.Add(this.label2);
 			this.Users.Controls.Add(this.label4);
@@ -110,6 +116,8 @@
 			this.relatedGroupsView.Name = "relatedGroupsView";
 			this.relatedGroupsView.Size = new System.Drawing.Size(253, 342);
 			this.relatedGroupsView.TabIndex = 24;
+			this.relatedGroupsView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.relatedGroupsView_CellValueChanged);
+			this.relatedGroupsView.CurrentCellDirtyStateChanged += new System.EventHandler(this.relatedGroupsView_CurrentCellDirtyStateChanged);
 			// 
 			// pictureBox7
 			// 
@@ -144,10 +152,13 @@
 			// accountsTreeView
 			// 
 			this.accountsTreeView.BackColor = System.Drawing.Color.LightGray;
+			this.accountsTreeView.FullRowSelect = true;
+			this.accountsTreeView.HideSelection = false;
 			this.accountsTreeView.Location = new System.Drawing.Point(710, 159);
 			this.accountsTreeView.Name = "accountsTreeView";
 			this.accountsTreeView.Size = new System.Drawing.Size(232, 159);
 			this.accountsTreeView.TabIndex = 20;
+			this.accountsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.accountsTreeView_AfterSelect);
 			// 
 			// pictureBox5
 			// 
@@ -158,7 +169,6 @@
 			this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox5.TabIndex = 19;
 			this.pictureBox5.TabStop = false;
-			this.pictureBox5.Click += new System.EventHandler(this.pictureBox5_Click);
 			// 
 			// pictureBox6
 			// 
@@ -169,7 +179,6 @@
 			this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox6.TabIndex = 18;
 			this.pictureBox6.TabStop = false;
-			this.pictureBox6.Click += new System.EventHandler(this.pictureBox6_Click);
 			// 
 			// pictureBox4
 			// 
@@ -181,13 +190,13 @@
 			this.pictureBox4.TabIndex = 17;
 			this.pictureBox4.TabStop = false;
 			// 
-			// treeView2
+			// permissionTree
 			// 
-			this.treeView2.BackColor = System.Drawing.Color.LightGray;
-			this.treeView2.Location = new System.Drawing.Point(710, 345);
-			this.treeView2.Name = "treeView2";
-			this.treeView2.Size = new System.Drawing.Size(232, 159);
-			this.treeView2.TabIndex = 16;
+			this.permissionTree.BackColor = System.Drawing.Color.LightGray;
+			this.permissionTree.Location = new System.Drawing.Point(710, 345);
+			this.permissionTree.Name = "permissionTree";
+			this.permissionTree.Size = new System.Drawing.Size(232, 159);
+			this.permissionTree.TabIndex = 16;
 			// 
 			// label5
 			// 
@@ -296,6 +305,29 @@
 			this.btnConnect.UseVisualStyleBackColor = true;
 			this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
 			// 
+			// contextMenuPermissions
+			// 
+			this.contextMenuPermissions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuAllow,
+            this.toolStripMenuItem1});
+			this.contextMenuPermissions.Name = "contextMenuPermissions";
+			this.contextMenuPermissions.Size = new System.Drawing.Size(153, 70);
+			// 
+			// toolStripMenuAllow
+			// 
+			this.toolStripMenuAllow.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuAllow.Image")));
+			this.toolStripMenuAllow.Name = "toolStripMenuAllow";
+			this.toolStripMenuAllow.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuAllow.Text = "Allow";
+			this.toolStripMenuAllow.Click += new System.EventHandler(this.toolStripMenuAllow_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem1.Image")));
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItem1.Text = "Not Allowed";
+			// 
 			// Permissions
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -318,6 +350,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.usersGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			this.contextMenuPermissions.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -332,7 +365,7 @@
 		private System.Windows.Forms.DataGridView usersGrid;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.PictureBox pictureBox1;
-		private System.Windows.Forms.TreeView treeView2;
+		private System.Windows.Forms.TreeView permissionTree;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label4;
@@ -346,5 +379,8 @@
 		private System.Windows.Forms.TreeView accountsTreeView;
 		private System.Windows.Forms.Button btnConnect;
 		private System.Windows.Forms.DataGridView relatedGroupsView;
+		private System.Windows.Forms.ContextMenuStrip contextMenuPermissions;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuAllow;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 	}
 }

@@ -250,4 +250,22 @@
   <data name="Add_user24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Add_user24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="cancel_round" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancel_round.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cancel_round_faded" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancel_round-faded.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="question_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\question_blue.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="question_blue_faded" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\question_blue-faded.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tick_circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tick_circle.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tick_circle_faded" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tick_circle-faded.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
