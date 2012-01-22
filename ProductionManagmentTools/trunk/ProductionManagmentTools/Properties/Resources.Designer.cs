@@ -81,6 +81,20 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Icon cancel_round {
+            get {
+                object obj = ResourceManager.GetObject("cancel_round", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon cancel_round_faded {
+            get {
+                object obj = ResourceManager.GetObject("cancel_round_faded", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap clock_green {
             get {
                 object obj = ResourceManager.GetObject("clock green", resourceCulture);
@@ -270,6 +284,20 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Icon question_blue {
+            get {
+                object obj = ResourceManager.GetObject("question_blue", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon question_blue_faded {
+            get {
+                object obj = ResourceManager.GetObject("question_blue_faded", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap report {
             get {
                 object obj = ResourceManager.GetObject("report", resourceCulture);
@@ -309,6 +337,20 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             get {
                 object obj = ResourceManager.GetObject("success_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon tick_circle {
+            get {
+                object obj = ResourceManager.GetObject("tick_circle", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon tick_circle_faded {
+            get {
+                object obj = ResourceManager.GetObject("tick_circle_faded", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

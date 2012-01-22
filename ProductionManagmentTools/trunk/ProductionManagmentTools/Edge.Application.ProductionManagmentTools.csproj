@@ -401,6 +401,13 @@
     <None Include="Resources\erase.png" />
     <None Include="Resources\new_table.png" />
     <None Include="Resources\Add_user24.png" />
+    <Content Include="Resources\cancel_round-faded.ico" />
+    <Content Include="Resources\cancel_round.ico" />
+    <None Include="Resources\cancel_round.ico.ico" />
+    <Content Include="Resources\question_blue-faded.ico" />
+    <Content Include="Resources\question_blue.ico" />
+    <Content Include="Resources\tick_circle-faded.ico" />
+    <Content Include="Resources\tick_circle.ico" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <ItemGroup>
