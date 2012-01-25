@@ -238,12 +238,12 @@ namespace Edge.Application.ProductionManagmentTools.Objects
 
 		}
 
-		internal Dictionary<int,List<CalculatedPermission>> GetCalculatedPermissions(int userID)
+		internal Dictionary<int, List<CalculatedPermission>> GetCalculatedPermissions(int userID)
 		{
 			Dictionary<int, List<CalculatedPermission>> permissions;
 			HttpWebResponse response;
-			HttpWebRequest request = GetServiceRequest(string.Format("users/{0}/calculatedpermissions",userID), "GET");
-			
+			HttpWebRequest request = GetServiceRequest(string.Format("users/{0}/calculatedpermissions", userID), "GET");
+
 
 			try
 			{
@@ -258,15 +258,15 @@ namespace Edge.Application.ProductionManagmentTools.Objects
 			permissions = (Dictionary<int, List<CalculatedPermission>>)Deserialize(response.GetResponseStream(), typeof(Dictionary<int, List<CalculatedPermission>>));
 
 			return permissions;
-			
+
 		}
 
 		internal void DeleteUser(UserView user)
 		{
 			HttpWebResponse response;
 			HttpWebRequest request;
-			
-				request = GetServiceRequest(string.Format("users/{0}", user.ID), "DELETE");
+
+			request = GetServiceRequest(string.Format("users/{0}", user.ID), "DELETE");
 
 
 			//string body = Serialize(user.GetUser());
@@ -283,12 +283,32 @@ namespace Edge.Application.ProductionManagmentTools.Objects
 
 				throw ex;
 			}
-			
+
 		}
 
 		internal void ChangePasswords(int _userID, string password)
 		{
-			throw new NotImplementedException();
+			HttpWebResponse response;
+			HttpWebRequest request;
+
+			request = GetServiceRequest(string.Format("users/{0}/password", _userID), "PUT");
+
+
+			string body = Serialize(password);
+			request.ContentLength = body.Length;
+			SetBody(ref request, body);
+
+
+			try
+			{
+				response = (HttpWebResponse)request.GetResponse();
+			}
+			catch (WebException ex)
+			{
+
+				throw ex;
+			}
+
 		}
 	}
 }

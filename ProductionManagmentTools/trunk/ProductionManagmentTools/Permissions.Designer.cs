@@ -44,9 +44,8 @@
 			this.lblUserName = new System.Windows.Forms.Label();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.usersGrid = new System.Windows.Forms.DataGridView();
-			this.button1 = new System.Windows.Forms.Button();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.txtFindUser = new System.Windows.Forms.TextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.btnConnect = new System.Windows.Forms.Button();
 			this.contextMenuPermissions = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -88,9 +87,8 @@
 			this.Users.Controls.Add(this.lblUserName);
 			this.Users.Controls.Add(this.pictureBox2);
 			this.Users.Controls.Add(this.usersGrid);
-			this.Users.Controls.Add(this.button1);
 			this.Users.Controls.Add(this.pictureBox1);
-			this.Users.Controls.Add(this.textBox1);
+			this.Users.Controls.Add(this.txtFindUser);
 			this.Users.Location = new System.Drawing.Point(4, 22);
 			this.Users.Name = "Users";
 			this.Users.Padding = new System.Windows.Forms.Padding(3);
@@ -221,15 +219,6 @@
 			this.usersGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.usersGrid_CellEndEdit);
 			this.usersGrid.SelectionChanged += new System.EventHandler(this.usersGrid_SelectionChanged);
 			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(161, 5);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(21, 21);
-			this.button1.TabIndex = 2;
-			this.button1.Text = ">";
-			this.button1.UseVisualStyleBackColor = true;
-			// 
 			// pictureBox1
 			// 
 			this.pictureBox1.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Zoom_in48;
@@ -240,12 +229,13 @@
 			this.pictureBox1.TabIndex = 1;
 			this.pictureBox1.TabStop = false;
 			// 
-			// textBox1
+			// txtFindUser
 			// 
-			this.textBox1.Location = new System.Drawing.Point(30, 6);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(127, 20);
-			this.textBox1.TabIndex = 0;
+			this.txtFindUser.Location = new System.Drawing.Point(30, 6);
+			this.txtFindUser.Name = "txtFindUser";
+			this.txtFindUser.Size = new System.Drawing.Size(127, 20);
+			this.txtFindUser.TabIndex = 0;
+			this.txtFindUser.TextChanged += new System.EventHandler(this.txtFindUser_TextChanged);
 			// 
 			// tabPage2
 			// 
@@ -332,11 +322,10 @@
 
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage Users;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox txtFindUser;
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.DataGridView usersGrid;
-		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.TreeView permissionTree;
 		private System.Windows.Forms.Label label5;

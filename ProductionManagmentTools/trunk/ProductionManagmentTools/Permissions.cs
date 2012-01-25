@@ -433,6 +433,28 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			toolTipChangePassword.SetToolTip(btnChangePassword, "Change Paasword");
 		}
+
+		private void txtFindUser_TextChanged(object sender, EventArgs e)
+		{
+			string value = txtFindUser.Text;
+			foreach (DataGridViewRow row in usersGrid.Rows)
+			{
+				if (row.Cells[1].Value.ToString().ToUpper().Trim().StartsWith(value.ToUpper().Trim()))
+				{
+					row.Selected = true;
+					break;
+				}
+				
+				
+			}
+
+		}
+
+		
+
+		
+
+		
 	}
 	public class UserView
 	{
@@ -448,7 +470,6 @@ namespace Edge.Application.ProductionManagmentTools
 				return _inner.UserID;
 			}
 		}
-
 		public string Name
 		{
 			get
@@ -484,19 +505,7 @@ namespace Edge.Application.ProductionManagmentTools
 				_inner.IsAcountAdmin = value;
 
 			}
-		}
-		public bool IsActive
-		{
-			get
-			{
-				return _inner.IsActive;
-			}
-			set
-			{
-				_inner.IsActive = value;
-
-			}
-		}
+		}	
 		public bool IsNew;
 		public List<Group> Groups
 		{

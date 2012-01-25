@@ -27,8 +27,8 @@ namespace Edge.Application.ProductionManagmentTools
 				MessageBox.Show("Passwords are not the same!");
 			else
 			{
-				string password;
-
+				string password = Edge.Core.Utilities.Encryptor.Enc(txtPassword.Text);
+				
 				_dataLayer.ChangePasswords(_userID,password);
 
 			}
