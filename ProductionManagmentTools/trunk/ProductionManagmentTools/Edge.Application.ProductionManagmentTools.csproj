@@ -435,9 +435,17 @@
       <Project>{C6504C8B-C482-41B9-BC6E-BEF92AF9D6FE}</Project>
       <Name>Edge.Services.AdMetrics.Validations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Services\Edge.Services.Facebook.GraphApi\Edge.Services.Facebook.GraphApi.csproj">
+      <Project>{0CA66633-F417-4724-9FC5-5F8C6E1D72B5}</Project>
+      <Name>Edge.Services.Facebook.GraphApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Services\Edge.Services.Google.Adwords\Edge.Services.Google.AdWords.csproj">
       <Project>{2A0FFCF9-03B8-40E4-B410-8B62B088B6D6}</Project>
       <Name>Edge.Services.Google.AdWords</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Services\Edge.Services.Microsoft.AdCenter\Edge.Services.Microsoft.AdCenter.csproj">
+      <Project>{C73E557C-2B70-4040-9FA5-5AA2C0A95717}</Project>
+      <Name>Edge.Services.Microsoft.AdCenter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
