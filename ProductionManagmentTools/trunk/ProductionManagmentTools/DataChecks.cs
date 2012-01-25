@@ -1225,7 +1225,7 @@ namespace Edge.Application.ProductionManagmentTools
 		public const string MdxOltpService = "DataChecks.MdxOltp";
 
 		public const string AdwordsServiceName = "Google.AdWords";
-		public const string FacebookServiceName = "facebook";
+		public const string FacebookServiceName = "Facebook.GraphApi";
 
 		//WorkflowServices
 		public static class WorkflowServices
