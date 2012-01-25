@@ -6,6 +6,7 @@ using Edge.Objects;
 using Newtonsoft.Json;
 using System.IO;
 using System.Net;
+using System.Configuration;
 
 
 
@@ -44,7 +45,7 @@ namespace Edge.Application.ProductionManagmentTools.Objects
 
 		private HttpWebRequest GetServiceRequest(string methodName, string methodType)
 		{
-			string fullAddress = string.Format("http://alonya-pc/API3/{0}", methodName);
+			string fullAddress = string.Format(ConfigurationManager.AppSettings.Get("Edge.Rest.Api.Adress"), methodName);
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(fullAddress);
 			request.Method = methodType;
 			request.ContentType = "application/json";
@@ -207,35 +208,35 @@ namespace Edge.Application.ProductionManagmentTools.Objects
 			return accounts;
 		}
 
-		//internal void SaveUser(UserView user)
-		//{
+		internal void SaveUser(UserView user)
+		{
 
-		//    HttpWebResponse response;
-		//    HttpWebRequest request;
-		//    if (user.IsNew)
-		//        request = GetServiceRequest("users", "POST");
-		//    else
-		//        request = GetServiceRequest(string.Format("users/{0}", user.UserID.Value), "PUT");
-
-
-		//    string body = Serialize(user.GetUser());
-		//    request.ContentLength = body.Length;
-		//    SetBody(ref request, body);
+			HttpWebResponse response;
+			HttpWebRequest request;
+			if (user.IsNew)
+				request = GetServiceRequest("users", "POST");
+			else
+				request = GetServiceRequest(string.Format("users/{0}", user.ID), "PUT");
 
 
-		//    try
-		//    {
-		//        response = (HttpWebResponse)request.GetResponse();
-		//    }
-		//    catch (WebException ex)
-		//    {
+			string body = Serialize(user.GetUser());
+			request.ContentLength = body.Length;
+			SetBody(ref request, body);
 
-		//        throw ex;
-		//    }
 
-			
+			try
+			{
+				response = (HttpWebResponse)request.GetResponse();
+			}
+			catch (WebException ex)
+			{
 
-		//}
+				throw ex;
+			}
+
+
+
+		}
 
 		internal Dictionary<int,List<CalculatedPermission>> GetCalculatedPermissions(int userID)
 		{
@@ -258,6 +259,36 @@ namespace Edge.Application.ProductionManagmentTools.Objects
 
 			return permissions;
 			
+		}
+
+		internal void DeleteUser(UserView user)
+		{
+			HttpWebResponse response;
+			HttpWebRequest request;
+			
+				request = GetServiceRequest(string.Format("users/{0}", user.ID), "DELETE");
+
+
+			//string body = Serialize(user.GetUser());
+			//request.ContentLength = body.Length;
+			//SetBody(ref request, body);
+
+
+			try
+			{
+				response = (HttpWebResponse)request.GetResponse();
+			}
+			catch (WebException ex)
+			{
+
+				throw ex;
+			}
+			
+		}
+
+		internal void ChangePasswords(int _userID, string password)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
