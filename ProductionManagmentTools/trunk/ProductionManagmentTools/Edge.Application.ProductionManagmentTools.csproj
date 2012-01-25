@@ -188,6 +188,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordForm.Designer.cs">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataChecks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,7 +233,6 @@
     <Compile Include="main.Designer.cs">
       <DependentUpon>main.cs</DependentUpon>
     </Compile>
-    <Compile Include="PermissionModel.cs" />
     <Compile Include="Permissions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -243,6 +248,9 @@
     <Compile Include="ResultForm.Designer.cs">
       <DependentUpon>ResultForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ChangePasswordForm.resx">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataCheckProfile.resx">
       <DependentUpon>DataCheckProfile.cs</DependentUpon>
     </EmbeddedResource>
