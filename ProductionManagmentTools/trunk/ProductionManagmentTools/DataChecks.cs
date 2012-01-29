@@ -43,8 +43,7 @@ namespace Edge.Application.ProductionManagmentTools
 		private List<ValidationResult> results;
 		private ResultForm resultsForm;
 		private Dictionary<string, string> _availableAccountList;
-		private List<CheckBox> _checkedChannels;
-		private List<CheckBox> _checkedServices;
+		private List<string> _checkedChannels;
 		List<AccountServiceElement> profiles = new List<AccountServiceElement>();
 		private string _currentProductionPath = string.Empty;
 		private int _numOfProductionInstances = 0;
@@ -63,13 +62,13 @@ namespace Edge.Application.ProductionManagmentTools
 
 			Services = new Dictionary<string, Step>();
 
+			_checkedChannels = new List<string>();
+
 			//Set all panels to be enabled = false
 			updatePanels(new List<Panel>() { step1, step2, step3, step4, step5 }, false);
 
 			report_btn.Enabled = false;
 			_availableAccountList = new Dictionary<string, string>();
-			_checkedChannels = new List<CheckBox>();
-			_checkedServices = new List<CheckBox>();
 
 			GoogleAdwords.BindingContext = new BindingContext() { };
 		}
@@ -359,8 +358,24 @@ namespace Edge.Application.ProductionManagmentTools
 
 		private void level5_CheckStateChanged(object sender, EventArgs e)
 		{
+
+			List<string> _services = GetServicesNamesBySelectedCb(this._checkedChannels);
+			
 			if (level5.Checked)
 			{
+
+				if (_services.Count == 0)
+				{
+					DialogResult dlgRes = new DialogResult();
+					dlgRes = MessageBox.Show("In order to run this service Data type selection is required."
+					+ " Please select Data type and then check API-OLTP option", "Data type requirement",
+					MessageBoxButtons.OK,
+					 MessageBoxIcon.Stop);
+					level5.Checked = false;
+
+					return;
+				}
+
 
 				this.ClearCheckTypeCheckBox();
 				level1.Enabled = false;
@@ -369,16 +384,25 @@ namespace Edge.Application.ProductionManagmentTools
 				level4.Enabled = false;
 
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step5 }, true });
-				Services.Add(Const.AdwordsServiceName, new Step
+
+				
+				if (_services.Count > 0)
 				{
-					Panel = step5,
-					ProgressBar = step5_progressBar,
-					ResultImage = step5_Result,
-					Status = step5_status,
-					StepName = step5_lbl,
-					WarningCount = step5_warningCount,
-					ErrorsCount = step5_errorsCount
-				});
+					foreach (string service in _services)
+					{
+						Services.Add(service, new Step
+						{
+							Panel = step5,
+							ProgressBar = step5_progressBar,
+							ResultImage = step5_Result,
+							Status = step5_status,
+							StepName = step5_lbl,
+							WarningCount = step5_warningCount,
+							ErrorsCount = step5_errorsCount
+						});
+					}
+				}
+				
 			}
 			else
 			{
@@ -387,10 +411,30 @@ namespace Edge.Application.ProductionManagmentTools
 				level3.Enabled = true;
 				level4.Enabled = true;
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step5 }, false });
-				Services.Remove(Const.AdwordsServiceName);
+				if (_services.Count > 0)
+				{
+					foreach (string service in _services)
+					{
+						Services.Remove(service);
+					}
+				}
 			}
 		}
 		#endregion
+
+		private List<string> GetServicesNamesBySelectedCb(List<String> checkdChannelsCb)
+		{
+			List<string> channels = new List<string>();
+			if (checkdChannelsCb.Count > 0 )
+			foreach (string channelCb in checkdChannelsCb)
+			{
+				if (channelCb.Equals(this.GoogleAdwords.Name)) channels.Add(Const.AdwordsServiceName);
+				if (channelCb.Equals(this.Facebook.Name)) channels.Add(Const.FacebookServiceName);
+				if (channelCb.Equals(this.Bing.Name)) channels.Add(Const.BingServiceName);
+			}
+
+			return channels;
+		}
 
 		#region Run button click functions
 		/*=========================*/
@@ -399,7 +443,7 @@ namespace Edge.Application.ProductionManagmentTools
 			DateTimeRange timePeriod;
 			string channels, accounts;
 
-			
+
 			InitUI();
 
 			if (TryGetServicesParams(AccountsCheckedListBox, out timePeriod, out channels, out accounts))
@@ -466,7 +510,11 @@ namespace Edge.Application.ProductionManagmentTools
 		/*========================*/
 		private void Channel_CheckedChanged(object sender)
 		{
-			//TO DO : add to Profile temp
+			if (((CheckBox)sender).Checked)
+				this._checkedChannels.Add(((CheckBox)sender).Text);
+			else
+				this._checkedChannels.Remove(((CheckBox)sender).Text);
+
 		}
 		private void GoogleAdwords_CheckedChanged(object sender, EventArgs e)
 		{
@@ -616,7 +664,7 @@ namespace Edge.Application.ProductionManagmentTools
 
 				Edge.Core.Services.ServiceInstance instance;
 				ActiveServiceElement serviceElements;
-				
+
 				//Loading Production Configuration -Foreach account and channel
 				foreach (string accountId in accounts.Split(','))
 				{
@@ -963,10 +1011,10 @@ namespace Edge.Application.ProductionManagmentTools
 				{
 					Invoke(updateProgressBar, new object[] { step.ProgressBar, 100, true });
 					Invoke(updateStep, new object[] { new List<Label>() { step.Status }, "Ended", true });
-					
+
 					//show button only if results are available
-					if ( HasResults(resultsForm) )
-					Invoke(updateBtn, new object[] { new List<Button>() { this.report_btn }, true, true });
+					if (HasResults(resultsForm))
+						Invoke(updateBtn, new object[] { new List<Button>() { this.report_btn }, true, true });
 				}
 
 			}
@@ -1226,6 +1274,7 @@ namespace Edge.Application.ProductionManagmentTools
 
 		public const string AdwordsServiceName = "Google.AdWords";
 		public const string FacebookServiceName = "Facebook.GraphApi";
+		public const string BingServiceName = "Bing.Api";
 
 		//WorkflowServices
 		public static class WorkflowServices
