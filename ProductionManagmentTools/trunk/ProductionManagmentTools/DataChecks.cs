@@ -21,6 +21,7 @@ namespace Edge.Application.ProductionManagmentTools
 {
 	public partial class DataChecks : Form
 	{
+
 		#region Deligate members
 		/*============================*/
 		public delegate void UpdateStepStatus(List<Label> lbls, string text, bool visible);
@@ -49,6 +50,8 @@ namespace Edge.Application.ProductionManagmentTools
 		private int _numOfProductionInstances = 0;
 
 
+		#region UI CODE HANDLER
+		/*==========================================================*/
 		public DataChecks()
 		{
 			InitializeComponent();
@@ -72,113 +75,63 @@ namespace Edge.Application.ProductionManagmentTools
 
 			GoogleAdwords.BindingContext = new BindingContext() { };
 		}
-
-		private bool TryGetServiceUseByCahnnel(string channelId, out string serviceUse)
-		{
-			switch (channelId)
-			{
-				case "1":
-					serviceUse = Const.AdwordsServiceName;
-					return true;
-				case "6":
-					serviceUse = Const.FacebookServiceName;
-					return true;
-			}
-
-			//for not supported channels
-			serviceUse = string.Empty;
-			return false;
-		}
-
 		private void DataChecks_Load(object sender, EventArgs e)
 		{
 			fromDate.Value = DateTime.Today.AddDays(-1);
 			toDate.Value = DateTime.Today.AddDays(-1);
 		}
-
-		private void GetAccountsFromDB(string SystemDatabase, CheckedListBox accountsListBox, Dictionary<string, string> availableAccountList)
+		private void InitUI()
 		{
-			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(this, SystemDatabase)))
-			{
-				sqlCon.Open();
-				SqlCommand sqlCommand = DataManager.CreateCommand(
-					"SELECT [Account_Name] ,[Account_ID] FROM [dbo].[User_GUI_Account] group by [Account_Name] ,[Account_ID]");
-				sqlCommand.Connection = sqlCon;
+			//setting report_btn to be disabled
+			Invoke(updateBtn, new object[] { new List<Button>() { report_btn }, false, true });
 
-				using (var _reader = sqlCommand.ExecuteReader())
-				{
-					if (!_reader.IsClosed)
-					{
-						while (_reader.Read())
-						{
-							accountsListBox.Items.Add(string.Format("{0}-{1}", _reader[1], _reader[0]));
-							availableAccountList.Add(_reader[1].ToString(), _reader[0].ToString());
-						}
-					}
-				}
+			//creating new results report
+			resultsForm = new ResultForm();
+			resultsForm.MdiParent = this.ParentForm;
+
+			/* Setting Steps */
+			/*===============================*/
+
+			if (level1.Checked) //Delivery OLTP
+			{
+				Invoke(updateProgressBar, new object[] { step1_progressBar, 0, true });
+				Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
+				Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step1_errorsCount,step1_warningCount},"",false 
+                });
 			}
 
-			if (AccountsCheckedListBox.Items.Count > 0)
+			if (level2.Checked) // OLTP -  DWH
 			{
-				AccountsCheckedListBox.Sorted = true;
-			}
-		}
-
-		private bool TryGetAccountFromExtrernalConfig(string fullPath, int accountId, out AccountElement accountElement)
-		{
-			try
-			{
-				EdgeServicesConfiguration.Load(fullPath);
-				AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
-				accountElement = accounts.GetAccount(accountId);
-				return true;
-			}
-			catch
-			{
-				accountElement = null;
-				return false;
-			}
-		}
-
-		private bool TryGetProfilesFromConfiguration(string key, ComboBox profilesCombo, List<AccountServiceElement> serviceElement)
-		{
-			//saving current configuration
-			string currentConfigurationFullPath = EdgeServicesConfiguration.Current.CurrentConfiguration.FilePath;
-			try
-			{
-				//Getting configuration path from configuration.
-				_currentProductionPath = ConfigurationManager.AppSettings.Get(key);
-
-				AccountElement account;
-				TryGetAccountFromExtrernalConfig(_currentProductionPath, -1, out account);
-
-				foreach (AccountServiceElement service in account.Services)
-				{
-					if (service.Options.ContainsKey("ProfileName"))
-					{
-						serviceElement.Add(service);
-						profilesCombo.Items.Add(service.Options["ProfileName"]);
-					}
-				}
-
-				profilesCombo.Tag = profiles;
-
-
-			}
-			catch
-			{
-				//Loading original configuration
-				EdgeServicesConfiguration.Load(currentConfigurationFullPath);
-				//Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
-				return false;
+				Invoke(updateProgressBar, new object[] { step2_progressBar, 0, true });
+				Invoke(updateResultImage, new object[] { step2_Result, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
+				Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step2_errorsCount,step1_warningCount},"",false 
+                });
 			}
 
-			//Loading original configuration
-			EdgeServicesConfiguration.Load(currentConfigurationFullPath);
-			//Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
-			return true;
+			if (level3.Checked) // DWH - MDX
+			{
+				Invoke(updateProgressBar, new object[] { step3_progressBar, 0, true });
+				Invoke(updateResultImage, new object[] { step3_Result, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
+				Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step3_errorsCount,step1_warningCount},"",false 
+                });
+			}
 
-
+			if (level4.Checked) //MDX -  OLTP
+			{
+				Invoke(updateProgressBar, new object[] { step4_progressBar, 0, true });
+				Invoke(updateResultImage, new object[] { step4_Result, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
+				Invoke(updateStep, new object[] 
+                { 
+                    new List<Label>(){step4_errorsCount,step1_warningCount},"",false 
+                });
+			}
+			/*===============================*/
 		}
 
 		#region Delegate functions
@@ -255,6 +208,9 @@ namespace Edge.Application.ProductionManagmentTools
 		/*=========================*/
 		#endregion
 
+		/// <summary>
+		/// Cheking if results from services has been returned from server.
+		/// </summary>
 		private bool HasResults(ResultForm resultForm)
 		{
 			if (resultsForm.ErrorDataGridView.Rows.Count > 0) return true;
@@ -360,7 +316,7 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 
 			List<string> _services = GetServicesNamesBySelectedCb(this._checkedChannels);
-			
+
 			if (level5.Checked)
 			{
 
@@ -385,7 +341,7 @@ namespace Edge.Application.ProductionManagmentTools
 
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step5 }, true });
 
-				
+
 				if (_services.Count > 0)
 				{
 					foreach (string service in _services)
@@ -402,7 +358,7 @@ namespace Edge.Application.ProductionManagmentTools
 						});
 					}
 				}
-				
+
 			}
 			else
 			{
@@ -422,20 +378,6 @@ namespace Edge.Application.ProductionManagmentTools
 		}
 		#endregion
 
-		private List<string> GetServicesNamesBySelectedCb(List<String> checkdChannelsCb)
-		{
-			List<string> channels = new List<string>();
-			if (checkdChannelsCb.Count > 0 )
-			foreach (string channelCb in checkdChannelsCb)
-			{
-				if (channelCb.Equals(this.GoogleAdwords.Name)) channels.Add(Const.AdwordsServiceName);
-				if (channelCb.Equals(this.Facebook.Name)) channels.Add(Const.FacebookServiceName);
-				if (channelCb.Equals(this.Bing.Name)) channels.Add(Const.BingServiceName);
-			}
-
-			return channels;
-		}
-
 		#region Run button click functions
 		/*=========================*/
 		private void Start_btn_Click(object sender, EventArgs e)
@@ -443,9 +385,10 @@ namespace Edge.Application.ProductionManagmentTools
 			DateTimeRange timePeriod;
 			string channels, accounts;
 
-
+			//Initializing UI each time clicking in start button
 			InitUI();
 
+			//Getting all required parametres from UI
 			if (TryGetServicesParams(AccountsCheckedListBox, out timePeriod, out channels, out accounts))
 			{
 				//Check if no service has been selected from checked boxes
@@ -462,15 +405,19 @@ namespace Edge.Application.ProductionManagmentTools
 				{
 					try
 					{
+						//if API-OLTP service is required by user 
 						if (service.Value.StepName.Equals(step5_lbl))
+
 							//Get Service from production configuration and Run
 							InitProductionService(timePeriod, channels, accounts);
+
 						else
 							// Get Service from Local Configurartion and run 
 							InitServices(timePeriod, service.Key, channels, accounts);
 					}
 					catch (Exception ex)
-					{
+					{//Set Exception lable in application
+
 						Invoke(updateStep, new object[] 
                         { 
                             new List<Label>(){appErrorLbl},ex.Message,false 
@@ -482,7 +429,6 @@ namespace Edge.Application.ProductionManagmentTools
 			}
 
 		}
-
 
 		private void quick_btn_Click(object sender, EventArgs e)
 		{
@@ -549,514 +495,6 @@ namespace Edge.Application.ProductionManagmentTools
 		/*================================*/
 		#endregion
 
-		#region Service
-		/*=======================*/
-		private bool TryGetServicesParams(CheckedListBox accountsCheckedListBox, out DateTimeRange timePeriod, out string channelsList, out string accountsList)
-		{
-			channelsList = "";
-			accountsList = "";
-
-			#region TimePeriod
-			timePeriod = new DateTimeRange()
-			{
-				Start = new DateTimeSpecification()
-				{
-					BaseDateTime = fromDate.Value,
-					Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
-					//Boundary = DateTimeSpecificationBounds.Lower
-				},
-
-				End = new DateTimeSpecification()
-				{
-					BaseDateTime = toDate.Value,
-					Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
-					//Boundary = DateTimeSpecificationBounds.Upper
-				}
-			};
-			#endregion
-
-			#region Channel Params
-			//Creating Channel Param
-			StringBuilder channels = new StringBuilder();
-			if (Facebook.Checked == true)
-			{
-				if (!String.IsNullOrEmpty(channels.ToString()))
-					channels.Append(',');
-				channels.Append(6); // add facebook channel id code
-			}
-			if (GoogleAdwords.Checked == true)
-			{
-				if (!String.IsNullOrEmpty(channels.ToString()))
-					channels.Append(',');
-				channels.Append(1); // add facebook channel id code
-			}
-
-			if (Bing.Checked == true)
-			{
-				if (!String.IsNullOrEmpty(channels.ToString()))
-					channels.Append(',');
-				channels.Append(14); // add Bing channel id code
-			}
-
-			if (string.IsNullOrEmpty(channels.ToString()))
-			{
-				DialogResult dlgRes = new DialogResult();
-				dlgRes = MessageBox.Show("Please select at least one Data type", "Data type Error",
-				MessageBoxButtons.OK,
-				 MessageBoxIcon.Error);
-				return false;
-			}
-
-			channelsList = channels.ToString();
-			#endregion
-
-			#region Account Params
-			StringBuilder accounts = new StringBuilder();
-			if (accountsCheckedListBox.CheckedItems.Count > 0)
-			{
-				foreach (string item in accountsCheckedListBox.CheckedItems)
-				{
-					string[] items = item.Split('-');
-					accounts.Append(items[0]);
-					if (!String.IsNullOrEmpty(accounts.ToString()))
-						accounts.Append(',');
-				}
-			}
-			else
-			{
-				DialogResult dlgRes = new DialogResult();
-				dlgRes = MessageBox.Show("Please select at least one account", "Accounts Error",
-				MessageBoxButtons.OK,
-				 MessageBoxIcon.Error);
-				return false;
-			}
-			accountsList = accounts.ToString().Remove(accounts.Length - 1);
-			#endregion
-
-			return true;
-		}
-
-		private void InitProductionService(DateTimeRange timePeriod, string channels, string accounts)
-		{
-
-			//Getting TimePeriod
-			DateTime fromDate, toDate;
-			fromDate = timePeriod.Start.ToDateTime();
-			toDate = timePeriod.End.ToDateTime();
-
-			while (fromDate <= toDate)
-			{
-				// {start: {base : '2009-01-01', h:0}, end: {base: '2009-01-01', h:'*'}}
-				var subRange = new DateTimeRange()
-				{
-					Start = new DateTimeSpecification()
-					{
-						BaseDateTime = fromDate,
-						Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
-					},
-
-					End = new DateTimeSpecification()
-					{
-						BaseDateTime = fromDate,
-						Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
-					}
-				};
-
-				Edge.Core.Services.ServiceInstance instance;
-				ActiveServiceElement serviceElements;
-
-				//Loading Production Configuration -Foreach account and channel
-				foreach (string accountId in accounts.Split(','))
-				{
-					foreach (string channelId in channels.Split(','))
-					{
-						AccountElement account;
-						if (TryGetAccountFromExtrernalConfig(_currentProductionPath, Convert.ToInt32(accountId), out account))
-						{
-							string serviceUses;
-							if (TryGetServiceUseByCahnnel(channelId, out serviceUses))
-							{
-								int workFlowChangesFlag = 0;
-								foreach (AccountServiceElement service in account.Services)
-								{
-									if (service.Uses.Element.Name == serviceUses)
-									{
-
-										//EdgeServicesConfiguration.Current.Accounts.GetAccount(accountID).Services[serviceName])
-
-										serviceElements = new ActiveServiceElement(service);
-										serviceElements.Options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, subRange.ToAbsolute().ToString());
-
-										#region Setting WorkFlow Configuration
-										/*============================================================*/
-										foreach (WorkflowStepElement wf in serviceElements.Workflow)
-										{
-											switch (wf.ActualName)
-											{
-												case Const.WorkflowServices.CommitServiceName:
-													{
-														wf.IsEnabled = false;
-														workFlowChangesFlag++;
-														break;
-													}
-												case Const.WorkflowServices.OltpDeliveryCheckServiceName:
-													{
-														wf.IsEnabled = true;
-														workFlowChangesFlag++;
-														break;
-													}
-												case Const.WorkflowServices.ResultsHandlerServiceName:
-													{
-														wf.IsEnabled = false;
-														workFlowChangesFlag++;
-														break;
-													}
-											}
-
-										}
-										/*============================================================*/
-										#endregion
-
-										//If workFlowChangesFlag != 3 it means that some of changes havnt been done in workflows, probably due to missing workflow in configuration
-										if (workFlowChangesFlag >= 3)
-										{
-											instance = Edge.Core.Services.Service.CreateInstance(serviceElements, Convert.ToInt32(accountId));
-											instance.Configuration.Options.Add("ConflictBehavior", "Ignore");
-											instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
-											instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
-											instance.ProgressReported += new EventHandler(instance_ProgressReported);
-											instance.ChildServiceRequested += new EventHandler<ServiceRequestedEventArgs>(instance_ChildServiceRequested);
-											this._numOfProductionInstances++;
-											instance.Initialize();
-										}
-
-										//Takes the first service that uses current service name
-										break;
-									}
-								}//End
-							}
-						}
-
-					} // End of Channel foreach
-
-				}//End of acounts foreach
-				fromDate = fromDate.AddDays(1);
-			}
-
-
-		}
-
-		void instance_ChildServiceRequested(object sender, ServiceRequestedEventArgs e)
-		{
-			e.RequestedService.OutcomeReported += new EventHandler(child_instance_OutcomeReported);
-			e.RequestedService.StateChanged += new EventHandler<ServiceStateChangedEventArgs>(child_instance_StateChanged);
-
-			e.RequestedService.Initialize();
-
-		}
-
-		private void InitServices(DateTimeRange timePeriod, string service, string channels, string accounts)
-		{
-			ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services[service]);
-
-			// TimePeriod
-			serviceElements.Options.Add("fromDate", timePeriod.Start.ToDateTime().ToString());
-			serviceElements.Options.Add("toDate", timePeriod.End.ToDateTime().ToString());
-
-			serviceElements.Options.Add("ChannelList", channels);
-			serviceElements.Options.Add("AccountsList", accounts);
-
-			string SourceTable;
-			if (service.Equals(Const.DeliveryOltpService))
-			{
-				if (!serviceElements.Options.Keys.Contains("SourceTable"))
-					serviceElements.Options.Add("SourceTable", Const.OltpTable);
-			}
-			else if (service.Equals(Const.OltpDwhService))
-			{
-				if (!serviceElements.Options.Keys.Contains("SourceTable"))
-					serviceElements.Options.Add("SourceTable", Const.OltpTable);
-				if (!serviceElements.Options.Keys.Contains("TargetTable"))
-					serviceElements.Options.Add("TargetTable", Const.DwhTable);
-			}
-			else if (service.Equals(Const.MdxOltpService))
-			{
-				if (!serviceElements.Options.Keys.Contains("SourceTable"))
-					serviceElements.Options.Add("SourceTable", Const.OltpTable);
-			}
-			else if (service.Equals(Const.MdxDwhService))
-				serviceElements.Options.Add("SourceTable", Const.DwhTable);
-			else
-				//TO DO : Get tabels from configuration.
-				throw new Exception("ComparisonTable hasnt been implemented for this service");
-
-
-
-			Edge.Core.Services.ServiceInstance instance = Edge.Core.Services.Service.CreateInstance(serviceElements);
-
-			instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
-			instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
-			instance.ProgressReported += new EventHandler(instance_ProgressReported);
-			this._numOfProductionInstances++;
-			instance.Initialize();
-
-
-
-		}
-
-		private void InitUI()
-		{
-			//setting report_btn to be disabled
-			Invoke(updateBtn, new object[] { new List<Button>() { report_btn }, false, true });
-
-			//creating new results report
-			resultsForm = new ResultForm();
-			resultsForm.MdiParent = this.ParentForm;
-
-			//Setting Steps 
-			if (level1.Checked)
-			{
-				Invoke(updateProgressBar, new object[] { step1_progressBar, 0, true });
-				Invoke(updateResultImage, new object[] { step1_ErrorImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
-				Invoke(updateStep, new object[] 
-                { 
-                    new List<Label>(){step1_errorsCount,step1_warningCount},"",false 
-                });
-			}
-
-			if (level2.Checked)
-			{
-				Invoke(updateProgressBar, new object[] { step2_progressBar, 0, true });
-				Invoke(updateResultImage, new object[] { step2_Result, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
-				Invoke(updateStep, new object[] 
-                { 
-                    new List<Label>(){step2_errorsCount,step1_warningCount},"",false 
-                });
-			}
-
-			if (level3.Checked)
-			{
-				Invoke(updateProgressBar, new object[] { step3_progressBar, 0, true });
-				Invoke(updateResultImage, new object[] { step3_Result, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
-				Invoke(updateStep, new object[] 
-                { 
-                    new List<Label>(){step3_errorsCount,step1_warningCount},"",false 
-                });
-			}
-
-			if (level4.Checked)
-			{
-				Invoke(updateProgressBar, new object[] { step4_progressBar, 0, true });
-				Invoke(updateResultImage, new object[] { step4_Result, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, false });
-				Invoke(updateStep, new object[] 
-                { 
-                    new List<Label>(){step4_errorsCount,step1_warningCount},"",false 
-                });
-			}
-		}
-
-		/*=======================*/
-		#endregion
-
-		private bool HasParent(ServiceInstance instance, out int NumOfChildrens)
-		{
-			if (instance.ParentInstance != null) // if child
-			{
-				NumOfChildrens = 0;
-				foreach (WorkflowStepElement element in instance.ParentInstance.Configuration.Workflow)
-				{
-					if (element.IsEnabled == true)
-						NumOfChildrens++;
-				}
-				return true;
-			}
-			else
-			{
-				NumOfChildrens = 1;
-				return false;
-			}
-		}
-		public string GetStepNameByInstance(ServiceInstance instance)
-		{
-			if (instance.Configuration.Workflow.Count > 0)
-			{
-				return instance.Configuration.Name;
-			}
-			else if (instance.ParentInstance != null)
-				return instance.ParentInstance.Configuration.Name;
-
-			else //stand alone service
-				return instance.Configuration.Name;
-
-		}
-		public int GetNumOfEnabledWorkflows(ServiceInstance instance)
-		{
-			int count = 0;
-			if (instance.Configuration.Workflow != null && instance.Configuration.Workflow.Count > 0)
-			{
-				foreach (WorkflowStepElement wf in instance.Configuration.Workflow)
-				{
-					if (wf.IsEnabled) count++;
-				}
-			}
-			return count;
-		}
-
-		#region Instances Handler functions
-		/*=================================*/
-		void child_instance_OutcomeReported(object sender, EventArgs e)
-		{
-			//if (this.level5.Checked)
-			//{
-			//    //checking for oltp-Delivery checksum service 
-			//    Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-
-			//    if (instance.Configuration.Name.Equals(Const.DeliveryOltpService))
-			//        instance_OutcomeReported(sender, e);
-			//}
-		}
-
-		void child_instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
-		{
-			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-
-			if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
-			{
-				instance.Start();
-			}
-			if ((e.StateAfter == Edge.Core.Services.ServiceState.Ended) && (instance.Configuration.Name.Equals(Const.DeliveryOltpService)))
-			{
-				List<ValidationResult> newResults = GetValidationResultsByInstance(instance);
-				if (newResults.Capacity > 0)
-					Invoke(updateResults, new object[] { newResults });
-			}
-		}
-
-		void instance_OutcomeReported(object sender, EventArgs e)
-		{
-			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-			Step step;
-			Services.TryGetValue(GetStepNameByInstance(instance), out step);
-
-			if (this._numOfProductionInstances == 0)
-			{
-				Invoke(updateProgressBar, new object[] { step.ProgressBar, 100, true });
-
-				if (resultsForm.ErrorDataGridView.RowCount > 0)
-				#region
-				{
-
-					Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon, true });
-					Invoke(updateStep, new object[] 
-					{ 
-						 new List<Label>(){step.ErrorsCount},String.Format("{0}{1}",CountRowsByLevelType(resultsForm.ErrorDataGridView.Rows, instance.Configuration.Name)," errors"),true 
-					});
-				}
-				#endregion
-
-				else if (resultsForm.WarningDataGridView.RowCount > 0)
-				#region
-				{
-
-					Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon, true });
-					Invoke(updateStep, new object[] 
-					{ 
-						new List<Label>(){step.WarningCount},String.Format("{0}{1}",   
-						CountRowsByLevelType(resultsForm.WarningDataGridView.Rows, instance.Configuration.Name)," warnings"),true 
-					});
-
-				}
-				#endregion
-
-				else
-					Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, true });
-			}
-
-		}
-
-		void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
-		{
-			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-			Step step;
-
-
-			if (Services.TryGetValue(GetStepNameByInstance(instance), out step))
-			{
-				Invoke(updateStep, new object[]
-                    {
-                        new List<Label>(){step.Status},e.StateAfter.ToString().Equals("Ended")?"Running":e.StateAfter.ToString(),true
-                    }
-				);
-			}
-
-			if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
-			{
-				instance.Start();
-			}
-
-			if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
-			{
-				Invoke(updateNumOfInstances);
-
-
-				if (!this.level5.Checked)
-				{
-					List<ValidationResult> newResults = GetValidationResultsByInstance(instance);
-					if (newResults.Capacity > 0)
-						Invoke(updateResults, new object[] { newResults });
-				}
-
-
-				if (this._numOfProductionInstances == 0)
-				{
-					Invoke(updateProgressBar, new object[] { step.ProgressBar, 100, true });
-					Invoke(updateStep, new object[] { new List<Label>() { step.Status }, "Ended", true });
-
-					//show button only if results are available
-					if (HasResults(resultsForm))
-						Invoke(updateBtn, new object[] { new List<Button>() { this.report_btn }, true, true });
-				}
-
-			}
-
-		}
-
-		private List<ValidationResult> GetValidationResultsByInstance(Edge.Core.Services.ServiceInstance instance)
-		{
-			#region Getting Instance Log for results
-			List<ValidationResult> newResults = new List<ValidationResult>();
-			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
-			{
-				sqlCon.Open();
-				SqlCommand sqlCommand = DataManager.CreateCommand(
-					"SELECT [Message] FROM [dbo].[Log] where [ServiceInstanceID] = @instanceID");
-				sqlCommand.Parameters.Add(new SqlParameter() { ParameterName = "@instanceID", Value = instance.InstanceID, SqlDbType = System.Data.SqlDbType.BigInt });
-				sqlCommand.Connection = sqlCon;
-
-				using (var _reader = sqlCommand.ExecuteReader())
-				{
-					if (!_reader.IsClosed)
-					{
-						while (_reader.Read())
-						{
-							newResults.Add((ValidationResult)JsonConvert.DeserializeObject(_reader[0].ToString(), typeof(ValidationResult)));
-						}
-					}
-				}
-			}
-			#endregion
-			return newResults;
-
-		}
-		private void instance_ProgressReported(object sender, EventArgs e)
-		{
-			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-			Step step;
-			Services.TryGetValue(GetStepNameByInstance(instance), out step);
-			Invoke(updateProgressBar, new object[] { step.ProgressBar, (int)((ServiceInstance)sender).Progress * 70, true });
-		}
-		/*=================================*/
-		#endregion
 
 		private int CountRowsByLevelType(DataGridViewRowCollection Rows, string type)
 		{
@@ -1229,13 +667,6 @@ namespace Edge.Application.ProductionManagmentTools
 			rightSidePanel.Enabled = true;
 			buttonsPanel.Enabled = true;
 		}
-
-		private void LoadProductionConfiguration(string key)
-		{
-			string productionPath = ConfigurationManager.AppSettings.Get(key);
-			EdgeServicesConfiguration.Load(productionPath);
-		}
-
 		private void clear_Click(object sender, EventArgs e)
 		{
 			try
@@ -1258,10 +689,666 @@ namespace Edge.Application.ProductionManagmentTools
 			}
 		}
 
+		/*==========================================================*/
+		#endregion
+
+		#region SERVICES CODE HANDLER
+		/*==========================================================*/
+		private void LoadProductionConfiguration(string key)
+		{
+			string productionPath = ConfigurationManager.AppSettings.Get(key);
+			EdgeServicesConfiguration.Load(productionPath);
+		}
+
+		/// <summary>
+		/// Getting Service Use Name from Const class by Channel Id
+		/// </summary>
+		/// <param name="channelId">The Channel ID in Edge DataBase</param>
+		/// <param name="serviceUse" >OUT Param</param>
+		/// <returns> Service Use Name , True if Channel Id is supported in code</returns>
+		private bool TryGetServiceUseByCahnnelID(string channelId, out string serviceUse)
+		{
+			switch (channelId)
+			{
+				case "1":
+					serviceUse = Const.AdwordsServiceName;
+					return true;
+				case "6":
+					serviceUse = Const.FacebookServiceName;
+					return true;
+			}
+
+			//for not supported channels
+			serviceUse = string.Empty;
+			return false;
+		}
+
+		/// <summary>
+		/// Getting Account Name from Edge DataBase
+		/// </summary>
+		/// <param name="SystemDatabase">AppSetting Configuration Key</param>
+		/// <param name="accountsListBox" >Accounts</param>
+		/// <param name="availableAccountList" >REF param. The function set this param with available account's names</param>
+		private void GetAccountsFromDB(string SystemDatabase, CheckedListBox accountsListBox, Dictionary<string, string> availableAccountList)
+		{
+			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(this, SystemDatabase)))
+			{
+				sqlCon.Open();
+				SqlCommand sqlCommand = DataManager.CreateCommand(
+					"SELECT [Account_Name] ,[Account_ID] FROM [dbo].[User_GUI_Account] group by [Account_Name] ,[Account_ID]");
+				sqlCommand.Connection = sqlCon;
+
+				using (var _reader = sqlCommand.ExecuteReader())
+				{
+					if (!_reader.IsClosed)
+					{
+						while (_reader.Read())
+						{
+							accountsListBox.Items.Add(string.Format("{0}-{1}", _reader[1], _reader[0]));
+							availableAccountList.Add(_reader[1].ToString(), _reader[0].ToString());
+						}
+					}
+				}
+			}
+
+			if (AccountsCheckedListBox.Items.Count > 0)
+			{
+				AccountsCheckedListBox.Sorted = true;
+			}
+		}
+
+		/// <summary>
+		/// Getting Account Configuration Element from specific configuration
+		/// </summary>
+		/// <param name="fullPath">Configuration Path ( including file name and extension )</param>
+		/// <param name="accountId" >Account ID in the configuration file</param>
+		/// <param name="accountElement" >OUT param. The function will return the account element that was found. (NULL if account doesnt exists in this configuration)</param>
+		/// <returns>True if found, otherwise:False</returns>
+		private bool TryGetAccountFromExtrernalConfig(string fullPath, int accountId, out AccountElement accountElement)
+		{
+			try
+			{
+				EdgeServicesConfiguration.Load(fullPath);
+				AccountElementCollection accounts = EdgeServicesConfiguration.Current.Accounts;
+				accountElement = accounts.GetAccount(accountId);
+				return true;
+			}
+			catch
+			{
+				accountElement = null;
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Getting Profile from configuration file.
+		/// </summary>
+		/// <param name="key">AppSetting Configuration Key of the  full configuration path ( including file name and extension )</param>
+		/// <param name="serviceElement" >OUT param. The function will return the service element that was found. (NULL if account doesnt exists in this configuration)</param>
+		/// <returns>True if found, otherwise:False</returns>
+		private bool TryGetProfilesFromConfiguration(string key, ComboBox profilesCombo, List<AccountServiceElement> serviceElement)
+		{
+			//saving current configuration
+			string currentConfigurationFullPath = EdgeServicesConfiguration.Current.CurrentConfiguration.FilePath;
+			try
+			{
+				//Getting configuration path from configuration.
+				_currentProductionPath = ConfigurationManager.AppSettings.Get(key);
+
+				AccountElement account;
+				TryGetAccountFromExtrernalConfig(_currentProductionPath, -1, out account);
+
+				foreach (AccountServiceElement service in account.Services)
+				{
+					if (service.Options.ContainsKey("ProfileName"))
+					{
+						serviceElement.Add(service);
+						profilesCombo.Items.Add(service.Options["ProfileName"]);
+					}
+				}
+
+				profilesCombo.Tag = profiles;
+
+
+			}
+			catch
+			{
+				//Loading original configuration
+				EdgeServicesConfiguration.Load(currentConfigurationFullPath);
+				//Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
+				return false;
+			}
+
+			//Loading original configuration
+			EdgeServicesConfiguration.Load(currentConfigurationFullPath);
+			//Directory.SetCurrentDirectory((Path.GetDirectoryName(currentConfigurationFullPath)));
+			return true;
+
+
+		}
+
+		/// <summary>
+		/// Getting the service name by data types check boxes.
+		/// </summary>
+		/// <param name="checkdChannelsCb">List of selected channel's checked boxes </param>
+		private List<string> GetServicesNamesBySelectedCb(List<String> checkdChannelsCb)
+		{
+			List<string> channels = new List<string>();
+			if (checkdChannelsCb.Count > 0)
+				foreach (string channelCb in checkdChannelsCb)
+				{
+					if (channelCb.Equals(this.GoogleAdwords.Name)) channels.Add(Const.AdwordsServiceName);
+					if (channelCb.Equals(this.Facebook.Name)) channels.Add(Const.FacebookServiceName);
+					if (channelCb.Equals(this.Bing.Name)) channels.Add(Const.BingServiceName);
+				}
+
+			return channels;
+		}
+
+		/// <summary>
+		/// Getting required params from UI
+		/// </summary>
+		/// <rereturns>TRUE : if all params has been retrieved successfully from UI.</rereturns>
+		private bool TryGetServicesParams(CheckedListBox accountsCheckedListBox, out DateTimeRange timePeriod, out string channelsList, out string accountsList)
+		{
+			channelsList = "";
+			accountsList = "";
+
+			//Getting Time Period
+			#region TimePeriod
+			timePeriod = new DateTimeRange()
+			{
+				Start = new DateTimeSpecification()
+				{
+					BaseDateTime = fromDate.Value,
+					Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
+					//Boundary = DateTimeSpecificationBounds.Lower
+				},
+
+				End = new DateTimeSpecification()
+				{
+					BaseDateTime = toDate.Value,
+					Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+					//Boundary = DateTimeSpecificationBounds.Upper
+				}
+			};
+			#endregion
+
+			//Getting Channels list, in string format seperated by comma
+			#region Channel Params
+			//Creating Channel Param
+			StringBuilder channels = new StringBuilder();
+			if (Facebook.Checked == true)
+			{
+				if (!String.IsNullOrEmpty(channels.ToString()))
+					channels.Append(',');
+				channels.Append(6); // add facebook channel id code
+			}
+			if (GoogleAdwords.Checked == true)
+			{
+				if (!String.IsNullOrEmpty(channels.ToString()))
+					channels.Append(',');
+				channels.Append(1); // add facebook channel id code
+			}
+
+			if (Bing.Checked == true)
+			{
+				if (!String.IsNullOrEmpty(channels.ToString()))
+					channels.Append(',');
+				channels.Append(14); // add Bing channel id code
+			}
+
+			if (string.IsNullOrEmpty(channels.ToString()))
+			{
+				DialogResult dlgRes = new DialogResult();
+				dlgRes = MessageBox.Show("Please select at least one Data type", "Data type Error",
+				MessageBoxButtons.OK,
+				 MessageBoxIcon.Error);
+				return false;
+			}
+
+			channelsList = channels.ToString();
+			#endregion
+
+			//Getting Accounts list, in string format seperated by comma
+			#region Account Params
+			StringBuilder accounts = new StringBuilder();
+			if (accountsCheckedListBox.CheckedItems.Count > 0)
+			{
+				foreach (string item in accountsCheckedListBox.CheckedItems)
+				{
+					string[] items = item.Split('-');
+					accounts.Append(items[0]);
+					if (!String.IsNullOrEmpty(accounts.ToString()))
+						accounts.Append(',');
+				}
+			}
+			else
+			{
+				DialogResult dlgRes = new DialogResult();
+				dlgRes = MessageBox.Show("Please select at least one account", "Accounts Error",
+				MessageBoxButtons.OK,
+				 MessageBoxIcon.Error);
+				return false;
+			}
+			accountsList = accounts.ToString().Remove(accounts.Length - 1);
+			#endregion
+
+			return true;
+		}
+
+		/// <summary>
+		/// Initializing service from external configuration
+		/// </summary>
+		/// <param name="timePeriod">Service time period</param>
+		/// <param name="channels">Channels List in string format seperated by comma</param>
+		/// <param name="accounts">Accounts List in string format seperated by comma</param>
+		private void InitProductionService(DateTimeRange timePeriod, string channels, string accounts)
+		{
+
+			//Getting TimePeriod
+			DateTime fromDate, toDate;
+			fromDate = timePeriod.Start.ToDateTime();
+			toDate = timePeriod.End.ToDateTime();
+
+			while (fromDate <= toDate)
+			{
+				// {start: {base : '2009-01-01', h:0}, end: {base: '2009-01-01', h:'*'}}
+				var subRange = new DateTimeRange()
+				{
+					Start = new DateTimeSpecification()
+					{
+						BaseDateTime = fromDate,
+						Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
+					},
+
+					End = new DateTimeSpecification()
+					{
+						BaseDateTime = fromDate,
+						Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+					}
+				};
+
+				Edge.Core.Services.ServiceInstance instance;
+				ActiveServiceElement serviceElements;
+
+				//Loading Production Configuration -Foreach account and channel
+				foreach (string accountId in accounts.Split(','))
+				{
+					foreach (string channelId in channels.Split(','))
+					{
+						AccountElement account;
+						if (TryGetAccountFromExtrernalConfig(_currentProductionPath, Convert.ToInt32(accountId), out account))
+						{
+							string serviceUses;
+							if (TryGetServiceUseByCahnnelID(channelId, out serviceUses))
+							{
+								int workFlowChangesFlag = 0;
+								foreach (AccountServiceElement service in account.Services)
+								{
+									if (service.Uses.Element.Name == serviceUses)
+									{
+
+										//Creating Service Element
+										serviceElements = new ActiveServiceElement(service);
+										serviceElements.Options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, subRange.ToAbsolute().ToString());
+
+										/*Setting requeired workflow services Enable params
+										 * for the following services : CommitServiceName, OltpDeliveryCheckServiceName, ResultsHandlerServiceName
+										
+										 * * NOTE : if one the above is missing from service configuration , the service will not run !
+										*/
+										#region Setting WorkFlow Configuration
+										/*============================================================*/
+										foreach (WorkflowStepElement wf in serviceElements.Workflow)
+										{
+											switch (wf.ActualName)
+											{
+												case Const.WorkflowServices.CommitServiceName:
+													{
+														wf.IsEnabled = false;
+														workFlowChangesFlag++;
+														break;
+													}
+												case Const.WorkflowServices.OltpDeliveryCheckServiceName:
+													{
+														wf.IsEnabled = true;
+														workFlowChangesFlag++;
+														break;
+													}
+												case Const.WorkflowServices.ResultsHandlerServiceName:
+													{
+														wf.IsEnabled = false;
+														workFlowChangesFlag++;
+														break;
+													}
+											}
+
+										}
+										/*============================================================*/
+										#endregion
+
+										//If workFlowChangesFlag != 3 it means that some of changes havnt been done in workflows, probably due to missing workflow in configuration
+										if (workFlowChangesFlag >= 3)
+										{
+											instance = Edge.Core.Services.Service.CreateInstance(serviceElements, Convert.ToInt32(accountId));
+											instance.Configuration.Options.Add("ConflictBehavior", "Ignore");
+											instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
+											instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
+											instance.ProgressReported += new EventHandler(instance_ProgressReported);
+											instance.ChildServiceRequested += new EventHandler<ServiceRequestedEventArgs>(instance_ChildServiceRequested);
+											this._numOfProductionInstances++;
+											instance.Initialize();
+										}
+
+										//Takes the first service that uses current service name
+										// EasyForex is not supported !!!
+										break;
+									}
+								}//End
+							}
+						}
+
+					} // End of Channel foreach
+
+				}//End of acounts foreach
+				fromDate = fromDate.AddDays(1);
+			}
+
+
+		}
+
+		/// <summary>
+		/// Initializing service from App configuration
+		/// </summary>
+		/// <param name="timePeriod">Service time period</param>
+		/// <param name="service">Service Name , See Const</param>
+		/// <param name="channels">Channels List in string format seperated by comma</param>
+		/// <param name="accounts">Accounts List in string format seperated by comma</param>
+		private void InitServices(DateTimeRange timePeriod, string service, string channels, string accounts)
+		{
+			ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services[service]);
+
+			// TimePeriod
+			serviceElements.Options.Add("fromDate", timePeriod.Start.ToDateTime().ToString());
+			serviceElements.Options.Add("toDate", timePeriod.End.ToDateTime().ToString());
+
+			serviceElements.Options.Add("ChannelList", channels);
+			serviceElements.Options.Add("AccountsList", accounts);
+
+			if (service.Equals(Const.DeliveryOltpService))
+			{
+				if (!serviceElements.Options.Keys.Contains("SourceTable"))
+					serviceElements.Options.Add("SourceTable", Const.OltpTable);
+			}
+			else if (service.Equals(Const.OltpDwhService))
+			{
+				if (!serviceElements.Options.Keys.Contains("SourceTable"))
+					serviceElements.Options.Add("SourceTable", Const.OltpTable);
+				if (!serviceElements.Options.Keys.Contains("TargetTable"))
+					serviceElements.Options.Add("TargetTable", Const.DwhTable);
+			}
+			else if (service.Equals(Const.MdxOltpService))
+			{
+				if (!serviceElements.Options.Keys.Contains("SourceTable"))
+					serviceElements.Options.Add("SourceTable", Const.OltpTable);
+			}
+			else if (service.Equals(Const.MdxDwhService))
+				serviceElements.Options.Add("SourceTable", Const.DwhTable);
+			else
+				//TO DO : Get tabels from configuration.
+				throw new Exception("ComparisonTable hasnt been implemented for this service");
+
+
+
+			Edge.Core.Services.ServiceInstance instance = Edge.Core.Services.Service.CreateInstance(serviceElements);
+
+			instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
+			instance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged);
+			instance.ProgressReported += new EventHandler(instance_ProgressReported);
+			this._numOfProductionInstances++;
+			instance.Initialize();
+
+
+
+		}
+
+		void instance_ChildServiceRequested(object sender, ServiceRequestedEventArgs e)
+		{
+			e.RequestedService.OutcomeReported += new EventHandler(child_instance_OutcomeReported);
+			e.RequestedService.StateChanged += new EventHandler<ServiceStateChangedEventArgs>(child_instance_StateChanged);
+
+			e.RequestedService.Initialize();
+
+		}
+
+		/// <summary>
+		/// Checking if Instance has Parent Instance
+		/// </summary>
+		private bool HasParent(ServiceInstance instance, out int NumOfChildrens)
+		{
+			if (instance.ParentInstance != null) // if child
+			{
+				NumOfChildrens = 0;
+				foreach (WorkflowStepElement element in instance.ParentInstance.Configuration.Workflow)
+				{
+					if (element.IsEnabled == true)
+						NumOfChildrens++;
+				}
+				return true;
+			}
+			else
+			{
+				NumOfChildrens = 1;
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Getting Step Name from configuration, depends on Parent instance 
+		/// </summary>
+		public string GetStepNameByInstance(ServiceInstance instance)
+		{
+			if (instance.Configuration.Workflow.Count > 0)
+			{
+				return instance.Configuration.Name;
+			}
+			//If instance has parent
+			else if (instance.ParentInstance != null)
+				return instance.ParentInstance.Configuration.Name;
+
+			else //stand alone service
+				return instance.Configuration.Name;
+
+		}
+
+		/// <summary>
+		/// Getting the number of enabled workflow services by instance
+		/// </summary>
+		public int GetNumOfEnabledWorkflows(ServiceInstance instance)
+		{
+			int count = 0;
+			if (instance.Configuration.Workflow != null && instance.Configuration.Workflow.Count > 0)
+			{
+				foreach (WorkflowStepElement wf in instance.Configuration.Workflow)
+				{
+					if (wf.IsEnabled) count++;
+				}
+			}
+			return count;
+		}
+
+		#region Instances Handler functions
+		/*=================================*/
+		void child_instance_OutcomeReported(object sender, EventArgs e)
+		{
+			//if (this.level5.Checked)
+			//{
+			//    //checking for oltp-Delivery checksum service 
+			//    Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+
+			//    if (instance.Configuration.Name.Equals(Const.DeliveryOltpService))
+			//        instance_OutcomeReported(sender, e);
+			//}
+		}
+
+		void child_instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
+		{
+			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+
+			if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
+			{
+				instance.Start();
+			}
+			if ((e.StateAfter == Edge.Core.Services.ServiceState.Ended) && (instance.Configuration.Name.Equals(Const.DeliveryOltpService)))
+			{
+				List<ValidationResult> newResults = GetValidationResultsByInstance(instance);
+				if (newResults.Capacity > 0)
+					Invoke(updateResults, new object[] { newResults });
+			}
+		}
+
+		void instance_OutcomeReported(object sender, EventArgs e)
+		{
+			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+			Step step;
+			Services.TryGetValue(GetStepNameByInstance(instance), out step);
+
+			if (this._numOfProductionInstances == 0)
+			{
+				Invoke(updateProgressBar, new object[] { step.ProgressBar, 100, true });
+
+				if (resultsForm.ErrorDataGridView.RowCount > 0)
+				#region
+				{
+
+					Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.failed_icon, true });
+					Invoke(updateStep, new object[] 
+					{ 
+						 new List<Label>(){step.ErrorsCount},String.Format("{0}{1}",CountRowsByLevelType(resultsForm.ErrorDataGridView.Rows, instance.Configuration.Name)," errors"),true 
+					});
+				}
+				#endregion
+
+				else if (resultsForm.WarningDataGridView.RowCount > 0)
+				#region
+				{
+
+					Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.Warning_icon, true });
+					Invoke(updateStep, new object[] 
+					{ 
+						new List<Label>(){step.WarningCount},String.Format("{0}{1}",   
+						CountRowsByLevelType(resultsForm.WarningDataGridView.Rows, instance.Configuration.Name)," warnings"),true 
+					});
+
+				}
+				#endregion
+
+				else
+					Invoke(updateResultImage, new object[] { step.ResultImage, global::Edge.Application.ProductionManagmentTools.Properties.Resources.success_icon, true });
+			}
+
+		}
+
+		void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
+		{
+			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+			Step step;
+
+
+			if (Services.TryGetValue(GetStepNameByInstance(instance), out step))
+			{
+				Invoke(updateStep, new object[]
+                    {
+                        new List<Label>(){step.Status},e.StateAfter.ToString().Equals("Ended")?"Running":e.StateAfter.ToString(),true
+                    }
+				);
+			}
+
+			if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
+			{
+				instance.Start();
+			}
+
+			if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
+			{
+				Invoke(updateNumOfInstances);
+
+
+				if (!this.level5.Checked)
+				{
+					List<ValidationResult> newResults = GetValidationResultsByInstance(instance);
+					if (newResults.Capacity > 0)
+						Invoke(updateResults, new object[] { newResults });
+				}
+
+
+				if (this._numOfProductionInstances == 0)
+				{
+					Invoke(updateProgressBar, new object[] { step.ProgressBar, 100, true });
+					Invoke(updateStep, new object[] { new List<Label>() { step.Status }, "Ended", true });
+
+					//show button only if results are available
+					if (HasResults(resultsForm))
+						Invoke(updateBtn, new object[] { new List<Button>() { this.report_btn }, true, true });
+				}
+
+			}
+
+		}
+
+		private void instance_ProgressReported(object sender, EventArgs e)
+		{
+			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+			Step step;
+			Services.TryGetValue(GetStepNameByInstance(instance), out step);
+			Invoke(updateProgressBar, new object[] { step.ProgressBar, (int)((ServiceInstance)sender).Progress * 70, true });
+		}
+		/*=================================*/
+		/// <summary>
+		/// Getting Validation results from DataBase by Instance ID, from Log table
+		/// </summary>
+		private List<ValidationResult> GetValidationResultsByInstance(Edge.Core.Services.ServiceInstance instance)
+		{
+			#region Getting Instance Log for results
+			List<ValidationResult> newResults = new List<ValidationResult>();
+			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+			{
+				sqlCon.Open();
+				SqlCommand sqlCommand = DataManager.CreateCommand(
+					"SELECT [Message] FROM [dbo].[Log] where [ServiceInstanceID] = @instanceID");
+				sqlCommand.Parameters.Add(new SqlParameter() { ParameterName = "@instanceID", Value = instance.InstanceID, SqlDbType = System.Data.SqlDbType.BigInt });
+				sqlCommand.Connection = sqlCon;
+
+				using (var _reader = sqlCommand.ExecuteReader())
+				{
+					if (!_reader.IsClosed)
+					{
+						while (_reader.Read())
+						{
+							newResults.Add((ValidationResult)JsonConvert.DeserializeObject(_reader[0].ToString(), typeof(ValidationResult)));
+						}
+					}
+				}
+			}
+			#endregion
+			return newResults;
+
+		}
+
+
+		#endregion
+
+		/*==========================================================*/
+		#endregion
+		
 	}
 
 	public static class Const
 	{
+		//TO DO : GET PARAMS FROM CONFIGURATION AND USE STATIC 
+		//TO DO : SET THE FOLLOWING PARAMS WHILE LODING DATACHECK WINDOW.
+
 		// Tabels
 		public static string OltpTable = "dbo.Paid_API_AllColumns_v29";
 		public static string DwhTable = "Dwh_Fact_PPC_Campaigns";
