@@ -204,16 +204,16 @@
 			// 
 			// usersGroupsToolStripMenuItem
 			// 
-<<<<<<< .mine
+
 			this.billingToolStripMenuItem.Name = "billingToolStripMenuItem";
 			this.billingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.billingToolStripMenuItem.Text = "Billing";
-=======
+
 			this.usersGroupsToolStripMenuItem.Name = "usersGroupsToolStripMenuItem";
 			this.usersGroupsToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
 			this.usersGroupsToolStripMenuItem.Text = "Users & Groups";
 			this.usersGroupsToolStripMenuItem.Click += new System.EventHandler(this.usersGroupsToolStripMenuItem_Click);
->>>>>>> .r123
+
 			// 
 			// main
 			// 
