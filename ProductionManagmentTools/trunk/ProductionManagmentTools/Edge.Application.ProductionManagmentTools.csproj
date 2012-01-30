@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>checked_shield_green.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\checked_shield_green.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Edge.Objects">
@@ -375,7 +375,7 @@
     <None Include="Resources\window_new.png" />
     <None Include="Resources\warning1.png" />
     <None Include="Resources\fixErrors.png" />
-    <Content Include="checked_shield_green.ico" />
+    <Content Include="Resources\checked_shield_green.ico" />
     <None Include="Resources\media_floppy_green.png" />
     <None Include="Resources\button_minus_red.png" />
     <None Include="Resources\delete.png" />
