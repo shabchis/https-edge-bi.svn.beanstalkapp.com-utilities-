@@ -33,12 +33,12 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.Users = new System.Windows.Forms.TabPage();
 			this.btnChangePassword = new System.Windows.Forms.Button();
-			this.btnDeleteRow = new System.Windows.Forms.Button();
-			this.btnAddRow = new System.Windows.Forms.Button();
+			this.btnDeleteUserRow = new System.Windows.Forms.Button();
+			this.btnAddUserRow = new System.Windows.Forms.Button();
 			this.relatedGroupsView = new System.Windows.Forms.DataGridView();
 			this.label6 = new System.Windows.Forms.Label();
-			this.accountsTreeView = new System.Windows.Forms.TreeView();
-			this.permissionTree = new System.Windows.Forms.TreeView();
+			this.usersAccountsTreeView = new System.Windows.Forms.TreeView();
+			this.userPermissionTree = new System.Windows.Forms.TreeView();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.lblUserName = new System.Windows.Forms.Label();
@@ -47,6 +47,18 @@
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.txtFindUser = new System.Windows.Forms.TextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.pictureBox4 = new System.Windows.Forms.PictureBox();
+			this.btnAddGroupRow = new System.Windows.Forms.Button();
+			this.membersGrid = new System.Windows.Forms.DataGridView();
+			this.label1 = new System.Windows.Forms.Label();
+			this.groupsAccountsTreeView = new System.Windows.Forms.TreeView();
+			this.groupsPermissionTree = new System.Windows.Forms.TreeView();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.lblGroupName = new System.Windows.Forms.Label();
+			this.pictureBox3 = new System.Windows.Forms.PictureBox();
+			this.groupsView = new System.Windows.Forms.DataGridView();
+			this.txtFindGroup = new System.Windows.Forms.TextBox();
 			this.btnConnect = new System.Windows.Forms.Button();
 			this.contextMenuPermissions = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuAllow = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +71,11 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.usersGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.tabPage2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.membersGrid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.groupsView)).BeginInit();
 			this.contextMenuPermissions.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -76,12 +93,12 @@
 			// 
 			this.Users.BackColor = System.Drawing.Color.Gainsboro;
 			this.Users.Controls.Add(this.btnChangePassword);
-			this.Users.Controls.Add(this.btnDeleteRow);
-			this.Users.Controls.Add(this.btnAddRow);
+			this.Users.Controls.Add(this.btnDeleteUserRow);
+			this.Users.Controls.Add(this.btnAddUserRow);
 			this.Users.Controls.Add(this.relatedGroupsView);
 			this.Users.Controls.Add(this.label6);
-			this.Users.Controls.Add(this.accountsTreeView);
-			this.Users.Controls.Add(this.permissionTree);
+			this.Users.Controls.Add(this.usersAccountsTreeView);
+			this.Users.Controls.Add(this.userPermissionTree);
 			this.Users.Controls.Add(this.label5);
 			this.Users.Controls.Add(this.label2);
 			this.Users.Controls.Add(this.lblUserName);
@@ -106,25 +123,25 @@
 			this.btnChangePassword.UseVisualStyleBackColor = true;
 			this.btnChangePassword.Click += new System.EventHandler(this.btnChangePassword_Click);
 			// 
-			// btnDeleteRow
+			// btnDeleteUserRow
 			// 
-			this.btnDeleteRow.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.erase;
-			this.btnDeleteRow.Location = new System.Drawing.Point(529, 6);
-			this.btnDeleteRow.Name = "btnDeleteRow";
-			this.btnDeleteRow.Size = new System.Drawing.Size(31, 29);
-			this.btnDeleteRow.TabIndex = 26;
-			this.btnDeleteRow.UseVisualStyleBackColor = true;
-			this.btnDeleteRow.Click += new System.EventHandler(this.btnDeleteRow_Click);
+			this.btnDeleteUserRow.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.erase;
+			this.btnDeleteUserRow.Location = new System.Drawing.Point(529, 6);
+			this.btnDeleteUserRow.Name = "btnDeleteUserRow";
+			this.btnDeleteUserRow.Size = new System.Drawing.Size(31, 29);
+			this.btnDeleteUserRow.TabIndex = 26;
+			this.btnDeleteUserRow.UseVisualStyleBackColor = true;
+			this.btnDeleteUserRow.Click += new System.EventHandler(this.btnUserDeleteRow_Click);
 			// 
-			// btnAddRow
+			// btnAddUserRow
 			// 
-			this.btnAddRow.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Add_user24;
-			this.btnAddRow.Location = new System.Drawing.Point(492, 5);
-			this.btnAddRow.Name = "btnAddRow";
-			this.btnAddRow.Size = new System.Drawing.Size(31, 29);
-			this.btnAddRow.TabIndex = 25;
-			this.btnAddRow.UseVisualStyleBackColor = true;
-			this.btnAddRow.Click += new System.EventHandler(this.btnAddRow_Click);
+			this.btnAddUserRow.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Add_user24;
+			this.btnAddUserRow.Location = new System.Drawing.Point(492, 5);
+			this.btnAddUserRow.Name = "btnAddUserRow";
+			this.btnAddUserRow.Size = new System.Drawing.Size(31, 29);
+			this.btnAddUserRow.TabIndex = 25;
+			this.btnAddUserRow.UseVisualStyleBackColor = true;
+			this.btnAddUserRow.Click += new System.EventHandler(this.btnAddRow_Click);
 			// 
 			// relatedGroupsView
 			// 
@@ -147,24 +164,24 @@
 			this.label6.TabIndex = 21;
 			this.label6.Text = "Related Accounts";
 			// 
-			// accountsTreeView
+			// usersAccountsTreeView
 			// 
-			this.accountsTreeView.BackColor = System.Drawing.Color.LightGray;
-			this.accountsTreeView.FullRowSelect = true;
-			this.accountsTreeView.HideSelection = false;
-			this.accountsTreeView.Location = new System.Drawing.Point(925, 194);
-			this.accountsTreeView.Name = "accountsTreeView";
-			this.accountsTreeView.Size = new System.Drawing.Size(232, 159);
-			this.accountsTreeView.TabIndex = 20;
-			this.accountsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.accountsTreeView_AfterSelect);
+			this.usersAccountsTreeView.BackColor = System.Drawing.Color.LightGray;
+			this.usersAccountsTreeView.FullRowSelect = true;
+			this.usersAccountsTreeView.HideSelection = false;
+			this.usersAccountsTreeView.Location = new System.Drawing.Point(925, 194);
+			this.usersAccountsTreeView.Name = "usersAccountsTreeView";
+			this.usersAccountsTreeView.Size = new System.Drawing.Size(232, 159);
+			this.usersAccountsTreeView.TabIndex = 20;
+			this.usersAccountsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.accountsTreeView_AfterSelect);
 			// 
-			// permissionTree
+			// userPermissionTree
 			// 
-			this.permissionTree.BackColor = System.Drawing.Color.LightGray;
-			this.permissionTree.Location = new System.Drawing.Point(925, 380);
-			this.permissionTree.Name = "permissionTree";
-			this.permissionTree.Size = new System.Drawing.Size(232, 159);
-			this.permissionTree.TabIndex = 16;
+			this.userPermissionTree.BackColor = System.Drawing.Color.LightGray;
+			this.userPermissionTree.Location = new System.Drawing.Point(925, 380);
+			this.userPermissionTree.Name = "userPermissionTree";
+			this.userPermissionTree.Size = new System.Drawing.Size(232, 159);
+			this.userPermissionTree.TabIndex = 16;
 			// 
 			// label5
 			// 
@@ -239,6 +256,18 @@
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.pictureBox4);
+			this.tabPage2.Controls.Add(this.btnAddGroupRow);
+			this.tabPage2.Controls.Add(this.membersGrid);
+			this.tabPage2.Controls.Add(this.label1);
+			this.tabPage2.Controls.Add(this.groupsAccountsTreeView);
+			this.tabPage2.Controls.Add(this.groupsPermissionTree);
+			this.tabPage2.Controls.Add(this.label3);
+			this.tabPage2.Controls.Add(this.label4);
+			this.tabPage2.Controls.Add(this.lblGroupName);
+			this.tabPage2.Controls.Add(this.pictureBox3);
+			this.tabPage2.Controls.Add(this.groupsView);
+			this.tabPage2.Controls.Add(this.txtFindGroup);
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -246,6 +275,125 @@
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Groups";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// pictureBox4
+			// 
+			this.pictureBox4.BackgroundImage = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Zoom_in48;
+			this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pictureBox4.Location = new System.Drawing.Point(9, 8);
+			this.pictureBox4.Name = "pictureBox4";
+			this.pictureBox4.Size = new System.Drawing.Size(20, 20);
+			this.pictureBox4.TabIndex = 40;
+			this.pictureBox4.TabStop = false;
+			// 
+			// btnAddGroupRow
+			// 
+			this.btnAddGroupRow.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.Add_user24;
+			this.btnAddGroupRow.Location = new System.Drawing.Point(570, 6);
+			this.btnAddGroupRow.Name = "btnAddGroupRow";
+			this.btnAddGroupRow.Size = new System.Drawing.Size(31, 29);
+			this.btnAddGroupRow.TabIndex = 38;
+			this.btnAddGroupRow.UseVisualStyleBackColor = true;
+			this.btnAddGroupRow.Click += new System.EventHandler(this.btnAddGroupRow_Click);
+			// 
+			// membersGrid
+			// 
+			this.membersGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+			this.membersGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.membersGrid.Enabled = false;
+			this.membersGrid.Location = new System.Drawing.Point(670, 199);
+			this.membersGrid.Name = "membersGrid";
+			this.membersGrid.Size = new System.Drawing.Size(234, 342);
+			this.membersGrid.TabIndex = 37;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.label1.Location = new System.Drawing.Point(931, 173);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(102, 15);
+			this.label1.TabIndex = 36;
+			this.label1.Text = "Related Accounts";
+			// 
+			// groupsAccountsTreeView
+			// 
+			this.groupsAccountsTreeView.BackColor = System.Drawing.Color.LightGray;
+			this.groupsAccountsTreeView.FullRowSelect = true;
+			this.groupsAccountsTreeView.HideSelection = false;
+			this.groupsAccountsTreeView.Location = new System.Drawing.Point(931, 196);
+			this.groupsAccountsTreeView.Name = "groupsAccountsTreeView";
+			this.groupsAccountsTreeView.Size = new System.Drawing.Size(232, 159);
+			this.groupsAccountsTreeView.TabIndex = 35;
+			this.groupsAccountsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.groupsAccountsTreeView_AfterSelect);
+			// 
+			// groupsPermissionTree
+			// 
+			this.groupsPermissionTree.BackColor = System.Drawing.Color.LightGray;
+			this.groupsPermissionTree.Location = new System.Drawing.Point(931, 382);
+			this.groupsPermissionTree.Name = "groupsPermissionTree";
+			this.groupsPermissionTree.Size = new System.Drawing.Size(232, 159);
+			this.groupsPermissionTree.TabIndex = 34;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.label3.Location = new System.Drawing.Point(931, 361);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(75, 15);
+			this.label3.TabIndex = 33;
+			this.label3.Text = "Permissions";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.label4.Location = new System.Drawing.Point(667, 178);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(60, 15);
+			this.label4.TabIndex = 32;
+			this.label4.Text = "Members";
+			// 
+			// lblGroupName
+			// 
+			this.lblGroupName.AutoSize = true;
+			this.lblGroupName.BackColor = System.Drawing.Color.Transparent;
+			this.lblGroupName.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblGroupName.Location = new System.Drawing.Point(1096, 144);
+			this.lblGroupName.Name = "lblGroupName";
+			this.lblGroupName.Size = new System.Drawing.Size(99, 18);
+			this.lblGroupName.TabIndex = 31;
+			this.lblGroupName.Text = "Avi Manaker";
+			// 
+			// pictureBox3
+			// 
+			this.pictureBox3.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.user_pic;
+			this.pictureBox3.Location = new System.Drawing.Point(1096, 43);
+			this.pictureBox3.Name = "pictureBox3";
+			this.pictureBox3.Size = new System.Drawing.Size(99, 98);
+			this.pictureBox3.TabIndex = 30;
+			this.pictureBox3.TabStop = false;
+			// 
+			// groupsView
+			// 
+			this.groupsView.BackgroundColor = System.Drawing.Color.LightGray;
+			this.groupsView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.groupsView.Location = new System.Drawing.Point(9, 43);
+			this.groupsView.MultiSelect = false;
+			this.groupsView.Name = "groupsView";
+			this.groupsView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.groupsView.Size = new System.Drawing.Size(592, 534);
+			this.groupsView.TabIndex = 29;
+			this.groupsView.SelectionChanged += new System.EventHandler(this.groupsView_SelectionChanged);
+			// 
+			// txtFindGroup
+			// 
+			this.txtFindGroup.Location = new System.Drawing.Point(35, 8);
+			this.txtFindGroup.Name = "txtFindGroup";
+			this.txtFindGroup.Size = new System.Drawing.Size(127, 20);
+			this.txtFindGroup.TabIndex = 28;
+			this.txtFindGroup.TextChanged += new System.EventHandler(this.txtFindGroup_TextChanged);
 			// 
 			// btnConnect
 			// 
@@ -271,7 +419,7 @@
 			this.toolStripMenuAllow.Name = "toolStripMenuAllow";
 			this.toolStripMenuAllow.Size = new System.Drawing.Size(140, 22);
 			this.toolStripMenuAllow.Text = "Allow";
-			this.toolStripMenuAllow.Click += new System.EventHandler(this.toolStripMenuAllow_Click);
+			this.toolStripMenuAllow.Click += new System.EventHandler(this.toolStripMenu_Click);
 			// 
 			// toolStripMenuNotAllow
 			// 
@@ -279,7 +427,7 @@
 			this.toolStripMenuNotAllow.Name = "toolStripMenuNotAllow";
 			this.toolStripMenuNotAllow.Size = new System.Drawing.Size(140, 22);
 			this.toolStripMenuNotAllow.Text = "Not Allowed";
-			this.toolStripMenuNotAllow.Click += new System.EventHandler(this.toolStripMenuAllow_Click);
+			this.toolStripMenuNotAllow.Click += new System.EventHandler(this.toolStripMenu_Click);
 			// 
 			// btnUpdate
 			// 
@@ -313,6 +461,12 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.usersGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			this.tabPage2.ResumeLayout(false);
+			this.tabPage2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.membersGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.groupsView)).EndInit();
 			this.contextMenuPermissions.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -327,21 +481,33 @@
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.DataGridView usersGrid;
 		private System.Windows.Forms.PictureBox pictureBox1;
-		private System.Windows.Forms.TreeView permissionTree;
+		private System.Windows.Forms.TreeView userPermissionTree;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label lblUserName;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.TreeView accountsTreeView;
+		private System.Windows.Forms.TreeView usersAccountsTreeView;
 		private System.Windows.Forms.Button btnConnect;
 		private System.Windows.Forms.DataGridView relatedGroupsView;
 		private System.Windows.Forms.ContextMenuStrip contextMenuPermissions;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuAllow;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuNotAllow;
 		private System.Windows.Forms.Button btnUpdate;
-		private System.Windows.Forms.Button btnAddRow;
-		private System.Windows.Forms.Button btnDeleteRow;
+		private System.Windows.Forms.Button btnAddUserRow;
+		private System.Windows.Forms.Button btnDeleteUserRow;
 		private System.Windows.Forms.Button btnChangePassword;
 		private System.Windows.Forms.ToolTip toolTipChangePassword;
+		private System.Windows.Forms.PictureBox pictureBox4;
+		private System.Windows.Forms.Button btnAddGroupRow;
+		private System.Windows.Forms.DataGridView membersGrid;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TreeView groupsAccountsTreeView;
+		private System.Windows.Forms.TreeView groupsPermissionTree;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label lblGroupName;
+		private System.Windows.Forms.PictureBox pictureBox3;
+		private System.Windows.Forms.DataGridView groupsView;
+		private System.Windows.Forms.TextBox txtFindGroup;
 	}
 }
