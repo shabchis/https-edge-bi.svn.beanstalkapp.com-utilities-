@@ -310,5 +310,34 @@ namespace Edge.Application.ProductionManagmentTools.Objects
 			}
 
 		}
+
+		
+		
+
+		internal void SaveGroup(GroupView group)
+		{
+			HttpWebResponse response;
+			HttpWebRequest request;
+			if (group.IsNew)
+				request = GetServiceRequest("groups", "POST");
+			else
+				request = GetServiceRequest(string.Format("users/{0}", group.ID), "PUT");
+
+
+			string body = Serialize(group.GetGroup());
+			request.ContentLength = body.Length;
+			SetBody(ref request, body);
+
+
+			try
+			{
+				response = (HttpWebResponse)request.GetResponse();
+			}
+			catch (WebException ex)
+			{
+
+				throw ex;
+			}
+		}
 	}
 }

@@ -15,9 +15,13 @@ namespace Edge.Application.ProductionManagmentTools
 	{
 		UsersGroupsDataLayer _usersGroupsDataLayer;
 		List<UserView> _users;
+		List<GroupView> _groups;
 		UserView _selectedUser;
+		GroupView _selectedGroup;
 		List<RealatedGroupView> _relatedGroups;
-		Dictionary<string, PermissionView> _permissions = new Dictionary<string, PermissionView>();
+		List<RealatedUserView> _relatedusers;
+		Dictionary<string, PermissionView> _userPermissions = new Dictionary<string, PermissionView>();
+		Dictionary<string, PermissionView> _groupPermissions = new Dictionary<string, PermissionView>();
 		Edge.Objects.Account _selectedAccount;
 		List<Edge.Objects.Account> _accounts;
 
@@ -34,18 +38,19 @@ namespace Edge.Application.ProductionManagmentTools
 			Connect();
 			GetAccounts();
 			GetGroups();
-			GetUsers();			
+			GetUsers();
 			GetPermmissions();
 		}
 
 		private void GetPermmissions()
 		{
 			List<Permission> permissions = _usersGroupsDataLayer.GetPermissionTree();
-			BuildPermissionsTree(permissions);
+			BuildUserPermissionsTree(permissions);
+			BuildGroupPermissionsTree(permissions);
 
 		}
 
-		private void BuildPermissionsTree(TreeNode tn)
+		private void BuildUserPermissionsTree(TreeNode tn)
 		{
 
 
@@ -58,23 +63,23 @@ namespace Edge.Application.ProductionManagmentTools
 				permissionView.Value.PermissionNode = tnn;
 				tnn.ImageKey = "cancel_round.ico";
 				tn.Nodes.Add(tnn);
-				_permissions.Add(permissionView.Key, permissionView.Value);
-				BuildPermissionsTree(tnn);
+				_userPermissions.Add(permissionView.Key, permissionView.Value);
+				BuildUserPermissionsTree(tnn);
 
 			}
 
 		}
 
-		private void BuildPermissionsTree(List<Permission> permissions)
+		private void BuildUserPermissionsTree(List<Permission> permissions)
 		{
 
-			permissionTree.ImageList = new ImageList();
-			permissionTree.ImageList.Images.Add("question_blue.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\question_blue.ico"));
-			permissionTree.ImageList.Images.Add("question_blue-faded.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\question_blue-faded.ico"));
-			permissionTree.ImageList.Images.Add("tick_circle.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\tick_circle.ico"));
-			permissionTree.ImageList.Images.Add("tick_circle-faded.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\tick_circle-faded.ico"));
-			permissionTree.ImageList.Images.Add("cancel_round.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\cancel_round.ico"));
-			permissionTree.ImageList.Images.Add("cancel_round-faded.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\cancel_round-faded.ico"));
+			userPermissionTree.ImageList = new ImageList();
+			userPermissionTree.ImageList.Images.Add("question_blue.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\question_blue.ico"));
+			userPermissionTree.ImageList.Images.Add("question_blue-faded.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\question_blue-faded.ico"));
+			userPermissionTree.ImageList.Images.Add("tick_circle.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\tick_circle.ico"));
+			userPermissionTree.ImageList.Images.Add("tick_circle-faded.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\tick_circle-faded.ico"));
+			userPermissionTree.ImageList.Images.Add("cancel_round.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\cancel_round.ico"));
+			userPermissionTree.ImageList.Images.Add("cancel_round-faded.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\cancel_round-faded.ico"));
 
 			foreach (var permission in permissions)
 			{
@@ -82,14 +87,63 @@ namespace Edge.Application.ProductionManagmentTools
 
 				KeyValuePair<string, PermissionView> permissionView = new KeyValuePair<string, PermissionView>(permission.Path, new PermissionView(permission));
 				TreeNode tn = new TreeNode(permissionView.Value.Name);
-				
+
 				tn.ContextMenuStrip = contextMenuPermissions;
 				tn.ImageKey = "question_blue.ico";
 				tn.Tag = permissionView;
 				permissionView.Value.PermissionNode = tn;
-				permissionTree.Nodes.Add(tn);
-				_permissions.Add(permissionView.Key, permissionView.Value);
-				BuildPermissionsTree(tn);
+				userPermissionTree.Nodes.Add(tn);
+				_userPermissions.Add(permissionView.Key, permissionView.Value);
+				BuildUserPermissionsTree(tn);
+
+			}
+		}
+
+		private void BuildGroupPermissionsTree(TreeNode tn)
+		{
+
+
+			foreach (var permission in ((KeyValuePair<string, PermissionView>)tn.Tag).Value.ChildPermissions)
+			{
+				KeyValuePair<string, PermissionView> permissionView = new KeyValuePair<string, PermissionView>(permission.Path, permission);
+				TreeNode tnn = new TreeNode(permissionView.Value.Name);
+				tnn.Tag = permissionView;
+				tnn.ContextMenuStrip = contextMenuPermissions;
+				permissionView.Value.PermissionNode = tnn;
+				tnn.ImageKey = "cancel_round.ico";
+				tn.Nodes.Add(tnn);
+				_groupPermissions.Add(permissionView.Key, permissionView.Value);
+				BuildGroupPermissionsTree(tnn);
+
+			}
+
+		}
+
+		private void BuildGroupPermissionsTree(List<Permission> permissions)
+		{
+
+			groupsPermissionTree.ImageList = new ImageList();
+			groupsPermissionTree.ImageList.Images.Add("question_blue.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\question_blue.ico"));
+			groupsPermissionTree.ImageList.Images.Add("question_blue-faded.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\question_blue-faded.ico"));
+			groupsPermissionTree.ImageList.Images.Add("tick_circle.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\tick_circle.ico"));
+			groupsPermissionTree.ImageList.Images.Add("tick_circle-faded.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\tick_circle-faded.ico"));
+			groupsPermissionTree.ImageList.Images.Add("cancel_round.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\cancel_round.ico"));
+			groupsPermissionTree.ImageList.Images.Add("cancel_round-faded.ico", Image.FromFile(@"D:\Edge\Codebase\2.9\Utilities\ProductionManagmentTools\ProductionManagmentTools\Resources\cancel_round-faded.ico"));
+
+			foreach (var permission in permissions)
+			{
+
+
+				KeyValuePair<string, PermissionView> permissionView = new KeyValuePair<string, PermissionView>(permission.Path, new PermissionView(permission));
+				TreeNode tn = new TreeNode(permissionView.Value.Name);
+
+				tn.ContextMenuStrip = contextMenuPermissions;
+				tn.ImageKey = "question_blue.ico";
+				tn.Tag = permissionView;
+				permissionView.Value.PermissionNode = tn;
+				groupsPermissionTree.Nodes.Add(tn);
+				_groupPermissions.Add(permissionView.Key, permissionView.Value);
+				BuildGroupPermissionsTree(tn);
 
 			}
 		}
@@ -97,31 +151,45 @@ namespace Edge.Application.ProductionManagmentTools
 		private void GetAccounts()
 		{
 			_accounts = _usersGroupsDataLayer.GetAccountsTree();
-			BuildAccountsTree(null);
+			BuildUserAccountsTree(null);
+			BuildGroupAccountTree(null);
 		}
 
 		private void GetGroups()
 		{
 			_relatedGroups = new List<RealatedGroupView>();
+			_groups = new List<GroupView>();
 			foreach (var group in _usersGroupsDataLayer.GetGroups())
 			{
 				_relatedGroups.Add(new RealatedGroupView(group, false));
+				_groups.Add(new GroupView(group));
 
 			}
+
+			groupsView.DataSource = _groups;
 			relatedGroupsView.DataSource = _relatedGroups;
 			relatedGroupsView.Columns["AssignedPermissions"].Visible = false;
 			relatedGroupsView.Refresh();
-		
+			groupsView.DataSource = _groups;
+			groupsView.Columns["AssignedPermissions"].Visible = false;
+			groupsView.Refresh();
+
 		}
 
 		private void GetUsers()
 		{
 			_users = new List<UserView>();
+			_relatedusers = new List<RealatedUserView>();
 			foreach (var user in _usersGroupsDataLayer.GetUsers())
 			{
+				_relatedusers.Add(new RealatedUserView(user, false));
 				_users.Add(new UserView(user));
 
+
+
 			}
+			membersGrid.DataSource = _relatedusers;
+			membersGrid.Refresh();
 			usersGrid.DataSource = _users;
 			usersGrid.Columns["AssignedPermissions"].Visible = false;
 			usersGrid.Refresh();
@@ -135,7 +203,7 @@ namespace Edge.Application.ProductionManagmentTools
 
 		private void usersGrid_SelectionChanged(object sender, EventArgs e)
 		{
-			
+
 			if (usersGrid.SelectedRows.Count > 0)
 			{
 				_selectedUser = (UserView)usersGrid.SelectedRows[0].DataBoundItem;
@@ -147,7 +215,7 @@ namespace Edge.Application.ProductionManagmentTools
 					groups[g.GroupID].Assigned = true;
 
 				}
-				SetPermmisions();
+				SetUserPermmisions();
 				relatedGroupsView.Refresh();
 
 
@@ -164,10 +232,10 @@ namespace Edge.Application.ProductionManagmentTools
 
 		}
 
-		private void SetPermmisions()
+		private void SetUserPermmisions()
 		{
 			//reset permissions
-			foreach (var permission in _permissions)
+			foreach (var permission in _userPermissions)
 			{
 				permission.Value.PermissionAssignmentType = PermissionAssignmentType.NotAssigned;
 				
@@ -178,7 +246,11 @@ namespace Edge.Application.ProductionManagmentTools
 				//Group Level
 				foreach (Group groupMember in _selectedUser.Groups)
 				{
-					if (groupMember.AssignedPermissions.ContainsKey(_selectedAccount.ID.Value))
+					if (groupMember.IsAcountAdmin!=null && groupMember.IsAcountAdmin.Value)
+					{
+						BubbleDownUserPermission(null,true,PermissionFrom.isAccountAdmin);
+					}
+					else if(groupMember.AssignedPermissions.ContainsKey(_selectedAccount.ID.Value))
 					{
 						foreach (AssignedPermission groupPermission in groupMember.AssignedPermissions[_selectedAccount.ID.Value])
 						{
@@ -195,11 +267,15 @@ namespace Edge.Application.ProductionManagmentTools
 					}
 				}
 				foreach (var assign in assignedPermissionsPerAccount)				
-					BubbleDownPermission(_permissions[assign.Key],assign.Value.Value,PermissionFrom.Group);
+					BubbleDownUserPermission(_userPermissions[assign.Key],assign.Value.Value,PermissionFrom.Group);
 
 				assignedPermissionsPerAccount = new Dictionary<string, AssignedPermission>();
 				//User Level
-				if (_selectedUser.AssignedPermissions.ContainsKey(_selectedAccount.ID.Value))
+				if (_selectedUser.IsAcountAdmin)
+				{
+					BubbleDownUserPermission(null, true, PermissionFrom.isAccountAdmin);
+				}
+				else if (_selectedUser.AssignedPermissions.ContainsKey(_selectedAccount.ID.Value))
 				{
 					foreach (var userAssignPermission in _selectedUser.AssignedPermissions[_selectedAccount.ID.Value])
 					{
@@ -210,20 +286,20 @@ namespace Edge.Application.ProductionManagmentTools
 							if (userAssignPermission.Value == false)
 								assignedPermissionsPerAccount[userAssignPermission.PermissionType].Value = false;
 						}
-					} 
+					}
 				}
 
 				foreach (var assign in assignedPermissionsPerAccount)
-					BubbleDownPermission(_permissions[assign.Key], assign.Value.Value, PermissionFrom.User);
+					BubbleDownUserPermission(_userPermissions[assign.Key], assign.Value.Value, PermissionFrom.User);
 
 			}
 
 
 
 		}
-
-		private void BubbleDownPermission(PermissionView permissionView, bool value, PermissionFrom from)
+		private void BubbleDownUserPermission(PermissionView permissionView, bool value, PermissionFrom from)
 		{
+
 			if (from == PermissionFrom.Group || from == PermissionFrom.Bubble)
 			{
 				if (value)
@@ -231,7 +307,7 @@ namespace Edge.Application.ProductionManagmentTools
 				else
 					permissionView.PermissionAssignmentType = PermissionAssignmentType.NotAllowFromGroup;
 			}
-			else
+			else if (from == PermissionFrom.User)
 			{
 
 				if (value)
@@ -240,16 +316,29 @@ namespace Edge.Application.ProductionManagmentTools
 					permissionView.PermissionAssignmentType = PermissionAssignmentType.NotAllowFromUser;
 
 			}
-			foreach (var child in permissionView.ChildPermissions)
+			if (permissionView != null)
 			{
-				BubbleDownPermission(child, value, PermissionFrom.Bubble);
+				foreach (var child in permissionView.ChildPermissions)
+				{
+					BubbleDownUserPermission(child, value, PermissionFrom.Bubble);
+				}
+			}
+			else //is account admin
+			{
+				foreach (var permission in _userPermissions)
+				{
+					permission.Value.PermissionAssignmentType = PermissionAssignmentType.AllowFromGroup;
+					foreach (var child in permission.Value.ChildPermissions)
+						BubbleDownUserPermission(child, true, PermissionFrom.Bubble);
+				}
+
 			}
 		}
 
-		private void BuildAccountsTree(TreeNode tn)
+		private void BuildGroupAccountTree(TreeNode tn)
 		{
 			if (tn == null)
-				BuildAccountsTree();
+				BuildGroupAccountTree();
 			else
 			{
 				foreach (var account in ((Edge.Objects.Account)tn.Tag).ChildAccounts.OrderBy(a => a.ID))
@@ -257,31 +346,50 @@ namespace Edge.Application.ProductionManagmentTools
 					TreeNode tnn = new TreeNode(string.Format("{0}-{1}", account.ID, account.Name));
 					tnn.Tag = account;
 					tn.Nodes.Add(tnn);
-					BuildAccountsTree(tnn);
+					BuildUserAccountsTree(tnn);
 
 				}
 			}
-
-
-
-
-
-
-
-
-
-
 		}
 
-		private void BuildAccountsTree()
+		private void BuildGroupAccountTree()
 		{
 			foreach (var account in _accounts.OrderBy(a => a.ID))
 			{
 
 				TreeNode tn = new TreeNode(string.Format("{0}-{1}", account.ID, account.Name));
 				tn.Tag = account;
-				accountsTreeView.Nodes.Add(tn);
-				BuildAccountsTree(tn);
+				groupsAccountsTreeView.Nodes.Add(tn);
+				BuildGroupAccountTree(tn);
+
+			}
+		}
+		private void BuildUserAccountsTree(TreeNode tn)
+		{
+			if (tn == null)
+				BuildUserAccountsTree();
+			else
+			{
+				foreach (var account in ((Edge.Objects.Account)tn.Tag).ChildAccounts.OrderBy(a => a.ID))
+				{
+					TreeNode tnn = new TreeNode(string.Format("{0}-{1}", account.ID, account.Name));
+					tnn.Tag = account;
+					tn.Nodes.Add(tnn);
+					BuildUserAccountsTree(tnn);
+
+				}
+			}
+		}
+
+		private void BuildUserAccountsTree()
+		{
+			foreach (var account in _accounts.OrderBy(a => a.ID))
+			{
+
+				TreeNode tn = new TreeNode(string.Format("{0}-{1}", account.ID, account.Name));
+				tn.Tag = account;
+				usersAccountsTreeView.Nodes.Add(tn);
+				BuildUserAccountsTree(tn);
 
 			}
 		}
@@ -291,8 +399,8 @@ namespace Edge.Application.ProductionManagmentTools
 			if (e.Node.IsSelected)
 			{
 				_selectedAccount = (Edge.Objects.Account)e.Node.Tag;
-				
-				SetPermmisions();
+
+				SetUserPermmisions();
 			}
 		}
 
@@ -306,7 +414,7 @@ namespace Edge.Application.ProductionManagmentTools
 				_selectedUser.Groups.Add(group.GetGroup());
 			else
 				_selectedUser.Groups.RemoveAll(g => g.GroupID == group.ID);
-			SetPermmisions();
+			SetUserPermmisions();
 
 		}
 
@@ -315,27 +423,77 @@ namespace Edge.Application.ProductionManagmentTools
 			relatedGroupsView.CommitEdit(DataGridViewDataErrorContexts.Commit);
 		}
 
-		private void toolStripMenuAllow_Click(object sender, EventArgs e)
+		private void toolStripMenu_Click(object sender, EventArgs e)
+		{
+			if (tabControl1.SelectedIndex == 0)			
+				AddUserPermission(sender);
+			else
+				AddGroupPermission(sender);
+			
+
+		}
+
+		private void AddGroupPermission(object sender)
 		{
 			PermissionAssignmentType permissionType = (PermissionAssignmentType)((ToolStripMenuItem)sender).Tag;
-			PermissionView p = (PermissionView)((KeyValuePair<string, PermissionView>)permissionTree.SelectedNode.Tag).Value;
-			permissionTree.BeginUpdate();
+			PermissionView p = (PermissionView)((KeyValuePair<string, PermissionView>)groupsPermissionTree.SelectedNode.Tag).Value;
+			groupsPermissionTree.BeginUpdate();
 			bool allow;
 			if (permissionType == PermissionAssignmentType.AllowFromUser)
-					allow = true;
-				else
-					allow = false;
-				BubbleDownPermission(p, allow, PermissionFrom.User);
+				allow = true;
+			else
+				allow = false;
+			BubbleDownGroupPermission(p, allow, PermissionFrom.User);
 
-				permissionTree.EndUpdate();
-			permissionTree.Refresh();
+			groupsPermissionTree.EndUpdate();
+			groupsPermissionTree.Refresh();
+			if (_selectedAccount != null && _selectedGroup != null)
+			{
+				if (!_selectedGroup.AssignedPermissions.ContainsKey(_selectedAccount.ID.Value))
+					_selectedGroup.AssignedPermissions.Add(_selectedAccount.ID.Value, new List<AssignedPermission>());
+
+				AssignedPermission current = null;
+
+				foreach (var assignedPermission in _selectedGroup.AssignedPermissions[_selectedAccount.ID.Value])
+				{
+
+					if (assignedPermission.PermissionType == p.Path)
+					{
+						current = assignedPermission;
+						break;
+					}
+				}
+				if (current == null)
+				{
+					current = new AssignedPermission() { PermissionName = p.Name, PermissionType = p.Path, Value = allow };
+					_selectedGroup.AssignedPermissions[_selectedAccount.ID.Value].Add(current);
+				}
+				else
+					current.Value = allow;
+			}
+		}
+
+		private void AddUserPermission(object sender)
+		{
+			PermissionAssignmentType permissionType = (PermissionAssignmentType)((ToolStripMenuItem)sender).Tag;
+			PermissionView p = (PermissionView)((KeyValuePair<string, PermissionView>)userPermissionTree.SelectedNode.Tag).Value;
+			userPermissionTree.BeginUpdate();
+			bool allow;
+			if (permissionType == PermissionAssignmentType.AllowFromUser)
+				allow = true;
+			else
+				allow = false;
+			BubbleDownUserPermission(p, allow, PermissionFrom.User);
+
+			userPermissionTree.EndUpdate();
+			userPermissionTree.Refresh();
 			if (_selectedAccount != null && _selectedUser != null)
 			{
 				if (!_selectedUser.AssignedPermissions.ContainsKey(_selectedAccount.ID.Value))
 					_selectedUser.AssignedPermissions.Add(_selectedAccount.ID.Value, new List<AssignedPermission>());
 
 				AssignedPermission current = null;
-				
+
 				foreach (var assignedPermission in _selectedUser.AssignedPermissions[_selectedAccount.ID.Value])
 				{
 
@@ -352,18 +510,17 @@ namespace Edge.Application.ProductionManagmentTools
 				}
 				else
 					current.Value = allow;
-
-
-
 			}
-
 		}
 
 		private void btnUpdate_Click(object sender, EventArgs e)
 		{
 			try
 			{
-				_usersGroupsDataLayer.SaveUser(_selectedUser);
+				if (tabControl1.SelectedIndex == 0)
+					_usersGroupsDataLayer.SaveUser(_selectedUser);
+				else
+					_usersGroupsDataLayer.SaveGroup(_selectedGroup);
 				MessageBox.Show("Saved");
 			}
 			catch (Exception ex)
@@ -376,7 +533,7 @@ namespace Edge.Application.ProductionManagmentTools
 
 		private void btnAddRow_Click(object sender, EventArgs e)
 		{
-			User u = new User() { Name = "Please enter User Name", Email = "Please enter email", IsAcountAdmin = false,Password="fsdbabfgsdjabfgj3G"};
+			User u = new User() { Name = "Please enter User Name", Email = "Please enter email", IsAcountAdmin = false, Password = "fsdbabfgsdjabfgj3G" };
 			_users.Add(new UserView(u) { IsNew = true });
 			usersGrid.DataSource = null;
 			usersGrid.DataSource = _users;
@@ -386,23 +543,23 @@ namespace Edge.Application.ProductionManagmentTools
 
 		private void usersGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
-			DataGridViewRow row= usersGrid.Rows[e.RowIndex];
-			row.HeaderCell.Value="*";
+			DataGridViewRow row = usersGrid.Rows[e.RowIndex];
+			row.HeaderCell.Value = "*";
 			UserView u = (UserView)row.DataBoundItem;
 			u.Changed = true;
-		
+
 
 		}
 
-		private void btnDeleteRow_Click(object sender, EventArgs e)
+		private void btnUserDeleteRow_Click(object sender, EventArgs e)
 		{
 			if (usersGrid.SelectedRows[0] != null)
 			{
 				if (_selectedUser != null)
 				{
-					
-					DialogResult dialogResult= MessageBox.Show(string.Format("Are you sure you want to delete the user {0}",_selectedUser.Name),"Delete approval",MessageBoxButtons.YesNo);
-					if (dialogResult==System.Windows.Forms.DialogResult.Yes)
+
+					DialogResult dialogResult = MessageBox.Show(string.Format("Are you sure you want to delete the user {0}", _selectedUser.Name), "Delete approval", MessageBoxButtons.YesNo);
+					if (dialogResult == System.Windows.Forms.DialogResult.Yes)
 					{
 						try
 						{
@@ -415,7 +572,7 @@ namespace Edge.Application.ProductionManagmentTools
 						catch (Exception ex)
 						{
 							MessageBox.Show(ex.Message);
-						} 
+						}
 					}
 				}
 
@@ -425,7 +582,7 @@ namespace Edge.Application.ProductionManagmentTools
 
 		private void btnChangePassword_Click(object sender, EventArgs e)
 		{
-			ChangePasswordForm f = new ChangePasswordForm(_usersGroupsDataLayer,_selectedUser.ID);
+			ChangePasswordForm f = new ChangePasswordForm(_usersGroupsDataLayer, _selectedUser.ID);
 			f.Show();
 		}
 
@@ -444,17 +601,158 @@ namespace Edge.Application.ProductionManagmentTools
 					row.Selected = true;
 					break;
 				}
-				
-				
+
+
 			}
 
 		}
 
-		
+		private void txtFindGroup_TextChanged(object sender, EventArgs e)
+		{
+			string value = txtFindGroup.Text;
+			foreach (DataGridViewRow row in groupsView.Rows)
+			{
+				if (row.Cells[1].Value.ToString().ToUpper().Trim().StartsWith(value.ToUpper().Trim()))
+				{
+					row.Selected = true;
+					break;
+				}
 
-		
 
-		
+			}
+		}
+
+		private void btnAddGroupRow_Click(object sender, EventArgs e)
+		{
+			Group g = new Group() { Name = "Please enter User Name", IsAcountAdmin = false };
+			_groups.Add(new GroupView(g) { IsNew = true });
+			groupsView.DataSource = null;
+			groupsView.DataSource = _groups;
+			groupsView.Refresh();
+			groupsView.CurrentCell = groupsView.Rows[groupsView.Rows.Count - 1].Cells[1];
+		}
+		private void groupsView_SelectionChanged(object sender, EventArgs e)
+		{
+			if (groupsView.SelectedRows.Count > 0)
+			{
+				_selectedGroup = (GroupView)groupsView.SelectedRows[0].DataBoundItem;
+				lblGroupName.Text = _selectedGroup.Name;
+				Dictionary<int, RealatedUserView> members = _relatedusers.ToDictionary(ru => ru.ID);
+				members.Values.Any(g => g.Assigned = false);
+				foreach (var m in _selectedGroup.Members)
+				{
+					members[m.UserID].Assigned = true;
+
+				}
+				membersGrid.DataSource = _relatedusers;
+				membersGrid.Refresh();
+				SetGroupPermmisions();
+
+
+
+			}
+			else
+			{
+				if (_selectedUser != null)
+				{
+					_selectedUser = null;
+				}
+			}
+		}
+
+
+
+		private void SetGroupPermmisions()
+		{
+			//reset permissions
+			foreach (var permission in _groupPermissions)
+			{
+				permission.Value.PermissionAssignmentType = PermissionAssignmentType.NotAssigned;
+
+			}
+			Dictionary<string, AssignedPermission> assignedPermissionsPerAccount = new Dictionary<string, AssignedPermission>();
+			if (_selectedAccount != null && _selectedGroup != null)
+			{
+
+
+				assignedPermissionsPerAccount = new Dictionary<string, AssignedPermission>();
+				//group Level
+				if (_selectedGroup.IsAccountAdmin)
+				{
+					BubbleDownGroupPermission(null, true, PermissionFrom.isAccountAdmin);
+				}
+				else if (_selectedGroup.AssignedPermissions.ContainsKey(_selectedAccount.ID.Value))
+				{
+					foreach (var groupAssignPermission in _selectedGroup.AssignedPermissions[_selectedAccount.ID.Value])
+					{
+						if (!assignedPermissionsPerAccount.ContainsKey(groupAssignPermission.PermissionType))
+							assignedPermissionsPerAccount.Add(groupAssignPermission.PermissionType, groupAssignPermission);
+						else
+						{
+							if (groupAssignPermission.Value == false)
+								assignedPermissionsPerAccount[groupAssignPermission.PermissionType].Value = false;
+						}
+					}
+				}
+
+				foreach (var assign in assignedPermissionsPerAccount)
+					BubbleDownGroupPermission(_groupPermissions[assign.Key], assign.Value.Value, PermissionFrom.User);
+
+			}
+		}
+
+		private void BubbleDownGroupPermission(PermissionView permissionView, bool value, PermissionFrom from)
+		{
+			if (from == PermissionFrom.Group || from == PermissionFrom.Bubble)
+			{
+				if (value)
+					permissionView.PermissionAssignmentType = PermissionAssignmentType.AllowFromGroup;
+				else
+					permissionView.PermissionAssignmentType = PermissionAssignmentType.NotAllowFromGroup;
+			}
+			else if (from==PermissionFrom.User)
+			{
+
+				if (value)
+					permissionView.PermissionAssignmentType = PermissionAssignmentType.AllowFromUser;
+				else
+					permissionView.PermissionAssignmentType = PermissionAssignmentType.NotAllowFromUser;
+
+			}
+			if (permissionView != null)
+			{
+				foreach (var child in permissionView.ChildPermissions)
+				{
+					BubbleDownGroupPermission(child, value, PermissionFrom.Bubble);
+				}
+			}
+			else //isacount admin
+			{
+				foreach (var permission in _groupPermissions)
+				{
+					permission.Value.PermissionAssignmentType = PermissionAssignmentType.AllowFromGroup;
+					foreach (var child in permission.Value.ChildPermissions)
+						BubbleDownGroupPermission(child, true, PermissionFrom.Bubble);
+				}
+
+			}
+		}
+
+		private void groupsAccountsTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			if (e.Node.IsSelected)
+			{
+				_selectedAccount = (Edge.Objects.Account)e.Node.Tag;
+
+				SetGroupPermmisions();
+			}
+		}
+
+
+
+
+
+
 	}
 	public class UserView
 	{
@@ -482,18 +780,7 @@ namespace Edge.Application.ProductionManagmentTools
 
 			}
 		}
-		public string Email
-		{
-			get
-			{
-				return _inner.Email;
-			}
-			set
-			{
 
-				_inner.Email = value;
-			}
-		}
 		public bool IsAcountAdmin
 		{
 			get
@@ -505,7 +792,7 @@ namespace Edge.Application.ProductionManagmentTools
 				_inner.IsAcountAdmin = value;
 
 			}
-		}	
+		}
 		public bool IsNew;
 		public List<Group> Groups
 		{
@@ -514,7 +801,7 @@ namespace Edge.Application.ProductionManagmentTools
 				return _inner.AssignedToGroups;
 			}
 
-		}		
+		}
 		public Dictionary<int, List<AssignedPermission>> AssignedPermissions
 		{
 			get
@@ -582,12 +869,58 @@ namespace Edge.Application.ProductionManagmentTools
 		}
 
 	}
+	public class RealatedUserView
+	{
+		User _inner;
+
+		public RealatedUserView(User user, bool assigned)
+		{
+			_inner = user;
+			Assigned = assigned;
+
+
+
+		}
+
+		public int ID
+		{
+			get
+			{
+				return _inner.UserID;
+			}
+
+
+		}
+
+		public bool Assigned { get; set; }
+		public string Name
+		{
+			get
+			{
+				return _inner.Name;
+			}
+
+		}
+		internal User GetUser()
+		{
+			return _inner;
+		}
+		public Dictionary<int, List<AssignedPermission>> AssignedPermissions
+		{
+			get
+			{
+				return _inner.AssignedPermissions;
+			}
+
+		}
+
+	}
 	public class PermissionView
 	{
 		Permission _inner;
 		public string Name;
 		public string Path;
-		PermissionAssignmentType _permissionAssignmentType;		
+		PermissionAssignmentType _permissionAssignmentType;
 		public PermissionAssignmentType PermissionAssignmentType
 		{
 			get
@@ -651,28 +984,81 @@ namespace Edge.Application.ProductionManagmentTools
 			_inner = permission;
 
 			Name = permission.PermissionName;
-			Path = permission.Path;			
+			Path = permission.Path;
 			foreach (var childPermission in permission.ChildPermissions)
 				ChildPermissions.Add(new PermissionView(childPermission));
 
 		}
-		
+
 
 	}
 	public enum PermissionAssignmentType
 	{
-		NotAssigned=0,
+		NotAssigned = 0,
 		AllowFromGroup,
 		AllowFromUser,
 		NotAllowFromGroup,
 		NotAllowFromUser
-		
+
+	}
+	public class GroupView
+	{
+		Edge.Objects.Group _inner;
+		public GroupView(Edge.Objects.Group group)
+		{
+			_inner = group;
+
+
+		}
+		public int ID
+		{
+			get { return (int)_inner.GroupID; }
+
+		}
+		public string Name
+		{
+			get { return _inner.Name; }
+			set { _inner.Name = value; }
+		}
+		public bool IsAccountAdmin
+		{
+			get { return _inner.IsAcountAdmin.Value; }
+			set { _inner.IsAcountAdmin = value; }
+		}
+		public bool IsNew;
+		public Dictionary<int, List<AssignedPermission>> AssignedPermissions
+		{
+			get { return _inner.AssignedPermissions; }
+
+		}
+		public List<User> Members
+		{
+			get { return _inner.Members; }
+
+		}
+
+
+
+
+
+
+
+		internal void Remove(GroupView _selectedGroup)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal object GetGroup()
+		{
+			return _inner;
+		}
 	}
 	public enum PermissionFrom
 	{
 		Group,
 		User,
-		Bubble
+		Bubble,
+		isAccountAdmin,
 	}
 
 
