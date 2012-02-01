@@ -45,9 +45,10 @@
 			this.decToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sqlManagmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.jobsAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.usersGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.usersGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.panoramaUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -62,7 +63,8 @@
             this.backofficeToolStripMenuItem,
             this.passwordToolStripMenuItem,
             this.sqlManagmentToolStripMenuItem,
-            this.usersGroupsToolStripMenuItem});
+            this.usersGroupsToolStripMenuItem,
+            this.panoramaUsersToolStripMenuItem});
 			this.menuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
@@ -182,9 +184,16 @@
 			// jobsAgentToolStripMenuItem
 			// 
 			this.jobsAgentToolStripMenuItem.Name = "jobsAgentToolStripMenuItem";
-			this.jobsAgentToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.jobsAgentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.jobsAgentToolStripMenuItem.Text = "Jobs Agent";
 			this.jobsAgentToolStripMenuItem.Click += new System.EventHandler(this.jobsAgentToolStripMenuItem_Click);
+			// 
+			// usersGroupsToolStripMenuItem
+			// 
+			this.usersGroupsToolStripMenuItem.Name = "usersGroupsToolStripMenuItem";
+			this.usersGroupsToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+			this.usersGroupsToolStripMenuItem.Text = "Users & Groups";
+			this.usersGroupsToolStripMenuItem.Click += new System.EventHandler(this.usersGroupsToolStripMenuItem_Click);
 			// 
 			// statusStrip
 			// 
@@ -202,18 +211,12 @@
 			this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
 			this.toolStripStatusLabel.Text = "Status";
 			// 
-			// usersGroupsToolStripMenuItem
+			// panoramaUsersToolStripMenuItem
 			// 
-
-			this.billingToolStripMenuItem.Name = "billingToolStripMenuItem";
-			this.billingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.billingToolStripMenuItem.Text = "Billing";
-
-			this.usersGroupsToolStripMenuItem.Name = "usersGroupsToolStripMenuItem";
-			this.usersGroupsToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
-			this.usersGroupsToolStripMenuItem.Text = "Users & Groups";
-			this.usersGroupsToolStripMenuItem.Click += new System.EventHandler(this.usersGroupsToolStripMenuItem_Click);
-
+			this.panoramaUsersToolStripMenuItem.Name = "panoramaUsersToolStripMenuItem";
+			this.panoramaUsersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
+			this.panoramaUsersToolStripMenuItem.Text = "Panorama Users";
+			this.panoramaUsersToolStripMenuItem.Click += new System.EventHandler(this.panoramaUsersToolStripMenuItem_Click);
 			// 
 			// main
 			// 
@@ -260,6 +263,7 @@
 		private System.Windows.Forms.ToolStripMenuItem jobsAgentToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem billingToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem usersGroupsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem panoramaUsersToolStripMenuItem;
 
 		public System.EventHandler billingToolStripMenuItem_Click { get; set; }
 	}
