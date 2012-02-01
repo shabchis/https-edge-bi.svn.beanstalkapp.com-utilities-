@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+using Edge.Core.Configuration;
 
 
 
@@ -160,8 +162,43 @@ namespace Edge.Application.ProductionManagmentTools
 
 		private void usersGroupsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Permissions f = new Permissions();
-			f.Show();
+			//Permissions f = new Permissions();
+			//f.Show();
+		}
+
+		private void panoramaUsersToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show(string.Format("You are currently using {0} panorma users",GetNumberOfPanoramaUsers()));
+		}
+
+		private string GetNumberOfPanoramaUsers()
+		{
+			int count = 0;
+			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(this, "Panorama")))
+			{
+				sqlCon.Open();
+
+				SqlCommand sqlCommand = new SqlCommand("SELECT count(*) FROM [dbo].[Users]");
+				sqlCommand.Connection = sqlCon;
+
+				using (var _reader = sqlCommand.ExecuteReader())
+				{
+					if (!_reader.IsClosed)
+					{
+						while (_reader.Read())
+						{
+							if (!_reader[0].Equals(DBNull.Value))
+							{
+								count = Convert.ToInt32(_reader[0]);
+							}
+						}
+
+					}
+
+				}
+			}
+
+			return count.ToString();
 		}
 
 		
