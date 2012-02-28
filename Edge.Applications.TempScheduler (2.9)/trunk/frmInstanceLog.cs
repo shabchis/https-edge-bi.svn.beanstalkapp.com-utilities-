@@ -113,6 +113,8 @@ namespace Edge.Applications.TempScheduler
 			else
 			{
 				this.deliveryID_lbl.Text = "Unavailable";
+				this.run_btn.Enabled = false;
+				MessageBox.Show("\"Run Service Again\" button has been disabled due the following reason : Cannot find target period in delivery data base");
 			}
 
 			#endregion
@@ -342,7 +344,6 @@ namespace Edge.Applications.TempScheduler
 
 		private void run_btn_Click(object sender, EventArgs e)
 		{
-
 			if (_attributes.ContainsKey("Name"))
 			{
 				string serviceName = _attributes["Name"];
@@ -394,8 +395,7 @@ namespace Edge.Applications.TempScheduler
 					optionsListView.Items.Add(item);
 			}
 		}
-
-
+		
 	}
 
 	public class InstaceEntity
