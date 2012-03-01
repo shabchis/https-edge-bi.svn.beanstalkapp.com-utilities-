@@ -56,9 +56,8 @@
     <Reference Include="Edge.Objects">
       <HintPath>..\..\..\..\EdgeApiRest\API\Edge.Api\bin\Edge.Objects.dll</HintPath>
     </Reference>
-    <Reference Include="Google.AdWords, Version=12.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\(third party)\GoogleAdwords\Google.AdWords.dll</HintPath>
+    <Reference Include="Google.AdWords.V201109">
+      <HintPath>..\..\..\(third party)\GoogleAdwords\Google.AdWords.V201109.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ExceptionMessageBox, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -212,6 +211,12 @@
     <Compile Include="DataCheckProfile.Designer.cs">
       <DependentUpon>DataCheckProfile.cs</DependentUpon>
     </Compile>
+    <Compile Include="MeasureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MeasureForm.Designer.cs">
+      <DependentUpon>MeasureForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmSqlJobs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSqlJobs.resx">
       <DependentUpon>FrmSqlJobs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MeasureForm.resx">
+      <DependentUpon>MeasureForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Password.resx">
       <DependentUpon>Password.cs</DependentUpon>
@@ -375,6 +383,7 @@
     <None Include="Resources\window_new.png" />
     <None Include="Resources\warning1.png" />
     <None Include="Resources\fixErrors.png" />
+    <None Include="Resources\Add24.png" />
     <Content Include="Resources\checked_shield_green.ico" />
     <None Include="Resources\media_floppy_green.png" />
     <None Include="Resources\button_minus_red.png" />
@@ -412,10 +421,12 @@
     <Content Include="Resources\cancel_round-faded.ico" />
     <Content Include="Resources\cancel_round.ico" />
     <None Include="Resources\cancel_round.ico.ico" />
+    <None Include="Resources\Lock24.png" />
     <Content Include="Resources\question_blue-faded.ico" />
     <Content Include="Resources\question_blue.ico" />
     <Content Include="Resources\tick_circle-faded.ico" />
     <Content Include="Resources\tick_circle.ico" />
+    <None Include="Resources\Unlock24.png" />
     <Content Include="Resources\Warning-icon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -438,10 +449,6 @@
     <ProjectReference Include="..\..\..\Services\Edge.Services.Facebook.GraphApi\Edge.Services.Facebook.GraphApi.csproj">
       <Project>{0CA66633-F417-4724-9FC5-5F8C6E1D72B5}</Project>
       <Name>Edge.Services.Facebook.GraphApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Services\Edge.Services.Google.Adwords\Edge.Services.Google.AdWords.csproj">
-      <Project>{2A0FFCF9-03B8-40E4-B410-8B62B088B6D6}</Project>
-      <Name>Edge.Services.Google.AdWords</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Services\Edge.Services.Microsoft.AdCenter\Edge.Services.Microsoft.AdCenter.csproj">
       <Project>{C73E557C-2B70-4040-9FA5-5AA2C0A95717}</Project>

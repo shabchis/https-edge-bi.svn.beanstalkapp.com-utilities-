@@ -40,7 +40,9 @@ namespace Edge.Application.ProductionManagmentTools
 		private UpdateNumOfInstances updateNumOfInstances;
 		/*============================*/
 		#endregion
-		private Dictionary<string, Step> Services;
+		private Dictionary<string, Step> adMetricsValidationServices;
+		private Dictionary<string, Step> segmentMetricsValidationServices;
+
 		private List<ValidationResult> results;
 		private ResultForm resultsForm;
 		private Dictionary<string, string> _availableAccountList;
@@ -63,7 +65,8 @@ namespace Edge.Application.ProductionManagmentTools
 			updateStepsPanel = new UpdatePanel(updatePanels);
 			updateNumOfInstances = new UpdateNumOfInstances(updateCurrentInstacesNum);
 
-			Services = new Dictionary<string, Step>();
+			adMetricsValidationServices = new Dictionary<string, Step>();
+			segmentMetricsValidationServices = new Dictionary<string, Step>();
 
 			_checkedChannels = new List<string>();
 
@@ -225,7 +228,7 @@ namespace Edge.Application.ProductionManagmentTools
 			if (level1.Checked)
 			{
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step1 }, true });
-				Services.Add(Const.DeliveryOltpService, new Step
+				adMetricsValidationServices.Add(AdMetricsConst.DeliveryOltpService, new Step
 				{
 					Panel = step1,
 					ProgressBar = step1_progressBar,
@@ -239,7 +242,7 @@ namespace Edge.Application.ProductionManagmentTools
 			else
 			{
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step1 }, false });
-				Services.Remove(Const.DeliveryOltpService);
+				adMetricsValidationServices.Remove(AdMetricsConst.DeliveryOltpService);
 			}
 		}
 
@@ -248,7 +251,7 @@ namespace Edge.Application.ProductionManagmentTools
 			if (level2.Checked)
 			{
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step2 }, true });
-				Services.Add(Const.OltpDwhService, new Step
+				adMetricsValidationServices.Add(AdMetricsConst.OltpDwhService, new Step
 				{
 					Panel = step2,
 					ProgressBar = step2_progressBar,
@@ -262,7 +265,7 @@ namespace Edge.Application.ProductionManagmentTools
 			else
 			{
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step2 }, false });
-				Services.Remove(Const.OltpDwhService);
+				adMetricsValidationServices.Remove(AdMetricsConst.OltpDwhService);
 			}
 		}
 
@@ -271,7 +274,7 @@ namespace Edge.Application.ProductionManagmentTools
 			if (level3.Checked)
 			{
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step3 }, true });
-				Services.Add(Const.MdxDwhService, new Step
+				adMetricsValidationServices.Add(AdMetricsConst.MdxDwhService, new Step
 				{
 					Panel = step3,
 					ProgressBar = step3_progressBar,
@@ -285,7 +288,7 @@ namespace Edge.Application.ProductionManagmentTools
 			else
 			{
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step3 }, false });
-				Services.Remove(Const.MdxDwhService);
+				adMetricsValidationServices.Remove(AdMetricsConst.MdxDwhService);
 			}
 		}
 
@@ -294,7 +297,7 @@ namespace Edge.Application.ProductionManagmentTools
 			if (level4.Checked)
 			{
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step4 }, true });
-				Services.Add(Const.MdxOltpService, new Step
+				adMetricsValidationServices.Add(AdMetricsConst.MdxOltpService, new Step
 				{
 					Panel = step4,
 					ProgressBar = step4_progressBar,
@@ -308,7 +311,7 @@ namespace Edge.Application.ProductionManagmentTools
 			else
 			{
 				Invoke(updateStepsPanel, new object[] { new List<Panel>() { step4 }, false });
-				Services.Remove(Const.MdxOltpService);
+				adMetricsValidationServices.Remove(AdMetricsConst.MdxOltpService);
 			}
 		}
 
@@ -346,7 +349,7 @@ namespace Edge.Application.ProductionManagmentTools
 				{
 					foreach (string service in _services)
 					{
-						Services.Add(service, new Step
+						adMetricsValidationServices.Add(service, new Step
 						{
 							Panel = step5,
 							ProgressBar = step5_progressBar,
@@ -371,7 +374,7 @@ namespace Edge.Application.ProductionManagmentTools
 				{
 					foreach (string service in _services)
 					{
-						Services.Remove(service);
+						adMetricsValidationServices.Remove(service);
 					}
 				}
 			}
@@ -385,14 +388,14 @@ namespace Edge.Application.ProductionManagmentTools
 			DateTimeRange timePeriod;
 			string channels, accounts;
 
-			//Initializing UI each time clicking in start button
+			//Initializing UI each time clicking on start button
 			InitUI();
 
 			//Getting all required parametres from UI
 			if (TryGetServicesParams(AccountsCheckedListBox, out timePeriod, out channels, out accounts))
 			{
 				//Check if no service has been selected from checked boxes
-				if (Services.Count == 0)
+				if (adMetricsValidationServices.Count == 0)
 				{
 					DialogResult dlgRes = new DialogResult();
 					dlgRes = MessageBox.Show("Please select at least one Check level", "Check level Error",
@@ -401,7 +404,7 @@ namespace Edge.Application.ProductionManagmentTools
 					return;
 				}
 
-				foreach (var service in Services)
+				foreach (var service in adMetricsValidationServices)
 				{
 					try
 					{
@@ -411,9 +414,11 @@ namespace Edge.Application.ProductionManagmentTools
 							//Get Service from production configuration and Run
 							InitProductionService(timePeriod, channels, accounts);
 
-						else
+						//else if (service.Value.StepName.Equals(step5_lbl)) //Case of BO Validation
+						//    InitServices(timePeriod, service.Key, -1, accounts);
+
 							// Get Service from Local Configurartion and run 
-							InitServices(timePeriod, service.Key, channels, accounts);
+						else InitServices(timePeriod, service.Key, channels, accounts);
 					}
 					catch (Exception ex)
 					{//Set Exception lable in application
@@ -583,22 +588,22 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			switch (type)
 			{
-				case Const.DeliveryOltpService:
+				case AdMetricsConst.DeliveryOltpService:
 					{
 						level1.Checked = true;
 						break;
 					}
-				case Const.OltpDwhService:
+				case AdMetricsConst.OltpDwhService:
 					{
 						level2.Checked = true;
 						break;
 					}
-				case Const.MdxDwhService:
+				case AdMetricsConst.MdxDwhService:
 					{
 						level3.Checked = true;
 						break;
 					}
-				case Const.MdxOltpService:
+				case AdMetricsConst.MdxOltpService:
 					{
 						level4.Checked = true;
 						break;
@@ -645,12 +650,12 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			string key = string.Empty;
 
-			if (((ComboBox)sender).SelectedItem.Equals(Const.EdgeApp))
+			if (((ComboBox)sender).SelectedItem.Equals(AdMetricsConst.EdgeApp))
 			{
-				key = Const.EdgeProductionPathKey;
+				key = AdMetricsConst.EdgeProductionPathKey;
 			}
 			else
-				key = Const.SeperiaProductionPathKey;
+				key = AdMetricsConst.SeperiaProductionPathKey;
 
 			AccountsCheckedListBox.Items.Clear();
 			_availableAccountList.Clear();
@@ -662,7 +667,7 @@ namespace Edge.Application.ProductionManagmentTools
 			GetAccountsFromDB(application_cb.SelectedItem.ToString(), AccountsCheckedListBox, _availableAccountList);
 
 			if (!TryGetProfilesFromConfiguration(key, profile_cb, profiles))
-				TryGetProfilesFromConfiguration(Const.SeperiaProductionPathKey, profile_cb, profiles);
+				TryGetProfilesFromConfiguration(AdMetricsConst.SeperiaProductionPathKey, profile_cb, profiles);
 
 			rightSidePanel.Enabled = true;
 			buttonsPanel.Enabled = true;
@@ -711,10 +716,10 @@ namespace Edge.Application.ProductionManagmentTools
 			switch (channelId)
 			{
 				case "1":
-					serviceUse = Const.AdwordsServiceName;
+					serviceUse = AdMetricsConst.AdwordsServiceName;
 					return true;
 				case "6":
-					serviceUse = Const.FacebookServiceName;
+					serviceUse = AdMetricsConst.FacebookServiceName;
 					return true;
 			}
 
@@ -837,9 +842,9 @@ namespace Edge.Application.ProductionManagmentTools
 			if (checkdChannelsCb.Count > 0)
 				foreach (string channelCb in checkdChannelsCb)
 				{
-					if (channelCb.Equals(this.GoogleAdwords.Name)) channels.Add(Const.AdwordsServiceName);
-					if (channelCb.Equals(this.Facebook.Name)) channels.Add(Const.FacebookServiceName);
-					if (channelCb.Equals(this.Bing.Name)) channels.Add(Const.BingServiceName);
+					if (channelCb.Equals(this.GoogleAdwords.Name)) channels.Add(AdMetricsConst.AdwordsServiceName);
+					if (channelCb.Equals(this.Facebook.Name)) channels.Add(AdMetricsConst.FacebookServiceName);
+					if (channelCb.Equals(this.Bing.Name)) channels.Add(AdMetricsConst.BingServiceName);
 				}
 
 			return channels;
@@ -897,6 +902,7 @@ namespace Edge.Application.ProductionManagmentTools
 					channels.Append(',');
 				channels.Append(14); // add Bing channel id code
 			}
+
 
 			if (string.IsNullOrEmpty(channels.ToString()))
 			{
@@ -1004,19 +1010,19 @@ namespace Edge.Application.ProductionManagmentTools
 										{
 											switch (wf.ActualName)
 											{
-												case Const.WorkflowServices.CommitServiceName:
+												case AdMetricsConst.WorkflowServices.CommitServiceName:
 													{
 														wf.IsEnabled = false;
 														workFlowChangesFlag++;
 														break;
 													}
-												case Const.WorkflowServices.OltpDeliveryCheckServiceName:
+												case AdMetricsConst.WorkflowServices.OltpDeliveryCheckServiceName:
 													{
 														wf.IsEnabled = true;
 														workFlowChangesFlag++;
 														break;
 													}
-												case Const.WorkflowServices.ResultsHandlerServiceName:
+												case AdMetricsConst.WorkflowServices.ResultsHandlerServiceName:
 													{
 														wf.IsEnabled = false;
 														workFlowChangesFlag++;
@@ -1076,25 +1082,28 @@ namespace Edge.Application.ProductionManagmentTools
 			serviceElements.Options.Add("ChannelList", channels);
 			serviceElements.Options.Add("AccountsList", accounts);
 
-			if (service.Equals(Const.DeliveryOltpService))
+			if (service.Equals(AdMetricsConst.DeliveryOltpService))
 			{
 				if (!serviceElements.Options.Keys.Contains("SourceTable"))
-					serviceElements.Options.Add("SourceTable", Const.OltpTable);
+					serviceElements.Options.Add("SourceTable", AdMetricsConst.OltpTable);
 			}
-			else if (service.Equals(Const.OltpDwhService))
+			else if (service.Equals(AdMetricsConst.OltpDwhService))
 			{
 				if (!serviceElements.Options.Keys.Contains("SourceTable"))
-					serviceElements.Options.Add("SourceTable", Const.OltpTable);
+					serviceElements.Options.Add("SourceTable", AdMetricsConst.OltpTable);
 				if (!serviceElements.Options.Keys.Contains("TargetTable"))
-					serviceElements.Options.Add("TargetTable", Const.DwhTable);
+					serviceElements.Options.Add("TargetTable", AdMetricsConst.DwhTable);
 			}
-			else if (service.Equals(Const.MdxOltpService))
+			else if (service.Equals(AdMetricsConst.MdxOltpService))
 			{
 				if (!serviceElements.Options.Keys.Contains("SourceTable"))
-					serviceElements.Options.Add("SourceTable", Const.OltpTable);
+					serviceElements.Options.Add("SourceTable", AdMetricsConst.OltpTable);
 			}
-			else if (service.Equals(Const.MdxDwhService))
-				serviceElements.Options.Add("SourceTable", Const.DwhTable);
+			else if (service.Equals(AdMetricsConst.MdxDwhService))
+				serviceElements.Options.Add("SourceTable", AdMetricsConst.DwhTable);
+
+			else if (service.Equals(AdMetricsConst.MdxDwhService))
+				serviceElements.Options.Add("SourceTable", AdMetricsConst.DwhTable);
 			else
 				//TO DO : Get tabels from configuration.
 				throw new Exception("ComparisonTable hasnt been implemented for this service");
@@ -1200,7 +1209,7 @@ namespace Edge.Application.ProductionManagmentTools
 			{
 				instance.Start();
 			}
-			if ((e.StateAfter == Edge.Core.Services.ServiceState.Ended) && (instance.Configuration.Name.Equals(Const.DeliveryOltpService)))
+			if ((e.StateAfter == Edge.Core.Services.ServiceState.Ended) && (instance.Configuration.Name.Equals(AdMetricsConst.DeliveryOltpService)))
 			{
 				List<ValidationResult> newResults = GetValidationResultsByInstance(instance);
 				if (newResults.Capacity > 0)
@@ -1212,7 +1221,7 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 			Step step;
-			Services.TryGetValue(GetStepNameByInstance(instance), out step);
+			adMetricsValidationServices.TryGetValue(GetStepNameByInstance(instance), out step);
 
 			if (this._numOfProductionInstances == 0)
 			{
@@ -1256,7 +1265,7 @@ namespace Edge.Application.ProductionManagmentTools
 			Step step;
 
 
-			if (Services.TryGetValue(GetStepNameByInstance(instance), out step))
+			if (adMetricsValidationServices.TryGetValue(GetStepNameByInstance(instance), out step))
 			{
 				Invoke(updateStep, new object[]
                     {
@@ -1301,7 +1310,7 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 			Step step;
-			Services.TryGetValue(GetStepNameByInstance(instance), out step);
+			adMetricsValidationServices.TryGetValue(GetStepNameByInstance(instance), out step);
 			Invoke(updateProgressBar, new object[] { step.ProgressBar, (int)((ServiceInstance)sender).Progress * 70, true });
 		}
 		/*=================================*/
@@ -1339,12 +1348,18 @@ namespace Edge.Application.ProductionManagmentTools
 
 		#endregion
 
+		private void Backoffice_CheckedChanged(object sender, EventArgs e)
+		{
+			SegmentMetricsSettings segmentMetricsSettings = new SegmentMetricsSettings();
+			string name = segmentMetricsSettings.DwhTable;
+		}
+
 		/*==========================================================*/
 		#endregion
-		
+
 	}
 
-	public static class Const
+	public static class AdMetricsConst
 	{
 		//TO DO : GET PARAMS FROM CONFIGURATION AND USE STATIC 
 		//TO DO : SET THE FOLLOWING PARAMS WHILE LODING DATACHECK WINDOW.
@@ -1369,6 +1384,39 @@ namespace Edge.Application.ProductionManagmentTools
 			public const string CommitServiceName = "AdMetricsCommit";
 			public const string OltpDeliveryCheckServiceName = "DataChecks.OltpDelivery";
 			public const string ResultsHandlerServiceName = "DataChecks.ResultsHandler";
+		}
+
+		//ProductionKeys
+		public const string SeperiaProductionPathKey = "SeperiaProductionConfigurationPath";
+		public const string EdgeProductionPathKey = "EdgeProductionConfigurationPath";
+
+		//ApplicationTypes
+		public const string SeperiaApp = "Seperia";
+		public const string EdgeApp = "Edge.BI";
+
+	}
+	public class SegmentMetricsSettings
+	{
+		// Tabels
+		public string OltpTable { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "OltpTable"); } }
+		public string DwhTable { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "DwhTable"); } }
+
+		//Services
+		public string DeliveryOltpService { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "DeliveryOltpService"); } }
+		public string OltpDwhService { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "OltpDwhService"); } }
+		public string MdxDwhService { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "MdxDwhService"); } }
+		public string MdxOltpService { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "MdxOltpService"); } }
+
+		public string AdwordsServiceName { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "AdwordsServiceName"); } }
+		public string FacebookServiceName { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "FacebookServiceName"); } }
+		public string BingServiceName { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "BingServiceName"); } }
+
+		//WorkflowServices
+		public class WorkflowServices
+		{
+			public string CommitServiceName { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "CommitServiceName"); } }
+			public string OltpDeliveryCheckServiceName { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "OltpDeliveryCheckServiceName"); } }
+			public string ResultsHandlerServiceName { get { return AppSettings.Get(typeof(SegmentMetricsSettings).ToString(), "ResultsHandlerServiceName"); } }
 		}
 
 		//ProductionKeys

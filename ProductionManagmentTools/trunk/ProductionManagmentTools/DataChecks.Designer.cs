@@ -80,11 +80,7 @@
 			this.GoogleAdwords = new System.Windows.Forms.CheckBox();
 			this.Facebook = new System.Windows.Forms.CheckBox();
 			this.Bing = new System.Windows.Forms.CheckBox();
-			this.checkBox3 = new System.Windows.Forms.CheckBox();
-			this.checkBox4 = new System.Windows.Forms.CheckBox();
 			this.dataTypes = new System.Windows.Forms.GroupBox();
-			this.pictureBox6 = new System.Windows.Forms.PictureBox();
-			this.pictureBox5 = new System.Windows.Forms.PictureBox();
 			this.pictureBox4 = new System.Windows.Forms.PictureBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -128,6 +124,19 @@
 			this.label6 = new System.Windows.Forms.Label();
 			this.rightSidePanel = new System.Windows.Forms.Panel();
 			this.buttonsPanel = new System.Windows.Forms.Panel();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.BO_ApiOltp = new System.Windows.Forms.CheckBox();
+			this.BO_MdxOltp = new System.Windows.Forms.CheckBox();
+			this.BO_DwhOltp = new System.Windows.Forms.CheckBox();
+			this.BO_OltpDwh = new System.Windows.Forms.CheckBox();
+			this.BO_DeliveryOltp = new System.Windows.Forms.CheckBox();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.pictureBox5 = new System.Windows.Forms.PictureBox();
+			this.label13 = new System.Windows.Forms.Label();
+			this.checkBox11 = new System.Windows.Forms.CheckBox();
 			this.groupBox3.SuspendLayout();
 			this.step5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.step5_Result)).BeginInit();
@@ -142,8 +151,6 @@
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
 			this.dataTypes.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -164,6 +171,12 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
 			this.rightSidePanel.SuspendLayout();
 			this.buttonsPanel.SuspendLayout();
+			this.tabControl1.SuspendLayout();
+			this.tabPage1.SuspendLayout();
+			this.tabPage2.SuspendLayout();
+			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label3
@@ -216,7 +229,7 @@
 			this.groupBox3.Controls.Add(this.step2);
 			this.groupBox3.Controls.Add(this.label17);
 			this.groupBox3.Controls.Add(this.panel1);
-			this.groupBox3.Location = new System.Drawing.Point(6, 449);
+			this.groupBox3.Location = new System.Drawing.Point(9, 475);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(806, 257);
 			this.groupBox3.TabIndex = 18;
@@ -696,10 +709,10 @@
 			this.AccountsCheckedListBox.ColumnWidth = 180;
 			this.AccountsCheckedListBox.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.AccountsCheckedListBox.FormattingEnabled = true;
-			this.AccountsCheckedListBox.Location = new System.Drawing.Point(12, 189);
+			this.AccountsCheckedListBox.Location = new System.Drawing.Point(11, 191);
 			this.AccountsCheckedListBox.MultiColumn = true;
 			this.AccountsCheckedListBox.Name = "AccountsCheckedListBox";
-			this.AccountsCheckedListBox.Size = new System.Drawing.Size(464, 214);
+			this.AccountsCheckedListBox.Size = new System.Drawing.Size(464, 229);
 			this.AccountsCheckedListBox.Sorted = true;
 			this.AccountsCheckedListBox.TabIndex = 20;
 			// 
@@ -708,7 +721,7 @@
 			this.GoogleAdwords.AutoSize = true;
 			this.GoogleAdwords.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.GoogleAdwords.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.GoogleAdwords.Location = new System.Drawing.Point(30, 43);
+			this.GoogleAdwords.Location = new System.Drawing.Point(33, 40);
 			this.GoogleAdwords.Name = "GoogleAdwords";
 			this.GoogleAdwords.Size = new System.Drawing.Size(105, 19);
 			this.GoogleAdwords.TabIndex = 40;
@@ -720,7 +733,7 @@
 			// 
 			this.Facebook.AutoSize = true;
 			this.Facebook.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Facebook.Location = new System.Drawing.Point(30, 62);
+			this.Facebook.Location = new System.Drawing.Point(33, 59);
 			this.Facebook.Name = "Facebook";
 			this.Facebook.Size = new System.Drawing.Size(70, 19);
 			this.Facebook.TabIndex = 41;
@@ -732,87 +745,33 @@
 			// 
 			this.Bing.AutoSize = true;
 			this.Bing.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Bing.Location = new System.Drawing.Point(30, 83);
+			this.Bing.Location = new System.Drawing.Point(33, 80);
 			this.Bing.Name = "Bing";
 			this.Bing.Size = new System.Drawing.Size(47, 19);
 			this.Bing.TabIndex = 43;
 			this.Bing.Text = "Bing";
 			this.Bing.UseVisualStyleBackColor = true;
 			// 
-			// checkBox3
-			// 
-			this.checkBox3.AutoSize = true;
-			this.checkBox3.Enabled = false;
-			this.checkBox3.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBox3.Location = new System.Drawing.Point(169, 62);
-			this.checkBox3.Name = "checkBox3";
-			this.checkBox3.Size = new System.Drawing.Size(43, 19);
-			this.checkBox3.TabIndex = 45;
-			this.checkBox3.Text = "FTP";
-			this.checkBox3.UseVisualStyleBackColor = true;
-			// 
-			// checkBox4
-			// 
-			this.checkBox4.AutoSize = true;
-			this.checkBox4.Enabled = false;
-			this.checkBox4.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBox4.Location = new System.Drawing.Point(169, 43);
-			this.checkBox4.Name = "checkBox4";
-			this.checkBox4.Size = new System.Drawing.Size(127, 19);
-			this.checkBox4.TabIndex = 44;
-			this.checkBox4.Text = "BackOffice Automatic";
-			this.checkBox4.UseVisualStyleBackColor = true;
-			// 
 			// dataTypes
 			// 
 			this.dataTypes.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.dataTypes.Controls.Add(this.pictureBox6);
-			this.dataTypes.Controls.Add(this.pictureBox5);
-			this.dataTypes.Controls.Add(this.pictureBox4);
-			this.dataTypes.Controls.Add(this.checkBox1);
-			this.dataTypes.Controls.Add(this.pictureBox3);
 			this.dataTypes.Controls.Add(this.label23);
-			this.dataTypes.Controls.Add(this.pictureBox2);
-			this.dataTypes.Controls.Add(this.checkBox3);
 			this.dataTypes.Controls.Add(this.GoogleAdwords);
-			this.dataTypes.Controls.Add(this.checkBox4);
-			this.dataTypes.Controls.Add(this.pictureBox1);
 			this.dataTypes.Controls.Add(this.Facebook);
 			this.dataTypes.Controls.Add(this.Bing);
+			this.dataTypes.Controls.Add(this.pictureBox4);
+			this.dataTypes.Controls.Add(this.pictureBox1);
+			this.dataTypes.Controls.Add(this.pictureBox2);
+			this.dataTypes.Controls.Add(this.checkBox1);
+			this.dataTypes.Controls.Add(this.pictureBox3);
 			this.dataTypes.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.dataTypes.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.dataTypes.Location = new System.Drawing.Point(8, 258);
+			this.dataTypes.Location = new System.Drawing.Point(6, 106);
 			this.dataTypes.Name = "dataTypes";
-			this.dataTypes.Size = new System.Drawing.Size(302, 134);
+			this.dataTypes.Size = new System.Drawing.Size(286, 159);
 			this.dataTypes.TabIndex = 16;
 			this.dataTypes.TabStop = false;
 			this.dataTypes.Text = "Data Types";
-			// 
-			// pictureBox6
-			// 
-			this.pictureBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox6.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.documents;
-			this.pictureBox6.Location = new System.Drawing.Point(150, 44);
-			this.pictureBox6.Name = "pictureBox6";
-			this.pictureBox6.Size = new System.Drawing.Size(16, 16);
-			this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBox6.TabIndex = 52;
-			this.pictureBox6.TabStop = false;
-			// 
-			// pictureBox5
-			// 
-			this.pictureBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox5.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.gnome_ftp;
-			this.pictureBox5.Location = new System.Drawing.Point(150, 64);
-			this.pictureBox5.Name = "pictureBox5";
-			this.pictureBox5.Size = new System.Drawing.Size(16, 16);
-			this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBox5.TabIndex = 51;
-			this.pictureBox5.TabStop = false;
 			// 
 			// pictureBox4
 			// 
@@ -820,7 +779,7 @@
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox4.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.yahoo__1_;
-			this.pictureBox4.Location = new System.Drawing.Point(12, 105);
+			this.pictureBox4.Location = new System.Drawing.Point(15, 102);
 			this.pictureBox4.Name = "pictureBox4";
 			this.pictureBox4.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -832,7 +791,7 @@
 			this.checkBox1.AutoSize = true;
 			this.checkBox1.Enabled = false;
 			this.checkBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBox1.Location = new System.Drawing.Point(30, 105);
+			this.checkBox1.Location = new System.Drawing.Point(33, 102);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(55, 19);
 			this.checkBox1.TabIndex = 49;
@@ -845,7 +804,7 @@
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-			this.pictureBox3.Location = new System.Drawing.Point(12, 83);
+			this.pictureBox3.Location = new System.Drawing.Point(15, 80);
 			this.pictureBox3.Name = "pictureBox3";
 			this.pictureBox3.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -869,7 +828,7 @@
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-			this.pictureBox2.Location = new System.Drawing.Point(12, 63);
+			this.pictureBox2.Location = new System.Drawing.Point(15, 60);
 			this.pictureBox2.Name = "pictureBox2";
 			this.pictureBox2.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -882,7 +841,7 @@
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox1.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.google;
-			this.pictureBox1.Location = new System.Drawing.Point(12, 44);
+			this.pictureBox1.Location = new System.Drawing.Point(15, 41);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -897,9 +856,9 @@
 			this.groupBox4.Controls.Add(this.level2);
 			this.groupBox4.Controls.Add(this.level1);
 			this.groupBox4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.groupBox4.Location = new System.Drawing.Point(8, 157);
+			this.groupBox4.Location = new System.Drawing.Point(4, 6);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(302, 96);
+			this.groupBox4.Size = new System.Drawing.Size(288, 96);
 			this.groupBox4.TabIndex = 16;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Check Level";
@@ -1112,7 +1071,7 @@
 			// report_btn
 			// 
 			this.report_btn.Enabled = false;
-			this.report_btn.Location = new System.Drawing.Point(719, 414);
+			this.report_btn.Location = new System.Drawing.Point(260, 440);
 			this.report_btn.Name = "report_btn";
 			this.report_btn.Size = new System.Drawing.Size(87, 31);
 			this.report_btn.TabIndex = 49;
@@ -1126,7 +1085,7 @@
 			this.AppAlertPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.AppAlertPanel.Controls.Add(this.appErrorImage);
 			this.AppAlertPanel.Controls.Add(this.appErrorLbl);
-			this.AppAlertPanel.Location = new System.Drawing.Point(6, 712);
+			this.AppAlertPanel.Location = new System.Drawing.Point(6, 737);
 			this.AppAlertPanel.Name = "AppAlertPanel";
 			this.AppAlertPanel.Size = new System.Drawing.Size(831, 27);
 			this.AppAlertPanel.TabIndex = 23;
@@ -1266,7 +1225,7 @@
 			this.Start_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.Start_btn.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold);
 			this.Start_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.Start_btn.Location = new System.Drawing.Point(7, 6);
+			this.Start_btn.Location = new System.Drawing.Point(7, 7);
 			this.Start_btn.Name = "Start_btn";
 			this.Start_btn.Size = new System.Drawing.Size(84, 30);
 			this.Start_btn.TabIndex = 47;
@@ -1310,18 +1269,17 @@
 			// 
 			// rightSidePanel
 			// 
+			this.rightSidePanel.Controls.Add(this.tabControl1);
 			this.rightSidePanel.Controls.Add(this.panel5);
 			this.rightSidePanel.Controls.Add(this.label3);
 			this.rightSidePanel.Controls.Add(this.panel4);
 			this.rightSidePanel.Controls.Add(this.label5);
 			this.rightSidePanel.Controls.Add(this.toDate);
-			this.rightSidePanel.Controls.Add(this.dataTypes);
 			this.rightSidePanel.Controls.Add(this.fromDate);
-			this.rightSidePanel.Controls.Add(this.groupBox4);
 			this.rightSidePanel.Enabled = false;
 			this.rightSidePanel.Location = new System.Drawing.Point(482, 12);
 			this.rightSidePanel.Name = "rightSidePanel";
-			this.rightSidePanel.Size = new System.Drawing.Size(324, 401);
+			this.rightSidePanel.Size = new System.Drawing.Size(324, 457);
 			this.rightSidePanel.TabIndex = 61;
 			// 
 			// buttonsPanel
@@ -1330,10 +1288,163 @@
 			this.buttonsPanel.Controls.Add(this.Start_btn);
 			this.buttonsPanel.Controls.Add(this.full_btn);
 			this.buttonsPanel.Enabled = false;
-			this.buttonsPanel.Location = new System.Drawing.Point(12, 409);
+			this.buttonsPanel.Location = new System.Drawing.Point(12, 435);
 			this.buttonsPanel.Name = "buttonsPanel";
 			this.buttonsPanel.Size = new System.Drawing.Size(242, 43);
 			this.buttonsPanel.TabIndex = 62;
+			// 
+			// tabControl1
+			// 
+			this.tabControl1.Controls.Add(this.tabPage1);
+			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Location = new System.Drawing.Point(8, 157);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(306, 297);
+			this.tabControl1.TabIndex = 63;
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.tabPage1.Controls.Add(this.groupBox4);
+			this.tabPage1.Controls.Add(this.dataTypes);
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(298, 271);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "Ad Metrics Validations";
+			// 
+			// tabPage2
+			// 
+			this.tabPage2.Controls.Add(this.groupBox1);
+			this.tabPage2.Controls.Add(this.groupBox2);
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(298, 271);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "Segment Metrics Validations";
+			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.BO_ApiOltp);
+			this.groupBox1.Controls.Add(this.BO_MdxOltp);
+			this.groupBox1.Controls.Add(this.BO_DwhOltp);
+			this.groupBox1.Controls.Add(this.BO_OltpDwh);
+			this.groupBox1.Controls.Add(this.BO_DeliveryOltp);
+			this.groupBox1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.groupBox1.Location = new System.Drawing.Point(3, 6);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(288, 96);
+			this.groupBox1.TabIndex = 47;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Check Level";
+			// 
+			// BO_ApiOltp
+			// 
+			this.BO_ApiOltp.AutoSize = true;
+			this.BO_ApiOltp.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.BO_ApiOltp.Location = new System.Drawing.Point(28, 70);
+			this.BO_ApiOltp.Name = "BO_ApiOltp";
+			this.BO_ApiOltp.Size = new System.Drawing.Size(77, 19);
+			this.BO_ApiOltp.TabIndex = 45;
+			this.BO_ApiOltp.Text = "API - OLTP";
+			this.BO_ApiOltp.UseVisualStyleBackColor = true;
+			// 
+			// BO_MdxOltp
+			// 
+			this.BO_MdxOltp.AutoSize = true;
+			this.BO_MdxOltp.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.BO_MdxOltp.Location = new System.Drawing.Point(162, 45);
+			this.BO_MdxOltp.Name = "BO_MdxOltp";
+			this.BO_MdxOltp.Size = new System.Drawing.Size(88, 19);
+			this.BO_MdxOltp.TabIndex = 44;
+			this.BO_MdxOltp.Text = "MDX -  OLTP";
+			this.BO_MdxOltp.UseVisualStyleBackColor = true;
+			// 
+			// BO_DwhOltp
+			// 
+			this.BO_DwhOltp.AutoSize = true;
+			this.BO_DwhOltp.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.BO_DwhOltp.Location = new System.Drawing.Point(28, 45);
+			this.BO_DwhOltp.Name = "BO_DwhOltp";
+			this.BO_DwhOltp.Size = new System.Drawing.Size(86, 19);
+			this.BO_DwhOltp.TabIndex = 43;
+			this.BO_DwhOltp.Text = "DWH - MDX";
+			this.BO_DwhOltp.UseVisualStyleBackColor = true;
+			// 
+			// BO_OltpDwh
+			// 
+			this.BO_OltpDwh.AutoSize = true;
+			this.BO_OltpDwh.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.BO_OltpDwh.Location = new System.Drawing.Point(162, 21);
+			this.BO_OltpDwh.Name = "BO_OltpDwh";
+			this.BO_OltpDwh.Size = new System.Drawing.Size(90, 19);
+			this.BO_OltpDwh.TabIndex = 42;
+			this.BO_OltpDwh.Text = "OLTP -  DWH";
+			this.BO_OltpDwh.UseVisualStyleBackColor = true;
+			// 
+			// BO_DeliveryOltp
+			// 
+			this.BO_DeliveryOltp.AutoSize = true;
+			this.BO_DeliveryOltp.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.BO_DeliveryOltp.Location = new System.Drawing.Point(28, 21);
+			this.BO_DeliveryOltp.Name = "BO_DeliveryOltp";
+			this.BO_DeliveryOltp.Size = new System.Drawing.Size(101, 19);
+			this.BO_DeliveryOltp.TabIndex = 41;
+			this.BO_DeliveryOltp.Text = "Delivery - OLTP";
+			this.BO_DeliveryOltp.UseVisualStyleBackColor = true;
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.groupBox2.Controls.Add(this.pictureBox5);
+			this.groupBox2.Controls.Add(this.label13);
+			this.groupBox2.Controls.Add(this.checkBox11);
+			this.groupBox2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.groupBox2.Location = new System.Drawing.Point(5, 106);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(286, 159);
+			this.groupBox2.TabIndex = 46;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Data Types";
+			// 
+			// pictureBox5
+			// 
+			this.pictureBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox5.Image = global::Edge.Application.ProductionManagmentTools.Properties.Resources.documents;
+			this.pictureBox5.Location = new System.Drawing.Point(16, 41);
+			this.pictureBox5.Name = "pictureBox5";
+			this.pictureBox5.Size = new System.Drawing.Size(16, 16);
+			this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox5.TabIndex = 52;
+			this.pictureBox5.TabStop = false;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.label13.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+			this.label13.Location = new System.Drawing.Point(6, 16);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(172, 12);
+			this.label13.TabIndex = 2;
+			this.label13.Text = "select data types you would like to check";
+			// 
+			// checkBox11
+			// 
+			this.checkBox11.AutoSize = true;
+			this.checkBox11.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBox11.Location = new System.Drawing.Point(34, 41);
+			this.checkBox11.Name = "checkBox11";
+			this.checkBox11.Size = new System.Drawing.Size(127, 19);
+			this.checkBox11.TabIndex = 44;
+			this.checkBox11.Text = "BackOffice Automatic";
+			this.checkBox11.UseVisualStyleBackColor = true;
 			// 
 			// DataChecks
 			// 
@@ -1341,7 +1452,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.ClientSize = new System.Drawing.Size(837, 740);
+			this.ClientSize = new System.Drawing.Size(837, 776);
 			this.Controls.Add(this.buttonsPanel);
 			this.Controls.Add(this.rightSidePanel);
 			this.Controls.Add(this.checkAll);
@@ -1377,8 +1488,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
 			this.dataTypes.ResumeLayout(false);
 			this.dataTypes.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -1407,6 +1516,14 @@
 			this.rightSidePanel.ResumeLayout(false);
 			this.rightSidePanel.PerformLayout();
 			this.buttonsPanel.ResumeLayout(false);
+			this.tabControl1.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
+			this.tabPage2.ResumeLayout(false);
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1431,9 +1548,7 @@
         private System.Windows.Forms.DateTimePicker fromDate;
         private System.Windows.Forms.CheckBox GoogleAdwords;
         private System.Windows.Forms.CheckBox Facebook;
-        private System.Windows.Forms.CheckBox Bing;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
+		private System.Windows.Forms.CheckBox Bing;
         private System.Windows.Forms.GroupBox dataTypes;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -1482,8 +1597,6 @@
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.PictureBox pictureBox4;
 		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.PictureBox pictureBox5;
-		private System.Windows.Forms.PictureBox pictureBox6;
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.PictureBox pictureBox11;
 		private System.Windows.Forms.Panel panel4;
@@ -1514,5 +1627,18 @@
 		private System.Windows.Forms.Button clear;
 		private System.Windows.Forms.Panel rightSidePanel;
 		private System.Windows.Forms.Panel buttonsPanel;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.CheckBox BO_ApiOltp;
+		private System.Windows.Forms.CheckBox BO_MdxOltp;
+		private System.Windows.Forms.CheckBox BO_DwhOltp;
+		private System.Windows.Forms.CheckBox BO_OltpDwh;
+		private System.Windows.Forms.CheckBox BO_DeliveryOltp;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.PictureBox pictureBox5;
+		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.CheckBox checkBox11;
 	}
 }

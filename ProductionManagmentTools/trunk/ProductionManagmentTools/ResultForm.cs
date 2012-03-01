@@ -77,7 +77,7 @@ namespace Edge.Application.ProductionManagmentTools
 				_dateTimeRange.Start = DateTimeSpecification.Parse(itemToFix.TargetPeriodStart.ToString());
 				_dateTimeRange.End = DateTimeSpecification.Parse(itemToFix.TargetPeriodEnd.ToString());
 
-				string serviceName = Const.WorkflowServices.CommitServiceName;
+				string serviceName = AdMetricsConst.WorkflowServices.CommitServiceName;
 				ServiceClient<IScheduleManager> scheduleManager = new ServiceClient<IScheduleManager>();
 
 				_options.Add("ConflictBehavior", "Ignore");
