@@ -162,8 +162,8 @@ namespace Edge.Application.ProductionManagmentTools
 
 		private void usersGroupsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//Permissions f = new Permissions();
-			//f.Show();
+			Permissions f = new Permissions();
+			f.Show();
 		}
 
 		private void panoramaUsersToolStripMenuItem_Click(object sender, EventArgs e)
