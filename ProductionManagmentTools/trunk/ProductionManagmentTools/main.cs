@@ -201,6 +201,12 @@ namespace Edge.Application.ProductionManagmentTools
 			return count.ToString();
 		}
 
+		private void measuresEditorToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MeasureForm measureFrm = new MeasureForm();
+			measureFrm.Show();
+		}
+
 		
 
     

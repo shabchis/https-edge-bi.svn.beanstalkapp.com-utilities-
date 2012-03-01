@@ -46,9 +46,10 @@
 			this.sqlManagmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.jobsAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.usersGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.panoramaUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.panoramaUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.measuresEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -64,7 +65,8 @@
             this.passwordToolStripMenuItem,
             this.sqlManagmentToolStripMenuItem,
             this.usersGroupsToolStripMenuItem,
-            this.panoramaUsersToolStripMenuItem});
+            this.panoramaUsersToolStripMenuItem,
+            this.measuresEditorToolStripMenuItem});
 			this.menuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
@@ -184,7 +186,7 @@
 			// jobsAgentToolStripMenuItem
 			// 
 			this.jobsAgentToolStripMenuItem.Name = "jobsAgentToolStripMenuItem";
-			this.jobsAgentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.jobsAgentToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
 			this.jobsAgentToolStripMenuItem.Text = "Jobs Agent";
 			this.jobsAgentToolStripMenuItem.Click += new System.EventHandler(this.jobsAgentToolStripMenuItem_Click);
 			// 
@@ -194,6 +196,13 @@
 			this.usersGroupsToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
 			this.usersGroupsToolStripMenuItem.Text = "Users & Groups";
 			this.usersGroupsToolStripMenuItem.Click += new System.EventHandler(this.usersGroupsToolStripMenuItem_Click);
+			// 
+			// panoramaUsersToolStripMenuItem
+			// 
+			this.panoramaUsersToolStripMenuItem.Name = "panoramaUsersToolStripMenuItem";
+			this.panoramaUsersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
+			this.panoramaUsersToolStripMenuItem.Text = "Panorama Users";
+			this.panoramaUsersToolStripMenuItem.Click += new System.EventHandler(this.panoramaUsersToolStripMenuItem_Click);
 			// 
 			// statusStrip
 			// 
@@ -211,12 +220,12 @@
 			this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
 			this.toolStripStatusLabel.Text = "Status";
 			// 
-			// panoramaUsersToolStripMenuItem
+			// measuresEditorToolStripMenuItem
 			// 
-			this.panoramaUsersToolStripMenuItem.Name = "panoramaUsersToolStripMenuItem";
-			this.panoramaUsersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
-			this.panoramaUsersToolStripMenuItem.Text = "Panorama Users";
-			this.panoramaUsersToolStripMenuItem.Click += new System.EventHandler(this.panoramaUsersToolStripMenuItem_Click);
+			this.measuresEditorToolStripMenuItem.Name = "measuresEditorToolStripMenuItem";
+			this.measuresEditorToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
+			this.measuresEditorToolStripMenuItem.Text = "Measures Editor";
+			this.measuresEditorToolStripMenuItem.Click += new System.EventHandler(this.measuresEditorToolStripMenuItem_Click);
 			// 
 			// main
 			// 
@@ -264,6 +273,7 @@
 		private System.Windows.Forms.ToolStripMenuItem billingToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem usersGroupsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem panoramaUsersToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem measuresEditorToolStripMenuItem;
 
 		public System.EventHandler billingToolStripMenuItem_Click { get; set; }
 	}

@@ -74,6 +74,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Add24 {
+            get {
+                object obj = ResourceManager.GetObject("Add24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap button_minus_red {
             get {
                 object obj = ResourceManager.GetObject("button_minus_red", resourceCulture);
@@ -256,6 +263,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Lock24 {
+            get {
+                object obj = ResourceManager.GetObject("Lock24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap media_floppy_green {
             get {
                 object obj = ResourceManager.GetObject("media_floppy_green", resourceCulture);
@@ -351,6 +365,13 @@ namespace Edge.Application.ProductionManagmentTools.Properties {
             get {
                 object obj = ResourceManager.GetObject("tick_circle_faded", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Unlock24 {
+            get {
+                object obj = ResourceManager.GetObject("Unlock24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

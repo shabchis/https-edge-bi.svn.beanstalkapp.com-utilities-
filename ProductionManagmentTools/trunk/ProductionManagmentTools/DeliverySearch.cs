@@ -381,12 +381,12 @@ namespace Edge.Application.ProductionManagmentTools
 		{
 			string key = string.Empty;
 
-			if (((ComboBox)sender).SelectedItem.Equals(Const.EdgeApp))
+			if (((ComboBox)sender).SelectedItem.Equals(AdMetricsConst.EdgeApp))
 			{
-				key = Const.EdgeProductionPathKey;
+				key = AdMetricsConst.EdgeProductionPathKey;
 			}
 			else
-				key = Const.SeperiaProductionPathKey;
+				key = AdMetricsConst.SeperiaProductionPathKey;
 
 			this.searchParamsPanel.Enabled = true;
 			string productionPath = ConfigurationManager.AppSettings.Get(key);
