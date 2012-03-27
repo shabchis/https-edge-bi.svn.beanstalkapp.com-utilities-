@@ -122,11 +122,11 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Edge.Core.Branch\Edge.Core.csproj">
+    <ProjectReference Include="..\..\Framework\Edge.Core.Branch\Edge.Core.csproj">
       <Project>{AD4B53AD-B28A-4E90-9483-D2F7C8E6D436}</Project>
       <Name>Edge.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Framework\Edge.Core.Scheduling.Branch\Edge.Core.Scheduling.csproj">
+    <ProjectReference Include="..\..\Framework\Edge.Core.Scheduling.Branch\Edge.Core.Scheduling.csproj">
       <Project>{E700E7AA-08B7-44C3-8889-ACB4FAF92C90}</Project>
       <Name>Edge.Core.Scheduling</Name>
     </ProjectReference>
