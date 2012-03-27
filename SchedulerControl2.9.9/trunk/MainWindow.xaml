@@ -10,8 +10,12 @@
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
+			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<ui:TreeListView Name="_Tree" ItemsSource="{Binding Instances}" Grid.Row="0" Grid.Column="0">
+		<!--<DataGrid Name="_Grid" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding ScheduledInstances}">
+			
+		</DataGrid>-->
+		<ui:TreeListView Name="_Tree" ItemsSource="{Binding Instances}" Grid.Row="1" Grid.Column="0">
 			<TreeView.Resources>
 				<HierarchicalDataTemplate DataType="{x:Type this:InstanceView}" ItemsSource="{Binding ChildsSteps}"/>
 				<Style TargetType="{x:Type ui:TreeListViewItem}">

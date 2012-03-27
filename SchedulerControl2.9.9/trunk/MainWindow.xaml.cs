@@ -55,7 +55,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			if (_instanceRef.ContainsKey(serviceInstanceInfo.GetHashCode().ToString()))
 			{
 				_instanceRef[serviceInstanceInfo.GetHashCode().ToString()] = serviceInstanceInfo;
-				
+
 			}
 		}
 		void _callBack_NewScheduleCreatedEvent(object sender, EventArgs e)
@@ -63,11 +63,11 @@ namespace Edge.Applications.PM.SchedulerControl
 			ScheduleCreatedEventArgs scheduleCreatedEventArgs = (ScheduleCreatedEventArgs)e;
 			//_instanceInfo = scheduleCreatedEventArgs.ScheduleAndStateInfo.ToList().OrderBy(i => i.SchdeuleStartTime).ToList();
 			BindingData.UpdateInstances(scheduleCreatedEventArgs.ScheduleAndStateInfo);
-			foreach (var instance in scheduleCreatedEventArgs.ScheduleAndStateInfo.ToList().OrderBy(i => i.SchdeuleStartTime).ToList())			
-				_instanceRef[instance.GetHashCode().ToString()] = instance;				
+			foreach (var instance in scheduleCreatedEventArgs.ScheduleAndStateInfo.ToList().OrderBy(i => i.SchdeuleStartTime).ToList())
+				_instanceRef[instance.GetHashCode().ToString()] = instance;
 			this.DataContext = MainWindow.BindingData;
-		  
-		
+
+
 
 
 		}
@@ -75,9 +75,9 @@ namespace Edge.Applications.PM.SchedulerControl
 	public class BindingData : INotifyPropertyChanged
 	{
 		InstanceView _currentInstance;
-		Dictionary<string, InstanceView> _instancesRef = new Dictionary<string, InstanceView>();
-		
-		
+		Dictionary<Guid, InstanceView> _instancesRef = new Dictionary<Guid, InstanceView>();
+
+
 		public ObservableCollection<InstanceView> Instances { get; set; }
 		public InstanceView CurrentInstance
 		{
@@ -91,27 +91,50 @@ namespace Edge.Applications.PM.SchedulerControl
 				RaisePropertyChanged("CurrentInstance");
 			}
 		}
-		private Dictionary<int,InstanceView> instanceByInstanceID=new Dictionary<int,InstanceView>();
+		private Dictionary<int, InstanceView> instanceByInstanceID = new Dictionary<int, InstanceView>();
 		private Dictionary<Guid, InstanceView> instanceByGuid = new Dictionary<Guid, InstanceView>();
-		
+
 		public void UpdateInstances(ServiceInstanceInfo[] instancesInfo)
 		{
 
 			lock (Instances)
 			{
+				List<InstanceView> childs = new List<InstanceView>();
+				foreach (var instance in instancesInfo)
+				{
+					//first time
+					if (_instancesRef.ContainsKey(instance.LegacyInstanceGuid))
+						_instancesRef[instance.LegacyInstanceGuid].ServiceInstanceInfo = instance;
+					else
+					{
+						InstanceView iv = new InstanceView() { ServiceInstanceInfo = instance };
+						_instancesRef[instance.LegacyInstanceGuid] = iv;
+						if (iv.ParentInstanceID == Guid.Empty)
+							Instances.Add(iv);
+						else
+							childs.Add(iv);
+
+					}
+				}
+				foreach (var child in childs)
+				{
+					_instancesRef[child.ParentInstanceID].ChildsSteps.Add(child);
+
+				}
 
 
-				
 
-				
+
+
+
 			}
 
-			
-			
+
+
 
 		}
 
-		
+
 
 
 		#region INotifyPropertyChanged Members
@@ -132,13 +155,40 @@ namespace Edge.Applications.PM.SchedulerControl
 	public class InstanceView : INotifyPropertyChanged
 	{
 		private ServiceInstanceInfo _instanceInfo;
-		private List<InstanceView> _childs = new List<InstanceView>();
-		public string ParentInstanceID;
-		public InstanceView(ServiceInstanceInfo instance)
+		private ObservableCollection<InstanceView> _childsSteps = new ObservableCollection<InstanceView>();
+		public ObservableCollection<InstanceView> ChildsSteps
 		{
-			_instanceInfo = instance;
-			ParentInstanceID = instance.ParentInstanceID;
-			ChildsSteps = new ObservableCollection<InstanceView>();
+			get
+			{
+				return _childsSteps;
+			}
+			set
+			{
+
+
+			}
+		}
+		public ServiceInstanceInfo ServiceInstanceInfo
+		{
+			get
+			{
+				return _instanceInfo;
+			}
+			set
+			{
+				_instanceInfo = value;
+				//todo: property changed
+				ParentInstanceID = _instanceInfo.ParentInstanceID;
+
+			}
+
+		}
+		public Guid ParentInstanceID;
+		public InstanceView()
+		{
+
+
+
 			IsExpanded = true;
 
 		}
@@ -223,9 +273,9 @@ namespace Edge.Applications.PM.SchedulerControl
 
 		}
 		public bool IsExpanded { get; set; }
-		public ObservableCollection<InstanceView> ChildsSteps { get; set; }
+
 		public double Progress { get; set; }
-		
+
 
 
 
