@@ -16,7 +16,8 @@ namespace Edge.Applications.PM.Suite
 {
     public partial class MeasureForm : ProductionManagmentBaseForm
 	{
-        List<ChannelItem> _channelsList;
+        private List<ChannelItem> _channelsList;
+        private List<AccountItem> _accountsList;
 
 		public MeasureForm()
 		{
@@ -42,70 +43,73 @@ namespace Edge.Applications.PM.Suite
 
         private List<AccountItem> getAccounts(string SystemDatabase)
         {
-            List<AccountItem> accountsView = null;
             using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), SystemDatabase)))
             {
                 sqlCon.Open();
                 Dictionary<int, Account> accounts = Account.GetAccounts(sqlCon);
-                accountsView = new List<AccountItem>();
-                accountsView.Add(new AccountItem() { id = 0, name = "Select Account" });
+                _accountsList = new List<AccountItem>();
+                Account generalAccount = new Account() { ID = -1, Name = "Unkwon" };
+                _accountsList.Add(new AccountItem() { id = -1, name = "Select Account", account = generalAccount });
                 foreach (KeyValuePair<int, Account> a in accounts)
                 {
-                    accountsView.Add(new AccountItem() { id = a.Value.ID, name = string.Format("{1}({0})", a.Key, a.Value.Name) });
+                    _accountsList.Add(new AccountItem() { id = a.Value.ID, name = string.Format("{1}({0})", a.Key, a.Value.Name), account = a.Value });
                 }
             }
-            return accountsView;
+            return _accountsList;
         }
 
-		private List<Measure> getMeasures(string SystemDatabase, int accountID)
-		{
-			List<Measure> measures = new List<Measure>();
-
+        private List<MeasureView> getMeasures(string SystemDatabase, Account account)
+        {
+            List<MeasureView> measuresList = new List<MeasureView>();
             using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), SystemDatabase)))
             {
                 sqlCon.Open();
-                SqlCommand sqlCommand = DataManager.CreateCommand(AppSettings.Get(typeof(Measure), "GetMeasures.SP"), System.Data.CommandType.StoredProcedure);
-                sqlCommand.Parameters["@accountID"].Value = accountID;
-                sqlCommand.Parameters["@includeBase"].Value = false;
-                sqlCommand.Connection = sqlCon;
-
-                using (var _reader = sqlCommand.ExecuteReader())
+                Dictionary<string, Measure> measures = Measure.GetMeasures(account, null, sqlCon, MeasureOptions.All, MeasureOptionsOperator.Or, false);
+                foreach (KeyValuePair<string, Measure> msr in measures)
                 {
-                    if (!_reader.IsClosed)
-                    {
-                        while (_reader.Read())
-                        {
-                            int i = (int)_reader[0];
-                            measures.Add(new Measure(_reader));
-                        }
-                    }
+                    measuresList.Add(new MeasureView() { m = msr.Value });
                 }
             }
-			return measures;
-		}
+            return measuresList;
+        }
+
+        private void application_cb_SelectedValueChanged(object sender, EventArgs e)
+        {
+            List<AccountItem> accountsList = getAccounts(application_cb.SelectedItem.ToString());
+            accounts_cb.DataSource = accountsList;
+            accounts_cb.DisplayMember = "name";
+            accounts_cb.ValueMember = "id";
+            accounts_cb.Refresh();
+
+            _channelsList = getChannels(application_cb.SelectedItem.ToString());
+            channel_cb.DataSource = _channelsList;
+            channel_cb.DisplayMember = "name";
+            channel_cb.ValueMember = "id";
+            channel_cb.Refresh();
+        }
 
 
-        private void showMeasures(List<Measure> measures, int channel, int accountID)
+        private void showMeasures(List<MeasureView> measures, int channel, int accountID)
         {
             baseMeasuresListView.Items.Clear();
             rendered = false;
 
-            foreach (Measure m in measures)
+            foreach (MeasureView msr in measures)
             {
-                ListViewItem lvi = m.ToListViewItem(_channelsList);
-                lvi.Tag = m;
+                ListViewItem lvi = msr.ToListViewItem(_channelsList);
+                lvi.Tag = msr.m;
 
-                if (!m.IsTarget)
+                if (!((int)(msr.m.Options & MeasureOptions.IsTarget) > 0))//not target
                 {
                     if (channel != 0)//Filter on chosen channel (differentiates between bo base measure and bo account measure)
                     {
-                        if ((m.AccountID == -1) && (m.IsBo == true) && (m.ChannelID == channel))
+                        if ((msr.m.Account == null) && ((int)(msr.m.Options & MeasureOptions.IsBackOffice) > 0) && (msr.m.ChannelID == channel))
                         {
                             lvi.BackColor = Color.White;
                             lvi.ForeColor = System.Drawing.Color.Gray;
                             baseMeasuresListView.Items.Add(lvi);
                         }
-                        else if (m.ChannelID == channel)
+                        else if (msr.m.ChannelID == channel)
                         {
                             lvi.BackColor = Color.White;
                             lvi.Checked = true;
@@ -114,7 +118,7 @@ namespace Edge.Applications.PM.Suite
                     }
                     else //Show all measures (differentiates between bo base measure and bo account measure)
                     {
-                        if ((m.AccountID == -1) && (m.IsBo == true))
+                        if ((msr.m.Account == null) && ((int)(msr.m.Options & MeasureOptions.IsBackOffice) > 0))
                         {
                             lvi.BackColor = Color.White;
                             lvi.ForeColor = System.Drawing.Color.Gray;
@@ -132,28 +136,18 @@ namespace Edge.Applications.PM.Suite
             rendered = true;
         }
 
-		private void application_cb_SelectedValueChanged(object sender, EventArgs e)
-		{
-            List<AccountItem> accountsList = getAccounts(application_cb.SelectedItem.ToString());
-            accounts_cb.DataSource = accountsList;
-            accounts_cb.DisplayMember = "name";
-            accounts_cb.ValueMember = "id";
-            accounts_cb.Refresh();
-
-            _channelsList = getChannels(application_cb.SelectedItem.ToString());
-            channel_cb.DataSource = _channelsList;
-            channel_cb.DisplayMember = "name";
-            channel_cb.ValueMember = "id";
-            channel_cb.Refresh(); 
-		}
-
         private void showMeasuresBtn_Click(object sender, EventArgs e)
         {
-            string systemDatabase = application_cb.SelectedItem.ToString();
-            int accountID = (int)accounts_cb.SelectedValue;
-            int channelID = (int)channel_cb.SelectedValue;
-            List<Measure> measures = getMeasures(systemDatabase, accountID);
-            showMeasures(measures, channelID, accountID);
+            if (application_cb.SelectedIndex > -1)
+            {
+                string systemDatabase = application_cb.SelectedItem.ToString();
+                Account account = _accountsList.Find(AccountItem => AccountItem.id == (int)accounts_cb.SelectedValue).account;
+                //int accountID = account == null ? -1 : account.ID;
+                int channelID = (int)channel_cb.SelectedValue;
+                List<MeasureView> measures = getMeasures(systemDatabase, account);
+                measures.Sort((x, y) => string.Compare(x.m.Name, y.m.Name));
+                showMeasures(measures, channelID, account.ID);
+            }
         }
 
         private void addMeasureBtn_Click(object sender, EventArgs e)
@@ -171,11 +165,11 @@ namespace Edge.Applications.PM.Suite
 
         void AddMeasureHandler(object sender, EventArgs e)
         {
-            Measure m = (Measure)e;
-            if (m.AccountID == -1)
-                addMeasureToBD(m);
+            MeasureView msr = (MeasureView)e;
+            if (msr.m.Account == null)
+                addMeasureToBD(msr);
             else
-                editMeasureInDB(m); 
+                editMeasureInDB(msr); 
         }
 
         private int getNewMeasureID()
@@ -192,7 +186,7 @@ namespace Edge.Applications.PM.Suite
             return id;
         }
 
-        private void addMeasureToBD(Measure m)
+        private void addMeasureToBD(MeasureView msr)
         {
             using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), application_cb.SelectedItem.ToString())))
             {
@@ -204,13 +198,13 @@ namespace Edge.Applications.PM.Suite
 
                 sqlCommand.Parameters["@measureID"].Value = getNewMeasureID();
                 sqlCommand.Parameters["@accountID"].Value = accounts_cb.SelectedValue;
-                sqlCommand.Parameters["@channelID"].Value = m.ChannelID;
-                sqlCommand.Parameters["@baseID"].Value = m.BaseMeasureID;
-                sqlCommand.Parameters["@sourceName"].Value = string.IsNullOrEmpty(m.SourceName) ? DBNull.Value : (object)m.SourceName;
-                sqlCommand.Parameters["@displayName"].Value = m.DisplayName;
-                sqlCommand.Parameters["@stringFormat"].Value = string.IsNullOrEmpty(m.StringFormat) ? DBNull.Value : (object)m.StringFormat;
-                sqlCommand.Parameters["@acquisitionNum"].Value = string.IsNullOrEmpty(m.AcquisitionNum) ? DBNull.Value : (object)m.AcquisitionNum;
-                sqlCommand.Parameters["@check"].Value = string.IsNullOrEmpty(m.IntegrityCheckRequired) ? DBNull.Value : (object)m.IntegrityCheckRequired;
+                sqlCommand.Parameters["@channelID"].Value = msr.m.ChannelID;
+                sqlCommand.Parameters["@baseID"].Value = msr.m.BaseMeasureID;
+                sqlCommand.Parameters["@sourceName"].Value = string.IsNullOrEmpty(msr.m.SourceName) ? DBNull.Value : (object)msr.m.SourceName;
+                sqlCommand.Parameters["@displayName"].Value = msr.m.DisplayName;
+                sqlCommand.Parameters["@stringFormat"].Value = string.IsNullOrEmpty(msr.m.StringFormat) ? DBNull.Value : (object)msr.m.StringFormat;
+                sqlCommand.Parameters["@acquisitionNum"].Value = msr.m.AcquisitionNum == null ? DBNull.Value : (object)msr.m.AcquisitionNum;
+                sqlCommand.Parameters["@check"].Value = string.IsNullOrEmpty(msr.IntegrityCheckRequired) ? DBNull.Value : (object)msr.IntegrityCheckRequired;
 
                 sqlCommand.Connection = sqlCon;
                 sqlCommand.ExecuteNonQuery();
@@ -218,12 +212,12 @@ namespace Edge.Applications.PM.Suite
             showMeasuresBtn_Click(null, null);
         }
 
-        private void editMeasureInDB(Measure m)
+        private void editMeasureInDB(MeasureView msr)
         {
             using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), application_cb.SelectedItem.ToString())))
             {
-                bool includeStringFormat = !(m.StringFormat.Equals("no change"));
-                bool includeValidation = !(m.IntegrityCheckRequired.Equals("no change"));
+                bool includeStringFormat = !(msr.m.StringFormat.Equals("no change"));
+                bool includeValidation = !(msr.IntegrityCheckRequired.Equals("no change"));
 
                 string command = string.Format(@"UPDATE [dbo].[Measure]
                 SET [SourceName] = @sourceName:Nvarchar, [DisplayName] = @displayName:Nvarchar, [AcquisitionNum] = @acquisitionNum:Nvarchar{0}{1}
@@ -233,17 +227,17 @@ namespace Edge.Applications.PM.Suite
                 sqlCon.Open();
                 SqlCommand sqlCommand = DataManager.CreateCommand(command);
 
-                sqlCommand.Parameters["@measureID"].Value = m.MeasureID;
-                sqlCommand.Parameters["@accountID"].Value = m.AccountID;
-                sqlCommand.Parameters["@channelID"].Value = m.ChannelID;
-                sqlCommand.Parameters["@baseID"].Value = m.BaseMeasureID;
-                sqlCommand.Parameters["@sourceName"].Value = string.IsNullOrEmpty(m.SourceName) ? DBNull.Value : (object)m.SourceName;
-                sqlCommand.Parameters["@displayName"].Value = string.IsNullOrEmpty(m.DisplayName) ? DBNull.Value : (object)m.DisplayName;
-                sqlCommand.Parameters["@acquisitionNum"].Value = string.IsNullOrEmpty(m.AcquisitionNum) ? DBNull.Value : (object)m.AcquisitionNum;
+                sqlCommand.Parameters["@measureID"].Value = msr.m.ID;
+                sqlCommand.Parameters["@accountID"].Value = msr.m.Account.ID;
+                sqlCommand.Parameters["@channelID"].Value = msr.m.ChannelID;
+                sqlCommand.Parameters["@baseID"].Value = msr.m.BaseMeasureID;
+                sqlCommand.Parameters["@sourceName"].Value = string.IsNullOrEmpty(msr.m.SourceName) ? DBNull.Value : (object)msr.m.SourceName;
+                sqlCommand.Parameters["@displayName"].Value = string.IsNullOrEmpty(msr.m.DisplayName) ? DBNull.Value : (object)msr.m.DisplayName;
+                sqlCommand.Parameters["@acquisitionNum"].Value = msr.m.AcquisitionNum == null ? DBNull.Value : (object)msr.m.AcquisitionNum;
                 if (includeValidation)
-                    sqlCommand.Parameters["@check"].Value = string.IsNullOrEmpty(m.IntegrityCheckRequired) ? DBNull.Value : (object)m.IntegrityCheckRequired;
+                    sqlCommand.Parameters["@check"].Value = string.IsNullOrEmpty(msr.IntegrityCheckRequired) ? DBNull.Value : (object)msr.IntegrityCheckRequired;
                 if(includeStringFormat)
-                    sqlCommand.Parameters["@stringFormat"].Value = string.IsNullOrEmpty(m.StringFormat) ? DBNull.Value : (object)m.StringFormat;
+                    sqlCommand.Parameters["@stringFormat"].Value = string.IsNullOrEmpty(msr.m.StringFormat) ? DBNull.Value : (object)msr.m.StringFormat;
 
                 sqlCommand.Connection = sqlCon;
                 sqlCommand.ExecuteNonQuery();
@@ -260,20 +254,21 @@ namespace Edge.Applications.PM.Suite
                 @"DELETE FROM [dbo].[Measure]
                 WHERE [MeasureID] = @measureID:Int and [AccountID] = @accountID:Int");
 
-                sqlCommand.Parameters["@measureID"].Value = m.MeasureID;
-                sqlCommand.Parameters["@accountID"].Value = m.AccountID;
+                sqlCommand.Parameters["@measureID"].Value = m.ID;
+                sqlCommand.Parameters["@accountID"].Value = m.Account.ID;
                 sqlCommand.Connection = sqlCon;
                 sqlCommand.ExecuteNonQuery();
             }
             showMeasuresBtn_Click(null, null);
         }
 
+
         private void baseMeasuresListView_SelectedIndexChanged(object sender, EventArgs e)
         {  
             if (baseMeasuresListView.SelectedItems.Count == 1)
             {
                 Measure m = (Measure)baseMeasuresListView.SelectedItems[0].Tag;
-                if (m.AccountID==-1 && m.IsBo)
+                if (m.Account== null && ((int)(m.Options & MeasureOptions.IsBackOffice) > 0))
                     addMeasureBtn.Text = "Add";
                 else
                     addMeasureBtn.Text = "Edit";
@@ -319,7 +314,7 @@ namespace Edge.Applications.PM.Suite
             {
                 if (e.Item.Checked == false)
                 {
-                    if (m.AccountID == -1)
+                    if (m.Account == null)
                     {
                         e.Item.Checked = true;
                     }
@@ -354,6 +349,7 @@ namespace Edge.Applications.PM.Suite
 
     public struct AccountItem
     {
+        public Account account;
         public int id { get; set; }
         public string name { get; set; }
     }
@@ -365,100 +361,10 @@ namespace Edge.Applications.PM.Suite
         public string name { get; set; }
     }
 
-    public class Measure : EventArgs
-	{
-/*
-            Measure m;
-
-            //does m.Options contain (IsBackOffice and IsTarget)
-            if (((int)m.Options & (MeasureOptions.IsBackOffice | MeasureOptions.IsTarget)) > 0)
-            {
-                // this is a backoffice measure!!!
-            }
-*/
-
-		public Measure(SqlDataReader reader)
-		{
-            try
-            {
-                MeasureID = Convert.ToInt16(reader["MeasureID"]);
-                BaseMeasureID = Convert.ToInt16(reader["BaseMeasureID"]);
-                ChannelID = Convert.ToInt16(reader["ChannelID"]);
-                AccountID = Convert.ToInt64(reader["AccountID"]);
-                Name = Convert.ToString(reader["Name"]);
-                DisplayName = Convert.ToString(reader["DisplayName"]);
-                OLTP_Table = Convert.ToString(reader["OLTP_Table"]);
-                FieldName = Convert.ToString(reader["FieldName"]);
-                DWH_Table = Convert.ToString(reader["DWH_Table"]);
-                DWH_ProcessedTable = Convert.ToString(reader["DWH_ProcessedTable"]);
-                DWH_Name = Convert.ToString(reader["DWH_Name"]);
-                DWH_AggregateFunction = Convert.ToString(reader["DWH_AggregateFunction"]);
-                StringFormat = Convert.ToString(reader["StringFormat"]);
-                IsAbsolute = Convert.ToBoolean(reader["IsAbsolute"]);
-                IsTarget = Convert.ToBoolean(reader["IsTarget"]);
-                IsAdTest = Convert.ToBoolean(reader["IsAdTest"]);
-                IsBo = Convert.ToBoolean(reader["IsBo"]);
-                IsDashboard = Convert.ToBoolean(reader["IsDashboard"]);
-                AccountLevelMDX = Convert.ToString(reader["AccountLevelMDX"]);
-                IsCalculated = Convert.ToBoolean(reader["IsCalculated"]);
-                IntegrityCheckRequired = Convert.ToString(reader["IntegrityCheckRequired"]);
-                SourceName = reader["SourceName"].Equals(DBNull.Value) ? string.Empty : Convert.ToString(reader["SourceName"]);
-                AcquisitionNum = reader["AcquisitionNum"].Equals(DBNull.Value) ? null : Convert.ToString(reader["AcquisitionNum"]);
-                TargetMeasureID = reader["TargetMeasureID"].Equals(DBNull.Value) ? string.Empty : Convert.ToString(reader["TargetMeasureID"]);
-            }
-            catch(InvalidCastException e)
-            {
-                MessageBox.Show("One of the measure fields is NULL where it shouldn't be.\n"+ e.ToString());
-            }
-        }
-
-		public int MeasureID { set; get; }
-		public long AccountID { set; get; }
-		public int ChannelID { set; get; }
-		public int BaseMeasureID { set; get; }
-		public string Name { set; get; }
-		public string DisplayName { set; get; }
-		public string FieldName { set; get; }
-		public string DWH_Name { set; get; }
-		public string OLTP_Table { set; get; }
-		public string DWH_Table { set; get; }
-		public string DWH_ProcessedTable { set; get; }
-		public string DWH_AggregateFunction { set; get; }
-		public string TargetMeasureID { set; get; }
-		public string StringFormat { set; get; }
-		public bool IsCalculated { set; get; }
-		public bool IsAbsolute { set; get; }
-		public bool IsTarget { set; get; }
-		public bool IsAdTest { set; get; }
-		public bool IsBo { set; get; }
-		public bool IsDashboard { set; get; }
-		public string AccountLevelMDX { set; get; }
-		public string IntegrityCheckRequired { set; get; }
-		public string SourceName { set; get; }
-        public string AcquisitionNum { set; get; }
-
-        internal ListViewItem ToListViewItem(List<ChannelItem> channels)
-        {
-            string[] viewItem = new string[8];
-
-            string channelName = channels.Find(ChannelItem => ChannelItem.id == this.ChannelID).name;
-
-            viewItem[1] = channelName.Substring(0, channelName.IndexOf("("));
-            viewItem[2] = this.Name.ToString();
-            viewItem[3] = this.DisplayName.ToString();
-            viewItem[4] = this.SourceName.ToString();
-            viewItem[5] = this.StringFormat.ToString();
-            viewItem[6] = this.IntegrityCheckRequired.ToString();
-            viewItem[7] = AcquisitionNum==null? "" : this.AcquisitionNum.ToString();
-
-            ListViewItem lvi = new ListViewItem(viewItem);
-            return lvi;
-        }
-    }
-
     public class MeasureView : EventArgs
     {
-        Edge.Data.Objects.Measure m;
+        public Measure m;
+        public string IntegrityCheckRequired;
 
         internal ListViewItem ToListViewItem(List<ChannelItem> channels)
         {
@@ -471,11 +377,21 @@ namespace Edge.Applications.PM.Suite
             viewItem[3] = m.DisplayName.ToString();
             viewItem[4] = m.SourceName.ToString();
             viewItem[5] = m.StringFormat.ToString();
-            viewItem[6] = m.IntegrityCheckRequired.ToString();
+            viewItem[6] = (m.Options & MeasureOptions.ValidationRequired)>0? "true" : "false";
             viewItem[7] = m.AcquisitionNum == null ? "" : m.AcquisitionNum.ToString();
 
             ListViewItem lvi = new ListViewItem(viewItem);
             return lvi;
         }
     }
+
+    /*
+            Measure m;
+            //does m.Options contain (IsBackOffice and IsTarget)
+            if (((int)m.Options & (MeasureOptions.IsBackOffice | MeasureOptions.IsTarget)) > 0)
+            {
+                // this is a backoffice measure!!!
+            }
+    */
+
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Edge.Applications.PM.Common;
+using Edge.Data.Objects;
 
 namespace Edge.Applications.PM.Suite
 {
@@ -16,6 +17,7 @@ namespace Edge.Applications.PM.Suite
         private Measure _measure;
 
         public event EventHandler editFrm_closed;
+        public string _IntegrityCheckRequired;
 
         public EditMeasureForm()
         {
@@ -28,20 +30,20 @@ namespace Edge.Applications.PM.Suite
             this.TopMost = true; 
 
             msrLbl.Text += m.BaseMeasureID.ToString();
-            msrLbl1.Text += m.MeasureID.ToString();
+            msrLbl1.Text += m.ID.ToString();
             chnnlLbl.Text += m.ChannelID.ToString();
-            accountLbl.Text += m.AccountID.ToString();
+            accountLbl.Text += m.Account == null ? "-1" : m.Account.ID.ToString();
             msrNameLbl.Text += m.Name.ToString();
             displayNameTxt.Text = m.DisplayName.ToString();
 
             this._measure = m;
 
-            if (_measure.ChannelID != -1)
+            if (!((int)(_measure.Options & MeasureOptions.IsBackOffice) > 0))
             {
                 srcNameTxt.Enabled = false;
                 acqNumTxt.Enabled = false;                         
             }
-            if (_measure.AccountID == -1 && _measure.IsBo)
+            if (_measure.Account == null &&((int)(_measure.Options & MeasureOptions.IsBackOffice) > 0))
                 addMeasuresBtn.Text = "Add Measure";
             else
                 addMeasuresBtn.Text = "Edit Measure";
@@ -53,19 +55,23 @@ namespace Edge.Applications.PM.Suite
             valid = validateMeasure();
             if (valid)
             {
-                if (_measure.AccountID == -1)//Need to add measure
+                if (_measure.Account == null)//Need to add measure
                 {
                     _measure.SourceName = srcNameTxt.Text;
                     _measure.DisplayName = displayNameTxt.Text;
                     _measure.StringFormat = stringFromatTxt.Text.Equals("Inherit from base") ? string.Empty : stringFromatTxt.Text;
-                    _measure.AcquisitionNum = acqNumTxt.Text.Equals("Inherit from base") ? string.Empty : acqNumTxt.Text;
+                    
+                    if (acqNumTxt.Text.Equals("Inherit from base")||string.IsNullOrEmpty(acqNumTxt.Text)) 
+                        _measure.AcquisitionNum = null; 
+                    else 
+                        Convert.ToInt32(acqNumTxt.Text);
                    
                     if (yesRadioBtn.Checked)
-                        _measure.IntegrityCheckRequired = "True";
+                        _IntegrityCheckRequired = "True";
                     else if (noRadioBtn.Checked)
-                        _measure.IntegrityCheckRequired = "False";
+                        _IntegrityCheckRequired = "False";
                     else
-                        _measure.IntegrityCheckRequired = null;
+                        _IntegrityCheckRequired = null;
                 }
                 else //Need to update measure
                 {
@@ -84,20 +90,20 @@ namespace Edge.Applications.PM.Suite
                     if (acqNumTxt.Text.Equals("Inherit from base"))
                         _measure.AcquisitionNum = null;
                     else
-                        _measure.AcquisitionNum = string.IsNullOrEmpty(acqNumTxt.Text) ? _measure.AcquisitionNum : acqNumTxt.Text;
-                   
+                        _measure.AcquisitionNum = string.IsNullOrEmpty(acqNumTxt.Text) ? _measure.AcquisitionNum : Convert.ToInt32(acqNumTxt.Text);
+
                     /** Edit Integrity Check **/
                     if (yesRadioBtn.Checked)
-                        _measure.IntegrityCheckRequired = "True";
+                        _IntegrityCheckRequired = "True";
                     else if (noRadioBtn.Checked)
-                        _measure.IntegrityCheckRequired = "False";
+                        _IntegrityCheckRequired = "False";
                     else if (inheritRadioBtn.Checked)
-                        _measure.IntegrityCheckRequired = string.Empty;
+                        _IntegrityCheckRequired = string.Empty;
                     else
-                        _measure.IntegrityCheckRequired = "no change";
+                        _IntegrityCheckRequired = "no change";
                 }
 
-                AddMeasureEvent(this, this._measure);
+                AddMeasureEvent(this, new MeasureView() { m = this._measure, IntegrityCheckRequired = _IntegrityCheckRequired });
                 this.Close();
             }
         }
@@ -105,7 +111,7 @@ namespace Edge.Applications.PM.Suite
         private bool validateMeasure()
         {
             bool valid = true;
-            if (_measure.AccountID == -1)
+            if (_measure.Account == null)
             {
                 if (string.IsNullOrEmpty(displayNameTxt.Text))
                 {
