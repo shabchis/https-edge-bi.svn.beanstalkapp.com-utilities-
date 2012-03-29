@@ -32,7 +32,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		private DuplexChannelFactory<ISchedulingCommunication> _channel;
 		private ISchedulingCommunication _schedulingCommunicationChannel;
 		private Callback _callBack;
-		private Dictionary<string, ServiceInstanceInfo> _instanceRef = new Dictionary<string, ServiceInstanceInfo>();
+		
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -45,102 +45,74 @@ namespace Edge.Applications.PM.SchedulerControl
 
 			_callBack.NewScheduleCreatedEvent += new EventHandler(_callBack_NewScheduleCreatedEvent);
 			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
-			MainWindow.BindingData.Instances = new ObservableCollection<InstanceView>();
+			
+			
 			this.DataContext = MainWindow.BindingData;
 		}
 		void _callBack_NewInstanceEvent(object sender, EventArgs e)
 		{
 			InstanceEventArgs ie = (InstanceEventArgs)e;
 			ServiceInstanceInfo serviceInstanceInfo = ie.instanceStateOutcomerInfo;
-			if (_instanceRef.ContainsKey(serviceInstanceInfo.GetHashCode().ToString()))
-			{
-				_instanceRef[serviceInstanceInfo.GetHashCode().ToString()] = serviceInstanceInfo;
-
-			}
+			BindingData.UpdateInstances(new ServiceInstanceInfo[] { serviceInstanceInfo});
 		}
 		void _callBack_NewScheduleCreatedEvent(object sender, EventArgs e)
 		{
-			ScheduleCreatedEventArgs scheduleCreatedEventArgs = (ScheduleCreatedEventArgs)e;
-			//_instanceInfo = scheduleCreatedEventArgs.ScheduleAndStateInfo.ToList().OrderBy(i => i.SchdeuleStartTime).ToList();
+			ScheduleCreatedEventArgs scheduleCreatedEventArgs = (ScheduleCreatedEventArgs)e;		
 			BindingData.UpdateInstances(scheduleCreatedEventArgs.ScheduleAndStateInfo);
-			foreach (var instance in scheduleCreatedEventArgs.ScheduleAndStateInfo.ToList().OrderBy(i => i.SchdeuleStartTime).ToList())
-				_instanceRef[instance.GetHashCode().ToString()] = instance;
-			this.DataContext = MainWindow.BindingData;
-
-
-
-
 		}
 	}
 	public class BindingData : INotifyPropertyChanged
 	{
 		InstanceView _currentInstance;
-		Dictionary<Guid, InstanceView> _instancesRef = new Dictionary<Guid, InstanceView>();
-
-
-		public ObservableCollection<InstanceView> Instances { get; set; }
-		public InstanceView CurrentInstance
+		Dictionary<Guid, InstanceView> _InstancesRef = new Dictionary<Guid, InstanceView>();
+		public BindingData()
 		{
-			get
-			{
-				return _currentInstance;
-			}
-			set
-			{
-				_currentInstance = value;
-				RaisePropertyChanged("CurrentInstance");
-			}
-		}
-		private Dictionary<int, InstanceView> instanceByInstanceID = new Dictionary<int, InstanceView>();
-		private Dictionary<Guid, InstanceView> instanceByGuid = new Dictionary<Guid, InstanceView>();
+			Instances = new ObservableCollection<InstanceView>();
+			var collectionview = CollectionViewSource.GetDefaultView(Instances);
+			collectionview.SortDescriptions.Add(new SortDescription("SchdeuleStartTime",ListSortDirection.Ascending));
 
+			
+		}
+		public ObservableCollection<InstanceView> Instances { get; set; }		
 		public void UpdateInstances(ServiceInstanceInfo[] instancesInfo)
 		{
+
 
 			lock (Instances)
 			{
 				List<InstanceView> childs = new List<InstanceView>();
 				foreach (var instance in instancesInfo)
 				{
-					//first time
-					if (_instancesRef.ContainsKey(instance.LegacyInstanceGuid))
-						_instancesRef[instance.LegacyInstanceGuid].ServiceInstanceInfo = instance;
+
+
+					if (_InstancesRef.ContainsKey(instance.LegacyInstanceGuid))
+						_InstancesRef[instance.LegacyInstanceGuid].ServiceInstanceInfo = instance;
 					else
 					{
 						InstanceView iv = new InstanceView() { ServiceInstanceInfo = instance };
-						_instancesRef[instance.LegacyInstanceGuid] = iv;
-						if (iv.ParentInstanceID == Guid.Empty)
+						_InstancesRef[instance.LegacyInstanceGuid] = iv;
+						if (iv.ParentID == Guid.Empty)
 							Instances.Add(iv);
 						else
 							childs.Add(iv);
-
 					}
+
 				}
 				foreach (var child in childs)
 				{
-					_instancesRef[child.ParentInstanceID].ChildsSteps.Add(child);
-
+					if (_InstancesRef.ContainsKey(child.ParentID))
+						_InstancesRef[child.ParentID].ChildsSteps.Add(child);
 				}
+				
 
-
-
-
-
-
+ 				
 			}
-
-
+			
 
 
 		}
-
-
-
-
 		#region INotifyPropertyChanged Members
-
 		public event PropertyChangedEventHandler PropertyChanged;
-
 		private void RaisePropertyChanged(string propertyName)
 		{
 			if (PropertyChanged != null)
@@ -148,152 +120,9 @@ namespace Edge.Applications.PM.SchedulerControl
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-
 		#endregion
 	}
 
-	public class InstanceView : INotifyPropertyChanged
-	{
-		private ServiceInstanceInfo _instanceInfo;
-		private ObservableCollection<InstanceView> _childsSteps = new ObservableCollection<InstanceView>();
-		public ObservableCollection<InstanceView> ChildsSteps
-		{
-			get
-			{
-				return _childsSteps;
-			}
-			set
-			{
 
-
-			}
-		}
-		public ServiceInstanceInfo ServiceInstanceInfo
-		{
-			get
-			{
-				return _instanceInfo;
-			}
-			set
-			{
-				_instanceInfo = value;
-				//todo: property changed
-				ParentInstanceID = _instanceInfo.ParentInstanceID;
-
-			}
-
-		}
-		public Guid ParentInstanceID;
-		public InstanceView()
-		{
-
-
-
-			IsExpanded = true;
-
-		}
-		public int ScheduledID
-		{
-			get
-			{
-				return _instanceInfo.ScheduledID;
-			}
-
-		}
-		public string InstanceID
-		{
-			get
-			{
-				return _instanceInfo.InstanceID;
-			}
-
-		}
-		public string ServiceName
-		{
-			get
-			{
-				return _instanceInfo.ServiceName;
-			}
-
-		}
-		public int AccountID
-		{
-			get
-			{
-				return _instanceInfo.AccountID;
-			}
-
-		}
-		public DateTime SchdeuleStartTime
-		{
-			get
-			{
-				return _instanceInfo.SchdeuleStartTime;
-			}
-
-		}
-		public DateTime ScheduleEndTime
-		{
-			get
-			{
-				return _instanceInfo.ScheduleEndTime;
-			}
-
-		}
-		public DateTime ActualStartTime
-		{
-			get
-			{
-				return _instanceInfo.ActualStartTime;
-			}
-
-		}
-		public Core.Services.ServiceState State
-		{
-			get
-			{
-				return _instanceInfo.State;
-			}
-
-		}
-		public Core.Services.ServiceOutcome Outcome
-		{
-			get
-			{
-				return _instanceInfo.Outcome;
-			}
-
-		}
-		public string DayCode
-		{
-			get
-			{
-				return _instanceInfo.DayCode;
-			}
-
-		}
-		public bool IsExpanded { get; set; }
-
-		public double Progress { get; set; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region INotifyPropertyChanged Members
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		#endregion
-	}
 
 }

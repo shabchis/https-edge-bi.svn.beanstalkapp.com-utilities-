@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:ui="http://schemas.aspitalia.com/Ricciolo/Controls"
 		xmlns:this="clr-namespace:Edge.Applications.PM.SchedulerControl"
-        Title="MainWindow" Height="415" Width="1028">
+        Title="MainWindow" Height="415" Width="1213">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
@@ -11,68 +11,72 @@
 		<Grid.RowDefinitions>
 			<RowDefinition/>
 			<RowDefinition/>
-		</Grid.RowDefinitions>
-		<!--<DataGrid Name="_Grid" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding ScheduledInstances}">
-			
-		</DataGrid>-->
+		</Grid.RowDefinitions>	
+		
 		<ui:TreeListView Name="_Tree" ItemsSource="{Binding Instances}" Grid.Row="1" Grid.Column="0">
 			<TreeView.Resources>
 				<HierarchicalDataTemplate DataType="{x:Type this:InstanceView}" ItemsSource="{Binding ChildsSteps}"/>
 				<Style TargetType="{x:Type ui:TreeListViewItem}">
 					<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
 				</Style>
-
 			</TreeView.Resources>
 			<ui:TreeListView.Columns>
-				<GridViewColumn Header="ScheduledID" Width="80">
+				<GridViewColumn Header="ScheduledID" Width="Auto" >
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ScheduledID}"/>
+							<TextBlock Text="{Binding ID}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="InstanceID" Width="80">
+				<GridViewColumn Header="InstanceID" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding InstanceID}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="ServiceName" Width="80">
+				<GridViewColumn Header="ServiceName" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ServiceName}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="AccountID" Width="80">
+				<GridViewColumn Header="AccountID" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding AccountID}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="SchdeuleStartTime" Width="80">
+				<GridViewColumn Header="ScheduledStartTime" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding SchdeuleStartTime}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="ScheduleEndTime" Width="80">
+				<GridViewColumn Header="ScheduleEndTime" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ScheduleEndTime}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="ActualStartTime" Width="80">
+				<GridViewColumn Header="StartTime" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ActualStartTime}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
+				<GridViewColumn Header="EndTime" Width="Auto">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ActualEndTime}"/>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>				
 				<GridViewColumn Header="Progress" Width="200">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>							
@@ -80,21 +84,21 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="State" Width="80">
+				<GridViewColumn Header="State" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding State}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Outcome" Width="80">
+				<GridViewColumn Header="Outcome" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Outcome}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="DayCode" Width="80">
+				<GridViewColumn Header="DayCode" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding DayCode}"/>
