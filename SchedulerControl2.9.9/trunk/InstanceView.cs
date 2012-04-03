@@ -103,7 +103,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			{
 				return _instanceInfo.ActualEndTime.ToShortTimeString();
 			}
-		}
+		}		
 		public Core.Services.ServiceState State
 		{
 			get
@@ -131,6 +131,33 @@ namespace Edge.Applications.PM.SchedulerControl
 			get
 			{
 				return _instanceInfo.Progress;
+			}
+			
+		}
+		public string Background
+		{
+			get
+			{
+				string color=string.Empty;
+				switch (Outcome)
+				{
+
+					case Edge.Core.Services.ServiceOutcome.Unspecified:						
+						break;
+					case Edge.Core.Services.ServiceOutcome.Success:
+						color = "Green";
+						break;
+					case Edge.Core.Services.ServiceOutcome.Failure:
+						color = "Red";
+						break;
+					case Edge.Core.Services.ServiceOutcome.Aborted:
+						break;
+					case Edge.Core.Services.ServiceOutcome.Reset:
+						break;
+					default:
+						break;
+				}
+				return color;
 			}
 			
 		}
