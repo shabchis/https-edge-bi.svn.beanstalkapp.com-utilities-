@@ -77,9 +77,10 @@ namespace Edge.Applications.PM.Client
 	{
 		public LoadFormHelper(string formName, string className )
 		{
-			Type ty = typeof(Edge.Applications.PM.Suite.DeliverySearch.DeliverySearch);
-			Type formType = Type.GetType("Edge.Applications.PM.Suite.DeliverySearch.DeliverySearch,Edge.Applications.PM.Suite.DeliverySearch",throwOnError: true);
-		
+			//Type ty = typeof(Edge.Applications.PM.Suite.DeliverySearch.DeliverySearch);
+			//Type formType = Type.GetType("Edge.Applications.PM.Suite.DeliverySearch.DeliverySearch,Edge.Applications.PM.Suite.DeliverySearch",throwOnError: true);
+			
+			Type formType = Type.GetType(className,throwOnError: true);
 			Common.ProductionManagmentBaseForm form = (ProductionManagmentBaseForm)Activator.CreateInstance(formType);
 			form.Show();
 
