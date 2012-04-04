@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using Edge.Applications.PM.SchedulerControl.Objects;
 
 namespace Edge.Applications.PM.SchedulerControl
 {

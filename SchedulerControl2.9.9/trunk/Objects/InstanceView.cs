@@ -5,8 +5,9 @@ using System.Text;
 using System.ComponentModel;
 using Edge.Core.Scheduling.Objects;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
-namespace Edge.Applications.PM.SchedulerControl
+namespace Edge.Applications.PM.SchedulerControl.Objects
 {
 	public class InstanceView : INotifyPropertyChanged
 	{
@@ -79,7 +80,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		{
 			get
 			{
-				return _instanceInfo.SchdeuleStartTime.ToShortTimeString();
+				return _instanceInfo.BaseScheduleTime.ToShortTimeString();
 			}
 		}
 		public string ScheduleEndTime
@@ -103,12 +104,15 @@ namespace Edge.Applications.PM.SchedulerControl
 			{
 				return _instanceInfo.ActualEndTime.ToShortTimeString();
 			}
-		}		
-		public Core.Services.ServiceState State
+		}
+		public string State
 		{
 			get
 			{
-				return _instanceInfo.State;
+				if (_instanceInfo.State != Core.Services.ServiceState.Ended)
+					return _instanceInfo.State.ToString();
+				else
+					return _instanceInfo.Outcome.ToString();
 			}
 		}
 		public Core.Services.ServiceOutcome Outcome
@@ -126,26 +130,26 @@ namespace Edge.Applications.PM.SchedulerControl
 			}
 		}
 		public bool IsExpanded { get; set; }
-		public double Progress 
+		public double Progress
 		{
 			get
 			{
 				return _instanceInfo.Progress;
 			}
-			
+
 		}
 		public string Background
 		{
 			get
 			{
-				string color=string.Empty;
+				string color = string.Empty;
 				switch (Outcome)
 				{
 
-					case Edge.Core.Services.ServiceOutcome.Unspecified:						
+					case Edge.Core.Services.ServiceOutcome.Unspecified:
 						break;
 					case Edge.Core.Services.ServiceOutcome.Success:
-						color = "Green";
+						color = Colors.LawnGreen.ToString();
 						break;
 					case Edge.Core.Services.ServiceOutcome.Failure:
 						color = "Red";
@@ -159,7 +163,7 @@ namespace Edge.Applications.PM.SchedulerControl
 				}
 				return color;
 			}
-			
+
 		}
 		#region INotifyPropertyChanged Members
 		public event PropertyChangedEventHandler PropertyChanged;
