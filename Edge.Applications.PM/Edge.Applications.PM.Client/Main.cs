@@ -64,17 +64,25 @@ namespace Edge.Applications.PM.Client
 				typeof(LoadFormHelper).FullName, false, BindingFlags.Default, null, new object[] { menuItem.Name, menuItem.Class }, null, null);
 		}
 
+		private void toolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			Form a = new Form();
+			a.Show();
+		}
+
 
 	}
 
 	public class LoadFormHelper
 	{
-		public LoadFormHelper(string formName, string className)
+		public LoadFormHelper(string formName, string className )
 		{
 			Type ty = typeof(Edge.Applications.PM.Suite.DeliverySearch.DeliverySearch);
-			Type formType = Type.GetType(className);
-			var form = (ProductionManagmentBaseForm)Activator.CreateInstance(formType);
+			Type formType = Type.GetType("Edge.Applications.PM.Suite.DeliverySearch.DeliverySearch,Edge.Applications.PM.Suite.DeliverySearch",throwOnError: true);
+		
+			Common.ProductionManagmentBaseForm form = (ProductionManagmentBaseForm)Activator.CreateInstance(formType);
 			form.Show();
+
 		}
 	}
 
