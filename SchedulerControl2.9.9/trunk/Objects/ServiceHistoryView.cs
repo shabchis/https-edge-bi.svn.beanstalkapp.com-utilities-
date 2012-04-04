@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 
-namespace Edge.Applications.PM.SchedulerControl
+namespace Edge.Applications.PM.SchedulerControl.Objects
 {
 	public class ServiceHistoryView : INotifyPropertyChanged
 	{
@@ -34,7 +34,7 @@ namespace Edge.Applications.PM.SchedulerControl
 					case Edge.Core.Services.ServiceOutcome.Unspecified:
 						break;
 					case Edge.Core.Services.ServiceOutcome.Success:
-						color = Colors.LawnGreen.ToString();;
+						color = Colors.LawnGreen.ToString();
 						break;
 					case Edge.Core.Services.ServiceOutcome.Failure:
 						color = "Red";

@@ -11,7 +11,7 @@ using Edge.Core.Data;
 using System.Data;
 using Edge.Core.Configuration;
 
-namespace Edge.Applications.PM.SchedulerControl
+namespace Edge.Applications.PM.SchedulerControl.Objects
 {
 	public class BindingData : INotifyPropertyChanged
 	{
@@ -110,22 +110,7 @@ namespace Edge.Applications.PM.SchedulerControl
 				}
 				List<int> toremove=new List<int>();
 
-				for (int i = 0; i < Instances.Count; i++)			
-				{
-
-					if (Instances[i].ActualEndTime != "00:00")
-					{
-						DateTime ended = DateTime.Parse(Instances[i].ActualEndTime);
-
-						if (ended.AddMinutes(2) < DateTime.Now)
-						{
-							toremove.Add(i);							
-						}
-					}
-					
-				}
-				foreach (var item in toremove)
-					Instances.RemoveAt(item);
+				
 			}
 
 

@@ -40,18 +40,15 @@ namespace Edge.Applications.PM.SchedulerControl
 		public MainWindow()
 		{
 			InitializeComponent();
-			_callBack = new Callback();
-			_channel = new DuplexChannelFactory<ISchedulingCommunication>(_callBack,
-				new NetNamedPipeBinding() { MaxBufferPoolSize = 20000000, MaxConnections = 20000000, MaxBufferSize = 20000000, MaxReceivedMessageSize = 20000000, CloseTimeout = new TimeSpan(0, 3, 0), OpenTimeout = new TimeSpan(0, 3, 0) },
-				new EndpointAddress("net.pipe://localhost/Scheduler"));
-			_schedulingCommunicationChannel = _channel.CreateChannel();
-			_schedulingCommunicationChannel.Subscribe();
-
-			_callBack.NewScheduleCreatedEvent += new EventHandler(_callBack_NewScheduleCreatedEvent);
-			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
+			SubscribeToScheduler();
 
 
 			this.DataContext = MainWindow.BindingData;
+		}
+
+		private void SubscribeToScheduler()
+		{
+			
 		}
 		void _callBack_NewInstanceEvent(object sender, EventArgs e)
 		{
@@ -70,6 +67,25 @@ namespace Edge.Applications.PM.SchedulerControl
 			frmHistoryView f = new frmHistoryView();
 			f.Show();
 
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			Connect();
+			
+		}
+
+		private void Connect()
+		{
+			_callBack = new Callback();
+			_channel = new DuplexChannelFactory<ISchedulingCommunication>(_callBack,
+				new NetNamedPipeBinding() { MaxBufferPoolSize = 20000000, MaxConnections = 20000000, MaxBufferSize = 20000000, MaxReceivedMessageSize = 20000000, CloseTimeout = new TimeSpan(0, 3, 0), OpenTimeout = new TimeSpan(0, 3, 0) },
+				new EndpointAddress("net.pipe://localhost/Scheduler"));
+			_schedulingCommunicationChannel = _channel.CreateChannel();
+			_schedulingCommunicationChannel.Subscribe();
+
+			_callBack.NewScheduleCreatedEvent += new EventHandler(_callBack_NewScheduleCreatedEvent);
+			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
 		}
 	}
 	
