@@ -78,9 +78,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		private void Connect()
 		{
 			_callBack = new Callback();
-			_channel = new DuplexChannelFactory<ISchedulingCommunication>(_callBack,
-				new NetNamedPipeBinding() { MaxBufferPoolSize = 20000000, MaxConnections = 20000000, MaxBufferSize = 20000000, MaxReceivedMessageSize = 20000000, CloseTimeout = new TimeSpan(0, 3, 0), OpenTimeout = new TimeSpan(0, 3, 0) },
-				new EndpointAddress("net.pipe://localhost/Scheduler"));
+			_channel = new DuplexChannelFactory<ISchedulingCommunication>(_callBack,"SchedulerCommunication");				
 			_schedulingCommunicationChannel = _channel.CreateChannel();
 			_schedulingCommunicationChannel.Subscribe();
 
