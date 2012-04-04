@@ -43,6 +43,8 @@ namespace Edge.Applications.PM.Suite
 
         private List<AccountItem> getAccounts(string SystemDatabase)
         {
+            EdgeServicesConfiguration.Load("Edge.Applications.PM.Suite.MeasureEditor.exe.config");
+            string p = EdgeServicesConfiguration.Current.CurrentConfiguration.FilePath;
             using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), SystemDatabase)))
             {
                 sqlCon.Open();
