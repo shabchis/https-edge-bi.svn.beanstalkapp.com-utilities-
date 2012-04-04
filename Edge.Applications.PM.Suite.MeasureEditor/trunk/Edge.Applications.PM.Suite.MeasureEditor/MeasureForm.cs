@@ -15,14 +15,14 @@ using Edge.Data.Objects;
 namespace Edge.Applications.PM.Suite
 {
     public partial class MeasureForm : ProductionManagmentBaseForm
-	{
+    {
         private List<ChannelItem> _channelsList;
         private List<AccountItem> _accountsList;
 
-		public MeasureForm()
-		{
-			InitializeComponent();
-		}
+        public MeasureForm()
+        {
+            InitializeComponent();
+        }
 
         private List<ChannelItem> getChannels(string SystemDatabase)
         {
@@ -37,7 +37,7 @@ namespace Edge.Applications.PM.Suite
                 {
                     channelsView.Add(new ChannelItem() { id = c.Value.ID, name = string.Format("{1}({0})", c.Key, c.Value.Name), channel = c.Value });
                 }
-             }
+            }
             return channelsView;
         }
 
@@ -64,7 +64,7 @@ namespace Edge.Applications.PM.Suite
             using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), SystemDatabase)))
             {
                 sqlCon.Open();
-                Dictionary<string, Measure> measures = Measure.GetMeasures(account, null, sqlCon, MeasureOptions.All, MeasureOptionsOperator.Or, false);
+                Dictionary<string, Measure> measures = Measure.GetMeasures(account, null, sqlCon, MeasureOptions.IsTarget, MeasureOptionsOperator.Not);
                 foreach (KeyValuePair<string, Measure> msr in measures)
                 {
                     measuresList.Add(new MeasureView() { m = msr.Value });
@@ -93,43 +93,42 @@ namespace Edge.Applications.PM.Suite
         {
             baseMeasuresListView.Items.Clear();
             rendered = false;
+            
 
             foreach (MeasureView msr in measures)
             {
                 ListViewItem lvi = msr.ToListViewItem(_channelsList);
                 lvi.Tag = msr.m;
+                int msrChannelID = msr.m.Channel == null ? -1 : msr.m.Channel.ID;
 
-                if (!((int)(msr.m.Options & MeasureOptions.IsTarget) > 0))//not target
+                if (channel != 0)//Filter on chosen channel (differentiates between bo base measure and bo account measure)
                 {
-                    if (channel != 0)//Filter on chosen channel (differentiates between bo base measure and bo account measure)
+                    if ((msr.m.Account == null) && ((int)(msr.m.Options & MeasureOptions.IsBackOffice) > 0) && (msrChannelID == channel))
                     {
-                        if ((msr.m.Account == null) && ((int)(msr.m.Options & MeasureOptions.IsBackOffice) > 0) && (msr.m.ChannelID == channel))
-                        {
-                            lvi.BackColor = Color.White;
-                            lvi.ForeColor = System.Drawing.Color.Gray;
-                            baseMeasuresListView.Items.Add(lvi);
-                        }
-                        else if (msr.m.ChannelID == channel)
-                        {
-                            lvi.BackColor = Color.White;
-                            lvi.Checked = true;
-                            baseMeasuresListView.Items.Add(lvi);
-                        }
+                        lvi.BackColor = Color.White;
+                        lvi.ForeColor = System.Drawing.Color.Gray;
+                        baseMeasuresListView.Items.Add(lvi);
                     }
-                    else //Show all measures (differentiates between bo base measure and bo account measure)
+                    else if (msrChannelID == channel)
                     {
-                        if ((msr.m.Account == null) && ((int)(msr.m.Options & MeasureOptions.IsBackOffice) > 0))
-                        {
-                            lvi.BackColor = Color.White;
-                            lvi.ForeColor = System.Drawing.Color.Gray;
-                            baseMeasuresListView.Items.Add(lvi);
-                        }
-                        else
-                        {
-                            lvi.BackColor = Color.White;
-                            lvi.Checked = true;
-                            baseMeasuresListView.Items.Add(lvi);
-                        }
+                        lvi.BackColor = Color.White;
+                        lvi.Checked = true;
+                        baseMeasuresListView.Items.Add(lvi);
+                    }
+                }
+                else //Show all measures (differentiates between bo base measure and bo account measure)
+                {
+                    if ((msr.m.Account == null) && ((int)(msr.m.Options & MeasureOptions.IsBackOffice) > 0))
+                    {
+                        lvi.BackColor = Color.White;
+                        lvi.ForeColor = System.Drawing.Color.Gray;
+                        baseMeasuresListView.Items.Add(lvi);
+                    }
+                    else
+                    {
+                        lvi.BackColor = Color.White;
+                        lvi.Checked = true;
+                        baseMeasuresListView.Items.Add(lvi);
                     }
                 }
             }
@@ -169,7 +168,7 @@ namespace Edge.Applications.PM.Suite
             if (msr.m.Account == null)
                 addMeasureToBD(msr);
             else
-                editMeasureInDB(msr); 
+                editMeasureInDB(msr);
         }
 
         private int getNewMeasureID()
@@ -198,7 +197,7 @@ namespace Edge.Applications.PM.Suite
 
                 sqlCommand.Parameters["@measureID"].Value = getNewMeasureID();
                 sqlCommand.Parameters["@accountID"].Value = accounts_cb.SelectedValue;
-                sqlCommand.Parameters["@channelID"].Value = msr.m.ChannelID;
+                sqlCommand.Parameters["@channelID"].Value = msr.m.Channel == null ? "-1" : msr.m.Channel.ID.ToString();
                 sqlCommand.Parameters["@baseID"].Value = msr.m.BaseMeasureID;
                 sqlCommand.Parameters["@sourceName"].Value = string.IsNullOrEmpty(msr.m.SourceName) ? DBNull.Value : (object)msr.m.SourceName;
                 sqlCommand.Parameters["@displayName"].Value = msr.m.DisplayName;
@@ -222,21 +221,21 @@ namespace Edge.Applications.PM.Suite
                 string command = string.Format(@"UPDATE [dbo].[Measure]
                 SET [SourceName] = @sourceName:Nvarchar, [DisplayName] = @displayName:Nvarchar, [AcquisitionNum] = @acquisitionNum:Nvarchar{0}{1}
                 WHERE [MeasureID] = @measureID:Int and [AccountID] = @accountID:Int and [ChannelID] = @channelID:Int and [BaseMeasureID] = @baseID:Int",
-                includeStringFormat ? ", [StringFormat] = @stringFormat:Nvarchar" : "", includeValidation ? ", [IntegrityCheckRequired] = @check:Nvarchar" : ""); 
-                
+                includeStringFormat ? ", [StringFormat] = @stringFormat:Nvarchar" : "", includeValidation ? ", [IntegrityCheckRequired] = @check:Nvarchar" : "");
+
                 sqlCon.Open();
                 SqlCommand sqlCommand = DataManager.CreateCommand(command);
 
                 sqlCommand.Parameters["@measureID"].Value = msr.m.ID;
                 sqlCommand.Parameters["@accountID"].Value = msr.m.Account.ID;
-                sqlCommand.Parameters["@channelID"].Value = msr.m.ChannelID;
+                sqlCommand.Parameters["@channelID"].Value = msr.m.Channel == null ? "-1" : msr.m.Channel.ID.ToString();
                 sqlCommand.Parameters["@baseID"].Value = msr.m.BaseMeasureID;
                 sqlCommand.Parameters["@sourceName"].Value = string.IsNullOrEmpty(msr.m.SourceName) ? DBNull.Value : (object)msr.m.SourceName;
                 sqlCommand.Parameters["@displayName"].Value = string.IsNullOrEmpty(msr.m.DisplayName) ? DBNull.Value : (object)msr.m.DisplayName;
                 sqlCommand.Parameters["@acquisitionNum"].Value = msr.m.AcquisitionNum == null ? DBNull.Value : (object)msr.m.AcquisitionNum;
                 if (includeValidation)
                     sqlCommand.Parameters["@check"].Value = string.IsNullOrEmpty(msr.IntegrityCheckRequired) ? DBNull.Value : (object)msr.IntegrityCheckRequired;
-                if(includeStringFormat)
+                if (includeStringFormat)
                     sqlCommand.Parameters["@stringFormat"].Value = string.IsNullOrEmpty(msr.m.StringFormat) ? DBNull.Value : (object)msr.m.StringFormat;
 
                 sqlCommand.Connection = sqlCon;
@@ -264,11 +263,11 @@ namespace Edge.Applications.PM.Suite
 
 
         private void baseMeasuresListView_SelectedIndexChanged(object sender, EventArgs e)
-        {  
+        {
             if (baseMeasuresListView.SelectedItems.Count == 1)
             {
                 Measure m = (Measure)baseMeasuresListView.SelectedItems[0].Tag;
-                if (m.Account== null && ((int)(m.Options & MeasureOptions.IsBackOffice) > 0))
+                if (m.Account == null && ((int)(m.Options & MeasureOptions.IsBackOffice) > 0))
                     addMeasureBtn.Text = "Add";
                 else
                     addMeasureBtn.Text = "Edit";
@@ -369,29 +368,21 @@ namespace Edge.Applications.PM.Suite
         internal ListViewItem ToListViewItem(List<ChannelItem> channels)
         {
             string[] viewItem = new string[8];
+            int id = m.Channel == null ? -1 : m.Channel.ID;
 
-            Channel channelItem = channels.Find(ChannelItem => ChannelItem.id == m.ChannelID).channel;
+            Channel channelItem = channels.Find(ChannelItem => ChannelItem.id == id).channel;
 
             viewItem[1] = channelItem.Name;
             viewItem[2] = m.Name.ToString();
             viewItem[3] = m.DisplayName.ToString();
             viewItem[4] = m.SourceName.ToString();
             viewItem[5] = m.StringFormat.ToString();
-            viewItem[6] = (m.Options & MeasureOptions.ValidationRequired)>0? "true" : "false";
+            viewItem[6] = (m.Options & MeasureOptions.ValidationRequired) > 0 ? "true" : "false";
             viewItem[7] = m.AcquisitionNum == null ? "" : m.AcquisitionNum.ToString();
 
             ListViewItem lvi = new ListViewItem(viewItem);
             return lvi;
         }
     }
-
-    /*
-            Measure m;
-            //does m.Options contain (IsBackOffice and IsTarget)
-            if (((int)m.Options & (MeasureOptions.IsBackOffice | MeasureOptions.IsTarget)) > 0)
-            {
-                // this is a backoffice measure!!!
-            }
-    */
 
 }

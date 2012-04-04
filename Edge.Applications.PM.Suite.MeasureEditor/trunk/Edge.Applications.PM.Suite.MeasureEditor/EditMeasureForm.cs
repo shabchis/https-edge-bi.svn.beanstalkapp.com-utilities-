@@ -31,7 +31,7 @@ namespace Edge.Applications.PM.Suite
 
             msrLbl.Text += m.BaseMeasureID.ToString();
             msrLbl1.Text += m.ID.ToString();
-            chnnlLbl.Text += m.ChannelID.ToString();
+            chnnlLbl.Text += m.Channel == null ? "-1" : m.Channel.ID.ToString();
             accountLbl.Text += m.Account == null ? "-1" : m.Account.ID.ToString();
             msrNameLbl.Text += m.Name.ToString();
             displayNameTxt.Text = m.DisplayName.ToString();
@@ -123,6 +123,12 @@ namespace Edge.Applications.PM.Suite
                     valid = false;
                     MessageBox.Show("Source name cannot be empty");
                 }
+            }
+            int dummy;
+            if(!(acqNumTxt.Text.Equals("Inherit from base"))&&(!string.IsNullOrEmpty(acqNumTxt.Text))&&(Int32.TryParse(acqNumTxt.Text, out dummy)==false))
+            {
+                valid = false;
+                MessageBox.Show("Aquisition Number must be a number");
             }
             
             return valid;
