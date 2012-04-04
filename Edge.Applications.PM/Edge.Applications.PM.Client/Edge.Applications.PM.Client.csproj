@@ -11,11 +11,12 @@
     <RootNamespace>Edge.Applications.PM.Client</RootNamespace>
     <AssemblyName>Edge.Applications.PM.Client</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -69,7 +70,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -88,6 +91,10 @@
     <ProjectReference Include="..\Edge.Applications.PM.Suite\Edge.Applications.PM.Suite.DeliverySearch\Edge.Applications.PM.Suite.DeliverySearch\Edge.Applications.PM.Suite.DeliverySearch.csproj">
       <Project>{5FCBAA99-FA53-48EB-ACE5-7911CF6B89FD}</Project>
       <Name>Edge.Applications.PM.Suite.DeliverySearch</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Edge.Applications.PM.Suite\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password.csproj">
+      <Project>{DFDC8CBE-D72B-4CF8-A0A0-0965CEF5FDBF}</Project>
+      <Name>Edge.Applications.PM.Suite.Password</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
