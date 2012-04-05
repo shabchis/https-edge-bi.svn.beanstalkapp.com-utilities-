@@ -25,9 +25,17 @@
 			</TreeView.Resources>
 			<ui:TreeListView.Columns>
 				<GridViewColumn Header="ServiceName" Width="300">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>							
-							<TextBlock Text="{Binding ServiceName}" Width="300" />							
+					<GridViewColumn.CellTemplate>						
+						<DataTemplate>
+							<TextBlock Text="{Binding ServiceName}" Width="300">
+								<TextBlock.ContextMenu >
+									<ContextMenu   ItemsSource="{Binding ID}" >
+										<MenuItem Header="IsAlive"  Click="MenuIsAlive_Click"/>
+										<MenuItem Header="Abort"  Click="Abort_Click"/>
+									</ContextMenu>
+									</TextBlock.ContextMenu>
+							</TextBlock>
+
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
@@ -48,7 +56,7 @@
 				<GridViewColumn Header="ScheduledTime" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding SchdeuleStartTime}"/>
+							<TextBlock Text="{Binding ScheduledTime}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
