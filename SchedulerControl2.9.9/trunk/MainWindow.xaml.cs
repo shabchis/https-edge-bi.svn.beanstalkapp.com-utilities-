@@ -23,6 +23,9 @@ using System.Data;
 using System.Data.SqlClient;
 using Edge.Core.Configuration;
 using Edge.Core.Data;
+using Legacy = Edge.Core.Services;
+using System.Threading;
+using System.Windows.Threading;
 
 
 namespace Edge.Applications.PM.SchedulerControl
@@ -48,7 +51,7 @@ namespace Edge.Applications.PM.SchedulerControl
 
 		private void SubscribeToScheduler()
 		{
-			
+
 		}
 		void _callBack_NewInstanceEvent(object sender, EventArgs e)
 		{
@@ -72,21 +75,63 @@ namespace Edge.Applications.PM.SchedulerControl
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			Connect();
-			
+
 		}
 
 		private void Connect()
 		{
 			_callBack = new Callback();
-			_channel = new DuplexChannelFactory<ISchedulingCommunication>(_callBack,"SchedulerCommunication");				
+			_channel = new DuplexChannelFactory<ISchedulingCommunication>(_callBack, "SchedulerCommunication");
 			_schedulingCommunicationChannel = _channel.CreateChannel();
 			_schedulingCommunicationChannel.Subscribe();
 
 			_callBack.NewScheduleCreatedEvent += new EventHandler(_callBack_NewScheduleCreatedEvent);
 			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
 		}
+
+		private void MenuIsAlive_Click(object sender, RoutedEventArgs e)
+		{
+
+			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
+			ThreadStart start = delegate()
+			{
+				Dispatcher.Invoke(new Action<Guid>(IsAlive), new object[] { guid });
+			};
+			new Thread(start).Start();	
+
+
+
+
+
+
+		}
+		private void IsAlive(Guid guid)
+		{
+			try
+			{
+
+				Legacy.IsAlive isAlive = _schedulingCommunicationChannel.IsAlive(guid);
+				MessageBox.Show(string.Format("State: {0}\n OutCome: {1}\n Progress: {2}", isAlive.State, isAlive.OutCome, isAlive.Progress));
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.Message);
+			}
+			
+
+		}
+
+		private void Abort_Click(object sender, RoutedEventArgs e)
+		{
+			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
+			_schedulingCommunicationChannel.Abort(guid);
+		}
+
+		
 	}
-	
+
 
 
 

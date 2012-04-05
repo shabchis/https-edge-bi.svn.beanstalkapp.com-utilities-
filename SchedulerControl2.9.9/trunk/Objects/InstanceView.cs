@@ -76,20 +76,15 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				return _instanceInfo.AccountID;
 			}
 		}
-		public string SchdeuleStartTime
+		public string ScheduledTime
 		{
 			get
 			{
-				return _instanceInfo.BaseScheduleTime.ToShortTimeString();
+				TimeSpan to= _instanceInfo.ScheduleEndTime-_instanceInfo.SchdeuleStartTime;
+				return string.Format("{0}-{1}", _instanceInfo.BaseScheduleTime.ToShortTimeString(), _instanceInfo.BaseScheduleTime.Add(to).ToShortTimeString());
 			}
 		}
-		public string ScheduleEndTime
-		{
-			get
-			{
-				return _instanceInfo.ScheduleEndTime.ToShortTimeString();
-			}
-		}
+		
 		public string ActualStartTime
 		{
 			get
@@ -152,9 +147,10 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 						color = Colors.LawnGreen.ToString();
 						break;
 					case Edge.Core.Services.ServiceOutcome.Failure:
-						color = "Red";
+						color = Colors.Red.ToString();
 						break;
 					case Edge.Core.Services.ServiceOutcome.Aborted:
+						color = Colors.Purple.ToString();
 						break;
 					case Edge.Core.Services.ServiceOutcome.Reset:
 						break;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using Edge.Core.Scheduling.Objects;
+using Legacy=Edge.Core.Services;
 
 namespace Edge.Applications.PM.SchedulerControl.Objects
 {
@@ -13,6 +14,12 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	{
 		[OperationContract]
 		void Subscribe();
+
+		[OperationContract]		
+		Legacy.IsAlive IsAlive(Guid guid);
+
+		[OperationContract]
+		void Abort(Guid guid);
 	}
 	public interface ICallBack
 	{
