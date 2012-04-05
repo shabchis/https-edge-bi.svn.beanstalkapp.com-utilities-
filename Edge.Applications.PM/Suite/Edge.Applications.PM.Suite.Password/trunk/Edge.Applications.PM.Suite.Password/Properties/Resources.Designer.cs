@@ -59,47 +59,5 @@ namespace Edge.Applications.PM.Suite.Properties {
                 resourceCulture = value;
             }
         }
-        
-        internal static System.Drawing.Icon cancel_round {
-            get {
-                object obj = ResourceManager.GetObject("cancel_round", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon cancel_round_faded {
-            get {
-                object obj = ResourceManager.GetObject("cancel_round_faded", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon question_blue {
-            get {
-                object obj = ResourceManager.GetObject("question_blue", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon question_blue_faded {
-            get {
-                object obj = ResourceManager.GetObject("question_blue_faded", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon tick_circle {
-            get {
-                object obj = ResourceManager.GetObject("tick_circle", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon tick_circle_faded {
-            get {
-                object obj = ResourceManager.GetObject("tick_circle_faded", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
     }
 }
