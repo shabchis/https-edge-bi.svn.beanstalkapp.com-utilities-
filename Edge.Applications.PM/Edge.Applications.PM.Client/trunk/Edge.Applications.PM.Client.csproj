@@ -88,21 +88,17 @@
       <Project>{1138B711-24C7-4B18-81BB-23E8EA1BC996}</Project>
       <Name>Edge.Applications.PM.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Edge.Applications.PM.Suite\Edge.Applications.PM.Suite.DeliverySearch\Edge.Applications.PM.Suite.DeliverySearch\Edge.Applications.PM.Suite.DeliverySearch.csproj">
-      <Project>{5FCBAA99-FA53-48EB-ACE5-7911CF6B89FD}</Project>
-      <Name>Edge.Applications.PM.Suite.DeliverySearch</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Edge.Applications.PM.Suite\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password.csproj">
       <Project>{DFDC8CBE-D72B-4CF8-A0A0-0965CEF5FDBF}</Project>
       <Name>Edge.Applications.PM.Suite.Password</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+
+	<Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
+		<Copy SourceFiles="..\Edge.Applications.PM.Suite\Edge.Applications.PM.Suite.DeliverySearch\bin\Edge.Applications.PM.Suite.DeliverySearch.dll" DestinationFolder="$(OutDir)\Edge.Applications.PM.Suite.DeliverySearch.dll"/>
   </Target>
-  -->
+  
 </Project>
