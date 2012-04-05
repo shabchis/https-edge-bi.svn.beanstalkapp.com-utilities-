@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BC0B0D23-10E2-4220-9546-FDE4A098910B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Edge.Applications.PM.Suite.DataChecks</RootNamespace>
+    <AssemblyName>Edge.Applications.PM.Suite.DataChecks</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Edge.Objects">
+      <HintPath>..\..\..\..\EdgeApiRest\API\Edge.Api\bin\Edge.Objects.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.AdWords.V201109">
+      <HintPath>..\..\..\(third party)\GoogleAdwords\Google.AdWords.V201109.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ExceptionMessageBox, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.ExceptionMessageBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportingServices.Interfaces, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.ReportingServices.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\(third party)\Json.net\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdMetricsValidation.cs" />
+    <Compile Include="Common\DataChecksBase.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Const.cs" />
+    <Compile Include="DataChecksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataChecksForm.Designer.cs">
+      <DependentUpon>DataChecksForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataChecksModelView.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DataChecksForm.resx">
+      <DependentUpon>DataChecksForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\step1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\step2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\step3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\failed-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\success_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start-button-news.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\go.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stopBtn2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Perspective Button Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DupTracker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Flight-Tracker-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iconFacebook.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\google.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Zoom_in48.png" />
+    <None Include="Resources\yahoo %281%29.png" />
+    <None Include="Resources\window_new.png" />
+    <None Include="Resources\warning1.png" />
+    <None Include="Resources\fixErrors.png" />
+    <None Include="Resources\Add24.png" />
+    <Content Include="Resources\checked_shield_green.ico" />
+    <None Include="Resources\media_floppy_green.png" />
+    <None Include="Resources\button_minus_red.png" />
+    <None Include="Resources\delete.png" />
+    <None Include="Resources\delete %281%29.png" />
+    <None Include="Resources\human_folder_saved_search.png" />
+    <None Include="Resources\find.png" />
+    <None Include="Resources\kontact.png" />
+    <None Include="Resources\gnome_ftp.png" />
+    <None Include="Resources\documents.png" />
+    <None Include="Resources\glass_numbers_1.png" />
+    <None Include="Resources\glass_numbers_2.png" />
+    <None Include="Resources\glass_numbers_3.png" />
+    <None Include="Resources\glass_numbers_4.png" />
+    <None Include="Resources\users_folder_graphite.png" />
+    <None Include="Resources\users.png" />
+    <None Include="Resources\package_settings.png" />
+    <None Include="Resources\settings.png" />
+    <None Include="Resources\kontact1.png" />
+    <None Include="Resources\report.png" />
+    <None Include="Resources\Stats.png" />
+    <None Include="Resources\Go-Button.png" />
+    <None Include="Resources\stock_calendar_view_year.png" />
+    <None Include="Resources\24.png" />
+    <None Include="Resources\preferences_system_windows_actions.png" />
+    <None Include="Resources\configuration.png" />
+    <None Include="Resources\Shoppingcart16.png" />
+    <None Include="Resources\Shoppingcart48.png" />
+    <None Include="Resources\clock green.png" />
+    <None Include="Resources\user_pic.png" />
+    <None Include="Resources\Key16.png" />
+    <None Include="Resources\erase.png" />
+    <None Include="Resources\new_table.png" />
+    <None Include="Resources\Add_user24.png" />
+    <Content Include="Resources\cancel_round-faded.ico" />
+    <Content Include="Resources\cancel_round.ico" />
+    <None Include="Resources\cancel_round.ico.ico" />
+    <None Include="Resources\Lock24.png" />
+    <Content Include="Resources\question_blue-faded.ico" />
+    <Content Include="Resources\question_blue.ico" />
+    <Content Include="Resources\tick_circle-faded.ico" />
+    <Content Include="Resources\tick_circle.ico" />
+    <None Include="Resources\Unlock24.png" />
+    <Content Include="Resources\Warning-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Framework\Edge.Core.Scheduling\Edge.Core.Scheduling.csproj">
+      <Project>{E700E7AA-08B7-44C3-8889-ACB4FAF92C90}</Project>
+      <Name>Edge.Core.Scheduling</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Framework\Edge.Core\Edge.Core.csproj">
+      <Project>{AD4B53AD-B28A-4E90-9483-D2F7C8E6D436}</Project>
+      <Name>Edge.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Framework\Edge.Data.Pipeline\Edge.Data.Pipeline.csproj">
+      <Project>{53391A99-E8CA-4262-A8E0-5F05A1CC6608}</Project>
+      <Name>Edge.Data.Pipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Services\Edge.Services.AdMetrics.Validations\Edge.Services.AdMetrics.Validations.csproj">
+      <Project>{C6504C8B-C482-41B9-BC6E-BEF92AF9D6FE}</Project>
+      <Name>Edge.Services.AdMetrics.Validations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Services\Edge.Services.Facebook.GraphApi\Edge.Services.Facebook.GraphApi.csproj">
+      <Project>{0CA66633-F417-4724-9FC5-5F8C6E1D72B5}</Project>
+      <Name>Edge.Services.Facebook.GraphApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Services\Edge.Services.Microsoft.AdCenter\Edge.Services.Microsoft.AdCenter.csproj">
+      <Project>{C73E557C-2B70-4040-9FA5-5AA2C0A95717}</Project>
+      <Name>Edge.Services.Microsoft.AdCenter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Edge.Applications.PM.Common\Edge.Applications.PM.Common.csproj">
+      <Project>{1138B711-24C7-4B18-81BB-23E8EA1BC996}</Project>
+      <Name>Edge.Applications.PM.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
