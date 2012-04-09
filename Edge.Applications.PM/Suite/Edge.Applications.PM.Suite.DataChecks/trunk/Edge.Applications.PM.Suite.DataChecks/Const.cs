@@ -7,6 +7,16 @@ namespace Edge.Applications.PM.Suite.DataChecks
 {
 	public static class Const
 	{
+
+		public struct EventsTypes
+		{
+			public const string ParentOutcomeReportedEvent = "ParentOutcome";
+			public const string ParentStateChangedEvent = "ParentStateChanged";
+			public const string ChildOutcomeReportedEvent = "ChildOutcome";
+			public const string ChildStateChangedEvent = "ChildStateChangedEvent";
+			public const string ChildServiceRequested = "ChildServiceRequested";
+
+		};
 		public static class AdMetricsConst
 		{
 			//TO DO : GET PARAMS FROM CONFIGURATION AND USE STATIC 

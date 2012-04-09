@@ -10,6 +10,8 @@ using Edge.Core.Data;
 using System.Collections;
 using Edge.Applications.PM.Suite.DataChecks.Common;
 using Edge.Applications.PM.Suite.DataChecks.Configuration;
+using Edge.Data.Pipeline.Services;
+using Newtonsoft.Json;
 
 namespace Edge.Applications.PM.Suite.DataChecks
 {
@@ -195,7 +197,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			}
 		}
 
-		internal void SetValidationTypesItems(TreeNodeCollection itemCollection)
+		internal void LoadValidationTypesItems(TreeNodeCollection itemCollection)
 		{
 			foreach (var item in ValidationsTypes)
 			{
@@ -207,7 +209,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			}
 		}
 
-		internal void SetMetricsValidationsItems(TreeNodeCollection itemCollection)
+		internal void LoadMetricsValidationsItems(TreeNodeCollection itemCollection)
 		{
 			foreach (MetricsItem item in MetricsValidations)
 			{
@@ -232,6 +234,38 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 		}
 
+		/// <summary>
+		/// Getting Validation results by service instance 
+		/// </summary>
+		/// <param name="instance"></param>
+		/// <returns>List of validations results</returns>
+		private List<ValidationResult> GetValidationResultsByInstance(Edge.Core.Services.ServiceInstance instance)
+		{
+			#region Getting Instance Log for results
+			List<ValidationResult> newResults = new List<ValidationResult>();
+			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+			{
+				sqlCon.Open();
+				SqlCommand sqlCommand = DataManager.CreateCommand(
+					"SELECT [Message] FROM [dbo].[Log] where [ServiceInstanceID] = @instanceID");
+				sqlCommand.Parameters.Add(new SqlParameter() { ParameterName = "@instanceID", Value = instance.InstanceID, SqlDbType = System.Data.SqlDbType.BigInt });
+				sqlCommand.Connection = sqlCon;
+
+				using (var _reader = sqlCommand.ExecuteReader())
+				{
+					if (!_reader.IsClosed)
+					{
+						while (_reader.Read())
+						{
+							newResults.Add((ValidationResult)JsonConvert.DeserializeObject(_reader[0].ToString(), typeof(ValidationResult)));
+						}
+					}
+				}
+			}
+			#endregion
+			return newResults;
+
+		}
 
 	}
 
