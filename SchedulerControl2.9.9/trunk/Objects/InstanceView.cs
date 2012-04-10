@@ -11,8 +11,11 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 {
 	public class InstanceView : INotifyPropertyChanged
 	{
+		#region members
 		private ServiceInstanceInfo _instanceInfo;
 		private ObservableCollection<InstanceView> _childsSteps = new ObservableCollection<InstanceView>();
+		#endregion
+		#region properties
 		public ObservableCollection<InstanceView> ChildsSteps
 		{
 			get
@@ -36,18 +39,8 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				ParentID = _instanceInfo.ParentInstanceID;
 				RaiseAllPropertyChange();
 			}
-
 		}
-		public Guid ParentID;
-		public InstanceView()
-		{
-			_childsSteps.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_childsSteps_CollectionChanged);
-			IsExpanded = true;
-		}
-		void _childsSteps_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-		{
-			RaisePropertyChanged("ChildsSteps");
-		}
+		public Guid ParentID { get; set; }
 		public Guid ID
 		{
 			get
@@ -80,18 +73,16 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				TimeSpan to= _instanceInfo.ScheduleEndTime-_instanceInfo.SchdeuleStartTime;
+				TimeSpan to = _instanceInfo.ScheduleEndTime - _instanceInfo.SchdeuleStartTime;
 				return string.Format("{0}-{1}", _instanceInfo.BaseScheduleTime.ToShortTimeString(), _instanceInfo.BaseScheduleTime.Add(to).ToShortTimeString());
 			}
 		}
-		
 		public string ActualStartTime
 		{
 			get
 			{
 				return _instanceInfo.ActualStartTime.ToShortTimeString();
 			}
-
 		}
 		public string ActualEndTime
 		{
@@ -131,7 +122,6 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			{
 				return _instanceInfo.Progress;
 			}
-
 		}
 		public string Background
 		{
@@ -140,7 +130,6 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				string color = string.Empty;
 				switch (Outcome)
 				{
-
 					case Edge.Core.Services.ServiceOutcome.Unspecified:
 						break;
 					case Edge.Core.Services.ServiceOutcome.Success:
@@ -159,8 +148,20 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				}
 				return color;
 			}
-
 		}
+		#endregion
+		#region ctor
+		public InstanceView()
+		{
+			_childsSteps.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_childsSteps_CollectionChanged);
+			IsExpanded = true;
+		}
+		#endregion
+		#region events
+		void _childsSteps_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			RaisePropertyChanged("ChildsSteps");
+		}		
 		#region INotifyPropertyChanged Members
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void RaisePropertyChanged(string propertyName)
@@ -180,6 +181,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 
 		}
 
+		#endregion
 		#endregion
 	}
 }

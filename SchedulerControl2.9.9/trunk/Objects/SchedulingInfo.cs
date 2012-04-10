@@ -10,14 +10,13 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 {
 	[ServiceContract(SessionMode = SessionMode.Required,
 	 CallbackContract = typeof(ICallBack))]
+	#region Interfaces
 	public interface ISchedulingCommunication
 	{
 		[OperationContract]
 		void Subscribe();
-
 		[OperationContract]		
 		Legacy.IsAlive IsAlive(Guid guid);
-
 		[OperationContract]
 		void Abort(Guid guid);
 	}
@@ -25,10 +24,11 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	{
 		[OperationContract(IsOneWay = true)]
 		void ScheduleCreated(ServiceInstanceInfo[] scheduleAndStateInfo);
-
 		[OperationContract(IsOneWay = true)]
 		void InstanceEvent(ServiceInstanceInfo StateOutcomerInfo);
 	}
+	#endregion
+	#region classes
 	public class Callback : ICallBack
 	{
 		public event EventHandler NewScheduleCreatedEvent;
@@ -41,7 +41,6 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		}
 
 		#endregion
-
 		#region ICallBack Members
 		public void InstanceEvent(ServiceInstanceInfo StateOutcomerInfo)
 		{
@@ -52,10 +51,12 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	public class ScheduleCreatedEventArgs : EventArgs
 	{
 		public ServiceInstanceInfo[] ScheduleAndStateInfo;
-
 	}
+	#endregion
+	#region eventargs
 	public class InstanceEventArgs : EventArgs
 	{
 		public ServiceInstanceInfo instanceStateOutcomerInfo;
 	}
+#endregion
 }
