@@ -10,7 +10,10 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 {
 	public class ServiceHistoryView : INotifyPropertyChanged
 	{
-
+		#region members
+		private ObservableCollection<ServiceHistoryView> _childsHistoryView = new ObservableCollection<ServiceHistoryView>();
+		#endregion
+		#region properties
 		public int? InstanceID { get; set; }
 		public string ServiceName { get; set; }
 		public int AccountID { get; set; }		
@@ -30,7 +33,6 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				string color = string.Empty;
 				switch (Outcome)
 				{
-
 					case Edge.Core.Services.ServiceOutcome.Unspecified:
 						break;
 					case Edge.Core.Services.ServiceOutcome.Success:
@@ -48,21 +50,15 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				}
 				return color;
 			}
-
-		}
-		
+		}		
 		public ObservableCollection<ServiceHistoryView> ChildsHistoryView
 		{
 			get
 			{
 				return _childsHistoryView;
 			}
-
 		}
-		private ObservableCollection<ServiceHistoryView> _childsHistoryView = new ObservableCollection<ServiceHistoryView>();
-
-
-
+		#endregion
 		#region INotifyPropertyChanged Members
 
 		public event PropertyChangedEventHandler PropertyChanged;

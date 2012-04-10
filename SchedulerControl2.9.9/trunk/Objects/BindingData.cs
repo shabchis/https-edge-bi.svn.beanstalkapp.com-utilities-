@@ -15,6 +15,20 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 {
 	public class BindingData : INotifyPropertyChanged
 	{
+		#region Members
+		private bool _connected;
+		private Dictionary<Guid, InstanceView> _InstancesRef = new Dictionary<Guid, InstanceView>();
+		private Dictionary<int, ServiceHistoryView> _historyViewRef = new Dictionary<int, ServiceHistoryView>();
+		#endregion		
+		#region ctor
+		public BindingData()
+		{
+			Instances = new ObservableCollection<InstanceView>();
+			var collectionview = CollectionViewSource.GetDefaultView(Instances);
+			collectionview.SortDescriptions.Add(new SortDescription("SchdeuleStartTime", ListSortDirection.Ascending));
+		}
+		#endregion
+		#region LoadData
 		public void LoadHistory(DateTime? from = null, DateTime? to = null)
 		{
 			using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString(this, "History")))
@@ -24,14 +38,12 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 					SqlCommand command = DataManager.CreateCommand(@"SELECT *
 																    FROM ServiceInstance
 																    WHERE TimeStarted BETWEEN @Form:DateTime AND @To:DateTime", CommandType.Text);
-
 					command.Parameters["@Form"].Value = from == null ? DateTime.Now.AddHours(-2) : from;
 					command.Parameters["@To"].Value = to == null ? DateTime.Now : to;
 					command.Connection = conn;
 					List<ServiceHistoryView> childs = new List<ServiceHistoryView>();
 					using (SqlDataReader reader = command.ExecuteReader())
 					{
-
 						while (reader.Read())
 						{
 							ServiceHistoryView hv = new ServiceHistoryView();
@@ -43,7 +55,6 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 							hv.TimeStarted = reader["TimeStarted"].ToString();
 							hv.TimeEnded = reader["TimeEnded"].ToString();
 							hv.Outcome = (Core.Services.ServiceOutcome)Enum.Parse(typeof(Core.Services.ServiceOutcome), (reader["Outcome"].ToString()));
-
 							if (hv.ParentInstanceID.HasValue)
 								childs.Add(hv);
 							else
@@ -52,44 +63,35 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 
 						}
 					}
-					foreach (var child in childs)
-					{
+					foreach (var child in childs)					
 						_historyViewRef[child.ParentInstanceID.Value].ChildsHistoryView.Add(child);
-
-					}
-
-
-
-
 				}
-
 			}
-
 		}
-		InstanceView _currentInstance;
-		Dictionary<Guid, InstanceView> _InstancesRef = new Dictionary<Guid, InstanceView>();
-		Dictionary<int, ServiceHistoryView> _historyViewRef = new Dictionary<int, ServiceHistoryView>();
-		public BindingData()
+		public void LoadSchedulers()
 		{
-			Instances = new ObservableCollection<InstanceView>();
-			var collectionview = CollectionViewSource.GetDefaultView(Instances);
-			collectionview.SortDescriptions.Add(new SortDescription("SchdeuleStartTime", ListSortDirection.Ascending));
-
-
+			using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString(this, "Shcedulers")))
+			{
+				conn.Open();
+				using (SqlCommand command = new SqlCommand(@"SELECT Name,EndPointConfigurationName FROM Schedulers", conn))
+				{
+					using (SqlDataReader reader = command.ExecuteReader())
+					{
+						if (Schedulers == null)
+							Schedulers = new ObservableCollection<SchedulerView>();
+						while (reader.Read())
+							Schedulers.Add(new SchedulerView() { Name = reader["Name"].ToString(), EndPointAddress = reader["EndPointConfigurationName"].ToString() });
+					}
+				}
+			}
 		}
-		public ObservableCollection<InstanceView> Instances { get; set; }
-		public ObservableCollection<ServiceHistoryView> History { get; set; }
 		public void UpdateInstances(ServiceInstanceInfo[] instancesInfo)
 		{
-
-
 			lock (Instances)
 			{
 				List<InstanceView> childs = new List<InstanceView>();
 				foreach (var instance in instancesInfo)
 				{
-
-
 					if (_InstancesRef.ContainsKey(instance.LegacyInstanceGuid))
 						_InstancesRef[instance.LegacyInstanceGuid].ServiceInstanceInfo = instance;
 					else
@@ -101,21 +103,46 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 						else
 							childs.Add(iv);
 					}
-
 				}
 				foreach (var child in childs)
 				{
 					if (_InstancesRef.ContainsKey(child.ParentID))
 						_InstancesRef[child.ParentID].ChildsSteps.Add(child);
 				}
-				List<int> toremove=new List<int>();
-
-				
+				List<int> toremove = new List<int>();
 			}
 
 
 
 		}
+		#endregion
+		#region Properties
+		public bool Connected
+		{
+			set
+			{
+				_connected = value;
+				RaisePropertyChanged("ConnectButtonText");
+			}
+			get
+			{
+				return _connected;
+			}
+		}
+		public string ConnectButtonText
+		{
+			get
+			{
+				if (_connected)
+					return "DisConnect";
+				else
+					return "Connect";
+			}
+		}
+		public ObservableCollection<InstanceView> Instances { get; set; }
+		public ObservableCollection<ServiceHistoryView> History { get; set; }
+		public ObservableCollection<SchedulerView> Schedulers { get; set; } 
+		#endregion	
 		#region INotifyPropertyChanged Members
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void RaisePropertyChanged(string propertyName)
@@ -126,5 +153,10 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			}
 		}
 		#endregion
+		internal  void Disconnect()
+		{
+			_InstancesRef.Clear();
+			Instances.Clear();
+		}
 	}
 }

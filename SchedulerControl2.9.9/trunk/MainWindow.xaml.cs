@@ -35,24 +35,22 @@ namespace Edge.Applications.PM.SchedulerControl
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		#region members
 		public static BindingData BindingData = new BindingData();
 		private DuplexChannelFactory<ISchedulingCommunication> _channel;
 		private ISchedulingCommunication _schedulingCommunicationChannel;
 		private Callback _callBack;
-
+		#endregion
+		#region ctor
 		public MainWindow()
 		{
 			InitializeComponent();
 			SubscribeToScheduler();
-
-
 			this.DataContext = MainWindow.BindingData;
+			MainWindow.BindingData.LoadSchedulers();
 		}
-
-		private void SubscribeToScheduler()
-		{
-
-		}
+		#endregion		
+		#region events
 		void _callBack_NewInstanceEvent(object sender, EventArgs e)
 		{
 			InstanceEventArgs ie = (InstanceEventArgs)e;
@@ -64,75 +62,66 @@ namespace Edge.Applications.PM.SchedulerControl
 			ScheduleCreatedEventArgs scheduleCreatedEventArgs = (ScheduleCreatedEventArgs)e;
 			BindingData.UpdateInstances(scheduleCreatedEventArgs.ScheduleAndStateInfo);
 		}
-
+		#endregion
 		private void MenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			frmHistoryView f = new frmHistoryView();
 			f.Show();
-
 		}
-
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			Connect();
-
+			if (_combo.SelectedValue != null)
+			{
+				if (!MainWindow.BindingData.Connected)
+					Connect(((SchedulerView)_combo.SelectedValue).EndPointAddress);
+				else
+					if (MainWindow.BindingData.Connected)
+						Disconnect();
+			}
 		}
-
-		private void Connect()
+		private void Disconnect()
+		{
+			_callBack.NewScheduleCreatedEvent -= new EventHandler(_callBack_NewScheduleCreatedEvent);
+			_callBack.NewInstanceEvent -= new EventHandler(_callBack_NewInstanceEvent);
+			MainWindow.BindingData.Disconnect();
+			_channel.Close();
+			BindingData.Connected = false;
+		}
+		private void Connect(string endPointConfigurationName)
 		{
 			_callBack = new Callback();
-			_channel = new DuplexChannelFactory<ISchedulingCommunication>(_callBack, "SchedulerCommunication");
+			_channel = new DuplexChannelFactory<ISchedulingCommunication>(_callBack, endPointConfigurationName);
 			_schedulingCommunicationChannel = _channel.CreateChannel();
 			_schedulingCommunicationChannel.Subscribe();
-
 			_callBack.NewScheduleCreatedEvent += new EventHandler(_callBack_NewScheduleCreatedEvent);
 			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
+			BindingData.Connected = true;
 		}
-
 		private void MenuIsAlive_Click(object sender, RoutedEventArgs e)
 		{
-
 			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
 			ThreadStart start = delegate()
 			{
 				Dispatcher.Invoke(new Action<Guid>(IsAlive), new object[] { guid });
 			};
-			new Thread(start).Start();	
-
-
-
-
-
-
+			new Thread(start).Start();
 		}
 		private void IsAlive(Guid guid)
 		{
 			try
 			{
-
 				Legacy.IsAlive isAlive = _schedulingCommunicationChannel.IsAlive(guid);
 				MessageBox.Show(string.Format("State: {0}\n OutCome: {1}\n Progress: {2}", isAlive.State, isAlive.OutCome, isAlive.Progress));
-
 			}
 			catch (Exception ex)
 			{
-
 				MessageBox.Show(ex.Message);
 			}
-			
-
 		}
-
 		private void Abort_Click(object sender, RoutedEventArgs e)
 		{
 			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
 			_schedulingCommunicationChannel.Abort(guid);
 		}
-
-		
 	}
-
-
-
-
 }

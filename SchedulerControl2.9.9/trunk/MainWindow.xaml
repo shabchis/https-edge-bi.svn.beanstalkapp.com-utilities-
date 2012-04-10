@@ -100,9 +100,11 @@
 		</ui:TreeListView>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Choose scheduler to Connect" IsEnabled="False"></Label>
-			<ComboBox Width="100" Height="20" Margin="1,1,5,1"></ComboBox>
-			<Button Width="100" Height="20" Content="Connect" Margin="1" Click="Button_Click"></Button>
-			
+			<ComboBox Name="_combo"  Width="100" Height="20" Margin="1,1,5,1" ItemsSource="{Binding Schedulers}" DisplayMemberPath="Name" >
+				
+			</ComboBox>
+			<!--<TextBlock Text="{Binding ElementName=_combo, Path=SelectedItem}"/>-->
+			<Button Width="100" Height="20" Content="{Binding ConnectButtonText}" Margin="1" Click="Button_Click"></Button>			
 		</StackPanel>
 		
 	</Grid>
