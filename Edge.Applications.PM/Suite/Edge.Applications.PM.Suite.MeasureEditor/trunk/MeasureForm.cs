@@ -96,7 +96,6 @@ namespace Edge.Applications.PM.Suite
             baseMeasuresListView.Items.Clear();
             rendered = false;
             
-
             foreach (MeasureView msr in measures)
             {
                 ListViewItem lvi = msr.ToListViewItem(_channelsList);
@@ -155,7 +154,8 @@ namespace Edge.Applications.PM.Suite
         {
             if (baseMeasuresListView.SelectedItems.Count == 1)
             {
-                EditMeasureForm editFrm = new EditMeasureForm((Measure)baseMeasuresListView.SelectedItems[0].Tag);
+                Account account = _accountsList.Find(AccountItem => AccountItem.id == (int)accounts_cb.SelectedValue).account;
+                EditMeasureForm editFrm = new EditMeasureForm((Measure)baseMeasuresListView.SelectedItems[0].Tag, account, application_cb.SelectedItem.ToString());
                 editFrm.AddMeasureEvent += new EventHandler(AddMeasureHandler);
                 editFrm.editFrm_closed += new EventHandler(editFrm_closed);
                 editFrm.Show();
@@ -210,6 +210,7 @@ namespace Edge.Applications.PM.Suite
                 sqlCommand.Connection = sqlCon;
                 sqlCommand.ExecuteNonQuery();
             }
+            setAcquisitionCPA();
             showMeasuresBtn_Click(null, null);
         }
 
@@ -243,11 +244,14 @@ namespace Edge.Applications.PM.Suite
                 sqlCommand.Connection = sqlCon;
                 sqlCommand.ExecuteNonQuery();
             }
+            setAcquisitionCPA();
             showMeasuresBtn_Click(null, null);
         }
 
         private void deleteMeasureFromDB(Measure m)
         {
+            if (m.AcquisitionNum != null)
+                deleteAcquisitionCPA(m);
             using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), application_cb.SelectedItem.ToString())))
             {
                 sqlCon.Open();
@@ -260,9 +264,98 @@ namespace Edge.Applications.PM.Suite
                 sqlCommand.Connection = sqlCon;
                 sqlCommand.ExecuteNonQuery();
             }
+
             showMeasuresBtn_Click(null, null);
+            
         }
 
+        private void setAcquisitionCPA()
+        {
+            string systemDatabase = application_cb.SelectedItem.ToString();
+            Account account = _accountsList.Find(AccountItem => AccountItem.id == (int)accounts_cb.SelectedValue).account;
+            using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), systemDatabase)))
+            {
+                sqlCon.Open();
+                Dictionary<string, Measure> boMeasures = Measure.GetMeasures(account, null, sqlCon, MeasureOptions.IsBackOffice, MeasureOptionsOperator.And);
+                Dictionary<string, Measure> isTargetMsrs = Measure.GetMeasures(account, null, sqlCon, MeasureOptions.IsTarget, MeasureOptionsOperator.And);
+                foreach (KeyValuePair<string, Measure> msr in boMeasures)
+                {
+                    Measure m = msr.Value;
+                    if (m.AcquisitionNum != null)
+                    {
+                        string baseMeasureID = null;
+                        string measureID = null;
+                        bool update = false;
+                        bool add = false;
+                        foreach (KeyValuePair<string, Measure> targeted in isTargetMsrs)
+                        {
+                            if (targeted.Key.Equals(string.Format("Acquisition{0}_CPA", m.AcquisitionNum.ToString())))
+                            {
+                                if (targeted.Value.Account != null)
+                                {
+                                    update = true;
+                                    measureID = targeted.Value.ID.ToString();
+                                }
+                                else
+                                {
+                                    baseMeasureID = targeted.Value.BaseMeasureID.ToString();
+                                    add = true;
+                                }
+                            }                                                            
+                        }
+
+                        if (update)
+                        {
+                            SqlCommand sqlCommand = DataManager.CreateCommand(@"UPDATE [dbo].[Measure]
+                             SET [DisplayName] = @displayName:Nvarchar WHERE [MeasureID] = @measureID:Int");
+
+                            sqlCommand.Parameters["@measureID"].Value = measureID;
+                            sqlCommand.Parameters["@displayName"].Value = string.Format("CPA ({0})", m.DisplayName);
+                            sqlCommand.Connection = sqlCon;
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                        else if (add)
+                        {
+                            SqlCommand sqlCommand = DataManager.CreateCommand(@"INSERT INTO [dbo].[Measure]
+                             ([MeasureID],[AccountID],[ChannelID],[BaseMeasureID],[DisplayName])
+                             VALUES( @measureID:Int,@accountID:Int,@channelID:Int,@baseID:Int,@displayName:Nvarchar)");
+
+                            sqlCommand.Parameters["@measureID"].Value = getNewMeasureID();
+                            sqlCommand.Parameters["@accountID"].Value = account.ID;
+                            sqlCommand.Parameters["@channelID"].Value = m.Channel == null ? "-1" : m.Channel.ID.ToString();
+                            sqlCommand.Parameters["@baseID"].Value = baseMeasureID;
+                            sqlCommand.Parameters["@displayName"].Value = string.Format("CPA ({0})", m.DisplayName);
+                            sqlCommand.Connection = sqlCon;
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                    }                 
+                }
+            }
+        }
+
+        private void deleteAcquisitionCPA(Measure m)
+        {
+            string systemDatabase = application_cb.SelectedItem.ToString();
+            Account account = _accountsList.Find(AccountItem => AccountItem.id == (int)accounts_cb.SelectedValue).account;
+            using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), systemDatabase)))
+            {
+                sqlCon.Open();
+                Dictionary<string, Measure> isTargetMsrs = Measure.GetMeasures(account, null, sqlCon, MeasureOptions.IsTarget, MeasureOptionsOperator.And);
+                foreach (KeyValuePair<string, Measure> targeted in isTargetMsrs)
+                {
+                    if ((targeted.Key.Equals(string.Format("Acquisition{0}_CPA", m.AcquisitionNum.ToString())))&&(targeted.Value.DisplayName.Equals(string.Format("CPA ({0})", m.DisplayName))))
+                    {
+                        SqlCommand sqlCommand = DataManager.CreateCommand( @"DELETE FROM [dbo].[Measure]
+                         WHERE [MeasureID] = @measureID:Int and [AccountID] = @accountID:Int");
+                        sqlCommand.Parameters["@measureID"].Value = targeted.Value.ID.ToString();
+                        sqlCommand.Parameters["@accountID"].Value = account.ID.ToString();
+                        sqlCommand.Connection = sqlCon;
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                }
+
+            }
+        }
 
         private void baseMeasuresListView_SelectedIndexChanged(object sender, EventArgs e)
         {
