@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using Edge.Applications.PM.Common;
 using Edge.Data.Objects;
+using System.Data.SqlClient;
+using Edge.Core.Configuration;
 
 namespace Edge.Applications.PM.Suite
 {
@@ -15,6 +17,8 @@ namespace Edge.Applications.PM.Suite
     {
         public event EventHandler AddMeasureEvent;
         private Measure _measure;
+        private Account _account;
+        private string _systemDatabase;
 
         public event EventHandler editFrm_closed;
         public string _IntegrityCheckRequired;
@@ -24,7 +28,7 @@ namespace Edge.Applications.PM.Suite
             InitializeComponent();
         }
 
-        public EditMeasureForm(Measure m)
+        public EditMeasureForm(Measure m, Account a, string systemDB)
         { 
             InitializeComponent();
             this.TopMost = true; 
@@ -37,6 +41,8 @@ namespace Edge.Applications.PM.Suite
             displayNameTxt.Text = m.DisplayName.ToString();
 
             this._measure = m;
+            this._account = a;
+            this._systemDatabase = systemDB;
 
             if (!((int)(_measure.Options & MeasureOptions.IsBackOffice) > 0))
             {
@@ -63,8 +69,8 @@ namespace Edge.Applications.PM.Suite
                     
                     if (acqNumTxt.Text.Equals("Inherit from base")||string.IsNullOrEmpty(acqNumTxt.Text)) 
                         _measure.AcquisitionNum = null; 
-                    else 
-                        Convert.ToInt32(acqNumTxt.Text);
+                    else
+                        _measure.AcquisitionNum = Convert.ToInt32(acqNumTxt.Text);
                    
                     if (yesRadioBtn.Checked)
                         _IntegrityCheckRequired = "True";
@@ -130,8 +136,29 @@ namespace Edge.Applications.PM.Suite
                 valid = false;
                 MessageBox.Show("Aquisition Number must be a number");
             }
-            
+            if ((Int32.TryParse(acqNumTxt.Text, out dummy) == true) && (isDuplicateAcquisition(dummy)))
+            {
+                valid = false;
+                MessageBox.Show("Aquisition Number already exists");
+            }
+
             return valid;
+        }
+
+        private bool isDuplicateAcquisition(int acquisitionNumber)
+        {          
+            using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString(typeof(Measure), _systemDatabase)))
+            {
+                sqlCon.Open();
+                Dictionary<string, Measure> boMeasures = Measure.GetMeasures(_account, null, sqlCon, MeasureOptions.IsBackOffice, MeasureOptionsOperator.And);
+                foreach (KeyValuePair<string, Measure> msr in boMeasures)
+                {
+                    Measure m = msr.Value;
+                    if ((m.AcquisitionNum != null) && (m.AcquisitionNum == acquisitionNumber))
+                        return true;
+                }
+            }
+            return false;
         }
 
         private bool isShown = false;
