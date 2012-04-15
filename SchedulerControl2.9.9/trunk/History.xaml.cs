@@ -29,9 +29,16 @@ namespace Edge.Applications.PM.SchedulerControl
 			InitializeComponent();
 			BindingData = new HistoryBindingData();
 			frmHistoryView.BindingData.History = new ObservableCollection<ServiceHistoryView>();
+			
 			frmHistoryView.BindingData.LoadHistory();
 			this.DataContext = frmHistoryView.BindingData;		
 			
+		}
+
+		private void _loadHistory_Click(object sender, RoutedEventArgs e)
+		{
+			frmHistoryView.BindingData.LoadHistory();
+		
 		}
 
 

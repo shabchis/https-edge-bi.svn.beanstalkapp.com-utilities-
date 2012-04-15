@@ -64,5 +64,8 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		#endregion
+
+		public Core.Services.ServiceState State { get; set; }
+		
 	}
 }
