@@ -22,6 +22,7 @@ namespace Edge.Applications.PM.Suite
 
         public event EventHandler editFrm_closed;
         public string _IntegrityCheckRequired;
+        public string _oldAcquisition;
 
         public EditMeasureForm()
         {
@@ -43,6 +44,7 @@ namespace Edge.Applications.PM.Suite
             this._measure = m;
             this._account = a;
             this._systemDatabase = systemDB;
+            this._oldAcquisition = m.AcquisitionNum.ToString();
 
             if (!((int)(_measure.Options & MeasureOptions.IsBackOffice) > 0))
             {
@@ -109,7 +111,7 @@ namespace Edge.Applications.PM.Suite
                         _IntegrityCheckRequired = "no change";
                 }
 
-                AddMeasureEvent(this, new MeasureView() { m = this._measure, IntegrityCheckRequired = _IntegrityCheckRequired });
+                AddMeasureEvent(this, new MeasureView() { m = this._measure, IntegrityCheckRequired = _IntegrityCheckRequired, oldAcquisition = _oldAcquisition });
                 this.Close();
             }
         }
@@ -136,10 +138,18 @@ namespace Edge.Applications.PM.Suite
                 valid = false;
                 MessageBox.Show("Aquisition Number must be a number");
             }
-            if ((Int32.TryParse(acqNumTxt.Text, out dummy) == true) && (isDuplicateAcquisition(dummy)))
+            if (Int32.TryParse(acqNumTxt.Text, out dummy) == true)  
             {
-                valid = false;
-                MessageBox.Show("Aquisition Number already exists");
+                if ((isDuplicateAcquisition(dummy)))
+                {
+                    valid = false;
+                    MessageBox.Show("Aquisition Number already exists");
+                }
+                else if(dummy<1)
+                {
+                    valid = false;
+                    MessageBox.Show("Aquisition Number must be greater than 1");
+                }
             }
 
             return valid;
