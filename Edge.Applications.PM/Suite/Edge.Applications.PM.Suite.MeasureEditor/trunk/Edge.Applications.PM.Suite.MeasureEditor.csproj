@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{87AF4488-68E4-4C75-B351-4210120A8466}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Edge.Applications.PM.Suite</RootNamespace>
     <AssemblyName>Edge.Applications.PM.Suite.MeasureEditor</AssemblyName>
