@@ -7,7 +7,7 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
+			<ColumnDefinition/>		
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30" />
@@ -98,15 +98,26 @@
 			</ui:TreeListView.Columns>
 
 		</ui:TreeListView>
-		<StackPanel Orientation="Horizontal">
+		<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
 			<Label Content="Choose scheduler to Connect" IsEnabled="False"></Label>
 			<ComboBox Name="_combo"  Width="100" Height="20" Margin="1,1,5,1" ItemsSource="{Binding Schedulers}" DisplayMemberPath="Name" >
 				
 			</ComboBox>
 			<!--<TextBlock Text="{Binding ElementName=_combo, Path=SelectedItem}"/>-->
-			<Button Width="100" Height="20" Content="{Binding ConnectButtonText}" Margin="1" Click="Button_Click"></Button>			
+			<Button Width="100" Height="20" Content="{Binding ConnectButtonText}" Margin="1" Click="Button_Click"></Button>
+			
+
 		</StackPanel>
-		
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Content="Show History" Height="23" Name="_btnShowHistory" Width="75" Click="_btnShowHistory_Click">
+			</Button>
+		</StackPanel>
+
+
+
+
+
+
 	</Grid>
 
 

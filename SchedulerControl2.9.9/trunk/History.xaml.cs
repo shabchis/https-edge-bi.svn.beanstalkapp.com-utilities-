@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Edge.Applications.PM.SchedulerControl.Objects;
 
+
+
 namespace Edge.Applications.PM.SchedulerControl
 {
 	/// <summary>
@@ -21,16 +23,21 @@ namespace Edge.Applications.PM.SchedulerControl
 	/// </summary>
 	public partial class frmHistoryView : Window
 	{
-		public static BindingData BindingData = new BindingData();
+		public static HistoryBindingData BindingData;
 		public frmHistoryView()
 		{			
 			InitializeComponent();
+			BindingData = new HistoryBindingData();
 			frmHistoryView.BindingData.History = new ObservableCollection<ServiceHistoryView>();
 			frmHistoryView.BindingData.LoadHistory();
 			this.DataContext = frmHistoryView.BindingData;		
 			
 		}
 
+
+		
+
+	
 
 
 		
