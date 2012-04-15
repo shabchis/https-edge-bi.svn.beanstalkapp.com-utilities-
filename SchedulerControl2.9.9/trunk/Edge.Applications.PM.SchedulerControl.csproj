@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Objects\HistoryBindingData.cs" />
     <Compile Include="Objects\SchedulerView.cs" />
     <Compile Include="Objects\ServiceHistoryView.cs" />
     <Page Include="History.xaml">
@@ -94,7 +95,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Objects\BindingData.cs" />
+    <Compile Include="Objects\SchedulerBindingData.cs" />
     <Compile Include="History.xaml.cs">
       <DependentUpon>History.xaml</DependentUpon>
     </Compile>

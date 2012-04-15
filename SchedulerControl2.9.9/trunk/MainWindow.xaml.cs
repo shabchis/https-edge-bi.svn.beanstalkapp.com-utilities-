@@ -36,7 +36,7 @@ namespace Edge.Applications.PM.SchedulerControl
 	public partial class MainWindow : Window
 	{
 		#region members
-		public static BindingData BindingData = new BindingData();
+		public static SchedulerBindingData BindingData = new SchedulerBindingData();
 		private DuplexChannelFactory<ISchedulingCommunication> _channel;
 		private ISchedulingCommunication _schedulingCommunicationChannel;
 		private Callback _callBack;
@@ -44,8 +44,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		#region ctor
 		public MainWindow()
 		{
-			InitializeComponent();
-			SubscribeToScheduler();
+			InitializeComponent();			
 			this.DataContext = MainWindow.BindingData;
 			MainWindow.BindingData.LoadSchedulers();
 		}
@@ -62,7 +61,6 @@ namespace Edge.Applications.PM.SchedulerControl
 			ScheduleCreatedEventArgs scheduleCreatedEventArgs = (ScheduleCreatedEventArgs)e;
 			BindingData.UpdateInstances(scheduleCreatedEventArgs.ScheduleAndStateInfo);
 		}
-		#endregion
 		private void MenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			frmHistoryView f = new frmHistoryView();
@@ -79,11 +77,32 @@ namespace Edge.Applications.PM.SchedulerControl
 						Disconnect();
 			}
 		}
+		private void Abort_Click(object sender, RoutedEventArgs e)
+		{
+			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
+			_schedulingCommunicationChannel.Abort(guid);
+		}
+		private void _btnShowHistory_Click(object sender, RoutedEventArgs e)
+		{
+			frmHistoryView frmHistory = new frmHistoryView();
+			frmHistory.Show();
+		}
+		private void MenuIsAlive_Click(object sender, RoutedEventArgs e)
+		{
+			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
+			ThreadStart start = delegate()
+			{
+				Dispatcher.Invoke(new Action<Guid>(IsAlive), new object[] { guid });
+			};
+			new Thread(start).Start();
+		}
+		#endregion
+		#region methods
 		private void Disconnect()
 		{
 			_callBack.NewScheduleCreatedEvent -= new EventHandler(_callBack_NewScheduleCreatedEvent);
 			_callBack.NewInstanceEvent -= new EventHandler(_callBack_NewInstanceEvent);
-			MainWindow.BindingData.Disconnect();
+			MainWindow.BindingData.Disconnect();			
 			_channel.Close();
 			BindingData.Connected = false;
 		}
@@ -96,16 +115,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			_callBack.NewScheduleCreatedEvent += new EventHandler(_callBack_NewScheduleCreatedEvent);
 			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
 			BindingData.Connected = true;
-		}
-		private void MenuIsAlive_Click(object sender, RoutedEventArgs e)
-		{
-			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
-			ThreadStart start = delegate()
-			{
-				Dispatcher.Invoke(new Action<Guid>(IsAlive), new object[] { guid });
-			};
-			new Thread(start).Start();
-		}
+		}		
 		private void IsAlive(Guid guid)
 		{
 			try
@@ -118,10 +128,7 @@ namespace Edge.Applications.PM.SchedulerControl
 				MessageBox.Show(ex.Message);
 			}
 		}
-		private void Abort_Click(object sender, RoutedEventArgs e)
-		{
-			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
-			_schedulingCommunicationChannel.Abort(guid);
-		}
+		#endregion
+
 	}
 }
