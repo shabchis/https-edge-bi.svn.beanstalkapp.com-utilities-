@@ -5,14 +5,15 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:this="clr-namespace:Edge.Applications.PM.SchedulerControl.Objects"
 		xmlns:cor="clr-namespace:Edge.Core.Services;assembly=Edge.Core"
-        Title="History" Height="323" Width="807">
+		xmlns:bb="http://schemas.AvalonControls/AvalonControlsLibrary/Controls"
+        Title="History" Height="629" Width="1143">
 
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="150" />
+			<RowDefinition Height="300" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
@@ -68,6 +69,13 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
+				<GridViewColumn Header="State" Width="Auto">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding State}"/>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
 				<GridViewColumn Header="Outcome" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
@@ -85,10 +93,10 @@
 			</ui:TreeListView.Columns>
 		</ui:TreeListView>
 		<StackPanel Orientation="Horizontal">
-			<ListView Name="_outcomes"  ItemsSource="{Binding Outcomes}" Width="160" >
+			<ListView Name="_outcomes"  ItemsSource="{Binding Outcomes}" Width="130" >
 				<ListView.View>
 					<GridView>
-						<GridViewColumn Header="Show"  Width="50">
+						<GridViewColumn  Width="30">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<CheckBox IsChecked="{Binding Show}"  />
@@ -104,8 +112,79 @@
 						</GridViewColumn>
 					</GridView>
 
+				</ListView.View>				
+			</ListView>
+			<ListView Name="_state"  ItemsSource="{Binding States}" Width="130" >
+				<ListView.View>
+					<GridView>
+						<GridViewColumn  Width="30">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<CheckBox IsChecked="{Binding Show}"  />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn Header="State"  Width="100">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding State}" />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
+
 				</ListView.View>
 			</ListView>
+			<ListView Name="_Accounts"  ItemsSource="{Binding Accounts}" Width="130" >
+				<ListView.View>
+					<GridView>
+						<GridViewColumn  Width="30">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<CheckBox IsChecked="{Binding Show}"  />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn Header="AccountID"  Width="100">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding AccountID}" />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
+
+				</ListView.View>
+			</ListView>
+			<ListView Name="_Services"  ItemsSource="{Binding Services}" Width="200" >
+				<ListView.View>
+					<GridView>
+						<GridViewColumn  Width="30">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<CheckBox IsChecked="{Binding Show}"  />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn Header="ServiceName"  Width="170">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ServiceName}" />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
+
+				</ListView.View>
+			</ListView>
+			<CheckBox></CheckBox>
+			<StackPanel Orientation="Horizontal"  DataContext="{Binding Times}" >
+				<bb:DateTimePicker Name="_from" Height="20" VerticalAlignment="Top" DateTimeSelected="{Binding From,Mode=TwoWay}" ></bb:DateTimePicker>
+				<bb:DateTimePicker Name="_to"  Height="20" VerticalAlignment="Top"  DateTimeSelected="{Binding To,Mode=TwoWay}"></bb:DateTimePicker>
+				<Button Name="_loadHistory" Width="80" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="_loadHistory_Click">Load</Button>
+			</StackPanel>
+
+
 		</StackPanel>
 	</Grid>
 

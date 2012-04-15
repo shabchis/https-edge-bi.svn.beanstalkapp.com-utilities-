@@ -52,6 +52,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AvalonControlsLibrary">
+      <HintPath>C:\Users\alonya\Downloads\Release V2\Release V2\AvalonControlsLibrary\AvalonControlsLibrary\bin\Debug\AvalonControlsLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Edge.Data.Pipeline">
       <HintPath>..\..\..\Framework\Edge.Data.Pipeline\bin\DebubNewScheduling\Edge.Data.Pipeline.dll</HintPath>
     </Reference>
