@@ -7,6 +7,7 @@
 		xmlns:cor="clr-namespace:Edge.Core.Services;assembly=Edge.Core"
 		xmlns:bb="http://schemas.AvalonControls/AvalonControlsLibrary/Controls"
         Title="History" Height="629" Width="1143">
+	
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -92,11 +93,15 @@
 				</GridViewColumn>
 			</ui:TreeListView.Columns>
 		</ui:TreeListView>
+		
 		<StackPanel Orientation="Horizontal">
 			<ListView Name="_outcomes"  ItemsSource="{Binding Outcomes}" Width="130" >
 				<ListView.View>
 					<GridView>
 						<GridViewColumn  Width="30">
+							<GridViewColumnHeader>
+								<CheckBox Name="_outComeCheckAll" IsChecked="True" Click="_outComeCheckAll_Click" />
+							</GridViewColumnHeader>
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<CheckBox IsChecked="{Binding Show}"  />
@@ -118,11 +123,14 @@
 				<ListView.View>
 					<GridView>
 						<GridViewColumn  Width="30">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<CheckBox IsChecked="{Binding Show}"  />
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
+							<GridViewColumnHeader>
+								<CheckBox Name="_stateCheckAll" IsChecked="True" Click="_stateCheckAll_Click" />
+							</GridViewColumnHeader>							
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<CheckBox IsChecked="{Binding Show}"  />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>							
 						</GridViewColumn>
 						<GridViewColumn Header="State"  Width="100">
 							<GridViewColumn.CellTemplate>
@@ -139,6 +147,9 @@
 				<ListView.View>
 					<GridView>
 						<GridViewColumn  Width="30">
+							<GridViewColumnHeader>
+								<CheckBox Name="_AccountsCheckAll" IsChecked="True" Click="_AccountsCheckAll_Click" />
+							</GridViewColumnHeader>
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<CheckBox IsChecked="{Binding Show}"  />
@@ -160,6 +171,9 @@
 				<ListView.View>
 					<GridView>
 						<GridViewColumn  Width="30">
+							<GridViewColumnHeader>
+								<CheckBox Name="_servicesCheckAll" IsChecked="True" Click="_servicesCheckAll_Click" />
+							</GridViewColumnHeader>
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<CheckBox IsChecked="{Binding Show}"  />
@@ -177,12 +191,16 @@
 
 				</ListView.View>
 			</ListView>
-			<CheckBox></CheckBox>
-			<StackPanel Orientation="Horizontal"  DataContext="{Binding Times}" >
-				<bb:DateTimePicker Name="_from" Height="20" VerticalAlignment="Top" DateTimeSelected="{Binding From,Mode=TwoWay}" ></bb:DateTimePicker>
+			<CheckBox Name="_isEnableCheckBox"  ></CheckBox>
+			<Border BorderBrush="Black" BorderThickness="1,1,1,1">
+			<StackPanel Orientation="Horizontal"  DataContext="{Binding Times}" IsEnabled="{Binding ElementName=_isEnableCheckBox,Path=IsChecked}" Margin="1">
+				<bb:DateTimePicker Name="_from"  Height="20" VerticalAlignment="Top" DateTimeSelected="{Binding From,Mode=TwoWay}" >
+					
+				</bb:DateTimePicker>
 				<bb:DateTimePicker Name="_to"  Height="20" VerticalAlignment="Top"  DateTimeSelected="{Binding To,Mode=TwoWay}"></bb:DateTimePicker>
 				<Button Name="_loadHistory" Width="80" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="_loadHistory_Click">Load</Button>
 			</StackPanel>
+			</Border>
 
 
 		</StackPanel>
