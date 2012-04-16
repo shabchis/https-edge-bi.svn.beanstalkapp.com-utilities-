@@ -41,6 +41,33 @@ namespace Edge.Applications.PM.SchedulerControl
 		
 		}
 
+		private void _stateCheckAll_Click(object sender, RoutedEventArgs e)
+		{
+			foreach (var item in frmHistoryView.BindingData.States)
+				item.Show = _stateCheckAll.IsChecked.Value;			
+		}
+
+		private void _AccountsCheckAll_Click(object sender, RoutedEventArgs e)
+		{
+			foreach (var item in frmHistoryView.BindingData.Accounts)
+				item.Show = _AccountsCheckAll.IsChecked.Value;	
+		}
+
+		private void _servicesCheckAll_Click(object sender, RoutedEventArgs e)
+		{
+			foreach (var item in frmHistoryView.BindingData.Services)
+				item.Show = _servicesCheckAll.IsChecked.Value;	
+		}
+
+		private void _outComeCheckAll_Click(object sender, RoutedEventArgs e)
+		{
+			foreach (var item in frmHistoryView.BindingData.Outcomes)
+				item.Show = _outComeCheckAll.IsChecked.Value;	
+
+		}
+
+		
+
 
 		
 

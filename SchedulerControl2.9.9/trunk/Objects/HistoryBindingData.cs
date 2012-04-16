@@ -17,7 +17,6 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	public class HistoryBindingData : INotifyPropertyChanged
 	{
 		private List<Predicate<object>> _filters;
-
 		public Predicate<object> Filter { get; private set; }
 		public Times Times { get; set; }
 		ICollectionView _historyView;
@@ -140,7 +139,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 								_accountsDic.Add(hv.AccountID, hv.AccountID);
 								if (Accounts == null)
 									Accounts = new ObservableCollection<AccountView>();
-								AccountView av = new AccountView() { AccountID = hv.AccountID, Show = true };
+								AccountView av = new AccountView() { AccountID = hv.AccountID,Show=true };
 								av.PropertyChanged += new PropertyChangedEventHandler(accountView_PropertyChanged);
 								Accounts.Add(av);
 								
@@ -150,7 +149,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 								ServicesDic.Add(hv.ServiceName, hv.ServiceName);
 								if (Services == null)
 									Services = new ObservableCollection<ServiceView>();
-								ServiceView sv = new ServiceView() { ServiceName = hv.ServiceName, Show = true };
+								ServiceView sv = new ServiceView() { ServiceName = hv.ServiceName,Show=true };
 								sv.PropertyChanged += new PropertyChangedEventHandler(sv_PropertyChanged);
 								Services.Add(sv);
 
@@ -411,6 +410,24 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 
 		#endregion
 	}
+	public class CheckedConverter : IMultiValueConverter
+	{
+		#region IMultiValueConverter Members
+
+		public  object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			
+			return true;
+		}
+
+		public  object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new NotSupportedException();
+		}
+
+		#endregion
+	}
+	
 
 
 
