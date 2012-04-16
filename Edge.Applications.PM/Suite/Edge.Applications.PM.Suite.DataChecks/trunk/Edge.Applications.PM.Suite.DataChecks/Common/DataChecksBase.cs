@@ -23,7 +23,7 @@ namespace Edge.Applications.PM.Suite.DataChecks.Common
 		/// </summary>
 		/// <param name="SelectedTypes">List of all validation services such as "DeliveryOltp"</param>
 		/// <param name="SelectedAccounts">Collection of selected accounts</param>
-		abstract public void RunUsingLocalConfig(List<ValidationType> SelectedTypes, ListBox.SelectedObjectCollection SelectedAccounts, Dictionary<string, Object> EventsHandlers);
+		abstract public void RunUsingLocalConfig(List<ValidationType> SelectedTypes, CheckedListBox.CheckedItemCollection SelectedAccounts, Dictionary<string, Object> EventsHandlers);
 	
 
 		virtual public void RunUsingExternalConfig(Dictionary<string, string> SelectedTypes, ListBox.SelectedObjectCollection SelectedAccounts)

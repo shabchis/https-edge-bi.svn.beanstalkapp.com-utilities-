@@ -180,10 +180,6 @@
       <Project>{0CA66633-F417-4724-9FC5-5F8C6E1D72B5}</Project>
       <Name>Edge.Services.Facebook.GraphApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Services\Edge.Services.Microsoft.AdCenter\Edge.Services.Microsoft.AdCenter.csproj">
-      <Project>{C73E557C-2B70-4040-9FA5-5AA2C0A95717}</Project>
-      <Name>Edge.Services.Microsoft.AdCenter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Edge.Applications.PM.Common\Edge.Applications.PM.Common.csproj">
       <Project>{1138B711-24C7-4B18-81BB-23E8EA1BC996}</Project>
       <Name>Edge.Applications.PM.Common</Name>

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Edge.Applications.PM.Suite.DataChecks.Common;
+using System.Windows.Forms;
 
 namespace Edge.Applications.PM.Suite.DataChecks
 {
 	public class AdMetricsValidation : DataChecksBase
 	{
 
-		public override void RunUsingLocalConfig(List<ValidationType> SelectedTypes, System.Windows.Forms.ListBox.SelectedObjectCollection SelectedAccounts, Dictionary<string, Object> EventsHandlers)
+		public override void RunUsingLocalConfig(List<ValidationType> SelectedTypes, CheckedListBox.CheckedItemCollection SelectedAccounts, Dictionary<string, Object> EventsHandlers)
 		{
 			//Prepering accounts list
 			StringBuilder accounts = new StringBuilder();

@@ -34,15 +34,13 @@
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.step1 = new System.Windows.Forms.Panel();
 			this.step1_ErrorImage = new System.Windows.Forms.PictureBox();
-			this.step1_status = new System.Windows.Forms.Label();
-			this.step1_progressBar = new System.Windows.Forms.ProgressBar();
+			this.progressBar = new System.Windows.Forms.ProgressBar();
 			this.step1_warningCount = new System.Windows.Forms.Label();
 			this.step1_errorsCount = new System.Windows.Forms.Label();
 			this.label17 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
 			this.AccountsCheckedListBox = new System.Windows.Forms.CheckedListBox();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.clear = new System.Windows.Forms.Button();
@@ -136,8 +134,7 @@
 			// step1
 			// 
 			this.step1.Controls.Add(this.step1_ErrorImage);
-			this.step1.Controls.Add(this.step1_status);
-			this.step1.Controls.Add(this.step1_progressBar);
+			this.step1.Controls.Add(this.progressBar);
 			this.step1.Controls.Add(this.step1_warningCount);
 			this.step1.Controls.Add(this.step1_errorsCount);
 			this.step1.Enabled = false;
@@ -148,7 +145,6 @@
 			// 
 			// step1_ErrorImage
 			// 
-			this.step1_ErrorImage.ErrorImage = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.failed_icon;
 			this.step1_ErrorImage.Location = new System.Drawing.Point(661, 7);
 			this.step1_ErrorImage.Name = "step1_ErrorImage";
 			this.step1_ErrorImage.Size = new System.Drawing.Size(27, 26);
@@ -157,25 +153,14 @@
 			this.step1_ErrorImage.TabStop = false;
 			this.step1_ErrorImage.Visible = false;
 			// 
-			// step1_status
+			// progressBar
 			// 
-			this.step1_status.AutoSize = true;
-			this.step1_status.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.step1_status.Location = new System.Drawing.Point(516, 13);
-			this.step1_status.Name = "step1_status";
-			this.step1_status.Size = new System.Drawing.Size(40, 16);
-			this.step1_status.TabIndex = 28;
-			this.step1_status.Text = "--------";
-			this.step1_status.Visible = false;
-			// 
-			// step1_progressBar
-			// 
-			this.step1_progressBar.Location = new System.Drawing.Point(19, 13);
-			this.step1_progressBar.MarqueeAnimationSpeed = 10;
-			this.step1_progressBar.Name = "step1_progressBar";
-			this.step1_progressBar.Size = new System.Drawing.Size(332, 19);
-			this.step1_progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-			this.step1_progressBar.TabIndex = 19;
+			this.progressBar.Location = new System.Drawing.Point(19, 13);
+			this.progressBar.MarqueeAnimationSpeed = 10;
+			this.progressBar.Name = "progressBar";
+			this.progressBar.Size = new System.Drawing.Size(332, 19);
+			this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			this.progressBar.TabIndex = 19;
 			// 
 			// step1_warningCount
 			// 
@@ -216,7 +201,6 @@
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.label8);
-			this.panel1.Controls.Add(this.label7);
 			this.panel1.Location = new System.Drawing.Point(6, 9);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(794, 28);
@@ -243,17 +227,6 @@
 			this.label8.Size = new System.Drawing.Size(48, 15);
 			this.label8.TabIndex = 19;
 			this.label8.Text = "Result";
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label7.ForeColor = System.Drawing.Color.Black;
-			this.label7.Location = new System.Drawing.Point(515, 6);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(47, 15);
-			this.label7.TabIndex = 18;
-			this.label7.Text = "Status";
 			// 
 			// AccountsCheckedListBox
 			// 
@@ -312,7 +285,6 @@
 			this.pictureBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox12.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.preferences_system_windows_actions;
 			this.pictureBox12.Location = new System.Drawing.Point(-1, -1);
 			this.pictureBox12.Name = "pictureBox12";
 			this.pictureBox12.Size = new System.Drawing.Size(33, 26);
@@ -335,7 +307,6 @@
 			this.pictureBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox9.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.configuration;
 			this.pictureBox9.Location = new System.Drawing.Point(22, 69);
 			this.pictureBox9.Name = "pictureBox9";
 			this.pictureBox9.Size = new System.Drawing.Size(14, 16);
@@ -359,7 +330,6 @@
 			this.pictureBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox8.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources._24;
 			this.pictureBox8.Location = new System.Drawing.Point(22, 41);
 			this.pictureBox8.Name = "pictureBox8";
 			this.pictureBox8.Size = new System.Drawing.Size(14, 16);
@@ -423,6 +393,7 @@
 			this.report_btn.TabIndex = 49;
 			this.report_btn.Text = "View Results";
 			this.report_btn.UseVisualStyleBackColor = true;
+			this.report_btn.Click += new System.EventHandler(this.report_btn_Click);
 			// 
 			// checkAll
 			// 
@@ -461,7 +432,6 @@
 			this.pictureBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox11.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.users;
 			this.pictureBox11.Location = new System.Drawing.Point(-2, -2);
 			this.pictureBox11.Name = "pictureBox11";
 			this.pictureBox11.Size = new System.Drawing.Size(0, 29);
@@ -485,7 +455,6 @@
 			this.pictureBox13.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox13.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.settings;
 			this.pictureBox13.Location = new System.Drawing.Point(-1, -1);
 			this.pictureBox13.Name = "pictureBox13";
 			this.pictureBox13.Size = new System.Drawing.Size(30, 28);
@@ -533,7 +502,6 @@
 			this.pictureBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox10.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.kontact1;
 			this.pictureBox10.Location = new System.Drawing.Point(-1, -1);
 			this.pictureBox10.Name = "pictureBox10";
 			this.pictureBox10.Size = new System.Drawing.Size(30, 26);
@@ -671,11 +639,9 @@
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.PictureBox step1_ErrorImage;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label step1_status;
-        private System.Windows.Forms.ProgressBar step1_progressBar;
+		private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.CheckedListBox AccountsCheckedListBox;
 		private System.Windows.Forms.DateTimePicker fromDate;
         private System.Windows.Forms.Label label2;
