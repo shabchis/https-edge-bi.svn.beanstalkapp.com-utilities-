@@ -1,0 +1,4 @@
+﻿1.Merge Datachecks configuration
+2.Create Generic Metrics Validations
+3.Load Profiles from production configuration
+4.Add images to results form
