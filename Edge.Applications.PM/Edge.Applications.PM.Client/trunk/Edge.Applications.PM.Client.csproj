@@ -88,21 +88,16 @@
       <Project>{1138B711-24C7-4B18-81BB-23E8EA1BC996}</Project>
       <Name>Edge.Applications.PM.Common</Name>
     </ProjectReference>
-   
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <ProjectReference Include="..\Suite\Edge.Applications.PM.Suite.MeasureEditor\Edge.Applications.PM.Suite.MeasureEditor.csproj">
       <Project>{87AF4488-68E4-4C75-B351-4210120A8466}</Project>
       <Name>Edge.Applications.PM.Suite.MeasureEditor</Name>
     </ProjectReference>
-		<ProjectReference Include="..\Suite\Edge.Applications.PM.Suite.DeliverySearch\Edge.Applications.PM.Suite.DeliverySearch\Edge.Applications.PM.Suite.DeliverySearch.csproj">
-			<Project>{5FCBAA99-FA53-48EB-ACE5-7911CF6B89FD}</Project>
-			<Name>Edge.Applications.PM.Suite.DeliverySearch</Name>
-		</ProjectReference>
-		<ProjectReference Include="..\Suite\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password.csproj">
-			<Project>{DFDC8CBE-D72B-4CF8-A0A0-0965CEF5FDBF}</Project>
-			<Name>Edge.Applications.PM.Suite.Password</Name>
-		</ProjectReference>
+    <ProjectReference Include="..\Suite\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password.csproj">
+      <Project>{DFDC8CBE-D72B-4CF8-A0A0-0965CEF5FDBF}</Project>
+      <Name>Edge.Applications.PM.Suite.Password</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="BeforeBuild">
