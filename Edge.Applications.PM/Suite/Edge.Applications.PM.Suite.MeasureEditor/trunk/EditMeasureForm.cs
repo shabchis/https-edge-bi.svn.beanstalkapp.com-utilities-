@@ -22,7 +22,7 @@ namespace Edge.Applications.PM.Suite
 
         public event EventHandler editFrm_closed;
         public string _IntegrityCheckRequired;
-        public string _oldAcquisition;
+        public Measure _oldMeasure;
 
         public EditMeasureForm()
         {
@@ -44,8 +44,7 @@ namespace Edge.Applications.PM.Suite
             this._measure = m;
             this._account = a;
             this._systemDatabase = systemDB;
-            this._oldAcquisition = m.AcquisitionNum.ToString();
-
+            this._oldMeasure = new Measure() { AcquisitionNum = m.AcquisitionNum, ID = m.ID, DisplayName = m.DisplayName }; 
             if (!((int)(_measure.Options & MeasureOptions.IsBackOffice) > 0))
             {
                 srcNameTxt.Enabled = false;
@@ -111,7 +110,7 @@ namespace Edge.Applications.PM.Suite
                         _IntegrityCheckRequired = "no change";
                 }
 
-                AddMeasureEvent(this, new MeasureView() { m = this._measure, IntegrityCheckRequired = _IntegrityCheckRequired, oldAcquisition = _oldAcquisition });
+                AddMeasureEvent(this, new MeasureView() { m = this._measure, IntegrityCheckRequired = _IntegrityCheckRequired, oldMeasure = _oldMeasure });
                 this.Close();
             }
         }

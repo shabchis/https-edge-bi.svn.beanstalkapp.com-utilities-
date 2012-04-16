@@ -244,12 +244,10 @@ namespace Edge.Applications.PM.Suite
                 sqlCommand.Connection = sqlCon;
                 sqlCommand.ExecuteNonQuery();
             }
-            if ( !string.IsNullOrEmpty(msr.oldAcquisition))
+            if ( !string.IsNullOrEmpty(msr.oldMeasure.AcquisitionNum.ToString()))
             {
-                Measure temp = new Measure() { AcquisitionNum = Convert.ToInt32( msr.oldAcquisition), DisplayName = msr.m.DisplayName };
-                deleteAcquisitionCPA(temp);
-            }
-               
+                deleteAcquisitionCPA(msr.oldMeasure);
+            }              
             setAcquisitionCPA();
             showMeasuresBtn_Click(null, null);
         }
@@ -465,7 +463,7 @@ namespace Edge.Applications.PM.Suite
     {
         public Measure m;
         public string IntegrityCheckRequired;
-        public string oldAcquisition;
+        public Measure oldMeasure;
 
         internal ListViewItem ToListViewItem(List<ChannelItem> channels)
         {
