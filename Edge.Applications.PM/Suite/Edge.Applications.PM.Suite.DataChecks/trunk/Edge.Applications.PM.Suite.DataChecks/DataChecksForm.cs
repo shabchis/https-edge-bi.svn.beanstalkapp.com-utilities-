@@ -29,15 +29,29 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		#region Deligate members
 		/*============================================================================================*/
 		public delegate void UpdateProgressBar(ProgressBar progressBar, int val, bool visible);
-		private UpdateProgressBar updateProgressBar;
+		private UpdateProgressBar _updateProgressBar;
 
 		public delegate void UpdateResults(List<ValidationResult> results);
-		private UpdateResults updateResults;
+		private UpdateResults _updateResults;
+
+		public delegate void UpdateLogBox(string text);
+		private UpdateLogBox _updateLogBox;
+
+		public delegate void ClearBeforeRun();
+		private ClearBeforeRun _clearBeforeRun;
+
+		public delegate void SetButtonVisibility(Button button, bool visibility, bool enable);
+		private SetButtonVisibility _setButton;
+
+		public delegate void IncCounter(int counter, int value);
+		private IncCounter _incCounter;
+
 		/*============================================================================================*/
 		#endregion
 
-
-		private ResultForm resultsForm;
+		private int _runnigServices = 0;
+		private int _numOfValidationsToRun = 0;
+		private ResultForm _resultsForm;
 		public DataChecksModelView DataChecksModelView { set; get; }
 		public Dictionary<string, Object> EventsHandlers { set; get; }
 
@@ -45,16 +59,23 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		{
 			#region Init Deligate functions
 			/**************************************************************************/
-			
-			updateProgressBar = new UpdateProgressBar(updateProgressBarState);
-			updateResults = new UpdateResults(updateResultsDataGrid);
+
+			_updateProgressBar = new UpdateProgressBar(updateProgressBarState);
+			_updateResults = new UpdateResults(updateResultsDataGrid);
+			_updateLogBox = new UpdateLogBox(writeLog);
+			_clearBeforeRun = new ClearBeforeRun(clearOnStart);
+			_setButton = new SetButtonVisibility(setButtonVisibility);
+			_incCounter = new IncCounter(IncreaseCounter);
+
 
 			/**************************************************************************/
 			#endregion
 
 			//setting results form
-			resultsForm = new ResultForm();
-			resultsForm.MdiParent = this.ParentForm;
+			_resultsForm = new ResultForm();
+			_resultsForm.MdiParent = this.ParentForm;
+			
+
 
 			DataChecksModelView = new DataChecksModelView();
 			EventsHandlers = new Dictionary<string, Object>();
@@ -62,7 +83,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			//Adding Events Handler functions
 			#region Attaching Events
 			EventsHandlers.Add(Const.EventsTypes.ParentOutcomeReportedEvent, new EventHandler(instance_OutcomeReported));
-			EventsHandlers.Add(Const.EventsTypes.ChildOutcomeReportedEvent, new EventHandler(instance_OutcomeReported));
+			//EventsHandlers.Add(Const.EventsTypes.ChildOutcomeReportedEvent, new EventHandler(instance_OutcomeReported));
 			EventsHandlers.Add(Const.EventsTypes.ParentStateChangedEvent, new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged));
 			EventsHandlers.Add(Const.EventsTypes.ChildStateChangedEvent, new EventHandler<ServiceStateChangedEventArgs>(child_instance_StateChanged));
 			EventsHandlers.Add(Const.EventsTypes.ChildServiceRequested, new EventHandler<ServiceRequestedEventArgs>(instance_ChildServiceRequested));
@@ -127,14 +148,20 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 		private void Start_btn_Click(object sender, EventArgs e)
 		{
+			Invoke(_clearBeforeRun);
+
 			//FOREACH SELECTED METRIC VALIDATION RUN SERVICE.
 			foreach (var MetricsValidation in this.DataChecksModelView.SelectedMetricsValidations)
 			{
+				//Inc num of services to run 
+				this._numOfValidationsToRun++;
+				
 				//Run service using current configuration
 				if (MetricsValidation.Value.RunHasLocal)
 				{
 					((DataChecksBase)MetricsValidation.Value).
-						RunUsingLocalConfig(DataChecksModelView.GetSelectedValidationTypes(), this.AccountsCheckedListBox.SelectedItems, EventsHandlers);
+						RunUsingLocalConfig(DataChecksModelView.GetSelectedValidationTypes(), this.AccountsCheckedListBox.CheckedItems, EventsHandlers);
+					this._runnigServices++;
 				}
 				//Run service using external configuration
 				//else
@@ -211,7 +238,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		void instance_OutcomeReported(object sender, EventArgs e)
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-
+			
 			/*TO DO :
 			 * 
 			 * UPDATE LOG
@@ -222,17 +249,27 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 		void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
 		{
+
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+
+			string log = string.Format("State Changed : {0} - Account ID: {1} - Service: {2} ", e.StateAfter, instance.AccountID, instance.Configuration.Name);
+			Invoke(_updateLogBox, new object[] { log });
 
 			if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
 			{
 				instance.Start();
 			}
+
 			if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
 			{
-				//TO DO : UPDATE UI PROGRESS BAR
+				//UPDATE UI PROGRESS BAR
+				Invoke(_updateProgressBar, new object[] { progressBar, progressBar.Value + 100 / this._numOfValidationsToRun, true });
+				
+				//Update current runnong services counter
+				Invoke(_incCounter, new object[] {this._runnigServices,-1 });
 				//TO DO : UPDATE RESULTS
 				//TO DO : UPDATE LOG
+
 			}
 
 		}
@@ -241,9 +278,8 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 
-			e.RequestedService.OutcomeReported += new EventHandler(instance_OutcomeReported);
+			//e.RequestedService.OutcomeReported += new EventHandler(instance_OutcomeReported);
 			e.RequestedService.StateChanged += new EventHandler<ServiceStateChangedEventArgs>(child_instance_StateChanged);
-
 
 			e.RequestedService.Initialize();
 
@@ -253,23 +289,49 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 
+			string log = string.Format("State Changed : {0} - Account ID: {1} - Service: {2} ", e.StateAfter, instance.AccountID, instance.Configuration.Name);
+			Invoke(_updateLogBox, new object[] { log });
 
-			if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
+			if (e.StateAfter == ServiceState.Ready)
 			{
 				instance.Start();
 			}
 
+			if (e.StateAfter == ServiceState.Ended)
+				if (instance.Configuration.Options.ContainsKey("OnEnd") && (instance.Configuration.Options["OnEnd"].ToString().Equals("GetValidationResults")))
+				{
+					//Get Validations Results
+					List<ValidationResult> newResults = DataChecksModelView.GetValidationResultsByInstance(instance);
+
+					//TO DO : Add results to validation results view.
+					if (newResults.Capacity > 0)
+					{
+						Invoke(_updateResults, new object[] { newResults });
+						Invoke(_setButton, new object[] { this.report_btn, true, true });
+					}
+				}
+
+
 		}
+		
+		private void report_btn_Click(object sender, EventArgs e)
+		{
+			this._resultsForm.Show();
+
+		}
+		
 		/*=========================================================================*/
 		#endregion
 
 		#region Deligate Functions
 		/*====================================================================================*/
-	
+
 		public void updateProgressBarState(ProgressBar progressBarItem, int progress, bool visible = true)
 		{
 			progressBarItem.Value = progress;
 			progressBarItem.Visible = visible;
+			
+			Application.DoEvents();
 		}
 
 		public void updateResultsDataGrid(List<ValidationResult> results)
@@ -278,25 +340,68 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			{
 				if (item.ResultType == ValidationResultType.Error)
 				{
-					int rowId = resultsForm.ErrorDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.Date.ToString());
-					resultsForm.ErrorDataGridView.Rows[rowId].Tag = item;
+					int rowId = _resultsForm.ErrorDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.Date.ToString());
+					_resultsForm.ErrorDataGridView.Rows[rowId].Tag = item;
 				}
 				else if (item.ResultType == ValidationResultType.Warning)
-					resultsForm.WarningDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.ToString());
+					_resultsForm.WarningDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.ToString());
 				else
 				{
-					int rowId = resultsForm.SuccessDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.ToString());
-					resultsForm.SuccessDataGridView.Rows[rowId].Tag = item;
+					int rowId = _resultsForm.SuccessDataGridView.Rows.Add(item.AccountID, item.CheckType, item.Message, item.ChannelID, item.TargetPeriodStart.ToString());
+					_resultsForm.SuccessDataGridView.Rows[rowId].Tag = item;
 				}
 			}
 
-			//if (this._numOfProductionInstances == 0)
-			//    report_btn.Enabled = true;
+			if (this._runnigServices == 0)
+			    report_btn.Enabled = true;
+			
+			Application.DoEvents();
 
 		}
 
+		/// <summary>
+		/// Deligate function to update log
+		/// </summary>
+		/// <param name="text">set text to be NULL in order to clear log</param>
+		private void writeLog(string text)
+		{
+			//clear log
+			if (string.IsNullOrEmpty(text))
+			{
+				this.LogBox.Clear();
+				return;
+			}
+			this.LogBox.AppendText(text);
+			Application.DoEvents();
+		}
+
+		private void clearOnStart()
+		{
+			this.LogBox.Clear();
+			this.progressBar.Value = 0;
+			this._numOfValidationsToRun = 0;
+			Application.DoEvents();
+		}
+
+		private void setButtonVisibility(Button button ,bool visibility, bool enable)
+		{
+			button.Visible = visibility;
+			button.Enabled = enable;
+			Application.DoEvents();
+		}
+
+		private void IncreaseCounter(int counter ,int value)
+		{
+			counter += value;
+			Application.DoEvents();
+		}
+
+	
+
 		/*====================================================================================*/
 		#endregion
+
+
 
 
 	}

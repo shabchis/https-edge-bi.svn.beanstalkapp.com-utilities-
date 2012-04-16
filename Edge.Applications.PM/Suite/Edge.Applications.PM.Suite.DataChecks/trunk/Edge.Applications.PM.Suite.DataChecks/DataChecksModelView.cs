@@ -239,7 +239,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		/// </summary>
 		/// <param name="instance"></param>
 		/// <returns>List of validations results</returns>
-		private List<ValidationResult> GetValidationResultsByInstance(Edge.Core.Services.ServiceInstance instance)
+		internal List<ValidationResult> GetValidationResultsByInstance(Edge.Core.Services.ServiceInstance instance)
 		{
 			#region Getting Instance Log for results
 			List<ValidationResult> newResults = new List<ValidationResult>();
