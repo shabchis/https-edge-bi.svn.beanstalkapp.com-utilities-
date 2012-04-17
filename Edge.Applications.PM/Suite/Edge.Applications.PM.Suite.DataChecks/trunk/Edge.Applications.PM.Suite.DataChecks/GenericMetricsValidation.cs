@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Edge.Applications.PM.Suite.DataChecks
 {
-	public class AdMetricsValidation : DataChecksBase
+	public class GenericMetricsValidation : DataChecksBase
 	{
 
 		public override void RunUsingLocalConfig(List<ValidationType> SelectedTypes, CheckedListBox.CheckedItemCollection SelectedAccounts, Dictionary<string, Object> EventsHandlers)
@@ -26,8 +26,6 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 			}
 		}
-
-		
-
 	}
+
 }

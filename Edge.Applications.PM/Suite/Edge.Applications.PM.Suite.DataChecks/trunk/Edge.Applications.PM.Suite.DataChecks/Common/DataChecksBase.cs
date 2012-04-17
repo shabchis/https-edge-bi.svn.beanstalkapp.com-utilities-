@@ -35,12 +35,12 @@ namespace Edge.Applications.PM.Suite.DataChecks.Common
 		/// Initializing service from current configuration
 		/// </summary>
 		/// <param name="timePeriod">Service time period</param>
-		/// <param name="service">Service Name , See Const</param>
+		/// <param name="serviceName">Service Name , See Const</param>
 		/// <param name="channels">Channels List in string format seperated by comma</param>
 		/// <param name="accounts">Accounts List in string format seperated by comma</param>
-		internal void InitServices(DateTimeRange timePeriod, string service, string channels, string accounts, Dictionary<string, Object> eventsHandlers)
+		internal void InitServices(DateTimeRange timePeriod, string serviceName, string channels, string accounts, Dictionary<string, Object> eventsHandlers)
 		{
-			ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services[service]);
+			ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services[serviceName]);
 			
 			//Removing overide options 
 			serviceElements.Options.Remove("fromDate");

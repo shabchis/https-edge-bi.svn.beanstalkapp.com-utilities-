@@ -99,6 +99,7 @@
       <DependentUpon>DataChecksForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DataChecksModelView.cs" />
+    <Compile Include="GenericMetricsValidation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultForm.cs">
@@ -185,10 +186,19 @@
       <Name>Edge.Applications.PM.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Resources\accounts.png" />
+    <None Include="Resources\app-icon.png" />
+    <None Include="Resources\configure-icon.png" />
+    <None Include="Resources\profile.png" />
+    <None Include="Resources\profiles.png" />
+    <None Include="Resources\progress.png" />
+    <None Include="Resources\settings.png" />
+    <None Include="Resources\settings2.png" />
+    <None Include="Resources\time.png" />
+    <None Include="Resources\time2.png" />
+    <None Include="Resources\app.png" />
     <Content Include="TO_DO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
