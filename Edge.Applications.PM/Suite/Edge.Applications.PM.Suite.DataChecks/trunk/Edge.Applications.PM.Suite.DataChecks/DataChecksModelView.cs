@@ -25,19 +25,19 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		public List<AccountServiceElement> Profiles { set; get; }
 		public Dictionary<string, string> AvailableAccountList { set; get; }
 
-		public Dictionary<string,DataChecksBase> SelectedMetricsValidations { set; get; }
-	
+		public Dictionary<string, DataChecksBase> SelectedMetricsValidations { set; get; }
+
 		/*=============================================================*/
 		#endregion
-	
+
 		public DataChecksModelView()
 		{
 			Profiles = new List<AccountServiceElement>();
-			AvailableAccountList = new Dictionary<string,string>();
+			AvailableAccountList = new Dictionary<string, string>();
 			ValidationsTypes = GetValidationTypesFromConfig();
 			MetricsValidations = GetValidationsMetricsFromConfig();
-			SelectedMetricsValidations = new Dictionary<string,DataChecksBase>();
-			
+			SelectedMetricsValidations = new Dictionary<string, DataChecksBase>();
+
 		}
 		/// <summary>
 		/// Get Selected Validations Types
@@ -49,7 +49,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 						from p in ValidationsTypes
 						where p.Value.Checked == true
 						select p.Value;
-			
+
 			return validations.ToList<ValidationType>();
 		}
 
@@ -69,7 +69,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			Dictionary<string, ValidationType> validations = new Dictionary<string, ValidationType>();
 
 			ValidationsTypesCollection validationCollection = ((ValidationsTypesSection)ConfigurationManager.GetSection("DataChecks.ValidationTypes")).ValidationTypeItems;
-			
+
 			foreach (ValidationTypeItem item in validationCollection)
 			{
 
@@ -77,17 +77,17 @@ namespace Edge.Applications.PM.Suite.DataChecks
 				{
 					ValidationType validationTypeValue = new ValidationType();
 					validationTypeValue.Name = item.Type;
-					validationTypeValue.ServiceToUse.Add(item.ClassRef, item.ServiceToUse);
+					validationTypeValue.ServiceToUsePerClassRef.Add(item.ClassRef, item.ServiceToUse);
 
 					validations.Add(item.Type, validationTypeValue);
 				}
 				else // Add Class Ref to exsiting validation type
 				{
-					validations[item.Type].ServiceToUse.Add(item.ClassRef, item.ServiceToUse);
+					validations[item.Type].ServiceToUsePerClassRef.Add(item.ClassRef, item.ServiceToUse);
 				}
 			}
 
-			 return validations;
+			return validations;
 		}
 
 		/// <summary>
@@ -203,9 +203,9 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			{
 				TreeNode node = new TreeNode(item.Key.ToString());
 				node.Tag = item.Value;
-				
+
 				itemCollection.Add(node);
-				
+
 			}
 		}
 
@@ -273,16 +273,12 @@ namespace Edge.Applications.PM.Suite.DataChecks
 	{
 		public bool Checked { set; get; }
 		public string Name { set; get; }
-		public Dictionary<string, string> ServiceToUse { set; get; }
+		public Dictionary<string, string> ServiceToUsePerClassRef { set; get; }
 
 		public ValidationType()
 		{
-			ServiceToUse = new Dictionary<string, string>();
+			ServiceToUsePerClassRef = new Dictionary<string, string>();
 		}
 
-		public string GetServiceNameByClass(string className)
-		{
-			return ServiceToUse[className];
-		}
 	}
 }

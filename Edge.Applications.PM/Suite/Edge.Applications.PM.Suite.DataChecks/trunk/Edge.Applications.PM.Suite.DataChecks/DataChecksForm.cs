@@ -336,6 +336,8 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 		public void updateResultsDataGrid(List<ValidationResult> results)
 		{
+			Application.DoEvents();
+
 			foreach (ValidationResult item in results)
 			{
 				if (item.ResultType == ValidationResultType.Error)
