@@ -11,6 +11,8 @@ using System.Collections.ObjectModel;
 using Edge.Core.Services;
 using System.Windows.Data;
 using System.Collections;
+using Edge.Data.Pipeline;
+using Newtonsoft.Json;
 
 namespace Edge.Applications.PM.SchedulerControl.Objects
 {
@@ -107,7 +109,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			{
 				conn.Open();
 				{
-					SqlCommand command = DataManager.CreateCommand(@"SELECT *
+					SqlCommand command = DataManager.CreateCommand(@"SELECT InstanceID,AccountID,ParentInstanceID,ServiceName,TimeScheduled,TimeStarted,TimeEnded,Configuration.value('data(/ActiveService/@TargetPeriod)[1]','nvarchar(255)') as TargetPeriod,Outcome,State
 																    FROM ServiceInstance
 																    WHERE TimeStarted BETWEEN @Form:DateTime AND @To:DateTime", CommandType.Text);
 					command.Parameters["@Form"].Value = Times.From;
@@ -126,6 +128,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 							hv.TimeScheduled = reader["TimeScheduled"].ToString();
 							hv.TimeStarted = reader["TimeStarted"].ToString();
 							hv.TimeEnded = reader["TimeEnded"].ToString();
+							hv.TargetPeriod = FormatTargetPeriodFromJson(reader["TargetPeriod"].ToString());
 							hv.Outcome = (Core.Services.ServiceOutcome)Enum.Parse(typeof(Core.Services.ServiceOutcome), (reader["Outcome"].ToString()));
 							hv.State = (Core.Services.ServiceState)Enum.Parse(typeof(Core.Services.ServiceState), (reader["State"].ToString()));
 							if (hv.ParentInstanceID.HasValue)
@@ -164,6 +167,20 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				}
 			}
 		}
+
+		private string FormatTargetPeriodFromJson(string dateTimeRange)
+		{
+			string returenValue = string.Empty;
+			if (!string.IsNullOrEmpty(dateTimeRange))
+			{
+				DateTimeRange d = (DateTimeRange)JsonConvert.DeserializeObject(dateTimeRange, typeof(DateTimeRange));
+				returenValue = string.Format("From:{0:dd-MM-yyyy HH:mm:ss}To:{1:dd-MM-yyyy HH:mm:ss}", d.Start.ToDateTime(), d.End.ToDateTime());
+			}
+			return returenValue;
+			
+		}
+
+		
 
 		void sv_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
@@ -410,23 +427,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 
 		#endregion
 	}
-	public class CheckedConverter : IMultiValueConverter
-	{
-		#region IMultiValueConverter Members
-
-		public  object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-		{
-			
-			return true;
-		}
-
-		public  object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
-		{
-			throw new NotSupportedException();
-		}
-
-		#endregion
-	}
+	
 	
 
 

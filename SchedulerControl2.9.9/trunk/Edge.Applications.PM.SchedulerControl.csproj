@@ -58,6 +58,10 @@
     <Reference Include="Edge.Data.Pipeline">
       <HintPath>..\..\..\Framework\Edge.Data.Pipeline\bin\DebubNewScheduling\Edge.Data.Pipeline.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\(third party)\Json.net\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ricciolo.Controls.TreeListView">
       <HintPath>..\..\..\(third party)\WPF\Ricciolo.Controls.TreeListView\lib\Ricciolo.Controls.TreeListView.dll</HintPath>
     </Reference>
@@ -83,10 +87,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Log.xaml.cs">
+      <DependentUpon>Log.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\HistoryBindingData.cs" />
     <Compile Include="Objects\SchedulerView.cs" />
     <Compile Include="Objects\ServiceHistoryView.cs" />
     <Page Include="History.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Log.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -167,6 +178,27 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Icons\failed.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\aborted.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Log.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\reset.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\success.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\unspecified.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

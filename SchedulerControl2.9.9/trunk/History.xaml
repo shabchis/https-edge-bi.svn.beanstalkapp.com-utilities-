@@ -7,8 +7,6 @@
 		xmlns:cor="clr-namespace:Edge.Core.Services;assembly=Edge.Core"
 		xmlns:bb="http://schemas.AvalonControls/AvalonControlsLibrary/Controls"
         Title="History" Height="629" Width="1143">
-	
-
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
@@ -17,17 +15,32 @@
 			<RowDefinition Height="300" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-
 		<ui:TreeListView Name="_Tree" ItemsSource="{Binding History}" Grid.Row="1" Grid.Column="0">
 			<TreeView.Resources>
 				<HierarchicalDataTemplate DataType="{x:Type this:ServiceHistoryView}" ItemsSource="{Binding ChildsHistoryView}"/>
 				<Style TargetType="{x:Type ui:TreeListViewItem}">
-					<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
-					<Setter Property="Background" Value="{Binding Path=Background, Mode=OneWay}" />
+					<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />					
 				</Style>
-
-			</TreeView.Resources>
+			</TreeView.Resources>			
 			<ui:TreeListView.Columns>
+				<GridViewColumn  Width="80">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<Button Name="_btnLog" VerticalAlignment="Top"  HorizontalAlignment="Left"  Background="Transparent" BorderThickness="0,0,0,0"  Padding="0,0,0,0" Margin="0,0,0,0" BorderBrush="Transparent" Click="_btnLog_Click" >
+								<StackPanel Orientation="Horizontal" Margin="10">
+									<Image Source="/Icons/Log.ico" Width="10" Height="10" Margin="0,0,0,0"/>									
+								</StackPanel>
+							</Button>													
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+				<GridViewColumn  Width="100">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<Image Source="{Binding StatusImage}" Width="20" Height="20"/>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
 				<GridViewColumn Header="InstanceID" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
@@ -35,7 +48,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="ServiceName" Width="Auto">
+				<GridViewColumn Header="ServiceName" Width="120">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ServiceName}"/>
@@ -76,22 +89,15 @@
 							<TextBlock Text="{Binding State}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
-				<GridViewColumn Header="Outcome" Width="Auto">
+				</GridViewColumn>				
+				<GridViewColumn Header="TargetPeriod" Width="Auto">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Outcome}"/>
+							<TextBlock Text="{Binding TargetPeriod}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="DayCode" Width="Auto">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding DayCode}"/>
-						</DataTemplate>
-					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
-			</ui:TreeListView.Columns>
+			</ui:TreeListView.Columns>			
 		</ui:TreeListView>
 		
 		<StackPanel Orientation="Horizontal">
@@ -194,8 +200,7 @@
 			<CheckBox Name="_isEnableCheckBox"  ></CheckBox>
 			<Border BorderBrush="Black" BorderThickness="1,1,1,1">
 			<StackPanel Orientation="Horizontal"  DataContext="{Binding Times}" IsEnabled="{Binding ElementName=_isEnableCheckBox,Path=IsChecked}" Margin="1">
-				<bb:DateTimePicker Name="_from"  Height="20" VerticalAlignment="Top" DateTimeSelected="{Binding From,Mode=TwoWay}" >
-					
+				<bb:DateTimePicker Name="_from"  Height="20" VerticalAlignment="Top" DateTimeSelected="{Binding From,Mode=TwoWay}" >					
 				</bb:DateTimePicker>
 				<bb:DateTimePicker Name="_to"  Height="20" VerticalAlignment="Top"  DateTimeSelected="{Binding To,Mode=TwoWay}"></bb:DateTimePicker>
 				<Button Name="_loadHistory" Width="80" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="_loadHistory_Click">Load</Button>

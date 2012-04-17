@@ -16,41 +16,40 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		#region properties
 		public int? InstanceID { get; set; }
 		public string ServiceName { get; set; }
-		public int AccountID { get; set; }		
+		public int AccountID { get; set; }
 		public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
 		public Core.Services.ServiceOutcome Outcome { get; set; }
-		public int DayCode { get; set; }
+		public string TargetPeriod { get; set; }
 		public int? ParentInstanceID { get; set; }
 		public string TimeScheduled { get; set; }
 		public string TimeStarted { get; set; }
 		public string TimeEnded { get; set; }
 		public bool IsExpanded { get; set; }
-		public string Background
+
+		public string StatusImage
 		{
 			get
 			{
-				string color = string.Empty;
 				switch (Outcome)
 				{
-					case Edge.Core.Services.ServiceOutcome.Unspecified:
-						break;
-					case Edge.Core.Services.ServiceOutcome.Success:
-						color = Colors.LawnGreen.ToString();
-						break;
-					case Edge.Core.Services.ServiceOutcome.Failure:
-						color = "Red";
-						break;
-					case Edge.Core.Services.ServiceOutcome.Aborted:
-						break;
-					case Edge.Core.Services.ServiceOutcome.Reset:
-						break;
+					case Core.Services.ServiceOutcome.Aborted:
+						return "/Icons/aborted.ico";
+					case Core.Services.ServiceOutcome.Failure:
+						return "/Icons/failed.ico";
+					case Core.Services.ServiceOutcome.Reset:
+						return "/Icons/reset.ico";
+					case Core.Services.ServiceOutcome.Success:
+						return "/Icons/success.ico";
+					case Core.Services.ServiceOutcome.Unspecified:
+						return "/Icons/unspecified.ico";
 					default:
-						break;
+						return "/Icons/unspecified.ico";
 				}
-				return color;
+				
+				
 			}
-		}		
+		}
 		public ObservableCollection<ServiceHistoryView> ChildsHistoryView
 		{
 			get
@@ -66,6 +65,6 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		#endregion
 
 		public Core.Services.ServiceState State { get; set; }
-		
+
 	}
 }

@@ -66,6 +66,15 @@ namespace Edge.Applications.PM.SchedulerControl
 
 		}
 
+		private void _btnLog_Click(object sender, RoutedEventArgs e)
+		{
+			Button b = new Button();
+			
+			Log l = new Log();
+			l.Show();
+
+		}
+
 		
 
 
