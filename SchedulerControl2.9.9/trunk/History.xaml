@@ -15,7 +15,7 @@
 			<RowDefinition Height="300" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<ui:TreeListView Name="_Tree" ItemsSource="{Binding History}" Grid.Row="1" Grid.Column="0">
+		<ui:TreeListView Name="_Tree" ItemsSource="{Binding History}" Grid.Row="1" Grid.Column="0">			
 			<TreeView.Resources>
 				<HierarchicalDataTemplate DataType="{x:Type this:ServiceHistoryView}" ItemsSource="{Binding ChildsHistoryView}"/>
 				<Style TargetType="{x:Type ui:TreeListViewItem}">
@@ -200,8 +200,8 @@
 			<CheckBox Name="_isEnableCheckBox"  ></CheckBox>
 			<Border BorderBrush="Black" BorderThickness="1,1,1,1">
 			<StackPanel Orientation="Horizontal"  DataContext="{Binding Times}" IsEnabled="{Binding ElementName=_isEnableCheckBox,Path=IsChecked}" Margin="1">
-				<bb:DateTimePicker Name="_from"  Height="20" VerticalAlignment="Top" DateTimeSelected="{Binding From,Mode=TwoWay}" >					
-				</bb:DateTimePicker>
+				<bb:DateTimePicker  Name="_from"  Height="20" VerticalAlignment="Top" DateTimeSelected="{Binding From,Mode=TwoWay}" >						
+					</bb:DateTimePicker>
 				<bb:DateTimePicker Name="_to"  Height="20" VerticalAlignment="Top"  DateTimeSelected="{Binding To,Mode=TwoWay}"></bb:DateTimePicker>
 				<Button Name="_loadHistory" Width="80" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="_loadHistory_Click">Load</Button>
 			</StackPanel>

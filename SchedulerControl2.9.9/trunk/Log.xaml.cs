@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Edge.Applications.PM.SchedulerControl.Objects;
 
 namespace Edge.Applications.PM.SchedulerControl
 {
@@ -18,9 +19,21 @@ namespace Edge.Applications.PM.SchedulerControl
 	/// </summary>
 	public partial class Log : Window
 	{
+		public static LogBindingData BindingData;
+		ServiceHistoryView _serviceHistoryView;
 		public Log()
 		{
 			InitializeComponent();
+		}
+		public Log(ServiceHistoryView selectedService)
+		{
+			InitializeComponent();
+			BindingData = new LogBindingData();
+			BindingData.ServiceHistoryView = selectedService;
+			BindingData.GetLogMessage();
+			this.DataContext = Log.BindingData;
+
+			
 		}
 	}
 }
