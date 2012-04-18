@@ -31,8 +31,10 @@ namespace Edge.Applications.PM.SchedulerControl
 			frmHistoryView.BindingData.History = new ObservableCollection<ServiceHistoryView>();
 			
 			frmHistoryView.BindingData.LoadHistory();
-			this.DataContext = frmHistoryView.BindingData;		
+			this.DataContext = frmHistoryView.BindingData;
 			
+
+		    			
 		}
 
 		private void _loadHistory_Click(object sender, RoutedEventArgs e)
@@ -68,9 +70,10 @@ namespace Edge.Applications.PM.SchedulerControl
 
 		private void _btnLog_Click(object sender, RoutedEventArgs e)
 		{
-			Button b = new Button();
-			
-			Log l = new Log();
+			Button btnLog = (Button)sender;
+
+			ServiceHistoryView shv = (ServiceHistoryView)btnLog.DataContext;
+			Log l = new Log(shv);
 			l.Show();
 
 		}

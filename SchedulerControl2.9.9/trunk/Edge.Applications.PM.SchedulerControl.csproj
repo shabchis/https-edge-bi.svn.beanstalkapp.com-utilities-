@@ -91,6 +91,7 @@
       <DependentUpon>Log.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\HistoryBindingData.cs" />
+    <Compile Include="Objects\LogBindingData.cs" />
     <Compile Include="Objects\SchedulerView.cs" />
     <Compile Include="Objects\ServiceHistoryView.cs" />
     <Page Include="History.xaml">

@@ -103,7 +103,7 @@
 			<ComboBox Name="_combo"  Width="100" Height="20" Margin="1,1,5,1" ItemsSource="{Binding Schedulers}" DisplayMemberPath="Name" >
 				
 			</ComboBox>
-			<!--<TextBlock Text="{Binding ElementName=_combo, Path=SelectedItem}"/>-->
+			
 			<Button Width="100" Height="20" Content="{Binding ConnectButtonText}" Margin="1" Click="Button_Click"></Button>
 			
 
