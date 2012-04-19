@@ -130,5 +130,31 @@ namespace Edge.Applications.PM.SchedulerControl
 		}
 		#endregion
 
+		private void _chkClearAutoMaticly_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void _btnClearEnded_Click(object sender, RoutedEventArgs e)
+		{
+			BindingData.ClearEnded();
+		}
+
+		private void _btnLog_Click(object sender, RoutedEventArgs e)
+		{
+			Button btnLog = (Button)sender;
+
+			InstanceView iv = (InstanceView)btnLog.DataContext;
+			ServiceHistoryView shv = new ServiceHistoryView()
+			{
+				AccountID = iv.AccountID,
+				ServiceName=iv.ServiceName,
+				InstanceID=int.Parse(iv.InstanceID),
+				Outcome=iv.Outcome
+			};
+			Log l = new Log(shv);
+			l.Show();
+		}
+
 	}
 }

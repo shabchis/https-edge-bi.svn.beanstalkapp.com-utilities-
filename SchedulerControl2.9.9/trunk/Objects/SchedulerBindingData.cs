@@ -120,5 +120,29 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			_InstancesRef.Clear();
 			Instances.Clear();
 		}
+		internal void ClearEnded()
+		{
+
+			lock (Instances)
+			{
+				List<int> toRemove = new List<int>();
+				for (int i = 0; i < Instances.Count; i++)
+				{
+					InstanceView instance = Instances[i];
+					if (instance.State == Core.Services.ServiceState.Ended && DateTime.Parse(instance.ActualEndTime).AddMinutes(5) < DateTime.Now)
+					{
+						foreach (var child in instance.ChildsSteps)
+						{
+							_InstancesRef.Remove(child.ID);
+						}
+						_InstancesRef.Remove(instance.ID);
+						toRemove.Add(i);
+					}
+				}
+				foreach (var index in toRemove)
+					Instances.RemoveAt(index);		 
+			}
+		
+		}
 	}
 }
