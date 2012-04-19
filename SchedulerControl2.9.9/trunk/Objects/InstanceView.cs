@@ -91,14 +91,11 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				return _instanceInfo.ActualEndTime.ToShortTimeString();
 			}
 		}
-		public string State
+		public Core.Services.ServiceState State
 		{
 			get
 			{
-				if (_instanceInfo.State != Core.Services.ServiceState.Ended)
-					return _instanceInfo.State.ToString();
-				else
-					return _instanceInfo.Outcome.ToString();
+				return _instanceInfo.State;
 			}
 		}
 		public Core.Services.ServiceOutcome Outcome
@@ -147,6 +144,39 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 						break;
 				}
 				return color;
+			}
+		}
+		public string StatusImage
+		{
+			get
+			{
+				switch (Outcome)
+				{
+					case Core.Services.ServiceOutcome.Aborted:
+						return "/Icons/aborted.ico";
+					case Core.Services.ServiceOutcome.Failure:
+						return "/Icons/failed.ico";
+					case Core.Services.ServiceOutcome.Reset:
+						return "/Icons/reset.ico";
+					case Core.Services.ServiceOutcome.Success:
+						return "/Icons/success.ico";
+					case Core.Services.ServiceOutcome.Unspecified:
+						return "/Icons/unspecified.ico";
+					default:
+						return "/Icons/unspecified.ico";
+				}
+
+
+			}
+		}
+		public bool LogEnabled
+		{
+			get
+			{
+				if (State == Core.Services.ServiceState.Ended || State == Core.Services.ServiceState.Aborting)
+					return true;
+				else
+					return false;
 			}
 		}
 		#endregion
