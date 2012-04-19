@@ -123,7 +123,7 @@
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 			<Button Content="Reset unended" Height="23" Width="90" Name="_btnReset" Click="_btnReset_Click" IsEnabled="{Binding Connected}"  />
 			<Label Content="Clear ended automaticly"/>
-			<CheckBox Name="_chkClearAutoMaticly" VerticalAlignment="Center" IsChecked="False" Click="_chkClearAutoMaticly_Click" IsEnabled="{Binding Connected}"/>
+			<CheckBox Name="_chkClearAutoMaticly" VerticalAlignment="Center" IsChecked="False" Click="_chkClearAutoMaticly_Click" IsEnabled="{Binding Connected}" />
 			<Button Content="Clear Ended" Height="23" Name="_btnClearEnded" Width="90" Click="_btnClearEnded_Click" IsEnabled="{Binding Connected}"/>
 			<Button Content="Show History" Height="23" Name="_btnShowHistory" Width="90" Click="_btnShowHistory_Click" IsEnabled="{Binding Connected}"/>			
 		</StackPanel>
