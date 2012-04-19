@@ -84,7 +84,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			set
 			{
 				_connected = value;
-				RaisePropertyChanged("ConnectButtonText");
+				RaisePropertyChanged("Connected");
 			}
 			get
 			{

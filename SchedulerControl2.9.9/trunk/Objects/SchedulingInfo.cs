@@ -19,6 +19,8 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		Legacy.IsAlive IsAlive(Guid guid);
 		[OperationContract]
 		void Abort(Guid guid);
+		[OperationContract]
+		void ResetUnEnded();
 	}
 	public interface ICallBack
 	{
@@ -47,16 +49,17 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			NewInstanceEvent(this, new InstanceEventArgs() { instanceStateOutcomerInfo = StateOutcomerInfo });
 		}
 		#endregion
-	}
-	public class ScheduleCreatedEventArgs : EventArgs
-	{
-		public ServiceInstanceInfo[] ScheduleAndStateInfo;
-	}
+	}	
 	#endregion
 	#region eventargs
 	public class InstanceEventArgs : EventArgs
 	{
 		public ServiceInstanceInfo instanceStateOutcomerInfo;
+
+	}
+	public class ScheduleCreatedEventArgs : EventArgs
+	{
+		public ServiceInstanceInfo[] ScheduleAndStateInfo;
 	}
 #endregion
 }
