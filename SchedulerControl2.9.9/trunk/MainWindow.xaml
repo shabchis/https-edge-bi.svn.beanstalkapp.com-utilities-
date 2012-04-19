@@ -18,8 +18,7 @@
 			<TreeView.Resources>
 				<HierarchicalDataTemplate DataType="{x:Type this:InstanceView}" ItemsSource="{Binding ChildsSteps}"/>
 				<Style TargetType="{x:Type ui:TreeListViewItem}">
-					<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
-					<Setter Property="Background" Value="{Binding Path=Background, Mode=OneWay}" />					
+					<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />								
 				</Style>
 
 			</TreeView.Resources>
@@ -27,9 +26,9 @@
 				<GridViewColumn  Width="80">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<Button Name="_btnLog" VerticalAlignment="Top"  HorizontalAlignment="Left"  Background="Transparent" BorderThickness="0,0,0,0"  Padding="0,0,0,0" Margin="0,0,0,0" BorderBrush="Transparent" IsEnabled="{Binding LogEnabled}"  Click="_btnLog_Click" >
-								<StackPanel Orientation="Horizontal" Margin="10">
-									<Image Source="/Icons/Log.ico" Width="10" Height="10" Margin="0,0,0,0"/>
+							<Button Name="_btnLog" VerticalAlignment="Top" Width="16" Height="16"  HorizontalAlignment="Left"  Background="Transparent" BorderThickness="0,0,0,0"  Padding="0,0,0,0" Margin="0,0,0,0" BorderBrush="Transparent" IsEnabled="{Binding LogEnabled}"  Click="_btnLog_Click" >
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Icons/Log.ico" Width="12" Height="12" Margin="0,0,0,0"/>
 								</StackPanel>
 							</Button>
 						</DataTemplate>
@@ -38,7 +37,7 @@
 				<GridViewColumn  Width="100">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<Image Source="{Binding StatusImage}" Width="20" Height="20"/>
+							<Image Source="{Binding StatusImage}" Width="16" Height="16"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
@@ -118,17 +117,15 @@
 		</ui:TreeListView>
 		<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
 			<Label Content="Choose scheduler to Connect" IsEnabled="False"></Label>
-			<ComboBox Name="_combo"  Width="100" Height="20" Margin="1,1,5,1" ItemsSource="{Binding Schedulers}" DisplayMemberPath="Name" >
-				
-			</ComboBox>
-			
-			<Button Width="100" Height="20" Content="{Binding ConnectButtonText}" Margin="1" Click="Button_Click"/>			
+			<ComboBox Name="_combo"   Width="100" Height="20" Margin="1,1,5,1" ItemsSource="{Binding Schedulers}" DisplayMemberPath="Name" SelectedIndex="0" />			
+			<Button Width="90" Height="20" Content="{Binding ConnectButtonText}" Margin="1" Click="_btnConnect"/>			
 		</StackPanel>
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Content="Reset unended" Height="23" Width="90" Name="_btnReset" Click="_btnReset_Click" IsEnabled="{Binding Connected}"  />
 			<Label Content="Clear ended automaticly"/>
-			<CheckBox Name="_chkClearAutoMaticly" VerticalAlignment="Center" IsChecked="False" Click="_chkClearAutoMaticly_Click"/>
-			<Button Content="Clear Ended" Height="23" Name="_btnClearEnded" Width="75" Click="_btnClearEnded_Click"/>		
-			<Button Content="Show History" Height="23" Name="_btnShowHistory" Width="75" Click="_btnShowHistory_Click"/>			
+			<CheckBox Name="_chkClearAutoMaticly" VerticalAlignment="Center" IsChecked="False" Click="_chkClearAutoMaticly_Click" IsEnabled="{Binding Connected}"/>
+			<Button Content="Clear Ended" Height="23" Name="_btnClearEnded" Width="90" Click="_btnClearEnded_Click" IsEnabled="{Binding Connected}"/>
+			<Button Content="Show History" Height="23" Name="_btnShowHistory" Width="90" Click="_btnShowHistory_Click" IsEnabled="{Binding Connected}"/>			
 		</StackPanel>
 
 

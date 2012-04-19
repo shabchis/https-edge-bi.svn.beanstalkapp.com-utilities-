@@ -66,7 +66,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			frmHistoryView f = new frmHistoryView();
 			f.Show();
 		}
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void _btnConnect(object sender, RoutedEventArgs e)
 		{
 			if (_combo.SelectedValue != null)
 			{
@@ -154,6 +154,11 @@ namespace Edge.Applications.PM.SchedulerControl
 			};
 			Log l = new Log(shv);
 			l.Show();
+		}
+
+		private void _btnReset_Click(object sender, RoutedEventArgs e)
+		{
+			_schedulingCommunicationChannel.ResetUnEnded();
 		}
 
 	}
