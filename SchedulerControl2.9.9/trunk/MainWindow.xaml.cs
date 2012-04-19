@@ -40,15 +40,16 @@ namespace Edge.Applications.PM.SchedulerControl
 		private DuplexChannelFactory<ISchedulingCommunication> _channel;
 		private ISchedulingCommunication _schedulingCommunicationChannel;
 		private Callback _callBack;
+		Thread _clearEnded;
 		#endregion
 		#region ctor
 		public MainWindow()
 		{
-			InitializeComponent();			
+			InitializeComponent();
 			this.DataContext = MainWindow.BindingData;
 			MainWindow.BindingData.LoadSchedulers();
 		}
-		#endregion		
+		#endregion
 		#region events
 		void _callBack_NewInstanceEvent(object sender, EventArgs e)
 		{
@@ -102,7 +103,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		{
 			_callBack.NewScheduleCreatedEvent -= new EventHandler(_callBack_NewScheduleCreatedEvent);
 			_callBack.NewInstanceEvent -= new EventHandler(_callBack_NewInstanceEvent);
-			MainWindow.BindingData.Disconnect();			
+			MainWindow.BindingData.Disconnect();
 			_channel.Close();
 			BindingData.Connected = false;
 		}
@@ -115,7 +116,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			_callBack.NewScheduleCreatedEvent += new EventHandler(_callBack_NewScheduleCreatedEvent);
 			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
 			BindingData.Connected = true;
-		}		
+		}
 		private void IsAlive(Guid guid)
 		{
 			try
@@ -132,6 +133,20 @@ namespace Edge.Applications.PM.SchedulerControl
 
 		private void _chkClearAutoMaticly_Click(object sender, RoutedEventArgs e)
 		{
+			ThreadStart threadStart = new ThreadStart(delegate()
+			{
+				while (true)
+				{
+					Thread.Sleep(new TimeSpan(0, 2, 0));
+					BindingData.ClearEnded();
+				}
+			});
+			if (_clearEnded == null)
+				_clearEnded = new Thread(threadStart);
+			if (_chkClearAutoMaticly.IsChecked.Value)
+				_clearEnded.Start();
+			else
+				_clearEnded.Abort();
 
 		}
 
@@ -148,9 +163,9 @@ namespace Edge.Applications.PM.SchedulerControl
 			ServiceHistoryView shv = new ServiceHistoryView()
 			{
 				AccountID = iv.AccountID,
-				ServiceName=iv.ServiceName,
-				InstanceID=int.Parse(iv.InstanceID),
-				Outcome=iv.Outcome
+				ServiceName = iv.ServiceName,
+				InstanceID = int.Parse(iv.InstanceID),
+				Outcome = iv.Outcome
 			};
 			Log l = new Log(shv);
 			l.Show();
@@ -160,6 +175,13 @@ namespace Edge.Applications.PM.SchedulerControl
 		{
 			_schedulingCommunicationChannel.ResetUnEnded();
 		}
+
+		private void _chkClearAutoMaticly_Click_1(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+
 
 	}
 }
