@@ -88,6 +88,13 @@ namespace Edge.Applications.PM.Suite.DataChecks.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap failed_icon {
+            get {
+                object obj = ResourceManager.GetObject("failed_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap profile {
             get {
                 object obj = ResourceManager.GetObject("profile", resourceCulture);
@@ -123,6 +130,13 @@ namespace Edge.Applications.PM.Suite.DataChecks.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap success_icon {
+            get {
+                object obj = ResourceManager.GetObject("success_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap time {
             get {
                 object obj = ResourceManager.GetObject("time", resourceCulture);
@@ -133,6 +147,13 @@ namespace Edge.Applications.PM.Suite.DataChecks.Properties {
         internal static System.Drawing.Bitmap time2 {
             get {
                 object obj = ResourceManager.GetObject("time2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Warning_icon {
+            get {
+                object obj = ResourceManager.GetObject("Warning_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

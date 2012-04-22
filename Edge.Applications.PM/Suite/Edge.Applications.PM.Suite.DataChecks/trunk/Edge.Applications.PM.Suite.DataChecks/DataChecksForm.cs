@@ -54,6 +54,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		private ResultForm _resultsForm;
 		public DataChecksModelView DataChecksModelView { set; get; }
 		public Dictionary<string, Object> EventsHandlers { set; get; }
+		private List<AccountServiceElement> _profilesServiceElement { set; get; }
 
 		public DataChecksForm()
 		{
@@ -67,21 +68,18 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			_setButton = new SetButtonVisibility(setButtonVisibility);
 			_incCounter = new IncCounter(IncreaseCounter);
 
-
 			/**************************************************************************/
 			#endregion
 
 			//setting results form
 			_resultsForm = new ResultForm();
 			_resultsForm.MdiParent = this.ParentForm;
-			
-
 
 			DataChecksModelView = new DataChecksModelView();
 			EventsHandlers = new Dictionary<string, Object>();
 
-			//Adding Events Handler functions
-			#region Attaching Events
+			//Adding Service Events Handler functions
+			#region Attaching Services Events
 			EventsHandlers.Add(Const.EventsTypes.ParentOutcomeReportedEvent, new EventHandler(instance_OutcomeReported));
 			//EventsHandlers.Add(Const.EventsTypes.ChildOutcomeReportedEvent, new EventHandler(instance_OutcomeReported));
 			EventsHandlers.Add(Const.EventsTypes.ParentStateChangedEvent, new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(instance_StateChanged));
@@ -107,6 +105,45 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			toDate.Value = DateTime.Today.AddDays(-1);
 		}
 
+		private List<AccountServiceElement> GetProfilesFromConfiguration(string pathKey, ComboBox profilesCombo)
+		{
+			List<AccountServiceElement> serviceElement = new List<AccountServiceElement>();
+
+			try
+			{
+				AccountElement account;
+				if (DataChecksModelView.TryGetAccountFromExtrernalConfig(ConfigurationManager.AppSettings.Get(pathKey), -1, out account))
+				{
+					foreach (AccountServiceElement service in account.Services)
+					{
+						if (service.Options.ContainsKey("ProfileName"))
+						{
+							serviceElement.Add(service);
+							int n = profilesCombo.Items.Add(service.Options["ProfileName"]);
+						}
+					}
+				}
+			}
+			catch
+			{
+				//Show error msg
+			}
+
+			return serviceElement;
+		}
+		private void CheckAllAccounts(bool isChecked)
+		{
+			if (isChecked)
+				for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
+				{
+					AccountsCheckedListBox.SetItemChecked(index, true);
+				}
+			else
+				for (int index = 0; index < AccountsCheckedListBox.Items.Count; index++)
+				{
+					AccountsCheckedListBox.SetItemChecked(index, false);
+				}
+		}
 
 		#region UI Events Code Handler
 		/*================================================================================*/
@@ -114,14 +151,14 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		// Selected Application Event //
 		private void application_cb_SelectedValueChanged(object sender, EventArgs e)
 		{
-			string path = string.Empty;
+			string pathKey = string.Empty;
 
 			if (((ComboBox)sender).SelectedItem.Equals(Const.AdMetricsConst.EdgeApp))
 			{
-				path = Const.AdMetricsConst.EdgeProductionPathKey;
+				pathKey = Const.AdMetricsConst.EdgeProductionPathKey;
 			}
 			else
-				path = Const.AdMetricsConst.SeperiaProductionPathKey;
+				pathKey = Const.AdMetricsConst.SeperiaProductionPathKey;
 
 			AccountsCheckedListBox.Items.Clear();
 
@@ -129,21 +166,36 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			this.profile_cb.Text = "Select Profile";
 
 			//Loading production configuration
-			DataChecksModelView.LoadProductionConfiguration(path);
+			DataChecksModelView.LoadProductionConfiguration(pathKey);
 
 			//Loading Accounts from Data Base
 			DataChecksModelView.LoadAccountsFromDB(application_cb.SelectedItem.ToString(), AccountsCheckedListBox, DataChecksModelView.AvailableAccountList);
 
 			//Getting Profiles from configuration 
-			if (!DataChecksModelView.TryGetProfilesFromConfiguration(path, profile_cb, DataChecksModelView.Profiles))
+			if (!DataChecksModelView.TryGetProfilesFromConfiguration(pathKey, profile_cb, DataChecksModelView.Profiles))
 				DataChecksModelView.TryGetProfilesFromConfiguration(Const.AdMetricsConst.SeperiaProductionPathKey, profile_cb, DataChecksModelView.Profiles);
 
 			rightSidePanel.Enabled = true;
+
+			//Getting and setting profiles from selected configuration 
+			_profilesServiceElement = GetProfilesFromConfiguration(pathKey, this.profile_cb);
+
 		}
 
 		private void profile_cb_SelectedValueChanged(object sender, EventArgs e)
 		{
-			//TO DO : LOAD PROFILE FROM PROFUCTION CONFIGURATION
+			CheckAllAccounts(false);
+			ClearMetricsValidations();
+			//ClearCheckTypeCheckBox();
+		}
+
+		private void ClearMetricsValidations()
+		{
+			foreach (var item in this.MerticsValidations.Nodes)
+			{
+				//TO DO : UNCHECK NODES
+				//item.Checked = false;
+			}
 		}
 
 		private void Start_btn_Click(object sender, EventArgs e)
@@ -155,7 +207,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			{
 				//Inc num of services to run 
 				this._numOfValidationsToRun++;
-				
+
 				//Run service using current configuration
 				if (MetricsValidation.Value.RunHasLocal)
 				{
@@ -185,7 +237,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 				//Creating instance of validation Class.
 				string typeName = string.Format("{0}.{1}", this.GetType().Namespace, ((MetricsItem)e.Node.Tag).ClassName);
 				Type type = Type.GetType(typeName);
-				DataChecksBase validationInstance = (AdMetricsValidation)Assembly.GetExecutingAssembly().CreateInstance(typeName);
+				DataChecksBase validationInstance = (DataChecksBase)Assembly.GetExecutingAssembly().CreateInstance(typeName);
 
 
 				//SETTING INSTANCE PARAMS
@@ -233,12 +285,12 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		/*================================================================================*/
 		#endregion
 
-		#region Events Handler Section
+		#region Services Events Handler Section
 		/*=========================================================================*/
 		void instance_OutcomeReported(object sender, EventArgs e)
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-			
+
 			/*TO DO :
 			 * 
 			 * UPDATE LOG
@@ -260,17 +312,15 @@ namespace Edge.Applications.PM.Suite.DataChecks
 				instance.Start();
 			}
 
-			if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
-			{
-				//UPDATE UI PROGRESS BAR
-				Invoke(_updateProgressBar, new object[] { progressBar, progressBar.Value + 100 / this._numOfValidationsToRun, true });
+			//if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
+			//{
 				
-				//Update current runnong services counter
-				Invoke(_incCounter, new object[] {this._runnigServices,-1 });
-				//TO DO : UPDATE RESULTS
-				//TO DO : UPDATE LOG
+			//    //UPDATE UI PROGRESS BAR
+			//    //Invoke(_updateProgressBar, new object[] { progressBar, progressBar.Value + 100 / this._numOfValidationsToRun, true });
 
-			}
+			//    //Set Results button Enabled
+			//    //Invoke(_setButton, new object[]  { this.report_btn, true, true });
+			//}
 
 		}
 
@@ -298,6 +348,10 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			}
 
 			if (e.StateAfter == ServiceState.Ended)
+			{
+				//Update current running services counter
+				//Invoke(_incCounter, new object[] { this._runnigServices, -1 });
+
 				if (instance.Configuration.Options.ContainsKey("OnEnd") && (instance.Configuration.Options["OnEnd"].ToString().Equals("GetValidationResults")))
 				{
 					//Get Validations Results
@@ -307,37 +361,37 @@ namespace Edge.Applications.PM.Suite.DataChecks
 					if (newResults.Capacity > 0)
 					{
 						Invoke(_updateResults, new object[] { newResults });
-						Invoke(_setButton, new object[] { this.report_btn, true, true });
+						//Invoke(_setButton, new object[]  { this.report_btn, true, true });
 					}
 				}
+			}
 
 
 		}
-		
+
 		private void report_btn_Click(object sender, EventArgs e)
 		{
 			this._resultsForm.Show();
-
 		}
-		
+
 		/*=========================================================================*/
 		#endregion
 
-		#region Deligate Functions
+		#region Deligate uses Functions
 		/*====================================================================================*/
-
 		public void updateProgressBarState(ProgressBar progressBarItem, int progress, bool visible = true)
 		{
 			progressBarItem.Value = progress;
 			progressBarItem.Visible = visible;
-			
+
 			Application.DoEvents();
 		}
 
 		public void updateResultsDataGrid(List<ValidationResult> results)
 		{
-			Application.DoEvents();
+			//Application.DoEvents();
 
+			this._runnigServices--;
 			foreach (ValidationResult item in results)
 			{
 				if (item.ResultType == ValidationResultType.Error)
@@ -354,10 +408,30 @@ namespace Edge.Applications.PM.Suite.DataChecks
 				}
 			}
 
+			//Update status Bar
+			this.progressBar.Value += 100 / this._numOfValidationsToRun;
+
 			if (this._runnigServices == 0)
-			    report_btn.Enabled = true;
-			
-			Application.DoEvents();
+			{
+				report_btn.Enabled = true;
+							
+				if (_resultsForm.ErrorDataGridView.Rows.Count > 0)
+				{
+					ResultImage.Image = Edge.Applications.PM.Suite.DataChecks.Properties.Resources.failed_icon;
+
+				}
+				else if (_resultsForm.WarningDataGridView.Rows.Count > 0)
+				{
+					ResultImage.Image = Edge.Applications.PM.Suite.DataChecks.Properties.Resources.Warning_icon;
+					return;
+				}
+				else ResultImage.Image = Edge.Applications.PM.Suite.DataChecks.Properties.Resources.success_icon;
+
+				
+
+				Application.DoEvents();
+
+			}
 
 		}
 
@@ -382,31 +456,25 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			this.LogBox.Clear();
 			this.progressBar.Value = 0;
 			this._numOfValidationsToRun = 0;
+			this._runnigServices = 0;
 			Application.DoEvents();
 		}
 
-		private void setButtonVisibility(Button button ,bool visibility, bool enable)
+		private void setButtonVisibility(Button button, bool visibility, bool enable)
 		{
 			button.Visible = visibility;
 			button.Enabled = enable;
 			Application.DoEvents();
 		}
 
-		private void IncreaseCounter(int counter ,int value)
+		private void IncreaseCounter(int counter, int value)
 		{
 			counter += value;
 			Application.DoEvents();
 		}
 
-	
-
 		/*====================================================================================*/
 		#endregion
-
-
-
-
 	}
-
 
 }
