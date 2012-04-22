@@ -53,6 +53,9 @@
     <ApplicationIcon>
     </ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Edge.Objects">
       <HintPath>..\..\..\..\EdgeApiRest\API\Edge.Api\bin\Edge.Objects.dll</HintPath>
@@ -199,6 +202,9 @@
     <None Include="Resources\time.png" />
     <None Include="Resources\time2.png" />
     <None Include="Resources\app.png" />
+    <None Include="Resources\failed-icon.png" />
+    <None Include="Resources\success_icon.png" />
+    <None Include="Resources\Warning-icon.png" />
     <Content Include="TO_DO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

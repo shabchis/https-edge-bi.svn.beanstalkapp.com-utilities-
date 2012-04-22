@@ -181,7 +181,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		/// <param name="accountId" >Account ID in the configuration file</param>
 		/// <param name="accountElement" >OUT param. The function will return the account element that was found. (NULL if account doesnt exists in this configuration)</param>
 		/// <returns>True if found, otherwise:False</returns>
-		private bool TryGetAccountFromExtrernalConfig(string fullPath, int accountId, out AccountElement accountElement)
+		internal bool TryGetAccountFromExtrernalConfig(string fullPath, int accountId, out AccountElement accountElement)
 		{
 			try
 			{

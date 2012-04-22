@@ -73,6 +73,8 @@ namespace Edge.Applications.PM.Suite.DataChecks.Configuration
 			get { return (string)base["RunHasLocal"]; }
 			set { base["RunHasLocal"] = value; }
 		}
+
+
 	}
 
 
