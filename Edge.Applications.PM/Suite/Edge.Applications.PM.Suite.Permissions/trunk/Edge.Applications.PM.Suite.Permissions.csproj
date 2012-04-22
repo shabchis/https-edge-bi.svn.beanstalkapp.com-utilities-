@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B5430A32-89FD-47D0-BB8E-59EA17FD8DED}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Edge.Applications.PM.Suite.Permissions</RootNamespace>
+    <AssemblyName>Edge.Applications.PM.Suite.Permissions</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Edge.Applications.PM.Common">
+      <HintPath>..\..\Edge.Applications.PM.Common\bin\Debug\Edge.Applications.PM.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Edge.Objects">
+      <HintPath>..\..\..\..\..\EdgeApiRest\API\Edge.Api\bin\Edge.Objects.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\(third party)\Json.net\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordForm.Designer.cs">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\UsersGroupsDataLayer.cs" />
+    <Compile Include="Permissions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Permissions.Designer.cs">
+      <DependentUpon>Permissions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChangePasswordForm.resx">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Permissions.resx">
+      <DependentUpon>Permissions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Framework\Edge.Core\Edge.Core.csproj">
+      <Project>{AD4B53AD-B28A-4E90-9483-D2F7C8E6D436}</Project>
+      <Name>Edge.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Framework\Edge.Data.Pipeline\Edge.Data.Pipeline.csproj">
+      <Project>{53391A99-E8CA-4262-A8E0-5F05A1CC6608}</Project>
+      <Name>Edge.Data.Pipeline</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add_user24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button_minus_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\cancel_round-faded.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\cancel_round.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\checked_shield_green.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\question_blue-faded.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\question_blue.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tick_circle-faded.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tick_circle.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Warning-icon.png" />
+    <None Include="Resources\Zoom_in48.png" />
+    <None Include="Resources\yahoo %281%29.png" />
+    <None Include="Resources\window_new.png" />
+    <None Include="Resources\warning1.png" />
+    <None Include="Resources\users_folder_graphite.png" />
+    <None Include="Resources\users.png" />
+    <None Include="Resources\user_pic.png" />
+    <None Include="Resources\Unlock24.png" />
+    <None Include="Resources\success_icon.png" />
+    <None Include="Resources\stopBtn2.jpg" />
+    <None Include="Resources\stop1.png" />
+    <None Include="Resources\stop.png" />
+    <None Include="Resources\stock_calendar_view_year.png" />
+    <None Include="Resources\step3.png" />
+    <None Include="Resources\step2.png" />
+    <None Include="Resources\step1.png" />
+    <None Include="Resources\Stats.png" />
+    <None Include="Resources\start-button-news.png" />
+    <None Include="Resources\Shoppingcart48.png" />
+    <None Include="Resources\Shoppingcart16.png" />
+    <None Include="Resources\settings.png" />
+    <None Include="Resources\report.png" />
+    <None Include="Resources\preferences_system_windows_actions.png" />
+    <None Include="Resources\Perspective Button Stop.png" />
+    <None Include="Resources\package_settings.png" />
+    <None Include="Resources\new_table.png" />
+    <None Include="Resources\media_floppy_green.png" />
+    <None Include="Resources\Lock24.png" />
+    <None Include="Resources\kontact1.png" />
+    <None Include="Resources\kontact.png" />
+    <None Include="Resources\Key16.png" />
+    <None Include="Resources\iconFacebook.png" />
+    <None Include="Resources\human_folder_saved_search.png" />
+    <None Include="Resources\google.ico" />
+    <None Include="Resources\go.png" />
+    <None Include="Resources\Go-Button.png" />
+    <None Include="Resources\gnome_ftp.png" />
+    <None Include="Resources\glass_numbers_4.png" />
+    <None Include="Resources\glass_numbers_3.png" />
+    <None Include="Resources\glass_numbers_2.png" />
+    <None Include="Resources\glass_numbers_1.png" />
+    <None Include="Resources\Flight-Tracker-icon.png" />
+    <None Include="Resources\fixErrors.png" />
+    <None Include="Resources\find.png" />
+    <None Include="Resources\failed-icon.png" />
+    <None Include="Resources\erase.png" />
+    <None Include="Resources\DupTracker.jpg" />
+    <None Include="Resources\documents.png" />
+    <None Include="Resources\delete.png" />
+    <None Include="Resources\delete %281%29.png" />
+    <None Include="Resources\database.png" />
+    <None Include="Resources\configuration.png" />
+    <None Include="Resources\clock green.png" />
+    <Content Include="Resources\cancel_round.ico.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
