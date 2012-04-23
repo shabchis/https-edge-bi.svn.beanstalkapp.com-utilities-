@@ -160,6 +160,14 @@ namespace Edge.Applications.PM.Suite.Permissions.Objects
 
 		internal void SaveUser(UserView user)
 		{
+			foreach (var permission in user.AssignedPermissions)
+			{
+				foreach (var permissionType in permission.Value)				
+					permissionType.PermissionType = string.Format("menu:{0}", permissionType.PermissionType);
+					
+				
+				
+			}
 			HttpWebResponse response;
 			HttpWebRequest request;
 			if (user.IsNew)
@@ -238,6 +246,13 @@ namespace Edge.Applications.PM.Suite.Permissions.Objects
 		}
 		internal void SaveGroup(GroupView group)
 		{
+			foreach (var permission in group.AssignedPermissions)
+			{
+				foreach (var permissionType in permission.Value)				
+					permissionType.PermissionType = string.Format("menu:{0}", permissionType.PermissionType);					
+				
+				
+			}
 			HttpWebResponse response;
 			HttpWebRequest request;
 			if (group.IsNew)
