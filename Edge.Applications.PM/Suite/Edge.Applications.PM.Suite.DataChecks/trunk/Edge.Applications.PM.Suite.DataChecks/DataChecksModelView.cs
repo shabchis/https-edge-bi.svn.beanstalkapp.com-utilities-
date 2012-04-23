@@ -122,7 +122,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 						while (_reader.Read())
 						{
 							accountsListBox.Items.Add(string.Format("{0}-{1}", _reader[1], _reader[0]));
-							availableAccountList.Add(_reader[1].ToString(), _reader[0].ToString());
+							//availableAccountList.Add(_reader[1].ToString(), _reader[0].ToString());
 						}
 					}
 				}
