@@ -177,6 +177,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			//Getting and setting profiles from selected configuration 
 			_profilesServiceElement = GetProfilesFromConfiguration(pathKey, this.profile_cb);
 
+			clearOnStart();
 		}
 
 		private void profile_cb_SelectedValueChanged(object sender, EventArgs e)
