@@ -55,6 +55,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		public DataChecksModelView DataChecksModelView { set; get; }
 		public Dictionary<string, Object> EventsHandlers { set; get; }
 		private List<AccountServiceElement> _profilesServiceElement { set; get; }
+		private Dictionary<string,DataGridViewRowCollection> resultsDataGrid { set; get; }
 
 		public DataChecksForm()
 		{
@@ -71,9 +72,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			/**************************************************************************/
 			#endregion
 
-			//setting results form
-			_resultsForm = new ResultForm();
-			_resultsForm.MdiParent = this.ParentForm;
+			
 
 			DataChecksModelView = new DataChecksModelView();
 			EventsHandlers = new Dictionary<string, Object>();
@@ -95,6 +94,13 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			//Load Metrics Validations from configuration
 			DataChecksModelView.LoadMetricsValidationsItems(this.MerticsValidations.Nodes);
 
+			//Init results data grids
+			resultsDataGrid = new Dictionary<string, DataGridViewRowCollection>()
+			{
+				{"Errors",null},
+				{"Success",null},
+				{"Information",null}
+			};
 		}
 
 		//On Load
@@ -453,6 +459,12 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 		private void clearOnStart()
 		{
+			//setting results form
+			this._resultsForm = new ResultForm();
+			_resultsForm.MdiParent = this.ParentForm;
+
+			this.ResultImage.Image = null;
+			this.report_btn.Enabled = false;
 			this.LogBox.Clear();
 			this.progressBar.Value = 0;
 			this._numOfValidationsToRun = 0;
