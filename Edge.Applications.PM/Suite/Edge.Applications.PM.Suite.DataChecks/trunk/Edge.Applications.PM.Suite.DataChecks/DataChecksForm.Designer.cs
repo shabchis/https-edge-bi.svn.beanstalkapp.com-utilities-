@@ -239,9 +239,9 @@
 			this.label12.Font = new System.Drawing.Font("Verdana", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label12.Location = new System.Drawing.Point(37, 7);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(117, 18);
+			this.label12.Size = new System.Drawing.Size(151, 18);
 			this.label12.TabIndex = 58;
-			this.label12.Text = "Configuration";
+			this.label12.Text = "Data Checks Tool";
 			// 
 			// pictureBox9
 			// 
