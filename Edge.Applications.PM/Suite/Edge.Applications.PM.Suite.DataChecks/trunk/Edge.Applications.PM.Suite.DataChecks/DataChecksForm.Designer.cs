@@ -39,7 +39,6 @@
 			this.AccountsCheckedListBox = new System.Windows.Forms.CheckedListBox();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.clear = new System.Windows.Forms.Button();
 			this.panel6 = new System.Windows.Forms.Panel();
 			this.pictureBox12 = new System.Windows.Forms.PictureBox();
 			this.label12 = new System.Windows.Forms.Label();
@@ -49,7 +48,6 @@
 			this.Profile_lbl = new System.Windows.Forms.Label();
 			this.profile_cb = new System.Windows.Forms.ComboBox();
 			this.label4 = new System.Windows.Forms.Label();
-			this.checkAll = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.Start_btn = new System.Windows.Forms.Button();
 			this.panel5 = new System.Windows.Forms.Panel();
@@ -69,6 +67,7 @@
 			this.label10 = new System.Windows.Forms.Label();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.label8 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.ResultImage)).BeginInit();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -116,7 +115,7 @@
 			// 
 			// ResultImage
 			// 
-			this.ResultImage.Location = new System.Drawing.Point(384, 570);
+			this.ResultImage.Location = new System.Drawing.Point(679, 570);
 			this.ResultImage.Name = "ResultImage";
 			this.ResultImage.Size = new System.Drawing.Size(47, 43);
 			this.ResultImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -125,10 +124,10 @@
 			// 
 			// progressBar
 			// 
-			this.progressBar.Location = new System.Drawing.Point(12, 570);
+			this.progressBar.Location = new System.Drawing.Point(12, 571);
 			this.progressBar.MarqueeAnimationSpeed = 10;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(357, 42);
+			this.progressBar.Size = new System.Drawing.Size(645, 42);
 			this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this.progressBar.TabIndex = 19;
 			// 
@@ -137,7 +136,7 @@
 			this.warningCount.AutoSize = true;
 			this.warningCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.warningCount.ForeColor = System.Drawing.Color.Chocolate;
-			this.warningCount.Location = new System.Drawing.Point(456, 584);
+			this.warningCount.Location = new System.Drawing.Point(751, 584);
 			this.warningCount.Name = "warningCount";
 			this.warningCount.Size = new System.Drawing.Size(43, 12);
 			this.warningCount.TabIndex = 38;
@@ -149,7 +148,7 @@
 			this.errorsCount.AutoSize = true;
 			this.errorsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.errorsCount.ForeColor = System.Drawing.Color.DarkRed;
-			this.errorsCount.Location = new System.Drawing.Point(457, 597);
+			this.errorsCount.Location = new System.Drawing.Point(752, 597);
 			this.errorsCount.Name = "errorsCount";
 			this.errorsCount.Size = new System.Drawing.Size(31, 12);
 			this.errorsCount.TabIndex = 39;
@@ -160,9 +159,9 @@
 			// 
 			this.report_btn.Enabled = false;
 			this.report_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.report_btn.Location = new System.Drawing.Point(519, 570);
+			this.report_btn.Location = new System.Drawing.Point(12, 618);
 			this.report_btn.Name = "report_btn";
-			this.report_btn.Size = new System.Drawing.Size(87, 43);
+			this.report_btn.Size = new System.Drawing.Size(87, 29);
 			this.report_btn.TabIndex = 49;
 			this.report_btn.Text = "View Results";
 			this.report_btn.UseVisualStyleBackColor = true;
@@ -175,9 +174,9 @@
 			this.AccountsCheckedListBox.ColumnWidth = 180;
 			this.AccountsCheckedListBox.Font = new System.Drawing.Font("Microsoft JhengHei", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.AccountsCheckedListBox.FormattingEnabled = true;
-			this.AccountsCheckedListBox.Location = new System.Drawing.Point(6, 210);
+			this.AccountsCheckedListBox.Location = new System.Drawing.Point(6, 195);
 			this.AccountsCheckedListBox.Name = "AccountsCheckedListBox";
-			this.AccountsCheckedListBox.Size = new System.Drawing.Size(302, 289);
+			this.AccountsCheckedListBox.Size = new System.Drawing.Size(302, 304);
 			this.AccountsCheckedListBox.Sorted = true;
 			this.AccountsCheckedListBox.TabIndex = 20;
 			// 
@@ -185,7 +184,6 @@
 			// 
 			this.panel2.BackColor = System.Drawing.Color.White;
 			this.panel2.Controls.Add(this.pictureBox1);
-			this.panel2.Controls.Add(this.clear);
 			this.panel2.Controls.Add(this.panel6);
 			this.panel2.Controls.Add(this.pictureBox9);
 			this.panel2.Controls.Add(this.label11);
@@ -210,15 +208,6 @@
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox1.TabIndex = 66;
 			this.pictureBox1.TabStop = false;
-			// 
-			// clear
-			// 
-			this.clear.Location = new System.Drawing.Point(761, 42);
-			this.clear.Name = "clear";
-			this.clear.Size = new System.Drawing.Size(44, 23);
-			this.clear.TabIndex = 61;
-			this.clear.Text = "Clear";
-			this.clear.UseVisualStyleBackColor = true;
 			// 
 			// panel6
 			// 
@@ -272,7 +261,7 @@
 			this.label11.AutoSize = true;
 			this.label11.Font = new System.Drawing.Font("Microsoft JhengHei", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label11.ForeColor = System.Drawing.Color.DimGray;
-			this.label11.Location = new System.Drawing.Point(685, 75);
+			this.label11.Location = new System.Drawing.Point(685, 97);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(120, 13);
 			this.label11.TabIndex = 64;
@@ -327,17 +316,6 @@
 			this.label4.TabIndex = 61;
 			this.label4.Text = "Application";
 			// 
-			// checkAll
-			// 
-			this.checkAll.AutoSize = true;
-			this.checkAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.checkAll.Location = new System.Drawing.Point(9, 191);
-			this.checkAll.Name = "checkAll";
-			this.checkAll.Size = new System.Drawing.Size(66, 16);
-			this.checkAll.TabIndex = 55;
-			this.checkAll.Text = " Check  all";
-			this.checkAll.UseVisualStyleBackColor = true;
-			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
@@ -351,14 +329,13 @@
 			// 
 			// Start_btn
 			// 
-			this.Start_btn.BackColor = System.Drawing.Color.SkyBlue;
+			this.Start_btn.BackColor = System.Drawing.Color.YellowGreen;
 			this.Start_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.Start_btn.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.Start_btn.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold);
-			this.Start_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.Start_btn.Location = new System.Drawing.Point(12, 524);
+			this.Start_btn.ForeColor = System.Drawing.Color.Black;
+			this.Start_btn.Location = new System.Drawing.Point(326, 509);
 			this.Start_btn.Name = "Start_btn";
-			this.Start_btn.Size = new System.Drawing.Size(133, 28);
+			this.Start_btn.Size = new System.Drawing.Size(133, 47);
 			this.Start_btn.TabIndex = 47;
 			this.Start_btn.Text = "START";
 			this.Start_btn.UseVisualStyleBackColor = false;
@@ -501,9 +478,9 @@
 			// LogBox
 			// 
 			this.LogBox.ForeColor = System.Drawing.SystemColors.ControlLight;
-			this.LogBox.Location = new System.Drawing.Point(11, 646);
+			this.LogBox.Location = new System.Drawing.Point(11, 701);
 			this.LogBox.Name = "LogBox";
-			this.LogBox.Size = new System.Drawing.Size(806, 118);
+			this.LogBox.Size = new System.Drawing.Size(806, 63);
 			this.LogBox.TabIndex = 63;
 			this.LogBox.Text = "";
 			// 
@@ -547,12 +524,21 @@
 			this.label8.AutoSize = true;
 			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.label8.ForeColor = System.Drawing.Color.Green;
-			this.label8.Location = new System.Drawing.Point(456, 570);
+			this.label8.Location = new System.Drawing.Point(751, 570);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(41, 12);
 			this.label8.TabIndex = 69;
 			this.label8.Text = "Success";
 			this.label8.Visible = false;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(12, 685);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(25, 13);
+			this.label2.TabIndex = 70;
+			this.label2.Text = "Log";
 			// 
 			// DataChecksForm
 			// 
@@ -561,13 +547,13 @@
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(837, 776);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.report_btn);
 			this.Controls.Add(this.panel3);
 			this.Controls.Add(this.warningCount);
 			this.Controls.Add(this.errorsCount);
 			this.Controls.Add(this.AccountsCheckedListBox);
-			this.Controls.Add(this.checkAll);
 			this.Controls.Add(this.ResultImage);
 			this.Controls.Add(this.progressBar);
 			this.Controls.Add(this.Start_btn);
@@ -619,7 +605,6 @@
 		private System.Windows.Forms.Button report_btn;
         private System.Windows.Forms.Label errorsCount;
 		private System.Windows.Forms.Label warningCount;
-		private System.Windows.Forms.CheckBox checkAll;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.ComboBox application_cb;
@@ -631,7 +616,6 @@
 		private System.Windows.Forms.Panel panel6;
 		private System.Windows.Forms.PictureBox pictureBox12;
 		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.Button clear;
 		private System.Windows.Forms.Panel rightSidePanel;
 		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.Label label9;
@@ -649,5 +633,6 @@
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label label2;
 	}
 }

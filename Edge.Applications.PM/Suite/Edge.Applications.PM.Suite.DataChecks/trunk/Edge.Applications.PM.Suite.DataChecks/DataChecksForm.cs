@@ -55,7 +55,6 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		public DataChecksModelView DataChecksModelView { set; get; }
 		public Dictionary<string, Object> EventsHandlers { set; get; }
 		private List<AccountServiceElement> _profilesServiceElement { set; get; }
-		private Dictionary<string,DataGridViewRowCollection> resultsDataGrid { set; get; }
 
 		public DataChecksForm()
 		{
@@ -63,7 +62,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			/**************************************************************************/
 
 			_updateProgressBar = new UpdateProgressBar(updateProgressBarState);
-			_updateResults = new UpdateResults(updateResultsDataGrid);
+			_updateResults = new UpdateResults(updateResults);
 			_updateLogBox = new UpdateLogBox(writeLog);
 			_clearBeforeRun = new ClearBeforeRun(clearOnStart);
 			_setButton = new SetButtonVisibility(setButtonVisibility);
@@ -71,8 +70,6 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 			/**************************************************************************/
 			#endregion
-
-			
 
 			DataChecksModelView = new DataChecksModelView();
 			EventsHandlers = new Dictionary<string, Object>();
@@ -94,13 +91,6 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			//Load Metrics Validations from configuration
 			DataChecksModelView.LoadMetricsValidationsItems(this.MerticsValidations.Nodes);
 
-			//Init results data grids
-			resultsDataGrid = new Dictionary<string, DataGridViewRowCollection>()
-			{
-				{"Errors",null},
-				{"Success",null},
-				{"Information",null}
-			};
 		}
 
 		//On Load
@@ -157,6 +147,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		// Selected Application Event //
 		private void application_cb_SelectedValueChanged(object sender, EventArgs e)
 		{
+
 			string pathKey = string.Empty;
 
 			if (((ComboBox)sender).SelectedItem.Equals(Const.AdMetricsConst.EdgeApp))
@@ -318,16 +309,6 @@ namespace Edge.Applications.PM.Suite.DataChecks
 				instance.Start();
 			}
 
-			//if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
-			//{
-				
-			//    //UPDATE UI PROGRESS BAR
-			//    //Invoke(_updateProgressBar, new object[] { progressBar, progressBar.Value + 100 / this._numOfValidationsToRun, true });
-
-			//    //Set Results button Enabled
-			//    //Invoke(_setButton, new object[]  { this.report_btn, true, true });
-			//}
-
 		}
 
 		void instance_ChildServiceRequested(object sender, ServiceRequestedEventArgs e)
@@ -393,11 +374,13 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			Application.DoEvents();
 		}
 
-		public void updateResultsDataGrid(List<ValidationResult> results)
+		public void updateResults(List<ValidationResult> results)
 		{
 			//Application.DoEvents();
 
 			this._runnigServices--;
+			#region Setting results dataGrid
+			/*****************************************************************************************/
 			foreach (ValidationResult item in results)
 			{
 				if (item.ResultType == ValidationResultType.Error)
@@ -413,14 +396,19 @@ namespace Edge.Applications.PM.Suite.DataChecks
 					_resultsForm.SuccessDataGridView.Rows[rowId].Tag = item;
 				}
 			}
+			/*****************************************************************************************/
+			#endregion
 
-			//Update status Bar
+			//Updating status Bar
 			this.progressBar.Value += 100 / this._numOfValidationsToRun;
 
+			//Finshed checking all requested validations
 			if (this._runnigServices == 0)
 			{
 				report_btn.Enabled = true;
-							
+				
+				#region Updating result image
+				/***************************************************************************/
 				if (_resultsForm.ErrorDataGridView.Rows.Count > 0)
 				{
 					ResultImage.Image = Edge.Applications.PM.Suite.DataChecks.Properties.Resources.failed_icon;
@@ -432,9 +420,9 @@ namespace Edge.Applications.PM.Suite.DataChecks
 					return;
 				}
 				else ResultImage.Image = Edge.Applications.PM.Suite.DataChecks.Properties.Resources.success_icon;
-
+				/***************************************************************************/
+				#endregion
 				
-
 				Application.DoEvents();
 
 			}
