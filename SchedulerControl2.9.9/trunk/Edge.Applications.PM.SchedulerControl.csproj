@@ -87,13 +87,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="frmUnPlanned.xaml.cs">
+      <DependentUpon>frmUnPlanned.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Log.xaml.cs">
       <DependentUpon>Log.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\HistoryBindingData.cs" />
     <Compile Include="Objects\LogBindingData.cs" />
+    <Compile Include="Objects\ObservableCollection.cs" />
     <Compile Include="Objects\SchedulerView.cs" />
     <Compile Include="Objects\ServiceHistoryView.cs" />
+    <Page Include="frmUnPlanned.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="History.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Objects\SchedulingInfo.cs" />
+    <Compile Include="Objects\UnPlannedBindingData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

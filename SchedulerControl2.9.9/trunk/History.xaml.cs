@@ -24,10 +24,10 @@ namespace Edge.Applications.PM.SchedulerControl
 	public partial class frmHistoryView : Window
 	{
 		public static HistoryBindingData BindingData;
-		public frmHistoryView()
+		public frmHistoryView(string currentDbName)
 		{			
 			InitializeComponent();
-			BindingData = new HistoryBindingData();
+			BindingData = new HistoryBindingData(currentDbName);
 			frmHistoryView.BindingData.History = new ObservableCollection<ServiceHistoryView>();
 			
 			frmHistoryView.BindingData.LoadHistory();
