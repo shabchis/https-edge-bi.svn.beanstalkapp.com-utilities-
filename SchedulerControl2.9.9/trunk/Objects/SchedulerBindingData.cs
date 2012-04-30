@@ -25,7 +25,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			Instances = new ObservableCollection<InstanceView>();
 			var collectionview = CollectionViewSource.GetDefaultView(Instances);
-			collectionview.SortDescriptions.Add(new SortDescription("SchdeuleStartTime", ListSortDirection.Ascending));
+			collectionview.SortDescriptions.Add(new SortDescription("ScheduledTime", ListSortDirection.Ascending));
 		}
 		#endregion
 		#region LoadData
@@ -84,6 +84,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			set
 			{
 				_connected = value;
+				RaisePropertyChanged("ConnectButtonText");
 				RaisePropertyChanged("Connected");
 			}
 			get
@@ -95,7 +96,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				if (_connected)
+				if (Connected)
 					return "DisConnect";
 				else
 					return "Connect";

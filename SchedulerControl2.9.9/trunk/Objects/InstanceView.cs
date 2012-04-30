@@ -109,7 +109,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				return _instanceInfo.DayCode;
+				return _instanceInfo.TargetPeriod;
 			}
 		}
 		public bool IsExpanded { get; set; }
@@ -151,22 +151,14 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			get
 			{
 				switch (Outcome)
-				{
-					case Core.Services.ServiceOutcome.Aborted:
-						return "/Icons/aborted.ico";
+				{					
 					case Core.Services.ServiceOutcome.Failure:
-						return "/Icons/failed.ico";
-					case Core.Services.ServiceOutcome.Reset:
-						return "/Icons/reset.ico";
+						return "/Icons/failed.ico";					
 					case Core.Services.ServiceOutcome.Success:
-						return "/Icons/success.ico";
-					case Core.Services.ServiceOutcome.Unspecified:
-						return "/Icons/unspecified.ico";
+						return "/Icons/success.ico";					
 					default:
-						return "/Icons/unspecified.ico";
+						return string.Empty;
 				}
-
-
 			}
 		}
 		public bool LogEnabled

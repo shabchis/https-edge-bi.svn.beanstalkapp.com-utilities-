@@ -64,7 +64,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		}
 		private void MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			frmHistoryView f = new frmHistoryView();
+			frmHistoryView f = new frmHistoryView(((SchedulerView)_combo.SelectedValue).Name);
 			f.Show();
 		}
 		private void _btnConnect(object sender, RoutedEventArgs e)
@@ -85,7 +85,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		}
 		private void _btnShowHistory_Click(object sender, RoutedEventArgs e)
 		{
-			frmHistoryView frmHistory = new frmHistoryView();
+			frmHistoryView frmHistory = new frmHistoryView(((SchedulerView)_combo.SelectedValue).Name);
 			frmHistory.Show();
 		}
 		private void MenuIsAlive_Click(object sender, RoutedEventArgs e)
@@ -179,6 +179,12 @@ namespace Edge.Applications.PM.SchedulerControl
 		private void _chkClearAutoMaticly_Click_1(object sender, RoutedEventArgs e)
 		{
 
+		}
+
+		private void _btnUnPlanned_Click(object sender, RoutedEventArgs e)
+		{
+			frmUnPlanned f = new frmUnPlanned(_schedulingCommunicationChannel);
+			f.Show();
 		}
 
 

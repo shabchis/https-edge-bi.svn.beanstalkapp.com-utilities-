@@ -5,6 +5,7 @@ using System.Text;
 using System.ServiceModel;
 using Edge.Core.Scheduling.Objects;
 using Legacy=Edge.Core.Services;
+using Edge.Core.Configuration;
 
 namespace Edge.Applications.PM.SchedulerControl.Objects
 {
@@ -21,6 +22,9 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		void Abort(Guid guid);
 		[OperationContract]
 		void ResetUnEnded();
+
+		[OperationContract]
+		List<AccounServiceInformation> GetServicesConfigurations();
 	}
 	public interface ICallBack
 	{

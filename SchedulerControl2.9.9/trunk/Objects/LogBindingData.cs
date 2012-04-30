@@ -11,7 +11,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 {
 	public class LogBindingData : INotifyPropertyChanged
 	{
-		public string LogMessage { get; set; }
+		public Dictionary<string,string> LogHeader { get; set; }
 		public ServiceHistoryView ServiceHistoryView { get; set; }
 		#region INotifyPropertyChanged Members
 
@@ -21,7 +21,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 
 		internal void GetLogMessage()
 		{
-			StringBuilder logBuilder = new StringBuilder();
+			
 			using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString(this, "Log")))
 			{
 				conn.Open();
@@ -36,12 +36,16 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 					using (SqlDataReader reader = command.ExecuteReader())
 					{
 						while (reader.Read())						
-							logBuilder.AppendLine(string.Format("Message:\n{0}\n\nExceptionDetails:\n{1}\n\n", reader["Message"].ToString(), reader["ExceptionDetails"].ToString()));
+						{
+							if (LogHeader == null)
+								LogHeader = new Dictionary<string, string>();							
+							LogHeader.Add(reader["Message"].ToString(), reader["ExceptionDetails"].ToString());
+						}
 					}
 				}
 
 			}
-			LogMessage = logBuilder.ToString();
+			
 
 		}
 	}

@@ -7,7 +7,7 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>		
+			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30" />
@@ -18,31 +18,13 @@
 			<TreeView.Resources>
 				<HierarchicalDataTemplate DataType="{x:Type this:InstanceView}" ItemsSource="{Binding ChildsSteps}"/>
 				<Style TargetType="{x:Type ui:TreeListViewItem}">
-					<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />								
+					<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
 				</Style>
 
 			</TreeView.Resources>
-			<ui:TreeListView.Columns>
-				<GridViewColumn  Width="80">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>
-							<Button Name="_btnLog" VerticalAlignment="Top" Width="16" Height="16"  HorizontalAlignment="Left"  Background="Transparent" BorderThickness="0,0,0,0"  Padding="0,0,0,0" Margin="0,0,0,0" BorderBrush="Transparent" IsEnabled="{Binding LogEnabled}"  Click="_btnLog_Click" >
-								<StackPanel Orientation="Horizontal">
-									<Image Source="/Icons/Log.ico" Width="12" Height="12" Margin="0,0,0,0"/>
-								</StackPanel>
-							</Button>
-						</DataTemplate>
-					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
-				<GridViewColumn  Width="100">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>
-							<Image Source="{Binding StatusImage}" Width="16" Height="16"/>
-						</DataTemplate>
-					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
+			<ui:TreeListView.Columns>				
 				<GridViewColumn Header="ServiceName" Width="300">
-					<GridViewColumn.CellTemplate>						
+					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ServiceName}" Width="300">
 								<TextBlock.ContextMenu >
@@ -58,8 +40,8 @@
 				</GridViewColumn>
 				<GridViewColumn Header="AccountID"  Width="Auto">
 					<GridViewColumn.CellTemplate>
-						<DataTemplate>							
-								<TextBlock Text="{Binding AccountID}" />							
+						<DataTemplate>
+							<TextBlock Text="{Binding AccountID}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
@@ -94,48 +76,52 @@
 				<GridViewColumn Header="Progress" Width="200">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<ProgressBar Maximum="100" Value="{Binding Path=Progress, Mode=OneWay}" Margin="0 0 5 0" VerticalAlignment="Stretch"  />
+							<ProgressBar Maximum="100" Value="{Binding Path=Progress, Mode=OneWay}" Margin="0 0 0 0" VerticalAlignment="Stretch"  />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
 				<GridViewColumn Header="State" Width="150">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding State}"/>
+							<StackPanel VerticalAlignment="Top">
+								<TextBlock Text="{Binding State}" VerticalAlignment="Top"/>
+								<Image Source="{Binding StatusImage}" Width="12" Height="12"  VerticalAlignment="Top"/>
+							</StackPanel>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="DayCode" Width="100">
+				<GridViewColumn Header="TargetPeriod" Width="100">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding DayCode}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
+				<GridViewColumn  Width="80" Header="Log">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<Button Name="_btnLog" VerticalAlignment="Top" Width="16" Height="16"  HorizontalAlignment="Left"  Background="Transparent" BorderThickness="0,0,0,0"  Padding="0,0,0,0" Margin="0,0,0,0" BorderBrush="Transparent" IsEnabled="{Binding LogEnabled}"  Click="_btnLog_Click" >
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Icons/Log.ico" Width="12" Height="12" Margin="0,0,0,0"  VerticalAlignment="Top" />
+								</StackPanel>
+							</Button>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
 			</ui:TreeListView.Columns>
-
 		</ui:TreeListView>
 		<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
 			<Label Content="Choose scheduler to Connect" IsEnabled="False"></Label>
-			<ComboBox Name="_combo"   Width="100" Height="20" Margin="1,1,5,1" ItemsSource="{Binding Schedulers}" DisplayMemberPath="Name" SelectedIndex="0" />			
-			<Button Width="90" Height="20" Content="{Binding ConnectButtonText}" Margin="1" Click="_btnConnect"/>			
+			<ComboBox Name="_combo"   Width="100" Height="20" Margin="1,1,5,1" ItemsSource="{Binding Schedulers}" DisplayMemberPath="Name" SelectedIndex="0" />
+			<Button Width="90" Height="20" Content="{Binding ConnectButtonText}" Margin="1" Click="_btnConnect"/>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Name="_btnUnPlanned" Content="Add UnPlanned" Click="_btnUnPlanned_Click"  Height="23" Width="90"  IsEnabled="{Binding Connected}"/>
 			<Button Content="Reset unended" Height="23" Width="90" Name="_btnReset" Click="_btnReset_Click" IsEnabled="{Binding Connected}"  />
 			<Label Content="Clear ended automaticly"/>
 			<CheckBox Name="_chkClearAutoMaticly" VerticalAlignment="Center" IsChecked="False" Click="_chkClearAutoMaticly_Click" IsEnabled="{Binding Connected}" />
 			<Button Content="Clear Ended" Height="23" Name="_btnClearEnded" Width="90" Click="_btnClearEnded_Click" IsEnabled="{Binding Connected}"/>
-			<Button Content="Show History" Height="23" Name="_btnShowHistory" Width="90" Click="_btnShowHistory_Click" IsEnabled="{Binding Connected}"/>			
+			<Button Content="Show History" Height="23" Name="_btnShowHistory" Width="90" Click="_btnShowHistory_Click" IsEnabled="{Binding Connected}"/>
 		</StackPanel>
-
-
-
-
-
-
 	</Grid>
-
-
-
-
 </Window>

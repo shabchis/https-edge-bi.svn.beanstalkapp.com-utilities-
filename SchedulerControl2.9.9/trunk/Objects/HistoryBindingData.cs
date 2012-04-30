@@ -24,8 +24,13 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		ICollectionView _historyView;
 		private Dictionary<int, int> _accountsDic = new Dictionary<int, int>();
 		private Dictionary<string, string> ServicesDic = new Dictionary<string, string>();
-		public HistoryBindingData()
+		
+
+		public HistoryBindingData(string currentDbName)
 		{
+			// TODO: Complete member initialization
+			this.currentDbName = currentDbName;
+
 			Times = new Objects.Times();
 			_filters = new List<Predicate<object>>();
 			Filter = InternalFilter;
@@ -105,7 +110,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				_historyViewRef.Clear();
 			if (History != null)
 				History.Clear();
-			using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString(this, "History")))
+			using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString(this, currentDbName)))
 			{
 				conn.Open();
 				{
@@ -224,6 +229,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		#region INotifyPropertyChanged Members
 
 		public event PropertyChangedEventHandler PropertyChanged;
+		private string currentDbName;
 
 		#endregion
 	}
