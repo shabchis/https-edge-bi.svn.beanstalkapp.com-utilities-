@@ -183,9 +183,19 @@ namespace Edge.Applications.PM.SchedulerControl
 
 		private void _btnUnPlanned_Click(object sender, RoutedEventArgs e)
 		{
-			frmUnPlanned f = new frmUnPlanned(_schedulingCommunicationChannel);
-			f.Show();
+
+			Thread t = new Thread(new ThreadStart(delegate()
+			{
+
+				frmUnPlanned f = new frmUnPlanned(_schedulingCommunicationChannel);
+				f.Show();
+				System.Windows.Threading.Dispatcher.Run();
+			}));
+			t.IsBackground = true;
+			if (t.TrySetApartmentState(ApartmentState.STA))
+				t.Start();
 		}
+
 
 
 
