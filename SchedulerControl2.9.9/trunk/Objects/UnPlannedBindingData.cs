@@ -12,6 +12,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	public class UnPlannedBindingData : INotifyPropertyChanged
 	{
 		public ObservableCollection<UnplannedView> UnplannedViewCollection { get; set; }
+
 		public ConflictBehavior[] ConflictBehaviors { get; set; }
 		public UnPlannedBindingData(List<AccounServiceInformation> AccountsServiceInformation)
 		{
@@ -46,6 +47,18 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	}
 	public class UnplannedView : INotifyPropertyChanged
 	{
+		private Dictionary<string, string> _options;
+		public Dictionary<string, string> Options
+		{
+			get
+			{
+				return _options;
+			}
+			set
+			{
+
+			}
+		}
 		private string _serviceToRun;
 		private string _serviceName;
 		private UnplanedType _unplanedType;
@@ -74,6 +87,9 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		public ObservableCollection<UnplannedView> Services { get; set; }
 		public UnplannedView(AccounServiceInformation accounServiceInformation, UnplanedType type, string serviceName, UnplannedView parent)
 		{
+			_options = new Dictionary<string, string>();
+			
+			
 			_accounServiceInformation = accounServiceInformation;
 			_unplanedType = type;
 			if (type == Objects.UnplanedType.Service)
@@ -107,12 +123,13 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				else
 					return _serviceName;
 			}
+			set
+			{
+				ServiceToRun = value;
+			}
 
 
 		}
-
-
-
 		public string ServiceToRun
 		{
 			get

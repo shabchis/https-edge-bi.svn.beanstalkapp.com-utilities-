@@ -47,5 +47,51 @@ namespace Edge.Applications.PM.SchedulerControl
 		{
 
 		}
+
+		private void _ClearOptions_Click(object sender, RoutedEventArgs e)
+		{
+			UnplannedView view = (UnplannedView)_accountsTree.SelectedItem;
+			view.Options.Clear();
+			view.RaisePropertyChanged("Options");
+			_options.Items.Refresh();
+			
+		}
+
+		private void _addOption_Click(object sender, RoutedEventArgs e)
+		{
+			UnplannedView view = (UnplannedView)_accountsTree.SelectedItem;
+			if (view!=null)
+			{
+				if (view.Options.ContainsKey(_optionName.Text))
+					MessageBox.Show("Key allready exists!");
+				else
+				{
+					view.Options.Add(_optionName.Text.Trim(), _optionValue.Text.Trim());
+					view.RaisePropertyChanged("Options");
+					_options.Items.Refresh();
+				} 
+			}
+		}
+
+		private void _RemoveOption_Click(object sender, RoutedEventArgs e)
+		{
+			UnplannedView view = (UnplannedView)_accountsTree.SelectedItem;
+			if (view != null)
+			{
+				if (_options.SelectedValue != null)
+				{
+
+					if (view.Options.ContainsKey(((KeyValuePair<string, string>)_options.SelectedValue).Key))
+					{
+						view.Options.Remove(((KeyValuePair<string, string>)_options.SelectedValue).Key);
+						view.RaisePropertyChanged("Options");
+						_options.Items.Refresh();
+					}
+
+
+				}
+			}
+
+		}
 	}
 }

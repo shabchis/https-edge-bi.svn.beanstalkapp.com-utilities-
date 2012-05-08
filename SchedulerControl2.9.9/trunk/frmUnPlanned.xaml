@@ -28,7 +28,7 @@
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Width="150" Content="ServiceToRun:"/>
-				<ComboBox Width="100" ItemsSource="{Binding ElementName=_accountsTree,Path=SelectedValue.ParentAccount.Services}" DisplayMemberPath="ServiceToRun" SelectedValuePath="Display" SelectedValue="ServiceToRun">
+				<ComboBox Width="100" ItemsSource="{Binding ElementName=_accountsTree,Path=SelectedValue.ParentAccount.Services}" DisplayMemberPath="Display" SelectedValuePath="ServiceToRun" SelectedValue="ServiceToRun">
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
@@ -36,9 +36,9 @@
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Width="50">From:</Label>
-				<DatePicker Name="_to"></DatePicker>
+				<DatePicker Name="_to" ></DatePicker>
 				<Label Width="50">To:</Label>
-				<DatePicker Name="_from"></DatePicker>			
+				<DatePicker  Name="_from"></DatePicker>			
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label>Option Name:</Label>
@@ -46,10 +46,32 @@
 				<Label>Option Value:</Label>
 				<TextBox Width="100" Name="_optionValue"></TextBox>
 			</StackPanel>
-			<StackPanel Orientation="Horizontal">
-				<Button Name="_addOption">>></Button>
-				<Button Name="_RemoveOption" Content="&lt;&lt;"></Button>
-				<Button Name="_ClearOptions">Clear</Button>				
+			<StackPanel Orientation="Horizontal" DataContext="{Binding ElementName=_accountsTree, Path=SelectedValue}" >
+				<Button Name="_addOption" VerticalAlignment="Top" Click="_addOption_Click">>></Button>
+				<Button Name="_RemoveOption" Content="&lt;&lt;" VerticalAlignment="Top" Click="_RemoveOption_Click"></Button>
+				<Button Name="_ClearOptions" VerticalAlignment="Top" Click="_ClearOptions_Click">Clear</Button>	
+				<Label>Options:</Label>
+				<ListView Name="_options" Width="200"  ItemsSource="{Binding ElementName=_accountsTree,Path=SelectedValue.Options}">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn Header="Key" Width="100" >
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Path=Key}" />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Header="Value" Width="100">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Path=Value}" />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+
+						</GridView>
+					</ListView.View>
+				</ListView>
 			</StackPanel>
 
 		</StackPanel>
