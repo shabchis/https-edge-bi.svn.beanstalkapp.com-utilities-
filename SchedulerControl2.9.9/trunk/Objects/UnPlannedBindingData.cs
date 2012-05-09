@@ -18,7 +18,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 
 			UnplannedViewCollection = new ObservableCollection<UnplannedView>();
-			foreach (var accountServiceInformation in AccountsServiceInformation.OrderBy(p => p.AccountName))
+			foreach (AccounServiceInformation accountServiceInformation in AccountsServiceInformation.OrderBy(p => p.AccountName))
 			{
 				UnplannedView unplanned = new UnplannedView(accountServiceInformation, UnplanedType.Account, null, null);
 				unplanned.Services = new ObservableCollection<UnplannedView>();
@@ -61,6 +61,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		}
 		private string _serviceToRun;
 		private string _serviceName;
+		private ObservableCollection<String> _availableServices = new ObservableCollection<string>();
 		private UnplanedType _unplanedType;
 		public UnplannedView ParentAccount { get; set; }
 		public UnplanedType UnplanedType
@@ -85,18 +86,35 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			}
 		}
 		public ObservableCollection<UnplannedView> Services { get; set; }
+		public ObservableCollection<String> AvailableServices
+		{
+			get
+			{
+				return _availableServices;
+			}
+			set
+			{
+				_availableServices = value;
+			}
+		}
 		public UnplannedView(AccounServiceInformation accounServiceInformation, UnplanedType type, string serviceName, UnplannedView parent)
 		{
 			_options = new Dictionary<string, string>();
-			
-			
+
+
 			_accounServiceInformation = accounServiceInformation;
 			_unplanedType = type;
 			if (type == Objects.UnplanedType.Service)
 			{
 				_serviceName = serviceName;
 				ParentAccount = parent;
+
 			}
+			foreach (var available in _accounServiceInformation.Services)
+				_availableServices.Add(available);
+
+
+
 
 			RaisePropertyChanged("AccountName");
 		}
@@ -134,10 +152,8 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(_serviceToRun))
-					return Display;
-				else
-					return _serviceToRun;
+
+				return _serviceToRun;
 			}
 			set
 			{
@@ -146,6 +162,17 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			}
 		}
 		public bool IsSelected { get; set; }
+		public bool IsChecked { get; set; }
+		public string ServiceName
+		{
+			get
+			{
+				return _serviceName;
+
+			}
+		}
+
+
 		#region INotifyPropertyChanged Members
 
 		public event PropertyChangedEventHandler PropertyChanged;

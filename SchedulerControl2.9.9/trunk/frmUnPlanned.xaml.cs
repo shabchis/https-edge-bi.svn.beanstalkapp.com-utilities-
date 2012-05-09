@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Edge.Applications.PM.SchedulerControl.Objects;
 using Edge.Core.Scheduling.Objects;
+using Edge.Data.Pipeline;
+using Edge.Data.Pipeline.Services;
 
 namespace Edge.Applications.PM.SchedulerControl
 {
@@ -90,6 +92,58 @@ namespace Edge.Applications.PM.SchedulerControl
 
 
 				}
+			}
+
+		}
+
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			//UnplannedView view = (UnplannedView)_accountsTree.SelectedItem;
+			//if (view != null)
+			//{
+			//    if (_cmbsSrviceToRun.SelectedValue != null)
+			//        view.ServiceToRun = ((UnplannedView)_cmbsSrviceToRun.SelectedValue).ServiceToRun;
+			//}
+		}
+
+		
+
+		private void _btnAddServicesClick(object sender, RoutedEventArgs e)
+		{
+			foreach (UnplannedView unPlanedView in frmUnPlanned.BindingData.UnplannedViewCollection.Where(u => u.IsChecked == true && u.UnplanedType == UnplanedType.Service).ToList()) 
+			{
+				int accountID = unPlanedView.AccountID;
+				string serviceName = unPlanedView.ServiceName;
+				Dictionary<string, string> options;
+				options = unPlanedView.Options;
+				options["ConflictBehvior"] = unPlanedView.ConflictBehvior.ToString();
+				if (!string.IsNullOrEmpty(unPlanedView.ServiceToRun))
+					options["ServiceToRun"] = unPlanedView.ServiceToRun;
+
+				if (_useTargetPeriod.IsChecked.Value)
+				{
+					DateTimeRange daterange = new DateTimeRange()
+					{
+						Start = new DateTimeSpecification()
+						{
+							BaseDateTime = _from.SelectedDate.Value,
+							Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
+						},
+						End = new DateTimeSpecification()
+						{
+							BaseDateTime = _to.SelectedDate.Value,
+							Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+
+						}
+					};
+					options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, daterange.ToAbsolute().ToString());
+				}
+
+					
+
+
+				
+				
 			}
 
 		}
