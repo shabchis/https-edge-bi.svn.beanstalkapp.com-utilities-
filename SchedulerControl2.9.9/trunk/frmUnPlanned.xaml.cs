@@ -30,25 +30,9 @@ namespace Edge.Applications.PM.SchedulerControl
 			_schedulingCommunication = schedulingCommunication;
 			frmUnPlanned.BindingData = new UnPlannedBindingData(_schedulingCommunication.GetServicesConfigurations());
 			this.DataContext = frmUnPlanned.BindingData;
-			
-			
-				
-				
-
-	
-
-
-				
-			
-
-
-			
 		}
 
-		private void _accountsTreeUser_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-		{
 
-		}
 
 		private void _ClearOptions_Click(object sender, RoutedEventArgs e)
 		{
@@ -56,13 +40,13 @@ namespace Edge.Applications.PM.SchedulerControl
 			view.Options.Clear();
 			view.RaisePropertyChanged("Options");
 			_options.Items.Refresh();
-			
+
 		}
 
 		private void _addOption_Click(object sender, RoutedEventArgs e)
 		{
 			UnplannedView view = (UnplannedView)_accountsTree.SelectedItem;
-			if (view!=null)
+			if (view != null)
 			{
 				if (view.Options.ContainsKey(_optionName.Text))
 					MessageBox.Show("Key allready exists!");
@@ -71,7 +55,7 @@ namespace Edge.Applications.PM.SchedulerControl
 					view.Options.Add(_optionName.Text.Trim(), _optionValue.Text.Trim());
 					view.RaisePropertyChanged("Options");
 					_options.Items.Refresh();
-				} 
+				}
 			}
 		}
 
@@ -106,45 +90,74 @@ namespace Edge.Applications.PM.SchedulerControl
 			//}
 		}
 
-		
+
 
 		private void _btnAddServicesClick(object sender, RoutedEventArgs e)
 		{
-			foreach (UnplannedView unPlanedView in frmUnPlanned.BindingData.UnplannedViewCollection.Where(u => u.IsChecked == true && u.UnplanedType == UnplanedType.Service).ToList()) 
-			{
-				int accountID = unPlanedView.AccountID;
-				string serviceName = unPlanedView.ServiceName;
-				Dictionary<string, string> options;
-				options = unPlanedView.Options;
-				options["ConflictBehvior"] = unPlanedView.ConflictBehvior.ToString();
-				if (!string.IsNullOrEmpty(unPlanedView.ServiceToRun))
-					options["ServiceToRun"] = unPlanedView.ServiceToRun;
+			StringBuilder errors = new StringBuilder();
 
-				if (_useTargetPeriod.IsChecked.Value)
+			foreach (UnplannedView accountView in frmUnPlanned.BindingData.UnplannedViewCollection)
+			{
+				foreach (var unPlanedView in accountView.Services)
 				{
-					DateTimeRange daterange = new DateTimeRange()
+
+
+					if (unPlanedView.IsChecked)
 					{
-						Start = new DateTimeSpecification()
+						try
 						{
-							BaseDateTime = _from.SelectedDate.Value,
-							Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
-						},
-						End = new DateTimeSpecification()
-						{
-							BaseDateTime = _to.SelectedDate.Value,
-							Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+							int accountID = unPlanedView.AccountID;
+							string serviceName = unPlanedView.ServiceName;
+							Dictionary<string, string> options;
+							options = unPlanedView.Options;
+							options["ConflictBehvior"] = unPlanedView.ConflictBehvior.ToString();
+							if (!string.IsNullOrEmpty(unPlanedView.ServiceToRun))
+								options["ServiceToRun"] = unPlanedView.ServiceToRun;
+
+							if (unPlanedView.UseTargetPeriod)
+							{
+								if (_from.SelectedDate.Value > _to.SelectedDate.Value)
+									throw new Exception("From Date can not be greater then to date");
+								DateTimeRange daterange = new DateTimeRange()
+								{
+									Start = new DateTimeSpecification()
+									{
+										BaseDateTime = _from.SelectedDate.Value,
+										Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
+									},
+									End = new DateTimeSpecification()
+									{
+										BaseDateTime = _to.SelectedDate.Value,
+										Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+
+									}
+								};
+								options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, daterange.ToAbsolute().ToString());
+							}
+
+
+							_schedulingCommunication.AddUnplanedService(accountID, serviceName, options, DateTime.Now);
 
 						}
-					};
-					options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, daterange.ToAbsolute().ToString());
+						catch (Exception ex)
+						{
+
+							throw;
+						} 
+					}
+
+
+
+
+
 				}
+			
 
-					
-
-
-				
-				
 			}
+			if (errors.Length == 0)
+				MessageBox.Show("All Services Added Successfuly");
+			else
+				MessageBox.Show("Not all services added successfully:\n" + errors.ToString());
 
 		}
 	}

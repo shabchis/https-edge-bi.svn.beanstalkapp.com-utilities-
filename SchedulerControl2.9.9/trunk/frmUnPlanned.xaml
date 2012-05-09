@@ -10,7 +10,7 @@
 			<ColumnDefinition></ColumnDefinition>
 			<ColumnDefinition></ColumnDefinition>
 		</Grid.ColumnDefinitions>
-		<TreeView Name="_accountsTree" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Path=UnplannedViewCollection}">
+		<TreeView Name="_accountsTree"  Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Path=UnplannedViewCollection}">
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Services}" >
 					<StackPanel Orientation="Horizontal">
@@ -36,7 +36,7 @@
 				<Label Width="150">TargetPeriod:</Label>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<CheckBox Name="_useTargetPeriod" />
+				<CheckBox Name="_useTargetPeriod" IsChecked="{Binding UseTargetPeriod}" />
 				<Label Width="50">From:</Label>
 				<DatePicker Name="_to" ></DatePicker>
 				<Label Width="50">To:</Label>
@@ -75,6 +75,7 @@
 					</ListView.View>
 				</ListView>
 			</StackPanel>
+			
 			
 				
 			
