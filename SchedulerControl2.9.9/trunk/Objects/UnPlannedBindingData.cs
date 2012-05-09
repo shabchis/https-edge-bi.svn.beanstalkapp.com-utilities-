@@ -47,6 +47,8 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	}
 	public class UnplannedView : INotifyPropertyChanged
 	{
+		private bool _isChecked;
+		public bool UseTargetPeriod { get; set; }
 		private Dictionary<string, string> _options;
 		public Dictionary<string, string> Options
 		{
@@ -162,7 +164,21 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			}
 		}
 		public bool IsSelected { get; set; }
-		public bool IsChecked { get; set; }
+		public bool IsChecked
+		{
+			get
+			{
+				return _isChecked;
+			}
+			set
+			{
+				_isChecked = value;
+				IsSelected = true;
+				RaisePropertyChanged("IsChecked");
+				RaisePropertyChanged("IsSelected");
+
+			}
+		}
 		public string ServiceName
 		{
 			get
