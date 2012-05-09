@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="frmUnPlanned" Height="353" Width="757">
-    <Grid>
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
@@ -14,6 +14,7 @@
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Services}" >
 					<StackPanel Orientation="Horizontal">
+						<CheckBox IsChecked="{Binding IsChecked}"/>
 						<TextBlock Text="{Binding Display}" />
 					</StackPanel>
 				</HierarchicalDataTemplate>
@@ -23,22 +24,23 @@
 			<Label Content="Options:"/>
 			<StackPanel Orientation="Horizontal">
 				<Label Width="150" Content="ConflictBehevior:"/>
-				<ComboBox Width="100" ItemsSource="{Binding ConflictBehaviors}" SelectedValue="{Binding ElementName=_accountsTree,Path=SelectedValue.ConflictBehvior}">					
+				<ComboBox Width="100" ItemsSource="{Binding ConflictBehaviors}" SelectedValue="{Binding ElementName=_accountsTree,Path=SelectedValue.ConflictBehvior}">
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Width="150" Content="ServiceToRun:"/>
-				<ComboBox Width="100" ItemsSource="{Binding ElementName=_accountsTree,Path=SelectedValue.ParentAccount.Services}" DisplayMemberPath="Display" SelectedValuePath="ServiceToRun" SelectedValue="ServiceToRun">
+				<ComboBox Name="_cmbsSrviceToRun" Width="100"  ItemsSource="{Binding ElementName=_accountsTree,Path=SelectedValue.AvailableServices}"  SelectedValue="{Binding ElementName=_accountsTree,Path=SelectedValue.ServiceToRun}">
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Width="150">TargetPeriod:</Label>				
+				<Label Width="150">TargetPeriod:</Label>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
+				<CheckBox Name="_useTargetPeriod" />
 				<Label Width="50">From:</Label>
 				<DatePicker Name="_to" ></DatePicker>
 				<Label Width="50">To:</Label>
-				<DatePicker  Name="_from"></DatePicker>			
+				<DatePicker  Name="_from"></DatePicker>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label>Option Name:</Label>
@@ -49,7 +51,7 @@
 			<StackPanel Orientation="Horizontal" DataContext="{Binding ElementName=_accountsTree, Path=SelectedValue}" >
 				<Button Name="_addOption" VerticalAlignment="Top" Click="_addOption_Click">>></Button>
 				<Button Name="_RemoveOption" Content="&lt;&lt;" VerticalAlignment="Top" Click="_RemoveOption_Click"></Button>
-				<Button Name="_ClearOptions" VerticalAlignment="Top" Click="_ClearOptions_Click">Clear</Button>	
+				<Button Name="_ClearOptions" VerticalAlignment="Top" Click="_ClearOptions_Click">Clear</Button>
 				<Label>Options:</Label>
 				<ListView Name="_options" Width="200"  ItemsSource="{Binding ElementName=_accountsTree,Path=SelectedValue.Options}">
 					<ListView.View>
@@ -73,7 +75,10 @@
 					</ListView.View>
 				</ListView>
 			</StackPanel>
-
+			
+				
+			
 		</StackPanel>
+		<Button Name="_btnAddServices" VerticalAlignment="Bottom" Grid.Column="1" HorizontalAlignment="Right" Content="Add Services" Click="_btnAddServicesClick" />
 	</Grid>
 </Window>
