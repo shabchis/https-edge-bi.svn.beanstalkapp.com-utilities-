@@ -62,17 +62,17 @@
     <UseAppConfigForCompiler>false</UseAppConfigForCompiler>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Seperia.Facebook.UpdateCampaignStatus|AnyCPU' ">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<DebugType>pdbonly</DebugType>
-		<Optimize>true</Optimize>
-		<OutputPath>..\..\..\..\Deployment\EDGE1\Seperia\2.9\FacebookUpdateCamapigns</OutputPath>
-		<DefineConstants>TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-		<UseAppConfigForCompiler>false</UseAppConfigForCompiler>
-		<UseVSHostingProcess>false</UseVSHostingProcess>
-	</PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Seperia.Facebook.UpdateCampaignStatus|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\Deployment\EDGE1\Seperia\2.9\FacebookUpdateCamapigns</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseAppConfigForCompiler>false</UseAppConfigForCompiler>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

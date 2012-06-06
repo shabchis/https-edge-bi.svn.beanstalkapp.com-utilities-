@@ -64,7 +64,7 @@ namespace Edge.Applications.TempScheduler
 			#endregion
 
 			#region Setting instances List in overview
-			InstaceEntity parent = GetInstanceLogById(parentInstanceId);
+			InstanceEntity parent = GetInstanceLogById(parentInstanceId);
 			if (!string.IsNullOrEmpty(parent.Message))
 				this.instacesSummaryDataGrid.Rows.Add(
 					parent.Id, parent.Source, string.Format("{0} {1}", parent.Message, parent.ExceptionDetails), parent.MessageType);
@@ -73,7 +73,7 @@ namespace Edge.Applications.TempScheduler
 			#region Setting instances Summary Grid
 			foreach (var id in _instances)
 			{
-				InstaceEntity entity = GetInstanceLogById(id.Key);
+				InstanceEntity entity = GetInstanceLogById(id.Key);
 				this.instacesSummaryDataGrid.Rows.Add(
 					entity.Id, entity.Source, string.Format("{0} {1}", entity.Message, entity.ExceptionDetails), entity.MessageType);
 			}
@@ -91,7 +91,7 @@ namespace Edge.Applications.TempScheduler
 				{
 					_attributes.Add(attribute.Name, attribute.Value);
 
-					if (!attribute.Name.Equals(PipelineService.ConfigurationOptionNames.TargetPeriod))
+					if (!attribute.Name.Equals(PipelineService.ConfigurationOptionNames.TimePeriod))
 						optionsListView.Items.Add(new ListViewItem(new string[] { attribute.Name, attribute.Value }));
 					else
 						AttributesToRunList.Items.Add(new ListViewItem(new string[] { attribute.Name, attribute.Value }));
@@ -106,7 +106,7 @@ namespace Edge.Applications.TempScheduler
 			//Getting TimePeriod
 			if (TryGetDeliveryTargetPeriod(deliveryId, out _dateTimeRange))
 			{
-				_options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, _dateTimeRange.ToAbsolute().ToString());
+				_options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, _dateTimeRange.ToAbsolute().ToString());
 				FromPicker.Value = _dateTimeRange.Start.ToDateTime();
 				ToPicker.Value = _dateTimeRange.End.ToDateTime();
 			}
@@ -210,12 +210,12 @@ namespace Edge.Applications.TempScheduler
 			return false;
 		}
 
-		private InstaceEntity GetInstanceLogById(long instanceId)
+		private InstanceEntity GetInstanceLogById(long instanceId)
 		{
 
 			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
 			{
-				InstaceEntity entity = new InstaceEntity();
+				InstanceEntity entity = new InstanceEntity();
 
 				sqlCon.Open();
 				SqlCommand sqlCommand = new SqlCommand(
@@ -358,8 +358,8 @@ namespace Edge.Applications.TempScheduler
 					_options.Add("ConflictBehavior", "Ignore");
 
 				//Run Service
-				if (!_options.ContainsKey(PipelineService.ConfigurationOptionNames.TargetPeriod))
-					_options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, _dateTimeRange.ToAbsolute().ToString());
+				if (!_options.ContainsKey(PipelineService.ConfigurationOptionNames.TimePeriod))
+					_options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, _dateTimeRange.ToAbsolute().ToString());
 				bool result = _listner.FormAddToSchedule(serviceName, _accountId, DateTime.Now, _options, ServicePriority.Normal);
 				MessageBox.Show("Service has been submited");
 				if (!result)
@@ -398,7 +398,7 @@ namespace Edge.Applications.TempScheduler
 		
 	}
 
-	public class InstaceEntity
+	public class InstanceEntity
 	{
 		public long Id { set; get; }
 		public string Source { set; get; }
