@@ -194,7 +194,7 @@ namespace Edge.Applications.TempScheduler
 											
 										}
 									};
-									options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, daterange.ToAbsolute().ToString());									
+									options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, daterange.ToAbsolute().ToString());									
 									result = _listner.FormAddToSchedule(service, account, targetDateTime, options, servicePriority);
 									options.Clear();
 									if (!result)
