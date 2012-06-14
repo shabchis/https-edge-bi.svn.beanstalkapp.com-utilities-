@@ -143,7 +143,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				sqlCon.Open();
 				SqlCommand sqlCommand = new SqlCommand(
-					  @"SELECT [TargetPeriodStart],[TargetPeriodEnd] FROM [dbo].[Delivery] where [DeliveryID] = @deliveryId"
+					  @"SELECT [TimePeriodStart],[TimePeriodEnd] FROM [dbo].[Delivery] where [DeliveryID] = @deliveryId"
 					  );
 
 				sqlCommand.Parameters.Add(new SqlParameter()
