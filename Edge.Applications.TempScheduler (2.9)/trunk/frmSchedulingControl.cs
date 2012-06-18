@@ -390,8 +390,8 @@ namespace Edge.Applications.TempScheduler
 					string date;
 					if (scheduledService.Value.LegacyInstance.Configuration.Options.ContainsKey("Date"))
 						date = scheduledService.Value.LegacyInstance.Configuration.Options["Date"];
-					else if (scheduledService.Value.LegacyInstance.Configuration.Options.ContainsKey("TargetPeriod"))
-						date = scheduledService.Value.LegacyInstance.Configuration.Options["TargetPeriod"];
+					else if (scheduledService.Value.LegacyInstance.Configuration.Options.ContainsKey("TimePeriod"))
+						date = scheduledService.Value.LegacyInstance.Configuration.Options["TimePeriod"];
 					else
 						date = string.Empty;
 
