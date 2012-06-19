@@ -154,7 +154,7 @@ namespace Edge.Applications.TempScheduler
 					serviceInstance.LegacyInstance.Initialize();
 					this.Invoke(setLogMethod, new Object[] { string.Format("\nService: {0} initalized {1}\r\n", serviceInstance.ServiceName, DateTime.Now.ToString("dd/MM/yy HH:mm")) });
 
-					Edge.Core.Utilities.Log.Write("SchedulingControlForm", string.Format("Service: {0} initalized", serviceInstance.ServiceName), Edge.Core.Utilities.LogMessageType.Information);
+					
 
 
 				}
