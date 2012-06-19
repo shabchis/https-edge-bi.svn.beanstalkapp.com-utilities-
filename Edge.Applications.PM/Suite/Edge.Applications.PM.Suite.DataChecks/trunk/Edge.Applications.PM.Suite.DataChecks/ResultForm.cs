@@ -84,7 +84,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 				_options.Add("DeliveryID", itemToFix.DeliveryID.ToString());
 
 				//Run Service
-				_options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, _dateTimeRange.ToAbsolute().ToString());
+				_options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, _dateTimeRange.ToAbsolute().ToString());
 				
 				//bool result = _listner.FormAddToSchedule(serviceName, -1, DateTime.Now, _options, ServicePriority.Normal);
 				//if (!result)
