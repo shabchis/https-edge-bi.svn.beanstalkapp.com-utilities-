@@ -8,10 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections.Specialized;
 using System.Configuration;
-using Edge.Applications.PM.Common;
+using Edge.Applications.PM;
 using System.IO;
 using System.Reflection;
 using Edge.Applications.PM.Client.Configuration;
+using Edge.Applications.PM.Common;
 
 namespace Edge.Applications.PM.Client
 {
