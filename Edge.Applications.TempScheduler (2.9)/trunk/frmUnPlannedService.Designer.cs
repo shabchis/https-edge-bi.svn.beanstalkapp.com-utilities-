@@ -208,7 +208,7 @@
 			this.serviceOptionsGroupBox.Enabled = false;
 			this.serviceOptionsGroupBox.Location = new System.Drawing.Point(345, 374);
 			this.serviceOptionsGroupBox.Name = "serviceOptionsGroupBox";
-			this.serviceOptionsGroupBox.Size = new System.Drawing.Size(626, 216);
+			this.serviceOptionsGroupBox.Size = new System.Drawing.Size(727, 216);
 			this.serviceOptionsGroupBox.TabIndex = 13;
 			this.serviceOptionsGroupBox.TabStop = false;
 			this.serviceOptionsGroupBox.Text = "Service Options";
@@ -218,7 +218,7 @@
 			this.cmbValue.FormattingEnabled = true;
 			this.cmbValue.Location = new System.Drawing.Point(251, 104);
 			this.cmbValue.Name = "cmbValue";
-			this.cmbValue.Size = new System.Drawing.Size(121, 21);
+			this.cmbValue.Size = new System.Drawing.Size(232, 21);
 			this.cmbValue.TabIndex = 22;
 			// 
 			// cmbKey
@@ -233,7 +233,7 @@
             "TicketBehavior"});
 			this.cmbKey.Location = new System.Drawing.Point(55, 106);
 			this.cmbKey.Name = "cmbKey";
-			this.cmbKey.Size = new System.Drawing.Size(121, 21);
+			this.cmbKey.Size = new System.Drawing.Size(150, 21);
 			this.cmbKey.TabIndex = 21;
 			// 
 			// chkBackward
@@ -248,7 +248,7 @@
 			// 
 			// clearOptionsBtn
 			// 
-			this.clearOptionsBtn.Location = new System.Drawing.Point(381, 168);
+			this.clearOptionsBtn.Location = new System.Drawing.Point(489, 165);
 			this.clearOptionsBtn.Name = "clearOptionsBtn";
 			this.clearOptionsBtn.Size = new System.Drawing.Size(75, 23);
 			this.clearOptionsBtn.TabIndex = 19;
@@ -258,7 +258,7 @@
 			// 
 			// removeOptionBtn
 			// 
-			this.removeOptionBtn.Location = new System.Drawing.Point(381, 139);
+			this.removeOptionBtn.Location = new System.Drawing.Point(489, 136);
 			this.removeOptionBtn.Name = "removeOptionBtn";
 			this.removeOptionBtn.Size = new System.Drawing.Size(75, 23);
 			this.removeOptionBtn.TabIndex = 18;
@@ -268,7 +268,7 @@
 			// 
 			// addOptionBtn
 			// 
-			this.addOptionBtn.Location = new System.Drawing.Point(381, 110);
+			this.addOptionBtn.Location = new System.Drawing.Point(489, 107);
 			this.addOptionBtn.Name = "addOptionBtn";
 			this.addOptionBtn.Size = new System.Drawing.Size(75, 23);
 			this.addOptionBtn.TabIndex = 17;
@@ -282,7 +282,7 @@
             this.Key,
             this.Value});
 			this.optionsListView.FullRowSelect = true;
-			this.optionsListView.Location = new System.Drawing.Point(476, 109);
+			this.optionsListView.Location = new System.Drawing.Point(584, 106);
 			this.optionsListView.Name = "optionsListView";
 			this.optionsListView.Size = new System.Drawing.Size(127, 97);
 			this.optionsListView.TabIndex = 16;
@@ -355,7 +355,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(989, 645);
+			this.ClientSize = new System.Drawing.Size(1098, 645);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.useOptionsCheckBox);
 			this.Controls.Add(this.label9);
