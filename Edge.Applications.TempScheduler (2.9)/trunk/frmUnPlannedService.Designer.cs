@@ -228,9 +228,12 @@
             "ServiceToRun",
             "ConflictBehavior",
             "DeliveriesIDS",
+            "RollbackOutputs",
             "Adwords.ClientID",
             "DeliveryID",
-            "TicketBehavior"});
+            "TicketBehavior",
+            "RollbackDeliveries",
+            "RollbackTableName"});
 			this.cmbKey.Location = new System.Drawing.Point(55, 106);
 			this.cmbKey.Name = "cmbKey";
 			this.cmbKey.Size = new System.Drawing.Size(150, 21);
