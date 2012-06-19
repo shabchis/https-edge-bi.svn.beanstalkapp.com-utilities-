@@ -182,7 +182,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Framework\Edge.Core\Edge.Core.csproj">
+    <ProjectReference Include="..\..\..\..\..\edge-framework\Edge.Core\trunk\Edge.Core.csproj">
       <Project>{AD4B53AD-B28A-4E90-9483-D2F7C8E6D436}</Project>
       <Name>Edge.Core</Name>
     </ProjectReference>
