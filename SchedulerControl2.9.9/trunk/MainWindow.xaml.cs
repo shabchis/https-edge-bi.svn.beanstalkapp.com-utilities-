@@ -26,6 +26,7 @@ using Edge.Core.Data;
 using Legacy = Edge.Core.Services;
 using System.Threading;
 using System.Windows.Threading;
+using Edge.Core.Scheduling;
 
 
 namespace Edge.Applications.PM.SchedulerControl
@@ -37,8 +38,8 @@ namespace Edge.Applications.PM.SchedulerControl
 	{
 		#region members
 		public static SchedulerBindingData BindingData = new SchedulerBindingData();
-		private DuplexChannelFactory<ISchedulingCommunication> _channel;
-		private ISchedulingCommunication _schedulingCommunicationChannel;
+		private DuplexChannelFactory<ISchedulingHost> _channel;
+		private ISchedulingHost _schedulingCommunicationChannel;
 		private Callback _callBack;
 		Thread _clearEnded;
 		#endregion
@@ -110,7 +111,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		private void Connect(string endPointConfigurationName)
 		{
 			_callBack = new Callback();
-			_channel = new DuplexChannelFactory<ISchedulingCommunication>(_callBack, endPointConfigurationName);
+			_channel = new DuplexChannelFactory<ISchedulingHost>(_callBack, endPointConfigurationName);
 			_schedulingCommunicationChannel = _channel.CreateChannel();
 			_schedulingCommunicationChannel.Subscribe();
 			_callBack.NewScheduleCreatedEvent += new EventHandler(_callBack_NewScheduleCreatedEvent);
