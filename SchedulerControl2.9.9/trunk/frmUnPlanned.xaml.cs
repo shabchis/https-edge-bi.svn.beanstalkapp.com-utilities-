@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Edge.Applications.PM.SchedulerControl.Objects;
+using Edge.Core.Scheduling;
 using Edge.Core.Scheduling.Objects;
 using Edge.Data.Pipeline;
 using Edge.Data.Pipeline.Services;
@@ -22,13 +23,13 @@ namespace Edge.Applications.PM.SchedulerControl
 	/// </summary>
 	public partial class frmUnPlanned : Window
 	{
-		ISchedulingCommunication _schedulingCommunication;
+		ISchedulingHost _schedulingHost;
 		public static UnPlannedBindingData BindingData;
-		public frmUnPlanned(ISchedulingCommunication schedulingCommunication)
+		public frmUnPlanned(ISchedulingHost schedulingHost)
 		{
 			InitializeComponent();
-			_schedulingCommunication = schedulingCommunication;
-			frmUnPlanned.BindingData = new UnPlannedBindingData(_schedulingCommunication.GetServicesConfigurations());
+			_schedulingHost = schedulingHost;
+			frmUnPlanned.BindingData = new UnPlannedBindingData(_schedulingHost.GetServicesConfigurations());
 			this.DataContext = frmUnPlanned.BindingData;
 		}
 
@@ -136,7 +137,7 @@ namespace Edge.Applications.PM.SchedulerControl
 							}
 
 
-							_schedulingCommunication.AddUnplanedService(accountID, serviceName, options, DateTime.Now);
+							_schedulingHost.AddUnplanedService(accountID, serviceName, options, DateTime.Now);
 
 						}
 						catch (Exception ex)

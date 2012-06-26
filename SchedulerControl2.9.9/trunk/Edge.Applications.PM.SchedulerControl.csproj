@@ -53,7 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonControlsLibrary">
-      <HintPath>C:\Users\alonya\Downloads\Release V2\Release V2\AvalonControlsLibrary\AvalonControlsLibrary\bin\Debug\AvalonControlsLibrary.dll</HintPath>
+      <HintPath>..\..\..\thirdparty\WPF\AvalonControlsLibrary\AvalonControlsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\..\thirdparty\log4net\log4net.dll</HintPath>
