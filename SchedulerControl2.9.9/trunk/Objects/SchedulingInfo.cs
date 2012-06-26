@@ -23,7 +23,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		[OperationContract]
 		void ResetUnEnded();
 		[OperationContract]
-		List<AccounServiceInformation> GetServicesConfigurations();
+		List<AccountServiceInformation> GetServicesConfigurations();
 		[OperationContract]
 		Guid AddUnplanedService(int accountID, string serviceName, Dictionary<string, string> options,DateTime targetDateTime);
 	}

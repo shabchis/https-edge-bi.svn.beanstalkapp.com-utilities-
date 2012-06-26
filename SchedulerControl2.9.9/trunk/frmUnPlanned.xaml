@@ -36,11 +36,11 @@
 				<Label Width="150">TargetPeriod:</Label>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<CheckBox Name="_useTargetPeriod" IsChecked="{Binding UseTargetPeriod}" />
+				<CheckBox Name="_useTargetPeriod" Click="_useTargetPeriod_Click" />
 				<Label Width="50">From:</Label>
-				<DatePicker Name="_to" ></DatePicker>
+				<DatePicker Name="_from" ></DatePicker>
 				<Label Width="50">To:</Label>
-				<DatePicker  Name="_from"></DatePicker>
+				<DatePicker  Name="_to"></DatePicker>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label>Option Name:</Label>
