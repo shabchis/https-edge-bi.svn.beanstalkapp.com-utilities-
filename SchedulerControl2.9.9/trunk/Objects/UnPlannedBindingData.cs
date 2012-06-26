@@ -14,11 +14,11 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		public ObservableCollection<UnplannedView> UnplannedViewCollection { get; set; }
 
 		public ConflictBehavior[] ConflictBehaviors { get; set; }
-		public UnPlannedBindingData(List<AccounServiceInformation> AccountsServiceInformation)
+		public UnPlannedBindingData(List<AccountServiceInformation> AccountsServiceInformation)
 		{
 
 			UnplannedViewCollection = new ObservableCollection<UnplannedView>();
-			foreach (AccounServiceInformation accountServiceInformation in AccountsServiceInformation.OrderBy(p => p.AccountName))
+			foreach (AccountServiceInformation accountServiceInformation in AccountsServiceInformation.OrderBy(p => p.AccountName))
 			{
 				UnplannedView unplanned = new UnplannedView(accountServiceInformation, UnplanedType.Account, null, null);
 				unplanned.Services = new ObservableCollection<UnplannedView>();
@@ -48,7 +48,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	public class UnplannedView : INotifyPropertyChanged
 	{
 		private bool _isChecked;
-		public bool UseTargetPeriod { get; set; }
+		public bool _useTargetPeriod; 
 		private Dictionary<string, string> _options;
 		public Dictionary<string, string> Options
 		{
@@ -59,6 +59,18 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			set
 			{
 
+			}
+		}
+		public bool UseTargetPeriod
+		{
+			get
+			{
+				return _useTargetPeriod;
+			}
+			set
+			{
+				_useTargetPeriod = value;
+				RaisePropertyChanged("UseTargetPeriod");
 			}
 		}
 		private string _serviceToRun;
@@ -73,7 +85,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				return _unplanedType;
 			}
 		}
-		private AccounServiceInformation _accounServiceInformation = null;
+		private AccountServiceInformation _accounServiceInformation = null;
 		private ConflictBehavior _conflictBehvior = ConflictBehavior.Ignore;
 		public ConflictBehavior ConflictBehvior
 		{
@@ -99,7 +111,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				_availableServices = value;
 			}
 		}
-		public UnplannedView(AccounServiceInformation accounServiceInformation, UnplanedType type, string serviceName, UnplannedView parent)
+		public UnplannedView(AccountServiceInformation accounServiceInformation, UnplanedType type, string serviceName, UnplannedView parent)
 		{
 			_options = new Dictionary<string, string>();
 

@@ -114,7 +114,7 @@ namespace Edge.Applications.PM.SchedulerControl
 							if (!string.IsNullOrEmpty(unPlanedView.ServiceToRun))
 								options["ServiceToRun"] = unPlanedView.ServiceToRun;
 
-							if (unPlanedView.UseTargetPeriod)
+							if (unPlanedView._useTargetPeriod)
 							{
 								if (_from.SelectedDate.Value > _to.SelectedDate.Value)
 									throw new Exception("From Date can not be greater then to date");
@@ -132,7 +132,7 @@ namespace Edge.Applications.PM.SchedulerControl
 
 									}
 								};
-								options.Add(PipelineService.ConfigurationOptionNames.TargetPeriod, daterange.ToAbsolute().ToString());
+								options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, daterange.ToAbsolute().ToString());
 							}
 
 
@@ -142,7 +142,7 @@ namespace Edge.Applications.PM.SchedulerControl
 						catch (Exception ex)
 						{
 
-							throw;
+							MessageBox.Show(ex.Message);
 						} 
 					}
 
@@ -158,6 +158,21 @@ namespace Edge.Applications.PM.SchedulerControl
 				MessageBox.Show("All Services Added Successfuly");
 			else
 				MessageBox.Show("Not all services added successfully:\n" + errors.ToString());
+
+		}
+
+	
+
+		private void _useTargetPeriod_Click(object sender, RoutedEventArgs e)
+		{
+			UnplannedView view = (UnplannedView)_accountsTree.SelectedItem;
+			if (view != null)
+			{
+				if (!_useTargetPeriod.IsChecked.Value)
+				view.UseTargetPeriod = false;
+				else
+					view.UseTargetPeriod = true;
+			}
 
 		}
 	}
