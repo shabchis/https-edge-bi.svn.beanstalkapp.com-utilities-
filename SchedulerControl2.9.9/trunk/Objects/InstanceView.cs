@@ -74,7 +74,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			get
 			{
 				TimeSpan to = _instanceInfo.ScheduleEndTime - _instanceInfo.SchdeuleStartTime;
-				return string.Format("{0}-{1}", _instanceInfo.BaseScheduleTime.ToShortTimeString(), _instanceInfo.BaseScheduleTime.Add(to).ToShortTimeString());
+				return string.Format("{0}-{1}", _instanceInfo.SchdeuleStartTime.ToShortTimeString(), _instanceInfo.ScheduleEndTime.ToShortTimeString());
 			}
 		}
 		public string ActualStartTime
@@ -112,6 +112,14 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				return _instanceInfo.TargetPeriod;
 			}
 		}
+		public string Options
+		{
+			get
+			{
+				return _instanceInfo.Options;
+			}
+		}
+
 		public bool IsExpanded { get; set; }
 		public double Progress
 		{

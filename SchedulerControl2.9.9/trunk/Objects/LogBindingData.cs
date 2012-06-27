@@ -38,8 +38,15 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 						while (reader.Read())						
 						{
 							if (LogHeader == null)
-								LogHeader = new Dictionary<string, string>();							
-							LogHeader.Add(reader["Message"].ToString(), reader["ExceptionDetails"].ToString());
+								LogHeader = new Dictionary<string, string>();
+							string message=reader["Message"].ToString();
+							
+							while (LogHeader.ContainsKey(message))
+							{
+								message += " ";
+								
+							}
+							LogHeader.Add(message, reader["ExceptionDetails"].ToString());
 						}
 					}
 				}
