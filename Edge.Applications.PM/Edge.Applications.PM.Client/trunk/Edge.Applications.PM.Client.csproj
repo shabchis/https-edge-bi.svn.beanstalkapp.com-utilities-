@@ -84,11 +84,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <ProjectReference Include="..\Suite\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password.csproj">
+    <ProjectReference Include="..\..\Suite\Edge.Applications.PM.Suite.Password\trunk\Edge.Applications.PM.Suite.Password\Edge.Applications.PM.Suite.Password.csproj">
       <Project>{DFDC8CBE-D72B-4CF8-A0A0-0965CEF5FDBF}</Project>
       <Name>Edge.Applications.PM.Suite.Password</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Suite\Edge.Applications.PM.Suite.DataChecks\Edge.Applications.PM.Suite.DataChecks\Edge.Applications.PM.Suite.DataChecks.csproj">
+    <ProjectReference Include="..\..\Suite\Edge.Applications.PM.Suite.DataChecks\trunk\Edge.Applications.PM.Suite.DataChecks\Edge.Applications.PM.Suite.DataChecks.csproj">
       <Project>{BC0B0D23-10E2-4220-9546-FDE4A098910B}</Project>
       <Name>Edge.Applications.PM.Suite.DataChecks</Name>
     </ProjectReference>
@@ -98,6 +98,42 @@
       <Project>{1138B711-24C7-4B18-81BB-23E8EA1BC996}</Project>
       <Name>Edge.Applications.PM.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\accounts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\app-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\application.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\configure-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Folder-Settings-Tools-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\profile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\profiles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\progress.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\settings2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\time2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="BeforeBuild">

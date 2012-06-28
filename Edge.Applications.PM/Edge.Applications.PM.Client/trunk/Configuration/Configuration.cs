@@ -60,6 +60,13 @@ namespace Edge.Applications.PM.Client.Configuration
 			set { base["Class"] = value; }
 		}
 
+		[ConfigurationProperty("Image", IsRequired = false, DefaultValue = "")]
+		public string Image
+		{
+			get { return (string)base["Image"]; }
+			set { base["Image"] = value; }
+		}
+
 		[ConfigurationProperty("", IsRequired = true, IsDefaultCollection = true)]
 		public MenuItemCollection MenuItems
 		{
