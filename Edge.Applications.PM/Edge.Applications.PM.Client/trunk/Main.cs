@@ -30,7 +30,11 @@ namespace Edge.Applications.PM.Client
 			
 			foreach (Edge.Applications.PM.Client.Configuration.MenuItem item in menu.MenuItems)
 			{
-				ToolStripMenuItem menuItem = new ToolStripMenuItem(item.Name, null);
+				Image itemImage = null;
+				if(!String.IsNullOrEmpty(item.Image))
+					itemImage = Image.FromFile(item.Image);
+
+				ToolStripMenuItem menuItem = new ToolStripMenuItem(item.Name, itemImage);
 				
 				//If Top Menu
 				if (item.MenuItems.Count > 0)
