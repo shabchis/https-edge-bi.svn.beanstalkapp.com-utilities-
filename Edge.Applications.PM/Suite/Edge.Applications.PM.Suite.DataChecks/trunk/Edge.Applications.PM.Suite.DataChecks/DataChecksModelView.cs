@@ -12,6 +12,7 @@ using Edge.Applications.PM.Suite.DataChecks.Common;
 using Edge.Applications.PM.Suite.DataChecks.Configuration;
 using Edge.Data.Pipeline.Services;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace Edge.Applications.PM.Suite.DataChecks
 {
@@ -241,6 +242,8 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		/// <returns>List of validations results</returns>
 		internal List<ValidationResult> GetValidationResultsByInstance(Edge.Core.Services.ServiceInstance instance)
 		{
+			Thread.Sleep(4000);
+
 			#region Getting Instance Log for results
 			List<ValidationResult> newResults = new List<ValidationResult>();
 			using (SqlConnection sqlCon = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))

@@ -16,7 +16,7 @@ namespace Edge.Applications.PM.Suite.DataChecks.Common
 		public bool RunHasLocal { set; get; }
 		public Edge.Core.Services.ServiceInstance ServiceInstance { set; get; }
 
-		
+
 
 		/// <summary>
 		/// Run service as local service
@@ -24,7 +24,7 @@ namespace Edge.Applications.PM.Suite.DataChecks.Common
 		/// <param name="SelectedTypes">List of all validation services such as "DeliveryOltp"</param>
 		/// <param name="SelectedAccounts">Collection of selected accounts</param>
 		abstract public void RunUsingLocalConfig(List<ValidationType> SelectedTypes, CheckedListBox.CheckedItemCollection SelectedAccounts, Dictionary<string, Object> EventsHandlers);
-	
+
 
 		virtual public void RunUsingExternalConfig(Dictionary<string, string> SelectedTypes, ListBox.SelectedObjectCollection SelectedAccounts)
 		{
@@ -40,51 +40,63 @@ namespace Edge.Applications.PM.Suite.DataChecks.Common
 		/// <param name="accounts">Accounts List in string format seperated by comma</param>
 		internal void InitServices(DateTimeRange timePeriod, string serviceName, string channels, string accounts, Dictionary<string, Object> eventsHandlers)
 		{
-			ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services[serviceName]);
-			
-			//Removing overide options 
-			serviceElements.Options.Remove("fromDate");
-			serviceElements.Options.Remove("toDate");
-			serviceElements.Options.Remove("ChannelList");
-			serviceElements.Options.Remove("AccountsList");
-			
-			// TimePeriod
-			serviceElements.Options.Add("fromDate", timePeriod.Start.ToDateTime().ToString());
-			serviceElements.Options.Add("toDate", timePeriod.End.ToDateTime().ToString());
-
-			serviceElements.Options.Add("ChannelList", channels);
-			serviceElements.Options.Add("AccountsList", accounts);
-
-			
-			//Update WorkFlow
-			foreach (WorkflowStepElement step in serviceElements.Workflow)
+			try
 			{
-				//CHECK IF CHILD SERVICE OPTION IS -> PMS = ENABLED
+				ActiveServiceElement serviceElements = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(-1).Services[serviceName]);
 
-				if (!step.Options["PMS"].ToString().ToUpper().Equals("ENABLED"))
+
+
+				//Removing overide options 
+				serviceElements.Options.Remove("fromDate");
+				serviceElements.Options.Remove("toDate");
+				serviceElements.Options.Remove("ChannelList");
+				serviceElements.Options.Remove("AccountsList");
+
+				// TimePeriod
+				serviceElements.Options.Add("fromDate", timePeriod.Start.ToDateTime().ToString());
+				serviceElements.Options.Add("toDate", timePeriod.End.ToDateTime().ToString());
+
+				serviceElements.Options.Add("ChannelList", channels);
+				serviceElements.Options.Add("AccountsList", accounts);
+
+
+				//Update WorkFlow
+				foreach (WorkflowStepElement step in serviceElements.Workflow)
 				{
-					step.IsEnabled = false;
+					//CHECK IF CHILD SERVICE OPTION IS -> PMS = ENABLED
+					if (step.Options.ContainsKey("PMS") && !step.Options["PMS"].ToString().ToUpper().Equals("ENABLED"))
+					{
+						step.IsEnabled = false;
+					}
+					else
+						step.IsEnabled = true;
 				}
-			}
-			
-			ServiceInstance = Edge.Core.Services.Service.CreateInstance(serviceElements);
-			
-			ServiceInstance.OutcomeReported += (EventHandler)eventsHandlers[Const.EventsTypes.ParentOutcomeReportedEvent];
-			ServiceInstance.StateChanged += (EventHandler<ServiceStateChangedEventArgs>)eventsHandlers[Const.EventsTypes.ParentStateChangedEvent];
-			ServiceInstance.ChildServiceRequested += (EventHandler<ServiceRequestedEventArgs>)eventsHandlers[Const.EventsTypes.ChildServiceRequested];
 
-			//instance.ProgressReported += new EventHandler(instance_ProgressReported);
-			ServiceInstance.Initialize();
+				ServiceInstance = Edge.Core.Services.Service.CreateInstance(serviceElements);
+
+				ServiceInstance.OutcomeReported += (EventHandler)eventsHandlers[Const.EventsTypes.ParentOutcomeReportedEvent];
+				ServiceInstance.StateChanged += (EventHandler<ServiceStateChangedEventArgs>)eventsHandlers[Const.EventsTypes.ParentStateChangedEvent];
+				ServiceInstance.ChildServiceRequested += (EventHandler<ServiceRequestedEventArgs>)eventsHandlers[Const.EventsTypes.ChildServiceRequested];
+
+				//instance.ProgressReported += new EventHandler(instance_ProgressReported);
+				ServiceInstance.Initialize();
+
+			}
+			catch (Exception ex)
+			{
+
+				throw new Exception("Could not init validation service, Check configuration", ex);
+			}
 
 
 
 		}
 
-		
-		
-		
+
+
+
 	}
 
-	
+
 
 }
