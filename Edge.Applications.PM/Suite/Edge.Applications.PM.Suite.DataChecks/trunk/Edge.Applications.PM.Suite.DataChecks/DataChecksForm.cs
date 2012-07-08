@@ -49,6 +49,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		/*============================================================================================*/
 		#endregion
 
+		private List<string> logRows = new List<string>();
 		private int _runnigServices = 0;
 		private int _numOfValidationsToRun = 0;
 		private ResultForm _resultsForm;
@@ -70,6 +71,8 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 			/**************************************************************************/
 			#endregion
+			
+		
 
 			DataChecksModelView = new DataChecksModelView();
 			EventsHandlers = new Dictionary<string, Object>();
@@ -90,6 +93,8 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 			//Load Metrics Validations from configuration
 			DataChecksModelView.LoadMetricsValidationsItems(this.MerticsValidations.Nodes);
+
+			this.LogBox.Multiline = true;
 
 		}
 
@@ -351,6 +356,12 @@ namespace Edge.Applications.PM.Suite.DataChecks
 						Invoke(_updateResults, new object[] { newResults });
 						//Invoke(_setButton, new object[]  { this.report_btn, true, true });
 					}
+					else
+					{
+						//Writing To PMS validation  log 
+						Invoke(_updateLogBox, new object[] { "Validation results werent found in DB !!" });
+					}
+
 				}
 			}
 
@@ -359,6 +370,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 		private void report_btn_Click(object sender, EventArgs e)
 		{
+			//TO DO : FILL REPORT GRIDS BEFORE SHOWING FORM
 			this._resultsForm.Show();
 		}
 
@@ -439,10 +451,16 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			//clear log
 			if (string.IsNullOrEmpty(text))
 			{
+				this.logRows.Clear();
 				this.LogBox.Clear();
 				return;
 			}
-			this.LogBox.AppendText(text);
+
+			logRows.Add(text);
+			this.LogBox.Lines = logRows.ToArray();
+
+			//this.LogBox.lAppendText(text);
+			
 			Application.DoEvents();
 		}
 
@@ -454,6 +472,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 			this.ResultImage.Image = null;
 			this.report_btn.Enabled = false;
+			this.logRows.Clear();
 			this.LogBox.Clear();
 			this.progressBar.Value = 0;
 			this._numOfValidationsToRun = 0;

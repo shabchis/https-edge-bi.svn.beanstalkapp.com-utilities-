@@ -198,9 +198,9 @@
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox1.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.app;
 			this.pictureBox1.Location = new System.Drawing.Point(41, 50);
 			this.pictureBox1.Name = "pictureBox1";
@@ -222,9 +222,9 @@
 			// 
 			// pictureBox12
 			// 
-			this.pictureBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox12.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.configure_icon;
 			this.pictureBox12.Location = new System.Drawing.Point(-1, -1);
 			this.pictureBox12.Name = "pictureBox12";
@@ -245,9 +245,9 @@
 			// 
 			// pictureBox9
 			// 
-			this.pictureBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox9.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.profiles;
 			this.pictureBox9.Location = new System.Drawing.Point(41, 83);
 			this.pictureBox9.Name = "pictureBox9";
@@ -379,9 +379,9 @@
 			// 
 			// pictureBox3
 			// 
-			this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox3.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.time2;
 			this.pictureBox3.Location = new System.Drawing.Point(4, 3);
 			this.pictureBox3.Name = "pictureBox3";
@@ -428,9 +428,9 @@
 			// 
 			// pictureBox4
 			// 
-			this.pictureBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox4.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.settings;
 			this.pictureBox4.Location = new System.Drawing.Point(8, 2);
 			this.pictureBox4.Name = "pictureBox4";
@@ -477,7 +477,7 @@
 			// 
 			// LogBox
 			// 
-			this.LogBox.ForeColor = System.Drawing.SystemColors.ControlLight;
+			this.LogBox.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.LogBox.Location = new System.Drawing.Point(11, 701);
 			this.LogBox.Name = "LogBox";
 			this.LogBox.Size = new System.Drawing.Size(806, 63);
@@ -508,9 +508,9 @@
 			// 
 			// pictureBox2
 			// 
-			this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox2.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.accounts;
 			this.pictureBox2.Location = new System.Drawing.Point(5, 2);
 			this.pictureBox2.Name = "pictureBox2";
