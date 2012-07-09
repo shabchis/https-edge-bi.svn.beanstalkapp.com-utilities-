@@ -66,8 +66,8 @@
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.label10 = new System.Windows.Forms.Label();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
+			this.successCount = new System.Windows.Forms.Label();
+			this.ProgressBarTxt = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.ResultImage)).BeginInit();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -115,19 +115,19 @@
 			// 
 			// ResultImage
 			// 
-			this.ResultImage.Location = new System.Drawing.Point(679, 570);
+			this.ResultImage.Location = new System.Drawing.Point(679, 626);
 			this.ResultImage.Name = "ResultImage";
-			this.ResultImage.Size = new System.Drawing.Size(47, 43);
+			this.ResultImage.Size = new System.Drawing.Size(41, 42);
 			this.ResultImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.ResultImage.TabIndex = 20;
 			this.ResultImage.TabStop = false;
 			// 
 			// progressBar
 			// 
-			this.progressBar.Location = new System.Drawing.Point(12, 571);
+			this.progressBar.Location = new System.Drawing.Point(151, 523);
 			this.progressBar.MarqueeAnimationSpeed = 10;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(645, 42);
+			this.progressBar.Size = new System.Drawing.Size(651, 42);
 			this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this.progressBar.TabIndex = 19;
 			// 
@@ -136,7 +136,7 @@
 			this.warningCount.AutoSize = true;
 			this.warningCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.warningCount.ForeColor = System.Drawing.Color.Chocolate;
-			this.warningCount.Location = new System.Drawing.Point(751, 584);
+			this.warningCount.Location = new System.Drawing.Point(751, 639);
 			this.warningCount.Name = "warningCount";
 			this.warningCount.Size = new System.Drawing.Size(43, 12);
 			this.warningCount.TabIndex = 38;
@@ -148,7 +148,7 @@
 			this.errorsCount.AutoSize = true;
 			this.errorsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
 			this.errorsCount.ForeColor = System.Drawing.Color.DarkRed;
-			this.errorsCount.Location = new System.Drawing.Point(752, 597);
+			this.errorsCount.Location = new System.Drawing.Point(752, 652);
 			this.errorsCount.Name = "errorsCount";
 			this.errorsCount.Size = new System.Drawing.Size(31, 12);
 			this.errorsCount.TabIndex = 39;
@@ -159,9 +159,9 @@
 			// 
 			this.report_btn.Enabled = false;
 			this.report_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.report_btn.Location = new System.Drawing.Point(12, 618);
+			this.report_btn.Location = new System.Drawing.Point(679, 674);
 			this.report_btn.Name = "report_btn";
-			this.report_btn.Size = new System.Drawing.Size(87, 29);
+			this.report_btn.Size = new System.Drawing.Size(116, 29);
 			this.report_btn.TabIndex = 49;
 			this.report_btn.Text = "View Results";
 			this.report_btn.UseVisualStyleBackColor = true;
@@ -320,7 +320,7 @@
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
-			this.label1.ForeColor = System.Drawing.Color.Black;
+			this.label1.ForeColor = System.Drawing.Color.White;
 			this.label1.Location = new System.Drawing.Point(46, 9);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(57, 16);
@@ -333,9 +333,9 @@
 			this.Start_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.Start_btn.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold);
 			this.Start_btn.ForeColor = System.Drawing.Color.Black;
-			this.Start_btn.Location = new System.Drawing.Point(326, 509);
+			this.Start_btn.Location = new System.Drawing.Point(12, 521);
 			this.Start_btn.Name = "Start_btn";
-			this.Start_btn.Size = new System.Drawing.Size(133, 47);
+			this.Start_btn.Size = new System.Drawing.Size(133, 74);
 			this.Start_btn.TabIndex = 47;
 			this.Start_btn.Text = "START";
 			this.Start_btn.UseVisualStyleBackColor = false;
@@ -357,7 +357,7 @@
 			// 
 			// panel7
 			// 
-			this.panel7.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.panel7.BackColor = System.Drawing.Color.DimGray;
 			this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel7.Controls.Add(this.label6);
 			this.panel7.Controls.Add(this.pictureBox3);
@@ -370,7 +370,7 @@
 			// 
 			this.label6.AutoSize = true;
 			this.label6.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
-			this.label6.ForeColor = System.Drawing.Color.Black;
+			this.label6.ForeColor = System.Drawing.Color.White;
 			this.label6.Location = new System.Drawing.Point(40, 6);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(78, 16);
@@ -417,7 +417,7 @@
 			// 
 			// panel4
 			// 
-			this.panel4.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.panel4.BackColor = System.Drawing.Color.DimGray;
 			this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel4.Controls.Add(this.label1);
 			this.panel4.Controls.Add(this.pictureBox4);
@@ -478,15 +478,15 @@
 			// LogBox
 			// 
 			this.LogBox.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-			this.LogBox.Location = new System.Drawing.Point(11, 701);
+			this.LogBox.Location = new System.Drawing.Point(12, 601);
 			this.LogBox.Name = "LogBox";
-			this.LogBox.Size = new System.Drawing.Size(806, 63);
+			this.LogBox.Size = new System.Drawing.Size(646, 163);
 			this.LogBox.TabIndex = 63;
 			this.LogBox.Text = "";
 			// 
 			// panel3
 			// 
-			this.panel3.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.panel3.BackColor = System.Drawing.Color.DimGray;
 			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel3.Controls.Add(this.label10);
 			this.panel3.Controls.Add(this.pictureBox2);
@@ -499,7 +499,7 @@
 			// 
 			this.label10.AutoSize = true;
 			this.label10.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
-			this.label10.ForeColor = System.Drawing.Color.Black;
+			this.label10.ForeColor = System.Drawing.Color.White;
 			this.label10.Location = new System.Drawing.Point(40, 7);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(64, 16);
@@ -519,26 +519,26 @@
 			this.pictureBox2.TabIndex = 67;
 			this.pictureBox2.TabStop = false;
 			// 
-			// label8
+			// successCount
 			// 
-			this.label8.AutoSize = true;
-			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.label8.ForeColor = System.Drawing.Color.Green;
-			this.label8.Location = new System.Drawing.Point(751, 570);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(41, 12);
-			this.label8.TabIndex = 69;
-			this.label8.Text = "Success";
-			this.label8.Visible = false;
+			this.successCount.AutoSize = true;
+			this.successCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			this.successCount.ForeColor = System.Drawing.Color.Green;
+			this.successCount.Location = new System.Drawing.Point(751, 625);
+			this.successCount.Name = "successCount";
+			this.successCount.Size = new System.Drawing.Size(41, 12);
+			this.successCount.TabIndex = 69;
+			this.successCount.Text = "Success";
+			this.successCount.Visible = false;
 			// 
-			// label2
+			// ProgressBarTxt
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 685);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(25, 13);
-			this.label2.TabIndex = 70;
-			this.label2.Text = "Log";
+			this.ProgressBarTxt.AutoSize = true;
+			this.ProgressBarTxt.BackColor = System.Drawing.Color.Transparent;
+			this.ProgressBarTxt.Location = new System.Drawing.Point(156, 573);
+			this.ProgressBarTxt.Name = "ProgressBarTxt";
+			this.ProgressBarTxt.Size = new System.Drawing.Size(0, 13);
+			this.ProgressBarTxt.TabIndex = 71;
 			// 
 			// DataChecksForm
 			// 
@@ -547,8 +547,8 @@
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(837, 776);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.label8);
+			this.Controls.Add(this.ProgressBarTxt);
+			this.Controls.Add(this.successCount);
 			this.Controls.Add(this.report_btn);
 			this.Controls.Add(this.panel3);
 			this.Controls.Add(this.warningCount);
@@ -632,7 +632,7 @@
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.PictureBox pictureBox2;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label successCount;
+		private System.Windows.Forms.Label ProgressBarTxt;
 	}
 }
