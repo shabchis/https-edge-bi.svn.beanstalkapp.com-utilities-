@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ResultForm));
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.ErrorDataGridView = new System.Windows.Forms.DataGridView();
@@ -108,6 +110,15 @@
             this.ChannelID,
             this.Date,
             this.Repair});
+			this.ErrorDataGridView.Cursor = System.Windows.Forms.Cursors.Default;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Maroon;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ErrorDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ErrorDataGridView.GridColor = System.Drawing.SystemColors.ActiveCaption;
 			this.ErrorDataGridView.Location = new System.Drawing.Point(7, 43);
 			this.ErrorDataGridView.Name = "ErrorDataGridView";
@@ -195,6 +206,7 @@
 			// step1_ErrorImage
 			// 
 			this.step1_ErrorImage.ErrorImage = null;
+			this.step1_ErrorImage.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.failed_icon;
 			this.step1_ErrorImage.Location = new System.Drawing.Point(0, 1);
 			this.step1_ErrorImage.Name = "step1_ErrorImage";
 			this.step1_ErrorImage.Size = new System.Drawing.Size(27, 26);
@@ -227,6 +239,14 @@
             this.dataGridViewTextBoxColumn8,
             this.dataGridViewTextBoxColumn9,
             this.dataGridViewTextBoxColumn10});
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.Color.DarkGreen;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.SuccessDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.SuccessDataGridView.GridColor = System.Drawing.SystemColors.ActiveCaption;
 			this.SuccessDataGridView.Location = new System.Drawing.Point(6, 43);
 			this.SuccessDataGridView.Name = "SuccessDataGridView";
@@ -311,6 +331,7 @@
 			// 
 			// pictureBox2
 			// 
+			this.pictureBox2.Image = global::Edge.Applications.PM.Suite.DataChecks.Properties.Resources.success_icon;
 			this.pictureBox2.Location = new System.Drawing.Point(1, 1);
 			this.pictureBox2.Name = "pictureBox2";
 			this.pictureBox2.Size = new System.Drawing.Size(27, 27);

@@ -46,6 +46,9 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		public delegate void IncCounter(int counter, int value);
 		private IncCounter _incCounter;
 
+		public delegate void SetLabelText(Label lbl, string txt);
+		private SetLabelText _setLabelText;
+
 		/*============================================================================================*/
 		#endregion
 
@@ -68,6 +71,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			_clearBeforeRun = new ClearBeforeRun(clearOnStart);
 			_setButton = new SetButtonVisibility(setButtonVisibility);
 			_incCounter = new IncCounter(IncreaseCounter);
+			_setLabelText = new SetLabelText(SetLabel);
 
 			/**************************************************************************/
 			#endregion
@@ -189,16 +193,31 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		{
 			CheckAllAccounts(false);
 			ClearMetricsValidations();
-			//ClearCheckTypeCheckBox();
+			ClearCheckTypeCheckBox();
+			SetAccountsListByProfile(this.profile_cb.SelectedText);
 		}
 
 		private void ClearMetricsValidations()
 		{
-			foreach (var item in this.MerticsValidations.Nodes)
+			foreach (TreeNode item in this.MerticsValidations.Nodes)
 			{
-				//TO DO : UNCHECK NODES
-				//item.Checked = false;
+				//UNCHECK NODES
+				item.Checked = false;
 			}
+		}
+
+		private void ClearCheckTypeCheckBox()
+		{
+			foreach (TreeNode item in this.ValidationTypes.Nodes)
+			{
+				//UNCHECK NODES
+				item.Checked = false;
+			}
+		}
+
+		private void SetAccountsListByProfile(string selectedProfile)
+		{
+			//TO DO : GET ACCOUNTS FROM CONFIGURATION
 		}
 
 		private void Start_btn_Click(object sender, EventArgs e)
@@ -260,6 +279,13 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 		}
 
+		private void report_btn_Click(object sender, EventArgs e)
+		{
+			//TO DO : FILL REPORT GRIDS BEFORE SHOWING FORM
+			this._resultsForm.Show();
+			this.report_btn.Enabled = false;
+		}
+
 		/// <summary>
 		/// Getting Time Period from Date Time Picker in UI
 		/// </summary>
@@ -294,25 +320,28 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 
-			/*TO DO :
-			 * 
-			 * UPDATE LOG
-			 * UPDATE PROGRESS BAR
-			 * WHEN ALL FINISHED SET RESULT IMAGE AND STATUS
-			*/
+			
 		}
 
 		void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
 		{
 
+			Invoke(_updateProgressBar, new object[] { this.progressBar, 0, true });
+			Invoke(_updateProgressBar, new object[] { this.progressBar, 60, true });
+
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 
 			string log = string.Format("State Changed : {0} - Account ID: {1} - Service: {2} ", e.StateAfter, instance.AccountID, instance.Configuration.Name);
 			Invoke(_updateLogBox, new object[] { log });
+			Invoke(_setLabelText, new object[] {ProgressBarTxt,string.Format("{0}-{1}", instance.Configuration.Name, e.StateAfter) });
 
 			if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
 			{
 				instance.Start();
+			}
+			if (e.StateAfter == Edge.Core.Services.ServiceState.Ended)
+			{
+				Invoke(_updateProgressBar, new object[] { this.progressBar, 100, true });
 			}
 
 		}
@@ -332,6 +361,10 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 
+			Invoke(_updateProgressBar, new object[] { this.progressBar, 0, true });
+			Invoke(_updateProgressBar, new object[] {this.progressBar,60, true});
+			Invoke(_setLabelText, new object[] { ProgressBarTxt, string.Format("{0}-{1}", instance.Configuration.Name, e.StateAfter) });
+			
 			string log = string.Format("State Changed : {0} - Account ID: {1} - Service: {2} ", e.StateAfter, instance.AccountID, instance.Configuration.Name);
 			Invoke(_updateLogBox, new object[] { log });
 
@@ -345,6 +378,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 				//Update current running services counter
 				//Invoke(_incCounter, new object[] { this._runnigServices, -1 });
 
+				
 				if (instance.Configuration.Options.ContainsKey("OnEnd") && (instance.Configuration.Options["OnEnd"].ToString().Equals("GetValidationResults")))
 				{
 					//Get Validations Results
@@ -354,6 +388,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 					if (newResults.Capacity > 0)
 					{
 						Invoke(_updateResults, new object[] { newResults });
+						
 						//Invoke(_setButton, new object[]  { this.report_btn, true, true });
 					}
 					else
@@ -368,11 +403,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 		}
 
-		private void report_btn_Click(object sender, EventArgs e)
-		{
-			//TO DO : FILL REPORT GRIDS BEFORE SHOWING FORM
-			this._resultsForm.Show();
-		}
+		
 
 		/*=========================================================================*/
 		#endregion
@@ -413,11 +444,12 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			#endregion
 
 			//Updating status Bar
-			this.progressBar.Value += 100 / this._numOfValidationsToRun;
+			//this.progressBar.Value += 100 / this._numOfValidationsToRun;
 
 			//Finshed checking all requested validations
 			if (this._runnigServices == 0)
 			{
+				this.progressBar.Value = 100;
 				report_btn.Enabled = true;
 				
 				#region Updating result image
@@ -433,6 +465,20 @@ namespace Edge.Applications.PM.Suite.DataChecks
 					return;
 				}
 				else ResultImage.Image = Edge.Applications.PM.Suite.DataChecks.Properties.Resources.success_icon;
+
+				//set results labels
+				this.errorsCount.Text = _resultsForm.ErrorDataGridView.Rows.Count.ToString() + " Errors";
+				this.errorsCount.Visible = true;
+				_resultsForm.errCountResult_lbl.Text = string.Format("Totals({0})", _resultsForm.ErrorDataGridView.Rows.Count);
+
+				this.successCount.Text = _resultsForm.SuccessDataGridView.Rows.Count.ToString() + " Success";
+				this.successCount.Visible = true;
+				_resultsForm.sucessCountResult_lbl.Text = string.Format("Totals({0})", _resultsForm.SuccessDataGridView.Rows.Count);
+
+				this.warningCount.Text = _resultsForm.WarningDataGridView.Rows.Count.ToString() + " Warnings";
+				this.warningCount.Visible = true;
+				_resultsForm.warningsCountResult_lbl.Text = string.Format("Totals({0})", _resultsForm.WarningDataGridView.Rows.Count);
+
 				/***************************************************************************/
 				#endregion
 				
@@ -477,6 +523,12 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			this.progressBar.Value = 0;
 			this._numOfValidationsToRun = 0;
 			this._runnigServices = 0;
+
+			//Resets results lables
+			this.warningCount.Visible = false;
+			this.successCount.Visible = false;
+			this.errorsCount.Visible = false;
+
 			Application.DoEvents();
 		}
 
@@ -491,6 +543,11 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		{
 			counter += value;
 			Application.DoEvents();
+		}
+
+		private void SetLabel(Label lbl, string txt)
+		{
+			lbl.Text = txt;
 		}
 
 		/*====================================================================================*/
