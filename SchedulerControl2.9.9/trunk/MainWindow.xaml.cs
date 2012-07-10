@@ -174,7 +174,7 @@ namespace Edge.Applications.PM.SchedulerControl
 
 		private void _btnReset_Click(object sender, RoutedEventArgs e)
 		{
-			_schedulingCommunicationChannel.ResetUnEnded();
+			_schedulingCommunicationChannel.ResetUnended();
 			MessageBox.Show("Done!");
 		}
 
