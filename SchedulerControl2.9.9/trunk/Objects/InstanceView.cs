@@ -36,7 +36,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			set
 			{
 				_instanceInfo = value;
-				ParentID = _instanceInfo.ParentInstanceID;
+				ParentID = _instanceInfo.LegacyParentInstanceID;
 				RaiseAllPropertyChange();
 			}
 		}
@@ -52,7 +52,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				return _instanceInfo.InstanceID;
+				return _instanceInfo.LegacyInstanceID;
 			}
 		}
 		public string ServiceName
@@ -73,50 +73,50 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				TimeSpan to = _instanceInfo.ScheduleEndTime - _instanceInfo.SchdeuleStartTime;
-				return string.Format("{0}-{1}", _instanceInfo.SchdeuleStartTime.ToShortTimeString(), _instanceInfo.ScheduleEndTime.ToShortTimeString());
+				TimeSpan to = _instanceInfo.ScheduleEndTime - _instanceInfo.ScheduleStartTime;
+				return string.Format("{0}-{1}", _instanceInfo.ScheduleEndTime.ToShortTimeString(), _instanceInfo.ScheduleEndTime.ToShortTimeString());
 			}
 		}
 		public string ActualStartTime
 		{
 			get
 			{
-				return _instanceInfo.ActualStartTime.ToShortTimeString();
+				return _instanceInfo.LegacyActualStartTime.ToShortTimeString();
 			}
 		}
 		public string ActualEndTime
 		{
 			get
 			{
-				return _instanceInfo.ActualEndTime.ToShortTimeString();
+				return _instanceInfo.LegacyActualEndTime.ToShortTimeString();
 			}
 		}
 		public Core.Services.ServiceState State
 		{
 			get
 			{
-				return _instanceInfo.State;
+				return _instanceInfo.LegacyState;
 			}
 		}
 		public Core.Services.ServiceOutcome Outcome
 		{
 			get
 			{
-				return _instanceInfo.Outcome;
+				return _instanceInfo.LegacyOutcome;
 			}
 		}
-		public string DayCode
-		{
-			get
-			{
-				return _instanceInfo.TargetPeriod;
-			}
-		}
+		//public string DayCode
+		//{
+		//    get
+		//    {
+		//        return _instanceInfo.;
+		//    }
+		//}
 		public string Options
 		{
 			get
 			{
-				return _instanceInfo.Options;
+				return _instanceInfo.Options.Definition;
 			}
 		}
 
@@ -125,7 +125,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				return _instanceInfo.Progress;
+				return _instanceInfo.LegacyProgress;
 			}
 		}
 		public string Background
