@@ -122,8 +122,8 @@ namespace Edge.Applications.PM.SchedulerControl
 		{
 			try
 			{
-				Legacy.IsAlive isAlive = _schedulingCommunicationChannel.IsAlive(guid);
-				MessageBox.Show(string.Format("State: {0}\n OutCome: {1}\n Progress: {2}", isAlive.State, isAlive.Outcome, isAlive.Progress));
+				Legacy.PingInfo isAlive = _schedulingCommunicationChannel.Ping(guid);
+				MessageBox.Show(string.Format("State: {0}\n OutCome: {1}\n Progress: {2}", isAlive.State,  isAlive.Progress));
 			}
 			catch (Exception ex)
 			{
