@@ -47,7 +47,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				}
 			}
 		}
-		public void UpdateInstances(ServiceInstanceInfo[] instancesInfo)
+		public void UpdateInstances(List<ServiceInstanceInfo> instancesInfo)
 		{
 			lock (Instances)
 			{

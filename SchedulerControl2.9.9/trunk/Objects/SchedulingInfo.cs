@@ -15,26 +15,26 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	{
 		public event EventHandler NewScheduleCreatedEvent;
 		public event EventHandler NewInstanceEvent;
-		#region ICallBack Members
+		
 
-		public void ScheduleCreated(ServiceInstanceInfo[] scheduleAndStateInfo)
+		
+		
+		
+
+		#region ISchedulingHostSubscriber Members
+
+		public void InstancesEvents(List<ServiceInstanceInfo> instancesEvents)
 		{
-			NewScheduleCreatedEvent(this, new ScheduleCreatedEventArgs() { ScheduleAndStateInfo = scheduleAndStateInfo });
+			NewInstanceEvent(this, new InstanceEventArgs() { Instances = instancesEvents });
 		}
 
-		#endregion
-		#region ICallBack Members
-		public void InstanceEvent(ServiceInstanceInfo StateOutcomerInfo)
-		{
-			NewInstanceEvent(this, new InstanceEventArgs() { instanceStateOutcomerInfo = StateOutcomerInfo });
-		}
 		#endregion
 	}	
 	#endregion
 	#region eventargs
 	public class InstanceEventArgs : EventArgs
 	{
-		public ServiceInstanceInfo instanceStateOutcomerInfo;
+		public List<ServiceInstanceInfo> Instances;
 
 	}
 	public class ScheduleCreatedEventArgs : EventArgs

@@ -55,14 +55,10 @@ namespace Edge.Applications.PM.SchedulerControl
 		void _callBack_NewInstanceEvent(object sender, EventArgs e)
 		{
 			InstanceEventArgs ie = (InstanceEventArgs)e;
-			ServiceInstanceInfo serviceInstanceInfo = ie.instanceStateOutcomerInfo;
-			BindingData.UpdateInstances(new ServiceInstanceInfo[] { serviceInstanceInfo });
+			List<ServiceInstanceInfo> serviceInstanceInfo = ie.Instances;
+			BindingData.UpdateInstances(serviceInstanceInfo);
 		}
-		void _callBack_NewScheduleCreatedEvent(object sender, EventArgs e)
-		{
-			ScheduleCreatedEventArgs scheduleCreatedEventArgs = (ScheduleCreatedEventArgs)e;
-			BindingData.UpdateInstances(scheduleCreatedEventArgs.ScheduleAndStateInfo);
-		}
+		
 		private void MenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			frmHistoryView f = new frmHistoryView(((SchedulerView)_combo.SelectedValue).Name);
@@ -102,7 +98,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		#region methods
 		private void Disconnect()
 		{
-			_callBack.NewScheduleCreatedEvent -= new EventHandler(_callBack_NewScheduleCreatedEvent);
+			
 			_callBack.NewInstanceEvent -= new EventHandler(_callBack_NewInstanceEvent);
 			MainWindow.BindingData.Disconnect();
 			_channel.Close();
@@ -113,8 +109,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			_callBack = new Callback();
 			_channel = new DuplexChannelFactory<ISchedulingHost>(_callBack, endPointConfigurationName);
 			_schedulingCommunicationChannel = _channel.CreateChannel();
-			_schedulingCommunicationChannel.Subscribe();
-			_callBack.NewScheduleCreatedEvent += new EventHandler(_callBack_NewScheduleCreatedEvent);
+			_schedulingCommunicationChannel.Subscribe();			
 			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
 			BindingData.Connected = true;
 		}
