@@ -106,8 +106,8 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		private void DataChecks_Load(object sender, EventArgs e)
 		{
 			//Setting Dates to previous day
-			fromDate.Value = DateTime.Today.AddDays(-1);
-			toDate.Value = DateTime.Today.AddDays(-1);
+			SelectedFromDate.Value = DateTime.Today.AddDays(-1);
+			SelectedToDate.Value = DateTime.Today.AddDays(-1);
 		}
 
 		private List<AccountServiceElement> GetProfilesFromConfiguration(string pathKey, ComboBox profilesCombo)
@@ -297,14 +297,14 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			{
 				Start = new DateTimeSpecification()
 				{
-					BaseDateTime = fromDate.Value,
+					BaseDateTime = SelectedFromDate.Value,
 					Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
 					//Boundary = DateTimeSpecificationBounds.Lower
 				},
 
 				End = new DateTimeSpecification()
 				{
-					BaseDateTime = toDate.Value,
+					BaseDateTime = SelectedToDate.Value,
 					Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
 					//Boundary = DateTimeSpecificationBounds.Upper
 				}
