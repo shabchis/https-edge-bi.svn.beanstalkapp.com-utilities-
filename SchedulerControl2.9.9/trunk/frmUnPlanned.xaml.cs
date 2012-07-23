@@ -137,7 +137,7 @@ namespace Edge.Applications.PM.SchedulerControl
 							}
 
 
-							_schedulingHost.AddUnplannedService(accountID, serviceName, options, DateTime.Now);
+							_schedulingHost.AddUnplannedService(accountID, serviceName, DateTime.Now,options);
 
 						}
 						catch (Exception ex)
