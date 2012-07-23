@@ -14,17 +14,17 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		public ObservableCollection<UnplannedView> UnplannedViewCollection { get; set; }
 
 		public ConflictBehavior[] ConflictBehaviors { get; set; }
-		public UnPlannedBindingData(List<AccountServiceInformation> AccountsServiceInformation)
+		public UnPlannedBindingData(List<Profile> AccountsServiceInformation)
 		{
 
 			UnplannedViewCollection = new ObservableCollection<UnplannedView>();
-			foreach (AccountServiceInformation accountServiceInformation in AccountsServiceInformation.OrderBy(p => p.AccountName))
+			foreach (Profile accountServiceInformation in AccountsServiceInformation.OrderBy(p => p.Name))
 			{
 				UnplannedView unplanned = new UnplannedView(accountServiceInformation, UnplanedType.Account, null, null);
 				unplanned.Services = new ObservableCollection<UnplannedView>();
-				foreach (var serviceName in accountServiceInformation.Services)
+				foreach (var ServiceConfiguration in accountServiceInformation.ServiceConfigurations)
 				{
-					unplanned.Services.Add(new UnplannedView(accountServiceInformation, UnplanedType.Service, serviceName, unplanned));
+					unplanned.Services.Add(new UnplannedView(accountServiceInformation, UnplanedType.Service, ServiceConfiguration.Name, unplanned));
 
 				}
 				UnplannedViewCollection.Add(unplanned);
@@ -85,7 +85,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				return _unplanedType;
 			}
 		}
-		private AccountServiceInformation _accounServiceInformation = null;
+		private Profile _accounServiceInformation = null;
 		private ConflictBehavior _conflictBehvior = ConflictBehavior.Ignore;
 		public ConflictBehavior ConflictBehvior
 		{
@@ -111,7 +111,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				_availableServices = value;
 			}
 		}
-		public UnplannedView(AccountServiceInformation accounServiceInformation, UnplanedType type, string serviceName, UnplannedView parent)
+		public UnplannedView(Profile accounServiceInformation, UnplanedType type, string serviceName, UnplannedView parent)
 		{
 			_options = new Dictionary<string, string>();
 
@@ -124,8 +124,8 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				ParentAccount = parent;
 
 			}
-			foreach (var available in _accounServiceInformation.Services)
-				_availableServices.Add(available);
+			foreach (var available in _accounServiceInformation.ServiceConfigurations)
+				_availableServices.Add(available.Name);
 
 
 
@@ -143,7 +143,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				return _accounServiceInformation.AccountName;
+				return _accounServiceInformation.Name;
 			}
 		}
 		public string Display
