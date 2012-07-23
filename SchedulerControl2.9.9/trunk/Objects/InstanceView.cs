@@ -36,7 +36,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			set
 			{
 				_instanceInfo = value;
-				ParentID = _instanceInfo.LegacyParentInstanceID;
+				ParentID = _instanceInfo.LegacyParentInstanceGuid;
 				RaiseAllPropertyChange();
 			}
 		}
