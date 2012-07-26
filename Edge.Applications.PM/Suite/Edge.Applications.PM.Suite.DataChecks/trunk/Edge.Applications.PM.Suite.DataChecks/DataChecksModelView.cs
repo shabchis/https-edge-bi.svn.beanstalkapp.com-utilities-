@@ -113,7 +113,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			{
 				sqlCon.Open();
 				SqlCommand sqlCommand = DataManager.CreateCommand(
-					"SELECT [Account_Name] ,[Account_ID] FROM [dbo].[User_GUI_Account] group by [Account_Name] ,[Account_ID]");
+					"SELECT [Account_Name] ,[Account_ID] FROM [dbo].[User_GUI_Account] Where Status = 2 group by [Account_Name] ,[Account_ID]");
 				sqlCommand.Connection = sqlCon;
 
 				using (var _reader = sqlCommand.ExecuteReader())
