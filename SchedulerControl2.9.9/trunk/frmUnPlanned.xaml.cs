@@ -29,7 +29,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		{
 			InitializeComponent();
 			_schedulingHost = schedulingHost;
-			frmUnPlanned.BindingData = new UnPlannedBindingData(_schedulingHost.GetServicesConfigurations());
+			frmUnPlanned.BindingData = new UnPlannedBindingData(_schedulingHost.GetSchedulingProfiles());
 			this.DataContext = frmUnPlanned.BindingData;
 		}
 
