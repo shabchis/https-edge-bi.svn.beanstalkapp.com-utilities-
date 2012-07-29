@@ -50,8 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>DataChecks.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -206,6 +205,7 @@
     <None Include="Resources\failed-icon.png" />
     <None Include="Resources\success_icon.png" />
     <None Include="Resources\Warning-icon.png" />
+    <Content Include="DataChecks.ico" />
     <Content Include="TO_DO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
