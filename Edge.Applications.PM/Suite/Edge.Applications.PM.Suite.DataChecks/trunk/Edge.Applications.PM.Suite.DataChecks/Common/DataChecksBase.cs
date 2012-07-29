@@ -58,6 +58,7 @@ namespace Edge.Applications.PM.Suite.DataChecks.Common
 
 				serviceElements.Options.Add("ChannelList", channels);
 				serviceElements.Options.Add("AccountsList", accounts);
+				serviceElements.Options.Add("PmsServiceName", serviceName);
 
 
 				//Update WorkFlow
