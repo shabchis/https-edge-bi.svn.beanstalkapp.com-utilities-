@@ -230,6 +230,9 @@ namespace Edge.Applications.PM.Suite.DataChecks
 				//Inc num of services to run 
 				this._numOfValidationsToRun++;
 
+				//Getting Time Period
+				MetricsValidation.Value.TimePeriod = GetTimePeriodFromTimePicker();
+
 				//Run service using current configuration
 				if (MetricsValidation.Value.RunHasLocal)
 				{
@@ -265,7 +268,6 @@ namespace Edge.Applications.PM.Suite.DataChecks
 				//SETTING INSTANCE PARAMS
 				/******************************************************************/
 				validationInstance.Channel = ((MetricsItem)e.Node.Tag).ChannelID;
-				validationInstance.TimePeriod = GetTimePeriodFromTimePicker();
 				validationInstance.RunHasLocal = Convert.ToBoolean(((MetricsItem)e.Node.Tag).RunHasLocal);
 				/*****************************************************************/
 
@@ -319,8 +321,6 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		void instance_OutcomeReported(object sender, EventArgs e)
 		{
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-
-			
 		}
 
 		void instance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
@@ -328,12 +328,15 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 			Invoke(_updateProgressBar, new object[] { this.progressBar, 0, true });
 			Invoke(_updateProgressBar, new object[] { this.progressBar, 60, true });
-
+			
 			Edge.Core.Services.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
 
-			string log = string.Format("State Changed : {0} - Account ID: {1} - Service: {2} ", e.StateAfter, instance.AccountID, instance.Configuration.Name);
+			string log = string.Format("State Changed : {0} - Account ID: {2} - Service Channel ID: {1} ", e.StateAfter, instance.Configuration.GetOption("ChannelList", false), instance.Configuration.GetOption("AccountsList", false) == null ? instance.AccountID.ToString() : instance.Configuration.GetOption("AccountsList", false));
 			Invoke(_updateLogBox, new object[] { log });
-			Invoke(_setLabelText, new object[] {ProgressBarTxt,string.Format("{0}-{1}", instance.Configuration.Name, e.StateAfter) });
+			Invoke(_setLabelText, new object[] { ProgressBarTxt, string.Format("Account ID: {0}, Service Channel ID: {1}, State:{2}",
+				instance.Configuration.GetOption("AccountsList", false) == null ? instance.AccountID.ToString() : instance.Configuration.GetOption("AccountsList", false),
+				instance.Configuration.GetOption("ChannelList", false),
+				e.StateAfter) });
 
 			if (e.StateAfter == Edge.Core.Services.ServiceState.Ready)
 			{
@@ -363,9 +366,9 @@ namespace Edge.Applications.PM.Suite.DataChecks
 
 			Invoke(_updateProgressBar, new object[] { this.progressBar, 0, true });
 			Invoke(_updateProgressBar, new object[] {this.progressBar,60, true});
-			Invoke(_setLabelText, new object[] { ProgressBarTxt, string.Format("{0}-{1}", instance.Configuration.Name, e.StateAfter) });
-			
-			string log = string.Format("State Changed : {0} - Account ID: {1} - Service: {2} ", e.StateAfter, instance.AccountID, instance.Configuration.Name);
+			//Invoke(_setLabelText, new object[] { ProgressBarTxt, string.Format("{0}-{1}", instance.Configuration.Name, e.StateAfter) });
+
+			string log = string.Format("State Changed : {0} - Account ID: {2} - Service Channel ID: {1} ", e.StateAfter, instance.Configuration.GetOption("ChannelList", false), instance.Configuration.GetOption("AccountsList", false) == null ? instance.AccountID.ToString() : instance.Configuration.GetOption("AccountsList", false));
 			Invoke(_updateLogBox, new object[] { log });
 
 			if (e.StateAfter == ServiceState.Ready)
