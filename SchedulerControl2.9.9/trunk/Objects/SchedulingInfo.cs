@@ -15,14 +15,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	{
 		public event EventHandler NewScheduleCreatedEvent;
 		public event EventHandler NewInstanceEvent;
-		
-
-		
-		
-		
-
 		#region ISchedulingHostSubscriber Members
-
 		public void InstancesEvents(List<ServiceInstanceInfo> instancesEvents)
 		{
 			NewInstanceEvent(this, new InstanceEventArgs() { Instances = instancesEvents });
