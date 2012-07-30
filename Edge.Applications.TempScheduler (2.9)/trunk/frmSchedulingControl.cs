@@ -16,6 +16,7 @@ using System.Configuration;
 using System.Threading;
 using Edge.Core.Configuration;
 using Edge.Core.Data;
+using Edge.Core.Utilities;
 
 
 namespace Edge.Applications.TempScheduler
@@ -61,6 +62,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				_listner.Dispose();
 				_scheduler.Stop();
+				Log.Write("SchedulingControlForm", "Threads stops by form closedevent",LogMessageType.Information);
 				_timerToStartScheduling.Abort();
 				Application.ExitThread();
 				Application.Exit();
@@ -535,6 +537,7 @@ namespace Edge.Applications.TempScheduler
 			{
 				_scheduler.Stop();
 				this.Invoke(setLogMethod, new Object[] { "Timer Stoped" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "r\n" });
+				Log.Write("SchedulingControlForm", "Threads stops by stop button", LogMessageType.Information);
 				startBtn.Enabled = true;
 				EndBtn.Enabled = false;
 
