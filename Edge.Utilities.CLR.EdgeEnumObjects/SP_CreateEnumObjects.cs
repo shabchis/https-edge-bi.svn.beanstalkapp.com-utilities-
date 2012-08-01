@@ -42,11 +42,21 @@ public partial class StoredProcedures
 	{
 		throw new NotImplementedException();
 
-		Dictionary<string, Dictionary<string, Int32>> ExistingEnumValues = GetEnumTypesFromDB(tableName);
+		Dictionary<string, Int32> ExistingEnumValues = GetEnumTypesFromDB(tableName);
+
+		foreach (var row in NewEnumvalues)
+		{
+			if ( !ExistingEnumValues.ContainsKey(row.Key) || (row.Value != ExistingEnumValues[row.Key] ))
+				throw new Exception (string.Format("mismatch has been found between enum {0} and table. check if enum table exists or new \ changed value",row.Key));
+		}
+
 	}
 
-	private static Dictionary<string, Dictionary<string, int>> GetEnumTypesFromDB(string tableName)
+	private static Dictionary<string, Int32> GetEnumTypesFromDB(string tableName)
 	{
+
+		Dictionary<string, Int32> ExistingEnumValues = new Dictionary<string, int>();
+
 		try
 		{
 			using (SqlConnection conn = new SqlConnection("context connection=true"))
@@ -60,7 +70,7 @@ public partial class StoredProcedures
 				{
 					while (reader.Read())
 					{
-
+						ExistingEnumValues.Add(Convert.ToString(reader[0]), Convert.ToInt32(reader[1]));
 					}
 				}
 			}
@@ -69,6 +79,8 @@ public partial class StoredProcedures
 		{
 			throw new Exception("Could not check exsiting of table: " + tableName, e);
 		}
+
+		return ExistingEnumValues;
 	}
 
 	private static void DropExsitingTable(string tableName)
