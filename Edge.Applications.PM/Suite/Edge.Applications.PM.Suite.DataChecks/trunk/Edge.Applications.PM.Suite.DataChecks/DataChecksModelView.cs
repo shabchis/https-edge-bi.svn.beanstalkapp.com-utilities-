@@ -242,7 +242,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 		/// <returns>List of validations results</returns>
 		internal List<ValidationResult> GetValidationResultsByInstance(Edge.Core.Services.ServiceInstance instance)
 		{
-			Thread.Sleep(4000);
+			Thread.Sleep(6000);
 
 			#region Getting Instance Log for results
 			List<ValidationResult> newResults = new List<ValidationResult>();
