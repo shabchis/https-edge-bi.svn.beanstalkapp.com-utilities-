@@ -23,10 +23,12 @@ public partial class StoredProcedures
 			//If Table doesnt exists in DB
 			if (!IsExists)
 			{
-				CreateTable(tableName: enumType.Key);
-				InsertEnumValues(tableName: enumType.Key, values: enumType.Value);
+				//CreateTable(tableName: enumType.Key);
+				//InsertEnumValues(tableName: enumType.Key, values: enumType.Value);
+				throw new Exception("Table doesnt exists in DB");
 			}
-			else
+			//IF TABLE EXISTS IN DB
+			else 
 			{
 				//COMPARE EXSTING DATA TO NEW - CHECK CASES
 				CompareWithExistingValues(enumType.Key,enumType.Value);
@@ -40,8 +42,6 @@ public partial class StoredProcedures
 
 	private static void CompareWithExistingValues(string tableName, Dictionary<string, int> NewEnumvalues)
 	{
-		throw new NotImplementedException();
-
 		Dictionary<string, Int32> ExistingEnumValues = GetEnumTypesFromDB(tableName);
 
 		foreach (var row in NewEnumvalues)
