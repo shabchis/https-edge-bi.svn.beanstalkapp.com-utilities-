@@ -451,7 +451,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			//this.progressBar.Value += 100 / this._numOfValidationsToRun;
 
 			//Finshed checking all requested validations
-			Thread.Sleep(5000);
+			Thread.Sleep(10000);
 			if (this._runnigServices == 0)
 			{
 				this.progressBar.Value = 100;
