@@ -20,6 +20,7 @@ using Edge.Applications.PM.Common;
 using Edge.Applications.PM.Suite.DataChecks.Common;
 using System.Reflection;
 using Edge.Applications.PM.Suite.DataChecks.Configuration;
+using System.Threading;
 
 namespace Edge.Applications.PM.Suite.DataChecks
 {
@@ -450,6 +451,7 @@ namespace Edge.Applications.PM.Suite.DataChecks
 			//this.progressBar.Value += 100 / this._numOfValidationsToRun;
 
 			//Finshed checking all requested validations
+			Thread.Sleep(5000);
 			if (this._runnigServices == 0)
 			{
 				this.progressBar.Value = 100;
