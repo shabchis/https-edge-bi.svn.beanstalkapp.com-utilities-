@@ -16,7 +16,7 @@
 
 		<ui:TreeListView Name="_Tree"  ItemsSource="{Binding Instances}" Grid.Row="1" Grid.Column="0" >
 			<TreeView.Resources>
-				<HierarchicalDataTemplate DataType="{x:Type this:InstanceView}" ItemsSource="{Binding ChildsSteps}"/>
+				<HierarchicalDataTemplate DataType="{x:Type this:RequestView}" ItemsSource="{Binding ChildsSteps}"/>
 				<Style TargetType="{x:Type ui:TreeListViewItem}">
 					<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
 				</Style>
