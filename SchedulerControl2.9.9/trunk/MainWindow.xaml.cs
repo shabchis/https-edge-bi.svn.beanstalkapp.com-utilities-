@@ -54,9 +54,9 @@ namespace Edge.Applications.PM.SchedulerControl
 		#region events
 		void _callBack_NewInstanceEvent(object sender, EventArgs e)
 		{
-			InstanceEventArgs ie = (InstanceEventArgs)e;
-			List<ServiceInstanceInfo> serviceInstanceInfo = ie.Instances;
-			BindingData.UpdateInstances(serviceInstanceInfo);
+			RequestsEventArgs ie = (RequestsEventArgs)e;
+			List<SchedulingRequestInfo> schedulingRequestInfo = ie.requests;
+			BindingData.UpdateInstances(schedulingRequestInfo);
 		}
 		
 		private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -77,7 +77,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		}
 		private void Abort_Click(object sender, RoutedEventArgs e)
 		{
-			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
+			Guid guid = ((RequestView)((MenuItem)sender).DataContext).ID;
 			_schedulingCommunicationChannel.Abort(guid);
 		}
 		private void _btnShowHistory_Click(object sender, RoutedEventArgs e)
@@ -87,7 +87,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		}
 		private void MenuIsAlive_Click(object sender, RoutedEventArgs e)
 		{
-			Guid guid = ((InstanceView)((MenuItem)sender).DataContext).ID;
+			Guid guid = ((RequestView)((MenuItem)sender).DataContext).ID;
 			ThreadStart start = delegate()
 			{
 				Dispatcher.Invoke(new Action<Guid>(IsAlive), new object[] { guid });
@@ -155,7 +155,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		{
 			Button btnLog = (Button)sender;
 
-			InstanceView iv = (InstanceView)btnLog.DataContext;
+			RequestView iv = (RequestView)btnLog.DataContext;
 			ServiceHistoryView shv = new ServiceHistoryView()
 			{
 				AccountID = iv.AccountID,

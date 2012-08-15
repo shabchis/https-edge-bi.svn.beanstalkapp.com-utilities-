@@ -17,14 +17,14 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	{
 		#region Members
 		private bool _connected;
-		private Dictionary<Guid, InstanceView> _InstancesRef = new Dictionary<Guid, InstanceView>();
+		private Dictionary<Guid, RequestView> _requestsRef = new Dictionary<Guid, RequestView>();
 		
 		#endregion
 		#region ctor
 		public SchedulerBindingData()
 		{
-			Instances = new ObservableCollection<InstanceView>();
-			var collectionview = CollectionViewSource.GetDefaultView(Instances);
+			Requests = new ObservableCollection<RequestView>();
+			var collectionview = CollectionViewSource.GetDefaultView(Requests);
 			collectionview.SortDescriptions.Add(new SortDescription("ScheduledTime", ListSortDirection.Ascending));
 		}
 		#endregion
@@ -47,29 +47,29 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				}
 			}
 		}
-		public void UpdateInstances(List<ServiceInstanceInfo> instancesInfo)
+		public void UpdateInstances(List<SchedulingRequestInfo> requestInfo)
 		{
-			lock (Instances)
+			lock (Requests)
 			{
-				List<InstanceView> childs = new List<InstanceView>();
-				foreach (var instance in instancesInfo)
+				List<RequestView> childs = new List<RequestView>();
+				foreach (var request in requestInfo)
 				{
-					if (_InstancesRef.ContainsKey(instance.LegacyInstanceGuid))
-						_InstancesRef[instance.LegacyInstanceGuid].ServiceInstanceInfo = instance;
+					if (_requestsRef.ContainsKey(request.RequestID))
+						_requestsRef[request.RequestID].schedulingRequestInfo = request;
 					else
 					{
-						InstanceView iv = new InstanceView() { ServiceInstanceInfo = instance };
-						_InstancesRef[instance.LegacyInstanceGuid] = iv;
-						if (iv.ParentID == Guid.Empty)
-							Instances.Add(iv);
+						RequestView rv = new RequestView() { schedulingRequestInfo = request };
+						_requestsRef[request.RequestID] = rv;
+						if (rv.ParentID == Guid.Empty)
+							Requests.Add(rv);
 						else
-							childs.Add(iv);
+							childs.Add(rv);
 					}
 				}
 				foreach (var child in childs)
 				{
-					if (_InstancesRef.ContainsKey(child.ParentID))
-						_InstancesRef[child.ParentID].ChildsSteps.Add(child);
+					if (_requestsRef.ContainsKey(child.ParentID))
+						_requestsRef[child.ParentID].ChildsSteps.Add(child);
 				}
 				//TODO: ADD REMOVE ENDED 
 			}
@@ -102,7 +102,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 					return "Connect";
 			}
 		}
-		public ObservableCollection<InstanceView> Instances { get; set; }
+		public ObservableCollection<RequestView> Requests { get; set; }
 		
 		public ObservableCollection<SchedulerView> Schedulers { get; set; }
 		#endregion
@@ -118,30 +118,30 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		#endregion
 		internal void Disconnect()
 		{
-			_InstancesRef.Clear();
-			Instances.Clear();
+			_requestsRef.Clear();
+			Requests.Clear();
 		}
 		internal void ClearEnded()
 		{
 
-			lock (Instances)
+			lock (Requests)
 			{
 				List<int> toRemove = new List<int>();
-				for (int i = 0; i < Instances.Count; i++)
+				for (int i = 0; i < Requests.Count; i++)
 				{
-					InstanceView instance = Instances[i];
+					RequestView instance = Requests[i];
 					if (instance.State == Core.Services.ServiceState.Ended && DateTime.Parse(instance.ActualEndTime).AddMinutes(5) < DateTime.Now)
 					{
 						foreach (var child in instance.ChildsSteps)
 						{
-							_InstancesRef.Remove(child.ID);
+							_requestsRef.Remove(child.ID);
 						}
-						_InstancesRef.Remove(instance.ID);
+						_requestsRef.Remove(instance.ID);
 						toRemove.Add(i);
 					}
 				}
 				foreach (var index in toRemove)
-					Instances.RemoveAt(index);		 
+					Requests.RemoveAt(index);		 
 			}
 		
 		}
