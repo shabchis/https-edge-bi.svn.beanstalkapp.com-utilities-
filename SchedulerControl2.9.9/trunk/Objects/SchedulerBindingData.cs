@@ -5,11 +5,12 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.ComponentModel;
-using Edge.Core.Scheduling.Objects;
+using Edge.Core.Scheduling;
 using System.Data.SqlClient;
 using Edge.Core.Data;
 using System.Data;
 using Edge.Core.Configuration;
+using Edge.Core.Services;
 
 namespace Edge.Applications.PM.SchedulerControl.Objects
 {
@@ -47,19 +48,19 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				}
 			}
 		}
-		public void UpdateInstances(List<SchedulingRequestInfo> requestInfo)
+		public void UpdateInstances(List<ServiceInstance> requestInfo)
 		{
 			lock (Requests)
 			{
 				List<RequestView> childs = new List<RequestView>();
 				foreach (var request in requestInfo)
 				{
-					if (_requestsRef.ContainsKey(request.RequestID))
-						_requestsRef[request.RequestID].schedulingRequestInfo = request;
+					if (_requestsRef.ContainsKey(request.InstanceID))
+						_requestsRef[request.InstanceID].schedulingRequestInfo = request;
 					else
 					{
 						RequestView rv = new RequestView() { schedulingRequestInfo = request };
-						_requestsRef[request.RequestID] = rv;
+						_requestsRef[request.InstanceID] = rv;
 						if (rv.ParentID == Guid.Empty)
 							Requests.Add(rv);
 						else

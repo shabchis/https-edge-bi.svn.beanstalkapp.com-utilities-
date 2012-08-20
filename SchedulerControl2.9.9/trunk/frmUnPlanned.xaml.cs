@@ -12,9 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Edge.Applications.PM.SchedulerControl.Objects;
 using Edge.Core.Scheduling;
-using Edge.Core.Scheduling.Objects;
 using Edge.Data.Pipeline;
 using Edge.Data.Pipeline.Services;
+
 
 namespace Edge.Applications.PM.SchedulerControl
 {

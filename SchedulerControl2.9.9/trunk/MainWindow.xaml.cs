@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Edge.Core.Scheduling.Objects;
+using Edge.Core.Scheduling;
 using System.ServiceModel;
 using Edge.Applications.PM.SchedulerControl.Objects;
 using Core = Edge.Core;
@@ -26,7 +26,8 @@ using Edge.Core.Data;
 using Legacy = Edge.Core.Services;
 using System.Threading;
 using System.Windows.Threading;
-using Edge.Core.Scheduling;
+using Edge.Core.Services;
+
 
 
 namespace Edge.Applications.PM.SchedulerControl
@@ -55,7 +56,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		void _callBack_NewInstanceEvent(object sender, EventArgs e)
 		{
 			RequestsEventArgs ie = (RequestsEventArgs)e;
-			List<SchedulingRequestInfo> schedulingRequestInfo = ie.requests;
+			List<ServiceInstance> schedulingRequestInfo = ie.requests;
 			BindingData.UpdateInstances(schedulingRequestInfo);
 		}
 		
@@ -117,7 +118,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		{
 			try
 			{
-				Legacy.PingInfo isAlive = _schedulingCommunicationChannel.Ping(guid);
+				PingInfo isAlive = _schedulingCommunicationChannel.Ping(guid);
 				MessageBox.Show(string.Format("State: {0}\n OutCome: {1}\n Progress: {2}", isAlive.State,  isAlive.Progress));
 			}
 			catch (Exception ex)
@@ -158,7 +159,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			RequestView iv = (RequestView)btnLog.DataContext;
 			ServiceHistoryView shv = new ServiceHistoryView()
 			{
-				AccountID = iv.AccountID,
+				AccountID =int.Parse(iv.AccountID),
 				ServiceName = iv.ServiceName,
 				InstanceID = int.Parse(iv.InstanceID),
 				Outcome = iv.Outcome

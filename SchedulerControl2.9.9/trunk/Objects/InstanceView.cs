@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using Edge.Core.Scheduling.Objects;
+using Edge.Core.Scheduling;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
+using Edge.Core.Services;
 
 namespace Edge.Applications.PM.SchedulerControl.Objects
 {
 	public class RequestView : INotifyPropertyChanged
 	{
 		#region members
-		private SchedulingRequestInfo _requestInfo;
+		private ServiceInstance _requestInfo;
 		private ObservableCollection<RequestView> _childsSteps = new ObservableCollection<RequestView>();
 		#endregion
 		#region properties
@@ -27,7 +28,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				_childsSteps = value;
 			}
 		}
-		public SchedulingRequestInfo schedulingRequestInfo
+		public ServiceInstance schedulingRequestInfo
 		{
 			get
 			{
@@ -36,7 +37,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			set
 			{
 				_requestInfo = value;
-				ParentID = _requestInfo.ParentRequestID;
+				ParentID = _requestInfo.ParentInstance.InstanceID;
 				RaiseAllPropertyChange();
 			}
 		}
@@ -45,28 +46,28 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				return _requestInfo.RequestID;
+				return _requestInfo.InstanceID;
 			}
 		}
 		public string InstanceID
 		{
 			get
 			{
-				return _requestInfo.LegacyInstanceID.ToString();
+				return _requestInfo.InstanceID.ToString();
 			}
 		}
 		public string ServiceName
 		{
 			get
 			{
-				return _requestInfo.ServiceName;
+				return _requestInfo.Configuration.ServiceName;
 			}
 		}
-		public int AccountID
+		public string AccountID
 		{
 			get
 			{
-				return _requestInfo.ProfileID;
+				return _requestInfo.Configuration.Profile.Parameters["AccountID"].ToString();
 			}
 		}
 		public string ScheduledTime
@@ -74,35 +75,35 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			get
 			{
 				//TimeSpan to = _requestInfo.ScheduleEndTime - _requestInfo.ScheduleStartTime;
-				return string.Format("{0}-{1}", _requestInfo.ScheduledStartTime.ToShortTimeString(), _requestInfo.ScheduledEndTime.ToShortTimeString());
+				return string.Format("{0}-{1}", _requestInfo.SchedulingInfo.ExpectedStartTime.ToShortTimeString(), _requestInfo.SchedulingInfo.ExpectedEndTime.ToShortTimeString());
 			}
 		}
 		public string ActualStartTime
 		{
 			get
 			{
-				return _requestInfo.ActualStartTime.ToShortTimeString();
+				return _requestInfo.TimeStarted.ToShortTimeString();
 			}
 		}
 		public string ActualEndTime
 		{
 			get
 			{
-				return _requestInfo.ActualEndTime.ToShortTimeString();
+				return _requestInfo.TimeEnded.ToShortTimeString();
 			}
 		}
 		public Core.Services.ServiceState State
 		{
 			get
 			{
-				return _requestInfo.ServiceState;
+				return _requestInfo.State;
 			}
 		}
 		public Core.Services.ServiceOutcome Outcome
 		{
 			get
 			{
-				return _requestInfo.ServiceOutcome;
+				return _requestInfo.Outcome;
 			}
 		}
 		//public string DayCode
@@ -112,11 +113,11 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		//        return _instanceInfo.;
 		//    }
 		//}
-		public string Options
+		public string OutPut
 		{
 			get
 			{
-				return _requestInfo.Options.Definition;
+				return _requestInfo.Output.ToString();
 			}
 		}
 
