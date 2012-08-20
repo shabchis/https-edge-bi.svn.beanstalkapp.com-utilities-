@@ -23,9 +23,9 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			{
 				UnplannedView unplanned = new UnplannedView(accountServiceInformation, UnplanedType.Account, null, null);
 				unplanned.Services = new ObservableCollection<UnplannedView>();
-				foreach (var service in accountServiceInformation.AssignedServices)
+				foreach (ServiceConfiguration service in accountServiceInformation.AssignedServices)
 				{
-					unplanned.Services.Add(new UnplannedView(accountServiceInformation, UnplanedType.Service, service.ServiceName, unplanned));
+					unplanned.Services.Add(new UnplannedView(accountServiceInformation, UnplanedType.Service, service, unplanned));
 				}
 				UnplannedViewCollection.Add(unplanned);
 			}
@@ -100,6 +100,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			}
 		}
 		public ObservableCollection<UnplannedView> Services { get; set; }
+		private ServiceConfiguration _serviceConfiguration;
 		public ObservableCollection<String> AvailableServices
 		{
 			get
@@ -111,7 +112,13 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 				_availableServices = value;
 			}
 		}
-		public UnplannedView(ServiceProfile accounServiceInformation, UnplanedType type, string serviceName, UnplannedView parent)
+		public ServiceConfiguration ServiceConfiguration
+		{
+			get{ return _serviceConfiguration;}
+		}
+
+
+		public UnplannedView(ServiceProfile accounServiceInformation, UnplanedType type, ServiceConfiguration serviceConfiguration, UnplannedView parent)
 		{
 			_options = new Dictionary<string, string>();
 
@@ -120,8 +127,10 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			_unplanedType = type;
 			if (type == Objects.UnplanedType.Service)
 			{
-				_serviceName = serviceName;
+				_serviceConfiguration = serviceConfiguration;
+				_serviceName = _serviceConfiguration.ServiceName;
 				ParentAccount = parent;
+			
 
 			}
 			foreach (var available in _accounServiceInformation.AssignedServices)

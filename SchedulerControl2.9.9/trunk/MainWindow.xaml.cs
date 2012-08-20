@@ -22,8 +22,6 @@ using System.Runtime.Serialization;
 using System.Data;
 using System.Data.SqlClient;
 using Edge.Core.Configuration;
-using Edge.Core.Data;
-using Legacy = Edge.Core.Services;
 using System.Threading;
 using System.Windows.Threading;
 using Edge.Core.Services;
@@ -88,12 +86,7 @@ namespace Edge.Applications.PM.SchedulerControl
 		}
 		private void MenuIsAlive_Click(object sender, RoutedEventArgs e)
 		{
-			Guid guid = ((RequestView)((MenuItem)sender).DataContext).ID;
-			ThreadStart start = delegate()
-			{
-				Dispatcher.Invoke(new Action<Guid>(IsAlive), new object[] { guid });
-			};
-			new Thread(start).Start();
+			throw new NotImplementedException();
 		}
 		#endregion
 		#region methods
@@ -114,18 +107,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
 			BindingData.Connected = true;
 		}
-		private void IsAlive(Guid guid)
-		{
-			try
-			{
-				PingInfo isAlive = _schedulingCommunicationChannel.Ping(guid);
-				MessageBox.Show(string.Format("State: {0}\n OutCome: {1}\n Progress: {2}", isAlive.State,  isAlive.Progress));
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
-		}
+		
 		#endregion
 
 		private void _chkClearAutoMaticly_Click(object sender, RoutedEventArgs e)

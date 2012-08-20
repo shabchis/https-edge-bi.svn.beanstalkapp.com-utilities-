@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using Edge.Core.Configuration;
-using Edge.Core.Data;
+
 
 namespace Edge.Applications.PM.SchedulerControl.Objects
 {
@@ -26,10 +26,10 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			{
 				conn.Open();
 				{
-					SqlCommand command = DataManager.CreateCommand(@"SELECT Message,ExceptionDetails 
+					SqlCommand command = new SqlCommand(@"SELECT Message,ExceptionDetails 
 																		FROM Log
-																		WHERE ServiceInstanceID=@InstanceID:bigint");
-					command.Parameters["@InstanceID"].Value = ServiceHistoryView.InstanceID;
+																		WHERE ServiceInstanceID=@InstanceID");
+					command.Parameters.AddWithValue("@InstanceID", ServiceHistoryView.InstanceID);
 
 					command.Connection = conn;
 

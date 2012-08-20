@@ -174,7 +174,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				if (State == Core.Services.ServiceState.Ended || State == Core.Services.ServiceState.Aborting)
+				if (State == Core.Services.ServiceState.Ended || State == Core.Services.ServiceState.Ending)
 					return true;
 				else
 					return false;
