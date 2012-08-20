@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Data.SqlClient;
 using Edge.Core.Configuration;
 using System.Data;
-using Edge.Core.Data;
 using System.Collections.ObjectModel;
 using Edge.Core.Services;
 using System.Windows.Data;
@@ -114,11 +113,11 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			{
 				conn.Open();
 				{
-					SqlCommand command = DataManager.CreateCommand(@"SELECT InstanceID,AccountID,ParentInstanceID,ServiceName,TimeScheduled,TimeStarted,TimeEnded,Configuration.value('data(/ActiveService/@TargetPeriod)[1]','nvarchar(255)') as TargetPeriod,Outcome,State
+					SqlCommand command = new SqlCommand(@"SELECT InstanceID,AccountID,ParentInstanceID,ServiceName,TimeScheduled,TimeStarted,TimeEnded,Configuration.value('data(/ActiveService/@TargetPeriod)[1]','nvarchar(255)') as TargetPeriod,Outcome,State
 																    FROM ServiceInstance
-																    WHERE TimeStarted BETWEEN @Form:DateTime AND @To:DateTime", CommandType.Text);
-					command.Parameters["@Form"].Value = Times.From;
-					command.Parameters["@To"].Value = Times.To;
+																    WHERE TimeStarted BETWEEN @Form:DateTime AND @To:DateTime");
+					command.Parameters.AddWithValue("@Form", Times.From);
+					command.Parameters.AddWithValue("@To",Times.To);
 					command.Connection = conn;
 					List<ServiceHistoryView> childs = new List<ServiceHistoryView>();
 					using (SqlDataReader reader = command.ExecuteReader())

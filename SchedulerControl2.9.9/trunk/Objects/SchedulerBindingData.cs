@@ -7,7 +7,6 @@ using System.Windows.Data;
 using System.ComponentModel;
 using Edge.Core.Scheduling;
 using System.Data.SqlClient;
-using Edge.Core.Data;
 using System.Data;
 using Edge.Core.Configuration;
 using Edge.Core.Services;

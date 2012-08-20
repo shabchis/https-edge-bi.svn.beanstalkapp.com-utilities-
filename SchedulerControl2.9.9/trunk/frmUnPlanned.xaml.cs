@@ -14,6 +14,7 @@ using Edge.Applications.PM.SchedulerControl.Objects;
 using Edge.Core.Scheduling;
 using Edge.Data.Pipeline;
 using Edge.Data.Pipeline.Services;
+using Edge.Core.Services;
 
 
 namespace Edge.Applications.PM.SchedulerControl
@@ -136,15 +137,28 @@ namespace Edge.Applications.PM.SchedulerControl
 								options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, daterange.ToAbsolute().ToString());
 							}
 
+							ServiceConfiguration config = unPlanedView.ServiceConfiguration.Derive();
+							config.SchedulingRules.Clear();
+							foreach (var option in options)
+							{
+								config.Parameters[option.Key] = option.Value;
+							}
+							config.SchedulingRules.Add(new SchedulingRule()
+							{
+								SpecificDateTime = DateTime.Now,
+								Scope = SchedulingScope.Unplanned,
+								MaxDeviationAfter = TimeSpan.FromHours(3)
+							});
 
-							_schedulingHost.AddUnplannedService(accountID, serviceName, DateTime.Now,options);
+							_schedulingHost.AddUnplannedService(config);
+
 
 						}
 						catch (Exception ex)
 						{
 
 							MessageBox.Show(ex.Message);
-						} 
+						}
 					}
 
 
@@ -152,7 +166,7 @@ namespace Edge.Applications.PM.SchedulerControl
 
 
 				}
-			
+
 
 			}
 			if (errors.Length == 0)
@@ -162,7 +176,7 @@ namespace Edge.Applications.PM.SchedulerControl
 
 		}
 
-	
+
 
 		private void _useTargetPeriod_Click(object sender, RoutedEventArgs e)
 		{
@@ -170,7 +184,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			if (view != null)
 			{
 				if (!_useTargetPeriod.IsChecked.Value)
-				view.UseTargetPeriod = false;
+					view.UseTargetPeriod = false;
 				else
 					view.UseTargetPeriod = true;
 			}
