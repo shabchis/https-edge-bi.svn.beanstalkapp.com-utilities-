@@ -183,12 +183,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\edge-framework\Edge.Core\branches\3.0.0\Edge.Core.csproj">
-      <Project>{76F5133E-50CD-4282-97E0-B431FACB3ACC}</Project>
-      <Name>Edge.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Icons\failed.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -207,6 +201,12 @@
     <Content Include="Icons\unspecified.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\edge-framework\Edge.Core\branches\3.0.0\Edge.Core.csproj">
+      <Project>{76F5133E-50CD-4282-97E0-B431FACB3ACC}</Project>
+      <Name>Edge.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

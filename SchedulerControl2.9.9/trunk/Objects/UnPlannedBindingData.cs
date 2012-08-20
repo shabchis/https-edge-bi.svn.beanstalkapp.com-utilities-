@@ -15,7 +15,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		public ObservableCollection<UnplannedView> UnplannedViewCollection { get; set; }
 
 		public ConflictBehavior[] ConflictBehaviors { get; set; }
-		public UnPlannedBindingData(ProfilesCollection AccountsServiceInformation)
+		public UnPlannedBindingData(ServiceProfile[] AccountsServiceInformation)
 		{
 
 			UnplannedViewCollection = new ObservableCollection<UnplannedView>();
