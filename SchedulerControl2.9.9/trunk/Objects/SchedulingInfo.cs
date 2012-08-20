@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using Edge.Core.Scheduling;
-using Edge.Core.Scheduling.Objects;
+using Edge.Core.Scheduling;
 using Legacy=Edge.Core.Services;
 using Edge.Core.Configuration;
+using Edge.Core.Services;
 
 namespace Edge.Applications.PM.SchedulerControl.Objects
 {
@@ -16,7 +17,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		public event EventHandler NewScheduleCreatedEvent;
 		public event EventHandler NewInstanceEvent;
 		#region ISchedulingHostSubscriber Members
-		public void InstancesEvents(List<SchedulingRequestInfo> requestsEvents)
+		public void InstancesEvents(List<ServiceInstance> requestsEvents)
 		{
 			NewInstanceEvent(this, new RequestsEventArgs() { requests = requestsEvents });
 		}
@@ -27,12 +28,12 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 	#region eventargs
 	public class RequestsEventArgs : EventArgs
 	{
-		public List<SchedulingRequestInfo> requests;
+		public List<ServiceInstance> requests;
 
 	}
 	public class ScheduleCreatedEventArgs : EventArgs
 	{
-		public SchedulingRequestInfo[] ScheduleAndStateInfo;
+		public ServiceInstance[] ScheduleAndStateInfo;
 	}
 #endregion
 }
