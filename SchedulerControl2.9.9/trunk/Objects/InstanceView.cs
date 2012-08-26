@@ -117,7 +117,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		{
 			get
 			{
-				return _requestInfo.Output.ToString();
+				return "should be the outcometext but the property gone with doron's changes";
 			}
 		}
 
