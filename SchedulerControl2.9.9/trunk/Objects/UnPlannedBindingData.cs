@@ -23,7 +23,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			{
 				UnplannedView unplanned = new UnplannedView(accountServiceInformation, UnplanedType.Account, null, null);
 				unplanned.Services = new ObservableCollection<UnplannedView>();
-				foreach (ServiceConfiguration service in accountServiceInformation.AssignedServices)
+				foreach (ServiceConfiguration service in accountServiceInformation.Services)
 				{
 					unplanned.Services.Add(new UnplannedView(accountServiceInformation, UnplanedType.Service, service, unplanned));
 				}
@@ -133,7 +133,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			
 
 			}
-			foreach (var available in _accounServiceInformation.AssignedServices)
+			foreach (var available in _accounServiceInformation.Services)
 				_availableServices.Add(available.ServiceName);
 
 

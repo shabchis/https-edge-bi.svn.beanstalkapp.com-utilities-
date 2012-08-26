@@ -149,9 +149,10 @@ namespace Edge.Applications.PM.SchedulerControl
 								Scope = SchedulingScope.Unplanned,
 								MaxDeviationAfter = TimeSpan.FromHours(3)
 							});
+							if (!config.IsLocked)
+								((ILockable)config).Lock();
 
 							_schedulingHost.AddUnplannedService(config);
-
 
 						}
 						catch (Exception ex)
