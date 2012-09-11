@@ -16,7 +16,10 @@ using Edge.Data.Pipeline;
 using Edge.Data.Pipeline.Services;
 using Edge.Core.Services;
 using Edge.Core;
-
+using Edge.Core.Services.Scheduling;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Edge.Applications.PM.SchedulerControl
 {
@@ -25,15 +28,44 @@ namespace Edge.Applications.PM.SchedulerControl
 	/// </summary>
 	public partial class frmUnPlanned : Window
 	{
-		ISchedulingHost _schedulingHost;
+		ISchedulerDataService _schedulingHost;
 		public static UnPlannedBindingData BindingData;
 		ServiceEnvironment _environment;
 		public frmUnPlanned(ISchedulingHost schedulingHost)
 		{
-			InitializeComponent();
-			_schedulingHost = schedulingHost;
-			frmUnPlanned.BindingData = new UnPlannedBindingData(_schedulingHost.GetSchedulingProfiles());
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://localhost:8000/bla//Profiles");
+			request.Method = "GET";
+			request.Accept = "application/json";
+			request.ContentType = "application/json";
+			ServiceProfile[] profiles=null;
+			try
+			{
+				WebResponse response = request.GetResponse();
+				
+				using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+				{
+					JsonTextReader jreader=new JsonTextReader(reader);
+					JsonSerializer s = new JsonSerializer();
+					profiles = s.Deserialize<ServiceProfile[]>(jreader);
+
+				}
+			}
+			catch (WebException exception)
+			{
+				
+				using (StreamReader reader=new StreamReader(exception.Response.GetResponseStream()))
+				{
+					MessageBox.Show(reader.ReadToEnd());
+					
+				}
+			}
+
+
+
+			frmUnPlanned.BindingData = new UnPlannedBindingData(profiles);
+			//frmUnPlanned.BindingData = new UnPlannedBindingData(_schedulingHost.GetSchedulingProfiles());
 			this.DataContext = frmUnPlanned.BindingData;
+			
 		}
 
 
