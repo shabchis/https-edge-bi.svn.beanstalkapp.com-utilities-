@@ -100,6 +100,8 @@ namespace Edge.Applications.PM.SchedulerControl
 		}
 		private void Connect(string endPointConfigurationName)
 		{
+					
+
 			_callBack = new Callback();
 			_channel = new DuplexChannelFactory<ISchedulingHost>(_callBack, endPointConfigurationName);
 			_schedulingCommunicationChannel = _channel.CreateChannel();
