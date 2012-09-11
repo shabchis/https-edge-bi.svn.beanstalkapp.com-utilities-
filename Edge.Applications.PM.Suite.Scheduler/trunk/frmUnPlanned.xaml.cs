@@ -15,6 +15,7 @@ using Edge.Core.Scheduling;
 using Edge.Data.Pipeline;
 using Edge.Data.Pipeline.Services;
 using Edge.Core.Services;
+using Edge.Core;
 
 
 namespace Edge.Applications.PM.SchedulerControl
@@ -26,6 +27,7 @@ namespace Edge.Applications.PM.SchedulerControl
 	{
 		ISchedulingHost _schedulingHost;
 		public static UnPlannedBindingData BindingData;
+		ServiceEnvironment _environment;
 		public frmUnPlanned(ISchedulingHost schedulingHost)
 		{
 			InitializeComponent();
@@ -151,8 +153,10 @@ namespace Edge.Applications.PM.SchedulerControl
 							});
 							if (!config.IsLocked)
 								((ILockable)config).Lock();
+							_environment.ScheduleServiceByName(config.ServiceName, accountID, config);
 
-							_schedulingHost.AddUnplannedService(config);
+							//TODO: PROBLEM TO GET INSTANCE 	_environment.GetServiceInstance(
+						
 
 						}
 						catch (Exception ex)

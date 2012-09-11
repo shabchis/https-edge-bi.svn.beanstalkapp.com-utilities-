@@ -147,7 +147,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 					case Edge.Core.Services.ServiceOutcome.Aborted:
 						color = Colors.Purple.ToString();
 						break;
-					case Edge.Core.Services.ServiceOutcome.Reset:
+					case Edge.Core.Services.ServiceOutcome.Killed:
 						break;
 					default:
 						break;
