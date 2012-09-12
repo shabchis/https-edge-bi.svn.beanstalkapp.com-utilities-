@@ -40,6 +40,7 @@ namespace Edge.Applications.PM.SchedulerControl
 			request.Timeout = 999999;
 			request.MaximumResponseHeadersLength = 9999999;
 			
+			
 			ServiceProfile[] profiles=null;
 			try
 			{
@@ -188,7 +189,9 @@ namespace Edge.Applications.PM.SchedulerControl
 							});
 							if (!config.IsLocked)
 								((ILockable)config).Lock();
-							_environment.ScheduleServiceByName(config.ServiceName, accountID, config);
+							ServiceInstance instance= _environment.NewServiceInstance(config);
+							
+
 
 							//TODO: PROBLEM TO GET INSTANCE 	_environment.GetServiceInstance(
 						
