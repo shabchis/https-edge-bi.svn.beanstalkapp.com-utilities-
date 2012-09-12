@@ -33,10 +33,13 @@ namespace Edge.Applications.PM.SchedulerControl
 		ServiceEnvironment _environment;
 		public frmUnPlanned(ISchedulingHost schedulingHost)
 		{
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://localhost:8000/bla//Profiles");
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"http://localhost:9000/Profiles");
 			request.Method = "GET";
 			request.Accept = "application/json";
 			request.ContentType = "application/json";
+			request.Timeout = 999999;
+			request.MaximumResponseHeadersLength = 9999999;
+			
 			ServiceProfile[] profiles=null;
 			try
 			{
