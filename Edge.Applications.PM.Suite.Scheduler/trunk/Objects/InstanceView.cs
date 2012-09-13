@@ -37,7 +37,8 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			set
 			{
 				_requestInfo = value;
-				ParentID = _requestInfo.ParentInstance.InstanceID;
+				if (_requestInfo.ParentInstance != null)
+					ParentID = _requestInfo.ParentInstance.InstanceID;
 				RaiseAllPropertyChange();
 			}
 		}
@@ -160,11 +161,11 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			get
 			{
 				switch (Outcome)
-				{					
+				{
 					case Core.Services.ServiceOutcome.Failure:
-						return "/Icons/failed.ico";					
+						return "/Icons/failed.ico";
 					case Core.Services.ServiceOutcome.Success:
-						return "/Icons/success.ico";					
+						return "/Icons/success.ico";
 					default:
 						return string.Empty;
 				}
@@ -192,7 +193,7 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 		void _childsSteps_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
 			RaisePropertyChanged("ChildsSteps");
-		}		
+		}
 		#region INotifyPropertyChanged Members
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void RaisePropertyChanged(string propertyName)

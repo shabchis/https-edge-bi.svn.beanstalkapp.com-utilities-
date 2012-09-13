@@ -100,13 +100,13 @@ namespace Edge.Applications.PM.SchedulerControl
 		}
 		private void Connect(string endPointConfigurationName)
 		{
-					
 
-			//_callBack = new Callback();
-			//_channel = new DuplexChannelFactory<ISchedulingHost>(_callBack, endPointConfigurationName);
-			//_schedulingCommunicationChannel = _channel.CreateChannel();
-			//_schedulingCommunicationChannel.Subscribe();			
-			//_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
+
+			_callBack = new Callback();
+			_channel = new DuplexChannelFactory<ISchedulingHost>(_callBack, endPointConfigurationName);
+			_schedulingCommunicationChannel = _channel.CreateChannel();
+			_schedulingCommunicationChannel.Subscribe();
+			_callBack.NewInstanceEvent += new EventHandler(_callBack_NewInstanceEvent);
 			BindingData.Connected = true;
 		}
 		
