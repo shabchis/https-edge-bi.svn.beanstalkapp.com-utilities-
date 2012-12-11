@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:ui="http://schemas.aspitalia.com/Ricciolo/Controls"
-		xmlns:this="clr-namespace:Edge.Applications.PM.SchedulerControl.Objects"
         Title="Scheduler Viewer" Height="415" Width="1089">
 
 	<Grid>
@@ -16,10 +15,10 @@
 
 		<ui:TreeListView Name="_Tree"  ItemsSource="{Binding Instances}" Grid.Row="1" Grid.Column="0" >
 			<TreeView.Resources>
-				<HierarchicalDataTemplate DataType="{x:Type this:RequestView}" ItemsSource="{Binding ChildsSteps}"/>
+				<!--<HierarchicalDataTemplate DataType="{x:Type this:RequestView}" ItemsSource="{Binding ChildsSteps}"/>
 				<Style TargetType="{x:Type ui:TreeListViewItem}">
 					<Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
-				</Style>
+				</Style>-->
 
 			</TreeView.Resources>
 			<ui:TreeListView.Columns>				
@@ -110,11 +109,13 @@
 				</GridViewColumn>
 			</ui:TreeListView.Columns>
 		</ui:TreeListView>
+        
 		<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
 			<Label Content="Choose scheduler to Connect" IsEnabled="False"></Label>
 			<ComboBox Name="_combo"   Width="100" Height="20" Margin="1,1,5,1" ItemsSource="{Binding Schedulers}" DisplayMemberPath="Name" SelectedIndex="0" />
 			<Button Width="90" Height="20" Content="{Binding ConnectButtonText}" Margin="1" Click="_btnConnect"/>
 		</StackPanel>
+
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 			<Button Name="_btnUnPlanned" Content="Add UnPlanned" Click="_btnUnPlanned_Click"  Height="23" Width="90"  IsEnabled="{Binding Connected}"/>
 			<Button Content="Reset unended" Height="23" Width="90" Name="_btnReset" Click="_btnReset_Click" IsEnabled="{Binding Connected}"  />

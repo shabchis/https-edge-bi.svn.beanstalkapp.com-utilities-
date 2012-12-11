@@ -46,8 +46,8 @@ namespace Edge.Applications.PM.SchedulerControl
 		public MainWindow()
 		{
 			InitializeComponent();
-			this.DataContext = MainWindow.BindingData;
-			MainWindow.BindingData.LoadSchedulers();
+			//this.DataContext = MainWindow.BindingData;
+			//MainWindow.BindingData.LoadSchedulers();
 		}
 		#endregion
 		#region events
