@@ -51,6 +51,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>scheduler.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonControlsLibrary">
       <HintPath>..\..\..\thirdparty\WPF\AvalonControlsLibrary\AvalonControlsLibrary.dll</HintPath>
@@ -60,6 +63,10 @@
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\..\thirdparty\log4net\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\thirdparty\WPF\Prims\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -93,14 +100,21 @@
     <Compile Include="frmUnPlanned.xaml.cs">
       <DependentUpon>frmUnPlanned.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Infra\BaseNotifyPropertyChanged.cs" />
     <Compile Include="Log.xaml.cs">
       <DependentUpon>Log.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ServiceInstanceModel.cs" />
     <Compile Include="Objects\HistoryBindingData.cs" />
     <Compile Include="Objects\LogBindingData.cs" />
     <Compile Include="Objects\ObservableCollection.cs" />
     <Compile Include="Objects\SchedulerView.cs" />
     <Compile Include="Objects\ServiceHistoryView.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zevel\TestService.cs" />
     <Page Include="frmUnPlanned.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,6 +144,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Objects\SchedulingInfo.cs" />
@@ -151,9 +169,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -201,6 +217,7 @@
     <Content Include="Icons\unspecified.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="scheduler.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\edge-framework\Edge.Core.Scheduling\branches\3.0.0\Edge.Core.Services.Scheduling.csproj">
@@ -212,6 +229,7 @@
       <Name>Edge.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Edge.Applications.PM.SchedulerControl.Objects;
 using Edge.Core.Scheduling;
-using Edge.Data.Pipeline;
-using Edge.Data.Pipeline.Services;
 using Edge.Core.Services;
 using Edge.Core;
-using Edge.Core.Services.Scheduling;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
@@ -28,7 +18,7 @@ namespace Edge.Applications.PM.SchedulerControl
 	/// </summary>
 	public partial class frmUnPlanned : Window
 	{
-		ISchedulerDataService _schedulingHost;
+		//ISchedulerDataService _schedulingHost;
 		public static UnPlannedBindingData BindingData;
 		ServiceEnvironment _environment;
 		public frmUnPlanned(ISchedulingHost schedulingHost)
@@ -156,23 +146,23 @@ namespace Edge.Applications.PM.SchedulerControl
 
 							if (unPlanedView._useTargetPeriod)
 							{
-								if (_from.SelectedDate.Value > _to.SelectedDate.Value)
-									throw new Exception("From Date can not be greater then to date");
-								DateTimeRange daterange = new DateTimeRange()
-								{
-									Start = new DateTimeSpecification()
-									{
-										BaseDateTime = _from.SelectedDate.Value,
-										Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
-									},
-									End = new DateTimeSpecification()
-									{
-										BaseDateTime = _to.SelectedDate.Value,
-										Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+                                //if (_from.SelectedDate.Value > _to.SelectedDate.Value)
+                                //    throw new Exception("From Date can not be greater then to date");
+                                //DateTimeRange daterange = new DateTimeRange()
+                                //{
+                                //    Start = new DateTimeSpecification()
+                                //    {
+                                //        BaseDateTime = _from.SelectedDate.Value,
+                                //        Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
+                                //    },
+                                //    End = new DateTimeSpecification()
+                                //    {
+                                //        BaseDateTime = _to.SelectedDate.Value,
+                                //        Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
 
-									}
-								};
-								options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, daterange.ToAbsolute().ToString());
+                                //    }
+                                //};
+                                //options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, daterange.ToAbsolute().ToString());
 							}
 
 							ServiceConfiguration config = unPlanedView.ServiceConfiguration.Derive();

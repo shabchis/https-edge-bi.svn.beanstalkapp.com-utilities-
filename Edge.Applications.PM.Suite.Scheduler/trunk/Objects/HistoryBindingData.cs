@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using Edge.Core.Configuration;
-using System.Data;
 using System.Collections.ObjectModel;
 using Edge.Core.Services;
 using System.Windows.Data;
-using System.Collections;
-using Edge.Data.Pipeline;
 using Newtonsoft.Json;
 
 namespace Edge.Applications.PM.SchedulerControl.Objects
@@ -177,8 +173,8 @@ namespace Edge.Applications.PM.SchedulerControl.Objects
 			string returenValue = string.Empty;
 			if (!string.IsNullOrEmpty(dateTimeRange))
 			{
-				DateTimeRange d = (DateTimeRange)JsonConvert.DeserializeObject(dateTimeRange, typeof(DateTimeRange));
-				returenValue = string.Format("From:{0:dd-MM-yyyy HH:mm:ss}To:{1:dd-MM-yyyy HH:mm:ss}", d.Start.ToDateTime(), d.End.ToDateTime());
+                //DateTimeRange d = (DateTimeRange)JsonConvert.DeserializeObject(dateTimeRange, typeof(DateTimeRange));
+                //returenValue = string.Format("From:{0:dd-MM-yyyy HH:mm:ss}To:{1:dd-MM-yyyy HH:mm:ss}", d.Start.ToDateTime(), d.End.ToDateTime());
 			}
 			return returenValue;
 			
