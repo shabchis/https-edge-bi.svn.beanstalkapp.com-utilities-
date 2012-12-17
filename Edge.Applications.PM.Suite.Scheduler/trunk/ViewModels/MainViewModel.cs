@@ -72,18 +72,18 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 				{
 					if (_serviceInstanceMap.ContainsKey(instance.InstanceID.ToString()))
 					{
-						// if service instance already exists, replace the instance
-						_serviceInstanceMap[instance.InstanceID.ToString()].Instance = instance;
+						// if service instance already exists, replace it's scheduling info and notify about the change
+						_serviceInstanceMap[instance.InstanceID.ToString()].Instance.SchedulingInfo = instance.SchedulingInfo;
+						_serviceInstanceMap[instance.InstanceID.ToString()].NotifyAllPropertyChanged();
 					}
 					else
 					{
 						// insert into the flat Map
 						var instanceModel = new ServiceInstanceModel {Instance = instance};
 						_serviceInstanceMap.Add(instanceModel.InstanceID, instanceModel);
-					
+						instance.Connect();
+						instance.StateChanged += ServiceInstance_StateChanged;
 					}
-					instance.Connect();
-					instance.StateChanged += ServiceInstance_StateChanged;
 				}
 
 				// update the hierarchy
@@ -246,10 +246,9 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 			{
 				if (_serviceInstanceMap.ContainsKey(instance.InstanceID.ToString()))
 				{
-					// update the whole instance
-					_serviceInstanceMap[instance.InstanceID.ToString()].Instance = instance;
+					// notify about the change, instance already contains the changes
+					_serviceInstanceMap[instance.InstanceID.ToString()].NotifyAllPropertyChanged();
 				}
-				// add if not exists???
 			}
 		}
 

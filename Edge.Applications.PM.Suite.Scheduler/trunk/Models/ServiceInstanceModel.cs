@@ -35,10 +35,7 @@ namespace Edge.Applications.PM.SchedulerControl.Models
             set
             {
                 _serviceInstance = value;
-                foreach (var property in this.GetType().GetProperties())
-                {
-                    NotifyPropertyChanged(property.Name);
-                }
+                NotifyAllPropertyChanged();
             }
         }
 
@@ -79,23 +76,23 @@ namespace Edge.Applications.PM.SchedulerControl.Models
 
 	    public string ScheduledDate
 	    {
-			get { return _serviceInstance.SchedulingInfo.ExpectedStartTime.ToShortDateString(); }
+			get { return _serviceInstance.SchedulingInfo.ExpectedStartTime.ToString("dd/MM/yyyy"); }
 	    }
 
         public string ScheduledTime
         {
             // TODO: may be two seperate columns for expected start and end ?
-            get { return string.Format("{0}-{1}", _serviceInstance.SchedulingInfo.ExpectedStartTime.ToShortTimeString(), _serviceInstance.SchedulingInfo.ExpectedEndTime.ToShortTimeString()); }
+			get { return string.Format("{0}-{1}", _serviceInstance.SchedulingInfo.ExpectedStartTime.ToString("HH:mm:ss"), _serviceInstance.SchedulingInfo.ExpectedEndTime.ToString("HH:mm:ss")); }
         }
 
         public string ActualStartTime
         {
-            get { return _serviceInstance.TimeStarted.ToShortTimeString(); }
+			get { return _serviceInstance.TimeStarted.ToString("HH:mm:ss"); }
         }
 
         public string ActualEndTime
         {
-            get { return _serviceInstance.TimeEnded.ToShortTimeString(); }
+			get { return _serviceInstance.TimeEnded.ToString("HH:mm:ss"); }
         }
 
         public double Progress
@@ -119,5 +116,15 @@ namespace Edge.Applications.PM.SchedulerControl.Models
 		}
 
         #endregion
+
+		#region Public Methods
+		public void NotifyAllPropertyChanged()
+		{
+			foreach (var property in this.GetType().GetProperties())
+			{
+				NotifyPropertyChanged(property.Name);
+			}
+		} 
+		#endregion
     }
 }
