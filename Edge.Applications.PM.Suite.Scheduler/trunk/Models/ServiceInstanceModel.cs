@@ -106,7 +106,17 @@ namespace Edge.Applications.PM.SchedulerControl.Models
         public ServiceState State
         {
             get { return _serviceInstance.State; }
-        } 
+        }
+
+		public SchedulingStatus SchedulingStatus
+		{
+			get { return _serviceInstance.SchedulingInfo.SchedulingStatus; }
+		}
+
+		public ServiceOutcome Outcome
+		{
+			get { return _serviceInstance.Outcome; }
+		}
 
         #endregion
     }

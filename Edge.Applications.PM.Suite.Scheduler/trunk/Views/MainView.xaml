@@ -3,7 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:ui="clr-namespace:Ricciolo.Controls;assembly=Ricciolo.Controls.TreeListView"
 		xmlns:this="clr-namespace:Edge.Applications.PM.SchedulerControl.Models"
-		Title="Scheduled Service Monitoring Tool" Height="400" Width="600" WindowState="Maximized" Closing="MainView_OnClosing">
+		Title="Scheduler Monitoring Tool" Height="400" Width="600" WindowState="Maximized" Closing="MainView_OnClosing">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30" />
@@ -87,6 +87,15 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
+                <GridViewColumn Header="Scheduling Status" Width="100">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel VerticalAlignment="Top">
+                                <TextBlock Text="{Binding SchedulingStatus}" VerticalAlignment="Top"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
 				<GridViewColumn Header="Start Time" Width="100">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
@@ -118,7 +127,16 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Options" Width="100">
+                <GridViewColumn Header="Outcome" Width="100">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel VerticalAlignment="Top">
+                                <TextBlock Text="{Binding Outcome}" VerticalAlignment="Top"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <!--<GridViewColumn Header="Options" Width="100">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Options}"/>
@@ -129,15 +147,13 @@
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<Button Name="_btnLog" VerticalAlignment="Top" Width="16" Height="16"  HorizontalAlignment="Left"  Background="Transparent" BorderThickness="0,0,0,0"  Padding="0,0,0,0" Margin="0,0,0,0" BorderBrush="Transparent" IsEnabled="{Binding LogEnabled}"  >
-									<!-- TODO add command instead
-									Click="_btnLog_Click"--> 
 								<StackPanel Orientation="Horizontal">
 									<Image Source="/Icons/Log.ico" Width="12" Height="12" Margin="0,0,0,0"  VerticalAlignment="Top" />
 								</StackPanel>
 							</Button>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
+				</GridViewColumn>-->
 			</ui:TreeListView.Columns>
 		</ui:TreeListView>
 
