@@ -9,11 +9,11 @@ using Edge.Applications.PM.SchedulerControl.Zevel;
 using Edge.Core.Services;
 using System.Diagnostics;
 using System.Windows.Input;
-using Microsoft.Practices.Prism.Commands;
+using Edge.Core.Utilities;
 
 namespace Edge.Applications.PM.SchedulerControl.ViewModels
 {
-	public class MainViewModel : BaseNotifyPropertyChanged, IDisposable
+	public sealed class MainViewModel : BaseNotifyPropertyChanged, IDisposable
 	{
 		#region Data Members
 		private ServiceEnvironment _environment;
@@ -47,7 +47,12 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 		#region Ctor
 		public MainViewModel()
 		{
+			log4net.Config.XmlConfigurator.Configure();
+			Log.Start();
+
 			CreateEnvironment();
+
+			Log.Write(ToString(), "Scheduler Monitoring Tool started", LogMessageType.Debug);
 
 			// TODO - to remove
 			//UpdateCommand = new DelegateCommand(UpdateService, CanUpdateService);
@@ -60,47 +65,54 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 		#region Private Functions
 		private void UpdateServiceList(List<ServiceInstance> updatedList)
 		{
-			// first of all update the flat Map with the new instances
-			foreach (var instance in updatedList)
+			try
 			{
-				if (_serviceInstanceMap.ContainsKey(instance.InstanceID.ToString()))
+				// first of all update the flat Map with the new instances
+				foreach (var instance in updatedList)
 				{
-					// if service instance already exists, replace the instance
-					_serviceInstanceMap[instance.InstanceID.ToString()].Instance = instance;
-				}
-				else
-				{
-					// insert into the flat Map
-					var instanceModel = new ServiceInstanceModel {Instance = instance};
-					_serviceInstanceMap.Add(instanceModel.InstanceID, instanceModel);
-					
-				}
-				instance.Connect();
-				instance.StateChanged += ServiceInstance_StateChanged;
-			}
-
-			// update the hierarchy
-			foreach (var instance in updatedList)
-			{
-				var instanceModel = _serviceInstanceMap[instance.InstanceID.ToString()];
-				if (instance.ParentInstance == null)
-				{
-					if (!_serviceInstanceList.Contains(instanceModel))
+					if (_serviceInstanceMap.ContainsKey(instance.InstanceID.ToString()))
 					{
-						_serviceInstanceList.Add(instanceModel);
+						// if service instance already exists, replace the instance
+						_serviceInstanceMap[instance.InstanceID.ToString()].Instance = instance;
 					}
-				}
-				else
-				{
-					var parentInstance = _serviceInstanceMap[instance.ParentInstance.InstanceID.ToString()];
-					if (parentInstance != null)
+					else
 					{
-						if (!parentInstance.ChildsSteps.Contains(instanceModel))
+						// insert into the flat Map
+						var instanceModel = new ServiceInstanceModel {Instance = instance};
+						_serviceInstanceMap.Add(instanceModel.InstanceID, instanceModel);
+					
+					}
+					instance.Connect();
+					instance.StateChanged += ServiceInstance_StateChanged;
+				}
+
+				// update the hierarchy
+				foreach (var instance in updatedList)
+				{
+					var instanceModel = _serviceInstanceMap[instance.InstanceID.ToString()];
+					if (instance.ParentInstance == null)
+					{
+						if (!_serviceInstanceList.Contains(instanceModel))
 						{
-							parentInstance.ChildsSteps.Add(instanceModel);
+							_serviceInstanceList.Add(instanceModel);
+						}
+					}
+					else
+					{
+						var parentInstance = _serviceInstanceMap[instance.ParentInstance.InstanceID.ToString()];
+						if (parentInstance != null)
+						{
+							if (!parentInstance.ChildsSteps.Contains(instanceModel))
+							{
+								parentInstance.ChildsSteps.Add(instanceModel);
+							}
 						}
 					}
 				}
+			}
+			catch (Exception ex)
+			{
+				Log.Write(ToString(), String.Format("Failed to update service instances, ex: {0}", ex.Message), LogMessageType.Error);
 			}
 		}
 
@@ -243,6 +255,7 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 		void Listener_ScheduleUpdated(object sender, ScheduleUpdatedEventArgs e)
 		{
+			Log.Write(this.ToString(), "Received scheduler updates", LogMessageType.Debug);
 			UpdateServiceList(e.ServiceInstanceList);
 		} 
 		#endregion
