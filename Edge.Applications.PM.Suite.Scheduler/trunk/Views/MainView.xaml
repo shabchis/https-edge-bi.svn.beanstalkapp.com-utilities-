@@ -3,16 +3,22 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:ui="clr-namespace:Ricciolo.Controls;assembly=Ricciolo.Controls.TreeListView"
 		xmlns:this="clr-namespace:Edge.Applications.PM.SchedulerControl.Models"
-		Title="Scheduler Monitoring Tool" Height="400" Width="600" WindowState="Maximized" Closing="MainView_OnClosing">
+        xmlns:converters="clr-namespace:Edge.Applications.PM.SchedulerControl.Converters"
+        Title="Scheduler Monitoring Tool" Height="400" Width="600" WindowState="Maximized" Closing="MainView_OnClosing">
+    
+    <Window.Resources>
+        <converters:Outcome2ImageConverter  x:Key="Outcome2ImageConverter"/>
+    </Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-			<Button x:Name ="btnUpdate" Content="Update" Width="50" Margin="5" Command="{Binding UpdateCommand}"></Button>
-		</StackPanel>-->
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name ="btnCollapse" Content="Collapse All" Width="70" Margin="5" Command="{Binding CollapseCommand}"></Button>
+            <Button x:Name ="btnExpand" Content="Expand All" Width="70" Margin="5" Command="{Binding ExpandCommand}"></Button>
+		</StackPanel>
 		<ui:TreeListView Name="_tree"  ItemsSource="{Binding ServiceInstanceList}" Grid.Row="1" Grid.Column="0">
 			<TreeView.Resources>
 				<HierarchicalDataTemplate DataType="{x:Type this:ServiceInstanceModel}" ItemsSource="{Binding ChildsSteps}"/>
@@ -80,14 +86,14 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Scheduled Time" Width="100">
+				<GridViewColumn Header="Scheduled Time" Width="120">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ScheduledTime}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Scheduling Status" Width="100">
+                <GridViewColumn Header="Scheduling Status" Width="130">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel VerticalAlignment="Top">
@@ -122,7 +128,6 @@
 						<DataTemplate>
 							<StackPanel VerticalAlignment="Top">
 								<TextBlock Text="{Binding State}" VerticalAlignment="Top"/>
-								<Image Source="{Binding StatusImage}" Width="12" Height="12"  VerticalAlignment="Top"/>
 							</StackPanel>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
@@ -130,7 +135,9 @@
                 <GridViewColumn Header="Outcome" Width="100">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel VerticalAlignment="Top">
+                            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                <Image Source="{Binding Outcome, Converter={StaticResource Outcome2ImageConverter}}" 
+                                       Margin="3,3,10,3" Height="12" Width="12"></Image>
                                 <TextBlock Text="{Binding Outcome}" VerticalAlignment="Top"/>
                             </StackPanel>
                         </DataTemplate>
