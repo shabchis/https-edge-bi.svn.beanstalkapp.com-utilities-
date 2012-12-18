@@ -10,6 +10,7 @@ using Edge.Core.Services;
 using System.Diagnostics;
 using System.Windows.Input;
 using Edge.Core.Utilities;
+using Microsoft.Practices.Prism.Commands;
 
 namespace Edge.Applications.PM.SchedulerControl.ViewModels
 {
@@ -39,8 +40,8 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 			}
 		}
 
-		public ICommand UpdateCommand { get; set; }
-		public ICommand ReceiveUpdatesCommand { get; set; }
+		public ICommand CollapseCommand { get; set; }
+		public ICommand ExpandCommand { get; set; }
 
 		#endregion
 
@@ -54,8 +55,8 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 			Log.Write(ToString(), "Scheduler Monitoring Tool started", LogMessageType.Debug);
 
-			// TODO - to remove
-			//UpdateCommand = new DelegateCommand(UpdateService, CanUpdateService);
+			CollapseCommand = new DelegateCommand(() => Expand(false), () => true);
+			ExpandCommand = new DelegateCommand(() => Expand(true), () => true);
 			
 			//GenerateSampleData();
 		}
@@ -151,6 +152,15 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 			else
 			{
 				Debug.WriteLine("Service instance {0} already exists and cannot be added", model.InstanceID);
+			}
+		}
+
+		private void Expand(bool toExpand)
+		{
+			// meanwhile no support for recursive expansion
+			foreach (var serviceInstance in ServiceInstanceList)
+			{
+				serviceInstance.IsExpanded = toExpand;
 			}
 		}
 		#endregion
