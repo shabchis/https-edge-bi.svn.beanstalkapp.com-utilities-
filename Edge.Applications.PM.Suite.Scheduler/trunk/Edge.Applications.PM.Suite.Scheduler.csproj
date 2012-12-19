@@ -97,6 +97,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\Outcome2ImageConverter.cs" />
     <Compile Include="Infra\BaseNotifyPropertyChanged.cs" />
     <Compile Include="Models\ServiceInstanceModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -161,22 +162,22 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icons\failed.ico">
+    <Content Include="Icons\Failure.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icons\aborted.ico">
+    <Content Include="Icons\Aborted.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icons\Log.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icons\reset.ico">
+    <Content Include="Icons\Reset.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icons\success.ico">
+    <Content Include="Icons\Success.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icons\unspecified.ico">
+    <Content Include="Icons\Unspecified.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Icons\scheduler.ico" />
