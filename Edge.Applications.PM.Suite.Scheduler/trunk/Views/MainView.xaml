@@ -16,10 +16,13 @@
 		</Grid.RowDefinitions>
 
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name ="btnCollapse" Content="Collapse All" Width="70" Margin="5" Command="{Binding CollapseCommand}"></Button>
-            <Button x:Name ="btnExpand" Content="Expand All" Width="70" Margin="5" Command="{Binding ExpandCommand}"></Button>
+            <TextBlock Text="Order by:" Margin="5, 7, 5, 5"/>
+            <ComboBox Margin="5" ItemsSource="{Binding SortableColumnsList}" SelectedValue="{Binding SortedColumn, Mode=TwoWay}" Width="120"/>
+            <Button Content="Collapse All" Width="70" Margin="5" Command="{Binding CollapseCommand}"></Button>
+            <Button Content="Expand All" Width="70" Margin="5" Command="{Binding ExpandCommand}"></Button>
 		</StackPanel>
-		<ui:TreeListView Name="_tree"  ItemsSource="{Binding ServiceInstanceList}" Grid.Row="1" Grid.Column="0">
+
+        <ui:TreeListView Name="_tree" ItemsSource="{Binding ServiceInstanceListView}" Grid.Row="1" Grid.Column="0">
 			<TreeView.Resources>
 				<HierarchicalDataTemplate DataType="{x:Type this:ServiceInstanceModel}" ItemsSource="{Binding ChildsSteps}"/>
 				<Style TargetType="{x:Type ui:TreeListViewItem}">
@@ -28,20 +31,22 @@
 
 			</TreeView.Resources>
 			<ui:TreeListView.Columns>
-				<GridViewColumn Header="Service Name" Width="180"  >
+                <GridViewColumn Header="Service Name" Width="200"  >
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ServiceName}">
-								<TextBlock.ContextMenu >
-									<ContextMenu   ItemsSource="{Binding ID}" >
-										<!-- TODO add command instead
-										<MenuItem Header="IsAlive"  Click="MenuIsAlive_Click"/>
-										<MenuItem Header="Abort"  Click="Abort_Click"/>-->
-									</ContextMenu>
-								</TextBlock.ContextMenu>
-							</TextBlock>
-
-						</DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsSelected}" Margin="0 0 5 0"/>
+							    <TextBlock Text="{Binding ServiceName}">
+								    <TextBlock.ContextMenu >
+									    <ContextMenu   ItemsSource="{Binding ID}" >
+										    <!-- TODO add command instead
+										    <MenuItem Header="IsAlive"  Click="MenuIsAlive_Click"/>
+										    <MenuItem Header="Abort"  Click="Abort_Click"/>-->
+									    </ContextMenu>
+								    </TextBlock.ContextMenu>
+							    </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
 				<GridViewColumn Header="Account Name" Width="180" >
@@ -61,7 +66,7 @@
 				<GridViewColumn Header="Requested Time" Width="150">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding RequestedTime}"/>
+                            <TextBlock Text="{Binding RequestedTimeStr}"/>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
