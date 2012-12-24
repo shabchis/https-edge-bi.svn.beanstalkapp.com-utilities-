@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using Edge.Applications.PM.SchedulerControl.ViewModels;
 
 namespace Edge.Applications.PM.SchedulerControl.Views

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Edge.Applications.PM.SchedulerControl.Infra;
 using Edge.Core.Services;
 
@@ -14,6 +15,20 @@ namespace Edge.Applications.PM.SchedulerControl.Models
         #endregion
 
         #region Properties
+
+		private bool _isSelected;
+		public bool IsSelected
+		{
+			get { return _isSelected; }
+			set
+			{
+				if (_isSelected != value)
+				{
+					_isSelected = value;
+					NotifyPropertyChanged("IsSelected");
+				}
+			}
+		}
 
 	    private bool _isExpanded = true;
 	    public bool IsExpanded
@@ -64,10 +79,15 @@ namespace Edge.Applications.PM.SchedulerControl.Models
             get { return _serviceInstance.InstanceID.ToString(); }
         }
 
-	    public string RequestedTime
+	    public string RequestedTimeStr
 	    {
 			get { return _serviceInstance.SchedulingInfo.RequestedTime.ToString("dd/MM/yyyy HH:mm:ss"); }
 	    }
+
+		public DateTime RequestedTime
+		{
+			get { return _serviceInstance.SchedulingInfo.RequestedTime; }
+		}
 
 	    public string MaxDeviation
 	    {
@@ -100,9 +120,9 @@ namespace Edge.Applications.PM.SchedulerControl.Models
             get { return _serviceInstance.Progress * 100; }
         }
 
-        public ServiceState State
+        public string State
         {
-            get { return _serviceInstance.State; }
+            get { return _serviceInstance.State.ToString(); }
         }
 
 		public SchedulingStatus SchedulingStatus
@@ -120,7 +140,7 @@ namespace Edge.Applications.PM.SchedulerControl.Models
 		#region Public Methods
 		public void NotifyAllPropertyChanged()
 		{
-			foreach (var property in this.GetType().GetProperties())
+			foreach (var property in GetType().GetProperties())
 			{
 				NotifyPropertyChanged(property.Name);
 			}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Data;
 using Edge.Applications.PM.SchedulerControl.Infra;
 using Edge.Applications.PM.SchedulerControl.Models;
 using Edge.Applications.PM.SchedulerControl.Zevel;
@@ -11,6 +12,7 @@ using System.Diagnostics;
 using System.Windows.Input;
 using Edge.Core.Utilities;
 using Microsoft.Practices.Prism.Commands;
+using System.ComponentModel;
 
 namespace Edge.Applications.PM.SchedulerControl.ViewModels
 {
@@ -26,16 +28,25 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 		#region Properties
 
-		private ObservableCollection<ServiceInstanceModel> _serviceInstanceList = new ObservableCollection<ServiceInstanceModel>();
-		public ObservableCollection<ServiceInstanceModel> ServiceInstanceList
+		private readonly ObservableCollection<ServiceInstanceModel> _serviceInstanceList = new ObservableCollection<ServiceInstanceModel>();
+
+		private readonly ICollectionView _view;
+		public ICollectionView ServiceInstanceListView
 		{
-			get { return _serviceInstanceList; }
+			get { return _view; }
+		}
+
+		public IList<string> SortableColumnsList { get; private set; }
+		private string _sortedColumn;
+		public string SortedColumn
+		{
+			get { return _sortedColumn; }
 			set
 			{
-				if (_serviceInstanceList != value)
+				if (_sortedColumn != value)
 				{
-					_serviceInstanceList = value;
-					NotifyPropertyChanged("ServiceInstanceList");
+					_sortedColumn = value;
+					AddSorting();
 				}
 			}
 		}
@@ -57,10 +68,14 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 			CollapseCommand = new DelegateCommand(() => Expand(false), () => true);
 			ExpandCommand = new DelegateCommand(() => Expand(true), () => true);
-			
+
+			_view = CollectionViewSource.GetDefaultView(_serviceInstanceList);
+			SortedColumn = "RequestedTime";
+
+			InitSortableColumnsList();
 			//GenerateSampleData();
 		}
-		
+
 		#endregion
 
 		#region Private Functions
@@ -136,7 +151,7 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 				SP_InstanceActiveListGet = "Service_InstanceActiveList_GetByTime"
 			};
 
-			_environment = ServiceEnvironment.Open(envConfig);
+			_environment = ServiceEnvironment.Open("Scheduler UI" ,envConfig);
 			_listener = _environment.ListenForEvents(ServiceEnvironmentEventType.ScheduleUpdated);
 			_listener.ScheduleUpdated += Listener_ScheduleUpdated;
 			
@@ -158,9 +173,26 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 		private void Expand(bool toExpand)
 		{
 			// meanwhile no support for recursive expansion
-			foreach (var serviceInstance in ServiceInstanceList)
+			foreach (var serviceInstance in _serviceInstanceList)
 			{
 				serviceInstance.IsExpanded = toExpand;
+			}
+		}
+
+		private void InitSortableColumnsList()
+		{
+			SortableColumnsList = new List<string> { "ServiceName", "AccountName", "RequestedTime", "State" };
+		}
+		private void AddSorting()
+		{
+			if (_view != null)
+			{
+				_view.SortDescriptions.Clear();
+				_view.SortDescriptions.Add(new SortDescription(SortedColumn, ListSortDirection.Ascending));
+				if (SortedColumn != "RequestedTime")
+				{
+					_view.SortDescriptions.Add(new SortDescription("RequestedTime", ListSortDirection.Ascending));
+				}
 			}
 		}
 		#endregion
@@ -277,7 +309,7 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 				(_listener as IDisposable).Dispose();
 				_listener.ScheduleUpdated -= Listener_ScheduleUpdated;
 			}
-			foreach (var model in ServiceInstanceList)
+			foreach (var model in _serviceInstanceList)
 			{
 				model.Instance.Disconnect();
 				model.Instance.StateChanged -= ServiceInstance_StateChanged;
