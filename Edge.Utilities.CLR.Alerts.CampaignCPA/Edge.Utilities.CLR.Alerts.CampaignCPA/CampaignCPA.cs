@@ -29,7 +29,7 @@ public partial class StoredProcedures
 
 		public campaign(SqlDataReader mdxReader, string extraFields, string acqField, string cpaField)
 		{
-			Name = Convert.ToString(mdxReader.["[Getways Dim].[Gateways].[Campaign].[MEMBER_CAPTION]]");
+			Name = Convert.ToString(mdxReader["[Getways Dim].[Gateways].[Campaign].[MEMBER_CAPTION]"]);
 			SqlContext.Pipe.Send(string.Format("Name = {0}", Name));
 
 			Cost = mdxReader["[Measures].[Cost]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[Cost]"]);
