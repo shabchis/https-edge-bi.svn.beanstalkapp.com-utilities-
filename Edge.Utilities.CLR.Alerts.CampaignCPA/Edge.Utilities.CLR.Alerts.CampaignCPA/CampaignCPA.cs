@@ -187,6 +187,7 @@ public partial class StoredProcedures
 					commandBuilder.Append(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
 						, unit.Name, Math.Round(unit.Cost, 2), unit.Conv, Math.Round(unit.CPA, 2), acqFieldName));
 
+					//Adding ExtraFields
 					if (unit.ExtraFields.Count > 0)
 					{
 						foreach (var extraField in unit.ExtraFields)
