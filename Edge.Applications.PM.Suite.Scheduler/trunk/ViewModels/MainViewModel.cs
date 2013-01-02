@@ -23,13 +23,11 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 		private ServiceEnvironmentEventListener _listener;
 		//private ServiceExecutionHost _host;
 
-		private readonly Dictionary<string, ServiceInstanceModel> _serviceInstanceMap = new Dictionary<string, ServiceInstanceModel>(); 
+		private readonly Dictionary<string, ServiceInstanceModel> _serviceInstanceMap = new Dictionary<string, ServiceInstanceModel>();
+		private readonly ObservableCollection<ServiceInstanceModel> _serviceInstanceList = new ObservableCollection<ServiceInstanceModel>();
 		#endregion
 
 		#region Properties
-
-		private readonly ObservableCollection<ServiceInstanceModel> _serviceInstanceList = new ObservableCollection<ServiceInstanceModel>();
-
 		private readonly ICollectionView _view;
 		public ICollectionView ServiceInstanceListView
 		{
