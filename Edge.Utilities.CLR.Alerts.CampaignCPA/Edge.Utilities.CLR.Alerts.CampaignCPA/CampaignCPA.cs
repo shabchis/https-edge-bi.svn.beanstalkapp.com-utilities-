@@ -25,21 +25,29 @@ public partial class StoredProcedures
 		public double Conv;
 		public double CPA;
 		public bool zeroConv = false;
+		public Dictionary<string, object> ExtraFields = new Dictionary<string, object>();
 
-		public campaign(SqlDataReader mdxReader)
+		public campaign(SqlDataReader mdxReader, string extraFields, string acqField, string cpaField)
 		{
-			Name = Convert.ToString(mdxReader[1]);
+			Name = Convert.ToString(mdxReader.["[Getways Dim].[Gateways].[Campaign].[MEMBER_CAPTION]]");
 			SqlContext.Pipe.Send(string.Format("Name = {0}", Name));
 
-			Cost = mdxReader[2] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader[2]);
+			Cost = mdxReader["[Measures].[Cost]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[Cost]"]);
 			SqlContext.Pipe.Send(string.Format("Cost = {0}", Cost));
 
-			CPA = mdxReader[3] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader[3]);
+			CPA = mdxReader["[Measures].["+acqField+"]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].["+acqField+"]"]);
 			SqlContext.Pipe.Send(string.Format("CPA = {0}", CPA));
 
-			Conv = mdxReader[4] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader[4]);
+			Conv = mdxReader["[Measures].["+cpaField+"]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].["+cpaField+"]"]);
 			SqlContext.Pipe.Send(string.Format("Conv = {0}", Conv));
 
+			if(!string.IsNullOrEmpty(extraFields))
+			{
+				foreach (string extraField in extraFields.Split(','))
+				{
+					ExtraFields.Add(extraField, mdxReader[extraField]);
+				}
+			}
 
 		}
 		public double GetCalculatedCPA()
@@ -54,7 +62,7 @@ public partial class StoredProcedures
 	}
 
 	[Microsoft.SqlServer.Server.SqlProcedure]
-	public static void CLR_Alerts_ConversionAnalysis(Int32 AccountID, Int32 Period, DateTime ToDay, string ChannelID, Int32 threshold, string excludeIds, string cubeName, string acqFieldName, string cpaFieldName, out SqlString returnMsg)
+	public static void CLR_Alerts_ConversionAnalysis(Int32 AccountID, Int32 Period, DateTime ToDay, string ChannelID, Int32 threshold, string excludeIds, string cubeName, string acqFieldName, string cpaFieldName, out SqlString returnMsg, string extraFields)
 	{
 		returnMsg = string.Empty;
 
@@ -92,6 +100,15 @@ public partial class StoredProcedures
 			measureBuilder.Append("[Measures].[Cost], ");
 			measureBuilder.Append(string.Format("[Measures].[{0}],", cpaFieldName)); // cost/reg
 			measureBuilder.Append(string.Format("[Measures].[{0}] ", acqFieldName)); //ex. regs
+
+			//Adding ExtraFields
+			if (!String.IsNullOrEmpty(extraFields))
+			{
+				foreach (string extraField in extraFields.Split(','))
+				{
+					measureBuilder.Append(string.Format("[Measures].[{0}] ", extraField)); 
+				}
+			}
 
 			withMdxBuilder.Append(" Set [Selected Measures] AS ");
 			withMdxBuilder.Append("{" + measureBuilder.ToString() + "}");
@@ -134,7 +151,7 @@ public partial class StoredProcedures
 				{
 					while (reader.Read())
 					{
-						campaigns.Add(new campaign(reader));
+						campaigns.Add(new campaign(reader,extraFields,acqFieldName,cpaFieldName));
 					}
 				}
 			}
@@ -165,16 +182,27 @@ public partial class StoredProcedures
 
 				StringBuilder commandBuilder = new StringBuilder();
 
-				foreach (var item in alertedCampaigns)
+				foreach (var unit in alertedCampaigns)
 				{
-					commandBuilder.Append(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' Union "
-						, item.Name, Math.Round(item.Cost, 2), item.Conv, Math.Round(item.CPA, 2), acqFieldName));
+					commandBuilder.Append(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
+						, unit.Name, Math.Round(unit.Cost, 2), unit.Conv, Math.Round(unit.CPA, 2), acqFieldName));
+
+					if (unit.ExtraFields.Count > 0)
+					{
+						foreach (var extraField in unit.ExtraFields)
+						{
+							commandBuilder.Append(string.Format(" ,'{0}' as '{1}'", extraField.Key,extraField.Value));
+						}
+						
+					}
+
+					commandBuilder.Append(" Union ");
 				}
 
 				if (commandBuilder.Length > 0)
 				{
 					commandBuilder.Remove(commandBuilder.Length - 6, 6);
-					commandBuilder.Append(" Order by 4 desc");
+					commandBuilder.Append(" Order by 4 desc"); // order by CPA
 					SqlCommand reasultsCmd = new SqlCommand(commandBuilder.ToString());
 					using (SqlConnection conn2 = new SqlConnection("context connection=true"))
 					{
@@ -196,13 +224,14 @@ public partial class StoredProcedures
 			throw new Exception(".Net Exception : " + e.ToString(), e);
 		}
 
-		returnMsg = string.Format("<br><br>Time Period: {0} - {1} ({2} Days) <br> AVG CPA: {3} <br> Defined Threshold: {4}00% <br>",
+		returnMsg = string.Format("<br><br>Execution Time: {5}<br><br>Time Period: {0} - {1} ({2} Days) <br> AVG CPA: {3} <br> Defined Threshold: {4}00% <br>",
 
 			ToDay.AddDays(-1 * (Period-1)).ToString("dd/MM/yy"),
 			ToDay.ToString("dd/MM/yy"),
 			Period,
 			Math.Round(avgCpa, 2),
-			threshold
+			threshold,
+			DateTime.Now
 			);
 
 
