@@ -185,7 +185,7 @@ public partial class StoredProcedures
 				foreach (var unit in alertedCampaigns)
 				{
 					commandBuilder.Append(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
-						, unit.Name, Math.Round(unit.Cost, 2), unit.Acq, Math.Round(unit.CPA, 0), acqFieldName));
+						, unit.Name, Math.Round(unit.Cost, 0), unit.Acq, Math.Round(unit.CPA, 2), acqFieldName));
 
 					//SqlContext.Pipe.Send(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
 					//    , unit.Name, Math.Round(unit.Cost, 2), unit.Acq, Math.Round(unit.CPA, 0), acqFieldName));
