@@ -185,10 +185,10 @@ public partial class StoredProcedures
 				foreach (var unit in alertedCampaigns)
 				{
 					commandBuilder.Append(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
-						, unit.Name, Math.Round(unit.Cost, 2), unit.Acq, Math.Round(unit.CPA, 2), acqFieldName));
+						, unit.Name, Math.Round(unit.Cost, 2), unit.Acq, Math.Round(unit.CPA, 0), acqFieldName));
 
-					SqlContext.Pipe.Send(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
-						, unit.Name, Math.Round(unit.Cost, 2), unit.Acq, Math.Round(unit.CPA, 2), acqFieldName));
+					//SqlContext.Pipe.Send(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
+					//    , unit.Name, Math.Round(unit.Cost, 2), unit.Acq, Math.Round(unit.CPA, 0), acqFieldName));
 
 
 
@@ -198,7 +198,7 @@ public partial class StoredProcedures
 						foreach (var extraField in unit.ExtraFields)
 						{
 							commandBuilder.Append(string.Format(" ,'{0}' as '{1}'", extraField.Value == DBNull.Value ? 0 : Math.Round(Convert.ToDouble(extraField.Value), 2), extraField.Key));
-							SqlContext.Pipe.Send(string.Format(" ,'{0}' as '{1}'", extraField.Value, extraField.Key));
+							//SqlContext.Pipe.Send(string.Format(" ,'{0}' as '{1}'", extraField.Value, extraField.Key));
 						}
 						
 					}
@@ -235,7 +235,7 @@ public partial class StoredProcedures
 			throw new Exception(".Net Exception : " + e.ToString(), e);
 		}
 
-		returnMsg = string.Format("<br><br>Execution Time: {5:dd/MM/yy H:mm} GMT <br><br>Time Period: {0} - {1} ({2} Days) <br> AVG CPA: {3} <br> Defined Threshold: {4}00% <br>",
+		returnMsg = string.Format("<br><br>Execution Time: {5:dd/MM/yy H:mm} GMT <br><br>Time Period: {0} - {1} ({2} Days) <br><strong> AVG CPA: {3} </strong><br> Defined Threshold: {4}00% <br>",
 
 			ToDay.AddDays(-1 * (Period-1)).ToString("dd/MM/yy"),
 			ToDay.ToString("dd/MM/yy"),
