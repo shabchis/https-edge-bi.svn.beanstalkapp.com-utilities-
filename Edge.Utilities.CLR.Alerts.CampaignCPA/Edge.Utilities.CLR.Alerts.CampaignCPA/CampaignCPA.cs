@@ -13,6 +13,7 @@ using Microsoft.SqlServer.Server;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 
 public partial class StoredProcedures
@@ -184,8 +185,12 @@ public partial class StoredProcedures
 
 				foreach (var unit in alertedCampaigns)
 				{
-					commandBuilder.Append(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
-						, unit.Name, Math.Round(unit.Cost, 0), unit.Acq, Math.Round(unit.CPA, 2), acqFieldName));
+					commandBuilder.Append(string.Format("select '{0}' as 'Campaign' , '${1}' as 'Cost', '{2}' as '{4}' ,'${3}' as 'CPA' "
+						, unit.Name,
+						string.IsNullOrEmpty((Math.Round(unit.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(unit.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)),
+						Math.Round(unit.Acq, 0),
+						string.IsNullOrEmpty((Math.Round(unit.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(unit.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)),
+						acqFieldName));
 
 					//SqlContext.Pipe.Send(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
 					//    , unit.Name, Math.Round(unit.Cost, 2), unit.Acq, Math.Round(unit.CPA, 0), acqFieldName));
@@ -197,7 +202,10 @@ public partial class StoredProcedures
 					{
 						foreach (var extraField in unit.ExtraFields)
 						{
-							commandBuilder.Append(string.Format(" ,'{0}' as '{1}'", extraField.Value == DBNull.Value ? 0 : Math.Round(Convert.ToDouble(extraField.Value), 2), extraField.Key));
+							string sign = string.Empty;
+							if (extraField.Key.ToLower().Contains("cost"))
+								sign = "$";
+							commandBuilder.Append(string.Format(" ,'{2}{0}' as '{1}'", extraField.Value == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(extraField.Value), 0)).ToString("#,#", CultureInfo.InvariantCulture), extraField.Key, sign));
 							//SqlContext.Pipe.Send(string.Format(" ,'{0}' as '{1}'", extraField.Value, extraField.Key));
 						}
 						
