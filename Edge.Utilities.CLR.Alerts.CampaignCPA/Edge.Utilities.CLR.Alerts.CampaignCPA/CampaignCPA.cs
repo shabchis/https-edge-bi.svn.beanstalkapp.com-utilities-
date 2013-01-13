@@ -18,17 +18,19 @@ using System.Globalization;
 
 public partial class StoredProcedures
 {
-	public class campaign
+	public class Campaign
 	{
 		public int ID;
 		public string Name;
 		public double Cost;
 		public double Acq;
 		public double CPA;
+		public double CPR;
 		public bool zeroConv = false;
 		public Dictionary<string, object> ExtraFields = new Dictionary<string, object>();
+		public Dictionary<string, Dictionary<string, double>> adGroups = new Dictionary<string, Dictionary<string, double>>();
 
-		public campaign(SqlDataReader mdxReader, string extraFields, string acqField, string cpaField)
+		public Campaign(SqlDataReader mdxReader, string extraFields, string acq1Field, string cpaField)
 		{
 			Name = Convert.ToString(mdxReader["[Getways Dim].[Gateways].[Campaign].[MEMBER_CAPTION]"]);
 			SqlContext.Pipe.Send(string.Format("Name = {0}", Name));
@@ -39,7 +41,7 @@ public partial class StoredProcedures
 			CPA = mdxReader["[Measures].[" + cpaField + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + cpaField + "]"]);
 			SqlContext.Pipe.Send(string.Format("CPA = {0}", CPA));
 
-			Acq = mdxReader["[Measures].[" + acqField + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + acqField + "]"]);
+			Acq = mdxReader["[Measures].[" + acq1Field + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + acq1Field + "]"]);
 			SqlContext.Pipe.Send(string.Format("Conv = {0}", Acq));
 
 			if(!string.IsNullOrEmpty(extraFields))
@@ -50,6 +52,11 @@ public partial class StoredProcedures
 				}
 			}
 
+		}
+
+		public Campaign()
+		{
+			// TODO: Complete member initialization
 		}
 		public double GetCalculatedCPA()
 		{
@@ -127,7 +134,7 @@ public partial class StoredProcedures
 
 			fromMdxBuilder.Append(string.Format(", [Time Dim].[Time Dim].[Day].&[{0}]:[Time Dim].[Time Dim].[Day].&[{1}])", fromDate, toDate));
 
-			List<campaign> campaigns = new List<campaign>();
+			List<Campaign> campaigns = new List<Campaign>();
 
 			SqlCommand command = new SqlCommand("dbo.SP_ExecuteMDX");
 			command.CommandType = CommandType.StoredProcedure;
@@ -152,7 +159,7 @@ public partial class StoredProcedures
 				{
 					while (reader.Read())
 					{
-						campaigns.Add(new campaign(reader,extraFields,acqFieldName,cpaFieldName));
+						campaigns.Add(new Campaign(reader,extraFields,acqFieldName,cpaFieldName));
 					}
 				}
 			}
@@ -161,7 +168,7 @@ public partial class StoredProcedures
 
 			if (campaigns.Count > 0)
 			{
-				foreach (campaign camp in campaigns)
+				foreach (Campaign camp in campaigns)
 				{
 					totalCost += camp.Cost;
 					totalConv += camp.Acq;
@@ -243,12 +250,12 @@ public partial class StoredProcedures
 			throw new Exception(".Net Exception : " + e.ToString(), e);
 		}
 
-		returnMsg = string.Format("<br><br>Execution Time: {5:dd/MM/yy H:mm} GMT <br><br>Time Period: {0} - {1} ({2} Days) <br><strong> AVG CPA: {3} </strong><br> Defined Threshold: {4}00% <br>",
+		returnMsg = string.Format("<br><br>Execution Time: {5:dd/MM/yy H:mm} GMT <br><br>Time Period: {0} - {1} ({2} Days) <br><strong> AVG CPA: ${3} </strong><br> Defined Threshold: {4}00% <br>",
 
 			ToDay.AddDays(-1 * (Period-1)).ToString("dd/MM/yy"),
 			ToDay.ToString("dd/MM/yy"),
 			Period,
-			Math.Round(avgCpa, 2),
+			Math.Round(avgCpa, 0),
 			threshold,
 			DateTime.Now
 			);

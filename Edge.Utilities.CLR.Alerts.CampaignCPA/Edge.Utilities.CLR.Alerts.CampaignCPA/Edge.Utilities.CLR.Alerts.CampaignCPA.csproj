@@ -47,6 +47,10 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlertedObjects\AbstractAlertedUnit.cs" />
+    <Compile Include="AdgroupCPA_Alerts.cs" />
+    <Compile Include="AlertedObjects\AlertedAdgroup.cs" />
+    <Compile Include="AlertedObjects\AlertedCampaign.cs" />
     <Compile Include="CampaignCPA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
