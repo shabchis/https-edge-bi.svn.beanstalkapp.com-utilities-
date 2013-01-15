@@ -18,6 +18,7 @@ namespace Edge.Utilities.CLR.Alerts.CampaignCPA
 
 		public AlertedCampaign(SqlDataReader reader, string extraFields, string acq1FieldName, string acq2FieldName, string cpaFieldName, string cprFieldName)
 		{
+			AdGroups = new List<AlertedObjects.AlertedAdgroup>();
 			this.Name = Convert.ToString(reader["[Getways Dim].[Gateways].[Campaign].[MEMBER_CAPTION]"]);
 			this.AddAdgroup(reader, extraFields, acq1FieldName, acq2FieldName, cpaFieldName, cprFieldName);
 		}

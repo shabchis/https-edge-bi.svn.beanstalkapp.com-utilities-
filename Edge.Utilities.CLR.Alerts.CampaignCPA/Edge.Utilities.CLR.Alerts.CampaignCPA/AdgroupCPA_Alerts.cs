@@ -56,7 +56,12 @@ public partial class StoredProcedures
 			StringBuilder withMdxBuilder;
 			StringBuilder selectMdxBuilder;
 			StringBuilder fromMdxBuilder;
-			GetAdgroupMDXQueryParams(AccountID, ChannelID, cubeName, acq1FieldName, cpaFieldName, extraFields, excludeBuilder, fromDate, toDate, out withMdxBuilder, out selectMdxBuilder, out fromMdxBuilder);
+			GetAdgroupMDXQueryParams(AccountID, ChannelID, cubeName, acq1FieldName, acq2FieldName, cpaFieldName, cprFieldName, extraFields, excludeBuilder, fromDate, toDate, out withMdxBuilder, out selectMdxBuilder, out fromMdxBuilder);
+
+
+			SqlContext.Pipe.Send(withMdxBuilder.ToString());
+			SqlContext.Pipe.Send(selectMdxBuilder.ToString());
+			SqlContext.Pipe.Send(fromMdxBuilder.ToString());
 
 			#region Creating Command
 			SqlCommand command = new SqlCommand("dbo.SP_ExecuteMDX");
@@ -70,6 +75,9 @@ public partial class StoredProcedures
 			SqlParameter fromMDX = new SqlParameter("FromMDX", fromMdxBuilder.ToString());
 			command.Parameters.Add(fromMDX);
 			#endregion
+
+			
+
 
 			Dictionary<string, AlertedCampaign> campaigns = new Dictionary<string, AlertedCampaign>();
 			using (SqlConnection conn = new SqlConnection("context connection=true"))
@@ -210,7 +218,7 @@ public partial class StoredProcedures
 			avgCPA = 0;
 	}
 
-	private static void GetAdgroupMDXQueryParams(Int32 AccountID, string ChannelID, string cubeName, string acqFieldName, string cpaFieldName, string extraFields, StringBuilder excludeBuilder, string fromDate, string toDate, out StringBuilder withMdxBuilder, out StringBuilder selectMdxBuilder, out StringBuilder fromMdxBuilder)
+	private static void GetAdgroupMDXQueryParams(Int32 AccountID, string ChannelID, string cubeName, string acq1FieldName, string acq2FieldName, string cpaFieldName, string cprFieldName, string extraFields, StringBuilder excludeBuilder, string fromDate, string toDate, out StringBuilder withMdxBuilder, out StringBuilder selectMdxBuilder, out StringBuilder fromMdxBuilder)
 	{
 		withMdxBuilder = new StringBuilder();
 		withMdxBuilder.Append("With Set [Filtered Campaigns] As ");
@@ -218,8 +226,10 @@ public partial class StoredProcedures
 
 		StringBuilder measureBuilder = new StringBuilder();
 		measureBuilder.Append("[Measures].[Cost], ");
-		measureBuilder.Append(string.Format("[Measures].[{0}],", cpaFieldName)); // cost/reg
-		measureBuilder.Append(string.Format("[Measures].[{0}] ", acqFieldName)); //ex. regs
+		measureBuilder.Append(string.Format("[Measures].[{0}],", cpaFieldName)); // cost/active
+		measureBuilder.Append(string.Format("[Measures].[{0}], ", acq1FieldName)); //ex. actives
+		measureBuilder.Append(string.Format("[Measures].[{0}],", cprFieldName)); // cost/active
+		measureBuilder.Append(string.Format("[Measures].[{0}] ", acq2FieldName)); //ex. actives
 
 		//Adding ExtraFields
 		if (!String.IsNullOrEmpty(extraFields))
@@ -235,7 +245,8 @@ public partial class StoredProcedures
 
 		selectMdxBuilder = new StringBuilder();
 		selectMdxBuilder.Append("SELECT [Selected Measures] On Columns ,");
-		selectMdxBuilder.Append("{ NonEmptyCrossJoin ( { Except ( [Getways Dim].[Gateways].[Ad Group].Members, [Filtered Campaigns] )}*{ ([Getways Dim].[Campaign].Children )} )} On Rows ");
+		selectMdxBuilder.Append("Filter (Exists ( { Except ( ( { Except ( [Getways Dim].[Gateways].[Ad Group].Members, [Filtered Campaigns] )}*{ ([Getways Dim].[Campaign].Children )} ) ");
+		selectMdxBuilder.Append(",[Measures].[Cost] >0  OR [Measures].[Regs] > 0 OR [Measures].[Actives] > 0) On Rows ");
 
 		fromMdxBuilder = new StringBuilder();
 		fromMdxBuilder.Append(string.Format("From {0} ", cubeName));
