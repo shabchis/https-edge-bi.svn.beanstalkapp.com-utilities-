@@ -22,7 +22,7 @@ public partial class StoredProcedures
 {
 	
 	[Microsoft.SqlServer.Server.SqlProcedure]
-	public static void CLR_Alerts_ConversionAnalysis_Adgroup(Int32 AccountID, Int32 Period, DateTime ToDay, string ChannelID, Int32 CPR_threshold, Int32 CPA_threshold, string excludeIds, string cubeName, string acq1FieldName, string acq2FieldName, string cpaFieldName, string cprFieldName, out SqlString returnMsg, string extraFields)
+	public static void CLR_Alerts_ConversionAnalysis_Adgroup(Int32 AccountID, Int32 Period, DateTime ToDay, string ChannelID, float CPR_threshold, float CPA_threshold, string excludeIds, string cubeName, string acq1FieldName, string acq2FieldName, string cpaFieldName, string cprFieldName, out SqlString returnMsg, string extraFields)
 	{
 		returnMsg = string.Empty;
 		double totalCost = 0;
@@ -35,7 +35,7 @@ public partial class StoredProcedures
 		StringBuilder excludeBuilder = new StringBuilder();
 
 		SqlContext.Pipe.Send(excludeIds);
-		string excludeSyntax = "[Getways Dim].[Gateways].[Campaign].&[{0}]";
+		string excludeSyntax = "[Getways Dim].[Gateways].[Campaign].&[{0}].children";
 		if (!string.IsNullOrEmpty(excludeIds))
 			foreach (string id in excludeIds.Split(','))
 			{
@@ -117,7 +117,7 @@ public partial class StoredProcedures
 												 orderby ag.CPA
 												 select ag;
 
-				foreach (AlertedAdgroup adgroup in alertedAdgroups)
+				foreach (AlertedAdgroup adgroup in alertedAdgroupsPerCampaign)
 				{
 					commandBuilder.Append(string.Format("select '{0}' as 'Campaign', '{1}' as 'Ad Group' , '${2}' as 'Cost', '{3}' as '{4}' ,'${5}' as 'CPA({6})', '{7}' as '{8}' , '${9}' as 'CPR({10})' "
 											, camp.Value.Name
@@ -153,7 +153,7 @@ public partial class StoredProcedures
 			if (commandBuilder.Length > 0)
 			{
 				commandBuilder.Remove(commandBuilder.Length - 6, 6);
-				commandBuilder.Append(" Order by 4 desc"); // order by CPA
+				commandBuilder.Append(" Order by 1,2,3 desc"); // order by CPA
 				SqlCommand reasultsCmd = new SqlCommand(commandBuilder.ToString());
 				using (SqlConnection conn2 = new SqlConnection("context connection=true"))
 				{
@@ -173,17 +173,17 @@ public partial class StoredProcedures
 		}
 
 		returnMsg = string.Format("<br><br>Execution Time: {0:dd/MM/yy H:mm} GMT <br><br>Time Period:" 
-		+"{1} - {2} ({3} Days) <br><strong> AVG CPA: {4} </strong><br><br><strong> AVG CPR: {5} </strong><br>"
-		+" Defined CPA Threshold: {6}00% <br><br> Defined CPR Threshold: {7}00% <br>",
+		+"{1} - {2} ({3} Days) <br><strong> AVG CPA: {4} </strong><br><strong> AVG CPR: {5} </strong><br>"
+		+" Defined CPA Threshold: {6}% <br> Defined CPR Threshold: {7}% <br>",
 		
 		DateTime.Now,
 		ToDay.AddDays(-1 * (Period - 1)).ToString("dd/MM/yy"),
 		ToDay.ToString("dd/MM/yy"),
 		Period,
 		Math.Round(avgCPA,0),
-		CPA_threshold,
-		Math.Round(avgCPR,0),
-		CPR_threshold
+		Math.Round(avgCPR, 0),
+		CPA_threshold *100,
+		CPR_threshold *100
 			
 			);
 
@@ -245,8 +245,8 @@ public partial class StoredProcedures
 
 		selectMdxBuilder = new StringBuilder();
 		selectMdxBuilder.Append("SELECT [Selected Measures] On Columns ,");
-		selectMdxBuilder.Append("Filter (Exists ( { Except ( ( { Except ( [Getways Dim].[Gateways].[Ad Group].Members, [Filtered Campaigns] )}*{ ([Getways Dim].[Campaign].Children )} ) ");
-		selectMdxBuilder.Append(",[Measures].[Cost] >0  OR [Measures].[Regs] > 0 OR [Measures].[Actives] > 0) On Rows ");
+		selectMdxBuilder.Append("Filter (Exists ({  Except ( [Getways Dim].[Gateways].[Ad Group].Members, [Filtered Campaigns] )} ) ");
+		selectMdxBuilder.Append(string.Format(",[Measures].[Cost] >0  OR [Measures].[{0}] > 0 OR [Measures].[{1}] > 0) On Rows ", acq1FieldName, acq2FieldName));
 
 		fromMdxBuilder = new StringBuilder();
 		fromMdxBuilder.Append(string.Format("From {0} ", cubeName));
