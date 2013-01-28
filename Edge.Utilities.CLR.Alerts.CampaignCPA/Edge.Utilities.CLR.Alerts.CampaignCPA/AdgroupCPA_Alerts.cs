@@ -112,15 +112,23 @@ public partial class StoredProcedures
 
 			foreach (var camp in campaigns)
 			{
-				var alertedAdgroupsPerCampaign = from ag in camp.Value.AdGroups
-												 where (ag.GetCalculatedCPA() >= CPA_threshold * avgCPA) || (ag.GetCalculatedCPR() >= CPR_threshold * avgCPR)
-												 orderby ag.CPA
-												 select ag;
 
-				foreach (AlertedAdgroup adgroup in alertedAdgroupsPerCampaign)
+				var alertedAdgroupsPerCampaign = (from ag in camp.Value.AdGroups
+												  where (ag.GetCalculatedCPA() >= CPA_threshold * avgCPA) || (ag.GetCalculatedCPR() >= CPR_threshold * avgCPR)
+												  select ag).OrderByDescending(val => val.Priority);
+				
+				alertedAdgroups.AddRange(alertedAdgroupsPerCampaign);
+
+			}
+
+			alertedAdgroups = alertedAdgroups.OrderByDescending(val => val.Priority).ToList();
+			SqlContext.Pipe.Send("Priority:==========================================================================");
+			foreach (AlertedAdgroup adgroup in alertedAdgroups)
 				{
-					commandBuilder.Append(string.Format("select '{0}' as 'Campaign', '{1}' as 'Ad Group' , '${2}' as 'Cost', '{3}' as '{4}' ,'${5}' as 'CPA({6})', '{7}' as '{8}' , '${9}' as 'CPR({10})' "
-											, camp.Value.Name
+					
+					SqlContext.Pipe.Send(adgroup.Priority.ToString());
+					commandBuilder.Append(string.Format("select '{0}' as 'Campaign', '{1}' as 'Ad Group' , '{2}' as 'Cost', '{3}' as '{4}' ,'{5}' as 'CPA({6})', '{7}' as '{8}' , '{9}' as 'CPR({10})' "
+											, adgroup.CampaignName
 											,adgroup.Name
 											,string.IsNullOrEmpty((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture))
 											,Math.Round(adgroup.Acq2, 0)
@@ -148,12 +156,12 @@ public partial class StoredProcedures
 					commandBuilder.Append(" Union ");
 				}
 
-			}
+			
 
 			if (commandBuilder.Length > 0)
 			{
 				commandBuilder.Remove(commandBuilder.Length - 6, 6);
-				commandBuilder.Append(" Order by 1,2,3 desc"); // order by CPA
+				//commandBuilder.Append(" Order by 1,2,3 desc"); // order by CPA
 				SqlCommand reasultsCmd = new SqlCommand(commandBuilder.ToString());
 				using (SqlConnection conn2 = new SqlConnection("context connection=true"))
 				{
@@ -257,4 +265,6 @@ public partial class StoredProcedures
 
 		fromMdxBuilder.Append(string.Format(", [Time Dim].[Time Dim].[Day].&[{0}]:[Time Dim].[Time Dim].[Day].&[{1}])", fromDate, toDate));
 	}
+
+	
 }
