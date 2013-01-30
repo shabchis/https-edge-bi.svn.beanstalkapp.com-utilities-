@@ -7,7 +7,7 @@ namespace Edge.Utilities.CLR.Alerts.CampaignCPA.AlertedObjects
 {
 	public class AlertedAdgroup : AbstractAlertedUnit
 	{
-		public double Priority = 1;
+		public double Priority = 0;
 		public string CampaignName = string.Empty;
 
 		public AlertedAdgroup(System.Data.SqlClient.SqlDataReader reader, string extraFields, string acq1FieldName, string acq2FieldName, string cpaFieldName, string cprFieldName)
@@ -25,6 +25,9 @@ namespace Edge.Utilities.CLR.Alerts.CampaignCPA.AlertedObjects
 
 			if (this.Cost != 0)
 				this.Priority = (this.Acq2 * 1000 + this.Acq1 * 100) / this.Cost;
+
+			if (this.Priority == 0)
+				this.Priority = this.Cost * -1;
 
 			if (!string.IsNullOrEmpty(extraFields))
 			{

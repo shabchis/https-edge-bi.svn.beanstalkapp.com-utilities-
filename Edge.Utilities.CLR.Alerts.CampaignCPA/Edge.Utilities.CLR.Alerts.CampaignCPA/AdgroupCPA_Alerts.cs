@@ -16,6 +16,7 @@ using System.Text;
 using System.Globalization;
 using Edge.Utilities.CLR.Alerts.CampaignCPA;
 using Edge.Utilities.CLR.Alerts.CampaignCPA.AlertedObjects;
+using System.Text.RegularExpressions;
 
 
 public partial class StoredProcedures
@@ -104,6 +105,8 @@ public partial class StoredProcedures
 		
 			List<AlertedAdgroup> alertedAdgroups = new List<AlertedAdgroup>();
 			StringBuilder commandBuilder = new StringBuilder();
+			
+
 
 			if (campaigns.Count > 0)
 				CalcTotalsAndAvg(campaigns, out totalCost, out totalAcq1, out totalAcq2, out avgCPA, out avgCPR);
@@ -122,15 +125,16 @@ public partial class StoredProcedures
 			}
 
 			alertedAdgroups = alertedAdgroups.OrderByDescending(val => val.Priority).ToList();
-			SqlContext.Pipe.Send("Priority:==========================================================================");
+
+			//commandBuilder.Append(string.Format("select [Campaign],[Ad Group],[Cost],[{0}],[CPA({1})],[{2}],[CPR({3})] from (", acq2FieldName, cpaFieldName, acq1FieldName, cprFieldName));
 			foreach (AlertedAdgroup adgroup in alertedAdgroups)
 				{
 					
 					SqlContext.Pipe.Send(adgroup.Priority.ToString());
-					commandBuilder.Append(string.Format("select '{0}' as 'Campaign', '{1}' as 'Ad Group' , '{2}' as 'Cost', '{3}' as '{4}' ,'{5}' as 'CPA({6})', '{7}' as '{8}' , '{9}' as 'CPR({10})' "
+					commandBuilder.Append(string.Format("select '{0}' as 'Campaign', '{1}' as 'Ad Group' , {2} as 'Cost', {3} as '{4}' ,'{5}' as 'CPA({6})', {7} as '{8}' , '{9}' as 'CPR({10})' "
 											, adgroup.CampaignName
 											,adgroup.Name
-											,string.IsNullOrEmpty((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture))
+											, string.IsNullOrEmpty((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture))
 											,Math.Round(adgroup.Acq2, 0)
 											,acq2FieldName
 											,string.IsNullOrEmpty((Math.Round(adgroup.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(adgroup.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture))
@@ -156,12 +160,25 @@ public partial class StoredProcedures
 					commandBuilder.Append(" Union ");
 				}
 
+			//this.Priority = (this.Acq2 * 1000 + this.Acq1 * 100) / this.Cost;
 			
 
 			if (commandBuilder.Length > 0)
 			{
+				string orderByStatment = "((" + acq2FieldName + "*1000 +" + acq1FieldName + "*100 )/Cost)";
+				SqlContext.Pipe.Send(orderByStatment);
 				commandBuilder.Remove(commandBuilder.Length - 6, 6);
-				//commandBuilder.Append(" Order by 1,2,3 desc"); // order by CPA
+				//commandBuilder.Append(string.Format(")res Order by {0} desc", orderByStatment)); // order by CPA
+				commandBuilder.Append(string.Format(" Order by Priority desc", orderByStatment)); // order by CPA
+
+				string[] sss = Regex.Split(commandBuilder.ToString(), "Union");
+				
+				foreach (string item in sss)
+				{
+					SqlContext.Pipe.Send(item);
+					SqlContext.Pipe.Send("Union");
+				}
+				
 				SqlCommand reasultsCmd = new SqlCommand(commandBuilder.ToString());
 				using (SqlConnection conn2 = new SqlConnection("context connection=true"))
 				{
@@ -173,6 +190,7 @@ public partial class StoredProcedures
 						SqlContext.Pipe.Send(reader);
 					}
 				}
+				
 			}
 		}
 		catch (Exception e)
