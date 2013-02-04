@@ -21,7 +21,7 @@ using System.Text.RegularExpressions;
 
 public partial class StoredProcedures
 {
-	
+
 	[Microsoft.SqlServer.Server.SqlProcedure]
 	public static void CLR_Alerts_ConversionAnalysis_Adgroup(Int32 AccountID, Int32 Period, DateTime ToDay, string ChannelID, float CPR_threshold, float CPA_threshold, string excludeIds, string cubeName, string acq1FieldName, string acq2FieldName, string cpaFieldName, string cprFieldName, out SqlString returnMsg, string extraFields)
 	{
@@ -35,7 +35,7 @@ public partial class StoredProcedures
 		#region Exclude
 		StringBuilder excludeBuilder = new StringBuilder();
 
-		SqlContext.Pipe.Send(excludeIds);
+		//SqlContext.Pipe.Send(excludeIds);
 		string excludeSyntax = "[Getways Dim].[Gateways].[Campaign].&[{0}].children";
 		if (!string.IsNullOrEmpty(excludeIds))
 			foreach (string id in excludeIds.Split(','))
@@ -60,9 +60,9 @@ public partial class StoredProcedures
 			GetAdgroupMDXQueryParams(AccountID, ChannelID, cubeName, acq1FieldName, acq2FieldName, cpaFieldName, cprFieldName, extraFields, excludeBuilder, fromDate, toDate, out withMdxBuilder, out selectMdxBuilder, out fromMdxBuilder);
 
 
-			SqlContext.Pipe.Send(withMdxBuilder.ToString());
-			SqlContext.Pipe.Send(selectMdxBuilder.ToString());
-			SqlContext.Pipe.Send(fromMdxBuilder.ToString());
+			//SqlContext.Pipe.Send(withMdxBuilder.ToString());
+			//SqlContext.Pipe.Send(selectMdxBuilder.ToString());
+			//SqlContext.Pipe.Send(fromMdxBuilder.ToString());
 
 			#region Creating Command
 			SqlCommand command = new SqlCommand("dbo.SP_ExecuteMDX");
@@ -77,7 +77,7 @@ public partial class StoredProcedures
 			command.Parameters.Add(fromMDX);
 			#endregion
 
-			
+
 
 
 			Dictionary<string, AlertedCampaign> campaigns = new Dictionary<string, AlertedCampaign>();
@@ -100,121 +100,109 @@ public partial class StoredProcedures
 							campaigns.Add(campName, new AlertedCampaign(reader, extraFields, acq1FieldName, acq2FieldName, cpaFieldName, cprFieldName));
 					}
 				}
-			}
 
-		
-			List<AlertedAdgroup> alertedAdgroups = new List<AlertedAdgroup>();
-			StringBuilder commandBuilder = new StringBuilder();
+
+
+				List<AlertedAdgroup> alertedAdgroups = new List<AlertedAdgroup>();
+				StringBuilder commandBuilder = new StringBuilder();
+
+
+
+				if (campaigns.Count > 0)
+					CalcTotalsAndAvg(campaigns, out totalCost, out totalAcq1, out totalAcq2, out avgCPA, out avgCPR);
+
+				SetAdgroupValuePriority(campaigns,avgCPA,avgCPR);
+
+				foreach (var camp in campaigns)
+				{
+
+					var alertedAdgroupsPerCampaign = (from ag in camp.Value.AdGroups
+													  where (ag.GetCalculatedCPA() >= CPA_threshold * avgCPA) || (ag.GetCalculatedCPR() >= CPR_threshold * avgCPR)
+													  select ag).OrderByDescending(val => val.Priority);
+
+					alertedAdgroups.AddRange(alertedAdgroupsPerCampaign);
+
+				}
+
+				alertedAdgroups = alertedAdgroups.OrderBy(val => val.Priority).ToList();
+
+				//commandBuilder.Append(string.Format("select [Campaign],[Ad Group],[Cost],[{0}],[CPA({1})],[{2}],[CPR({3})] from (", acq2FieldName, cpaFieldName, acq1FieldName, cprFieldName));
+
+				SqlMetaData[] cols = new SqlMetaData[]
+				{
+					new SqlMetaData("Campaign", SqlDbType.NVarChar, 1024),
+					new SqlMetaData("AdGroup", SqlDbType.NVarChar, 1024),
+					new SqlMetaData("Cost", SqlDbType.NVarChar, 1024),
+					new SqlMetaData(acq2FieldName, SqlDbType.NVarChar, 1024),
+					new SqlMetaData(string.Format("CPA({0})",cpaFieldName), SqlDbType.NVarChar, 1024),
+					new SqlMetaData(acq1FieldName, SqlDbType.NVarChar, 1024),
+					new SqlMetaData(string.Format("CPR({0})",cprFieldName), SqlDbType.NVarChar, 1024),
+					//new SqlMetaData("P", SqlDbType.NVarChar, 1024)
+				};
+				SqlDataRecord rec = new SqlDataRecord(cols);
+
 			
-
-
-			if (campaigns.Count > 0)
-				CalcTotalsAndAvg(campaigns, out totalCost, out totalAcq1, out totalAcq2, out avgCPA, out avgCPR);
-
-
-
-			foreach (var camp in campaigns)
-			{
-
-				var alertedAdgroupsPerCampaign = (from ag in camp.Value.AdGroups
-												  where (ag.GetCalculatedCPA() >= CPA_threshold * avgCPA) || (ag.GetCalculatedCPR() >= CPR_threshold * avgCPR)
-												  select ag).OrderByDescending(val => val.Priority);
-				
-				alertedAdgroups.AddRange(alertedAdgroupsPerCampaign);
-
-			}
-
-			alertedAdgroups = alertedAdgroups.OrderByDescending(val => val.Priority).ToList();
-
-			//commandBuilder.Append(string.Format("select [Campaign],[Ad Group],[Cost],[{0}],[CPA({1})],[{2}],[CPR({3})] from (", acq2FieldName, cpaFieldName, acq1FieldName, cprFieldName));
-			foreach (AlertedAdgroup adgroup in alertedAdgroups)
+				if (alertedAdgroups.Count == 0)
+					SqlContext.Pipe.Send("Error");
+				SqlContext.Pipe.SendResultsStart(rec);
+				foreach (AlertedAdgroup adgroup in alertedAdgroups)
 				{
-					
-					SqlContext.Pipe.Send(adgroup.Priority.ToString());
-					commandBuilder.Append(string.Format("select '{0}' as 'Campaign', '{1}' as 'Ad Group' , {2} as 'Cost', {3} as '{4}' ,'{5}' as 'CPA({6})', {7} as '{8}' , '{9}' as 'CPR({10})' "
-											, adgroup.CampaignName
-											,adgroup.Name
-											, string.IsNullOrEmpty((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture))
-											,Math.Round(adgroup.Acq2, 0)
-											,acq2FieldName
-											,string.IsNullOrEmpty((Math.Round(adgroup.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(adgroup.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture))
-											,cpaFieldName
-											,Math.Round(adgroup.Acq1, 0)
-											,acq1FieldName
-											, string.IsNullOrEmpty((Math.Round(adgroup.CPR, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(adgroup.CPR, 0)).ToString("#,#", CultureInfo.InvariantCulture))
-											,cprFieldName
-											));
+					if (adgroup.Priority > 2)
+						continue;
 
-					//Adding ExtraFields
-					if (adgroup.ExtraFields.Count > 0)
-					{
-						foreach (var extraField in adgroup.ExtraFields)
-						{
-							string sign = string.Empty; // only if field name contains Cost add '$" sign
-							if (extraField.Key.ToLower().Contains("cost"))
-								sign = "$";
-							commandBuilder.Append(string.Format(" ,'{2}{0}' as '{1}'", extraField.Value == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(extraField.Value), 0)).ToString("#,#", CultureInfo.InvariantCulture), extraField.Key, sign));
-						}
+					rec.SetSqlString(0, adgroup.CampaignName);
+					rec.SetSqlString(1, adgroup.Name);
+					//cost
+					rec.SetSqlString(2,string.IsNullOrEmpty((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : '$'+((Math.Round(adgroup.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)));
+					//actives
+					rec.SetSqlString(3, Math.Round(adgroup.Acq2, 0).ToString());
+					//CPA
+					rec.SetSqlString(4, string.IsNullOrEmpty((Math.Round(adgroup.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : '$' + ((Math.Round(adgroup.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)));
+					//Regs
+					rec.SetSqlString(5, Math.Round(adgroup.Acq1, 0).ToString());
+					//CPR
+					rec.SetSqlString(6, string.IsNullOrEmpty((Math.Round(adgroup.CPR, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : '$' + ((Math.Round(adgroup.CPR, 0)).ToString("#,#", CultureInfo.InvariantCulture)));
 
-					}
-					commandBuilder.Append(" Union ");
+					//Priority
+					//rec.SetSqlString(7, adgroup.Priority.ToString());
+					SqlContext.Pipe.SendResultsRow(rec);
 				}
-
-			//this.Priority = (this.Acq2 * 1000 + this.Acq1 * 100) / this.Cost;
-			
-
-			if (commandBuilder.Length > 0)
-			{
-				string orderByStatment = "((" + acq2FieldName + "*1000 +" + acq1FieldName + "*100 )/Cost)";
-				SqlContext.Pipe.Send(orderByStatment);
-				commandBuilder.Remove(commandBuilder.Length - 6, 6);
-				//commandBuilder.Append(string.Format(")res Order by {0} desc", orderByStatment)); // order by CPA
-				commandBuilder.Append(string.Format(" Order by Priority desc", orderByStatment)); // order by CPA
-
-				string[] sss = Regex.Split(commandBuilder.ToString(), "Union");
-				
-				foreach (string item in sss)
-				{
-					SqlContext.Pipe.Send(item);
-					SqlContext.Pipe.Send("Union");
-				}
-				
-				SqlCommand reasultsCmd = new SqlCommand(commandBuilder.ToString());
-				using (SqlConnection conn2 = new SqlConnection("context connection=true"))
-				{
-					conn2.Open();
-					reasultsCmd.Connection = conn2;
-					reasultsCmd.CommandTimeout = 9000;
-					using (SqlDataReader reader = reasultsCmd.ExecuteReader())
-					{
-						SqlContext.Pipe.Send(reader);
-					}
-				}
-				
+				SqlContext.Pipe.SendResultsEnd();
 			}
 		}
 		catch (Exception e)
 		{
 			throw new Exception(".Net Exception : " + e.ToString(), e);
 		}
+	
+		returnMsg = string.Format("<br><br>Execution Time: {0:dd/MM/yy H:mm} GMT <br><br>Time Period:"
+		+ "{1} - {2} ({3} Days) <br><strong> AVG CPA: ${4} </strong><br><strong> AVG CPR: ${5} </strong><br>"
+		+ " Defined CPA Threshold: {6}% <br> Defined CPR Threshold: {7}% <br>",
 
-		returnMsg = string.Format("<br><br>Execution Time: {0:dd/MM/yy H:mm} GMT <br><br>Time Period:" 
-		+"{1} - {2} ({3} Days) <br><strong> AVG CPA: {4} </strong><br><strong> AVG CPR: {5} </strong><br>"
-		+" Defined CPA Threshold: {6}% <br> Defined CPR Threshold: {7}% <br>",
-		
 		DateTime.Now,
 		ToDay.AddDays(-1 * (Period - 1)).ToString("dd/MM/yy"),
 		ToDay.ToString("dd/MM/yy"),
 		Period,
-		Math.Round(avgCPA,0),
+		Math.Round(avgCPA, 0),
 		Math.Round(avgCPR, 0),
-		CPA_threshold *100,
-		CPR_threshold *100
-			
+		CPA_threshold * 100,
+		CPR_threshold * 100
+
 			);
 
 
 
+	}
+
+	private static void SetAdgroupValuePriority(Dictionary<string, AlertedCampaign> campaigns,double totalAvgCPA, double totalAvgCPR)
+	{
+		foreach (var campaign in campaigns)
+		{
+			foreach (AlertedAdgroup adgroup in campaign.Value.AdGroups)
+			{
+				adgroup.setValuePriority(totalAvgCPA, totalAvgCPR);
+			}
+		}
 	}
 
 	private static void CalcTotalsAndAvg(Dictionary<string, AlertedCampaign> campaigns, out double totalCost, out double totalAcq1, out double totalAcq2, out double avgCPA, out double avgCPR)
@@ -284,5 +272,5 @@ public partial class StoredProcedures
 		fromMdxBuilder.Append(string.Format(", [Time Dim].[Time Dim].[Day].&[{0}]:[Time Dim].[Time Dim].[Day].&[{1}])", fromDate, toDate));
 	}
 
-	
+
 }
