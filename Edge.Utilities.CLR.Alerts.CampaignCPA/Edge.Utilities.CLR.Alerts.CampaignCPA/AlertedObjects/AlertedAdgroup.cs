@@ -23,11 +23,7 @@ namespace Edge.Utilities.CLR.Alerts.CampaignCPA.AlertedObjects
 			this.CPR = reader["[Measures].[" + cprFieldName + "]"] == DBNull.Value ? 0 : Convert.ToDouble(reader["[Measures].[" + cprFieldName + "]"]);
 			this.CPA = reader["[Measures].[" + cpaFieldName + "]"] == DBNull.Value ? 0 : Convert.ToDouble(reader["[Measures].[" + cpaFieldName + "]"]);
 
-			if (this.Cost != 0)
-				this.Priority = (this.Acq2 * 1000 + this.Acq1 * 100) / this.Cost;
-
-			if (this.Priority == 0)
-				this.Priority = this.Cost * -1;
+			
 
 			if (!string.IsNullOrEmpty(extraFields))
 			{
@@ -37,6 +33,15 @@ namespace Edge.Utilities.CLR.Alerts.CampaignCPA.AlertedObjects
 				}
 
 			}
+		}
+
+		internal void setValuePriority(double totalAvgCPA, double totalAvgCPR)
+		{
+			if (this.Cost != 0)
+				this.Priority = (this.Acq2 * totalAvgCPA + this.Acq1 * totalAvgCPR) / this.Cost;
+
+			if (this.Priority == 0)
+				this.Priority = this.Cost * -1;
 		}
 	}
 }
