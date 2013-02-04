@@ -13,6 +13,8 @@ using System.Windows.Input;
 using Edge.Core.Utilities;
 using Microsoft.Practices.Prism.Commands;
 using System.ComponentModel;
+using System.Windows.Threading;
+using System.Configuration;
 
 namespace Edge.Applications.PM.SchedulerControl.ViewModels
 {
@@ -52,6 +54,8 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 		public ICommand CollapseCommand { get; set; }
 		public ICommand ExpandCommand { get; set; }
 
+		private DispatcherTimer _cleanTimer = new DispatcherTimer();
+
 		#endregion
 
 		#region Ctor
@@ -71,6 +75,12 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 			SortedColumn = "RequestedTime";
 
 			InitSortableColumnsList();
+
+			var cleanInterval = int.Parse(ConfigurationManager.AppSettings["ShowDaysBack"]);
+			_cleanTimer.Interval = new TimeSpan(cleanInterval,0,0,0);
+
+			_cleanTimer.Tick += CleanTimer_Tick;
+			_cleanTimer.Start();
 			//GenerateSampleData();
 		}
 
@@ -181,6 +191,7 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 		{
 			SortableColumnsList = new List<string> { "ServiceName", "AccountName", "RequestedTime", "State" };
 		}
+		
 		private void AddSorting()
 		{
 			if (_view != null)
@@ -192,6 +203,21 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 					_view.SortDescriptions.Add(new SortDescription("RequestedTime", ListSortDirection.Ascending));
 				}
 			}
+		}
+
+		private void RemoveServiceRecursively(ServiceInstanceModel service)
+		{
+			// clean all service childs
+			if (service.ChildsSteps != null)
+			{
+				foreach (var child in service.ChildsSteps)
+				{
+					RemoveServiceRecursively(child);
+				}
+				service.ChildsSteps.Clear();
+			}
+			// remove service itself from service map
+			_serviceInstanceMap.Remove(service.InstanceID);
 		}
 		#endregion
 
@@ -294,9 +320,18 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 		void Listener_ScheduleUpdated(object sender, ScheduleUpdatedEventArgs e)
 		{
-			Log.Write(this.ToString(), "Received scheduler updates", LogMessageType.Debug);
+			Log.Write(ToString(), "Received scheduler updates", LogMessageType.Debug);
 			UpdateServiceList(e.ServiceInstanceList);
-		} 
+		}
+
+		void CleanTimer_Tick(object sender, EventArgs e)
+		{
+			foreach (var service in _serviceInstanceList)
+			{
+				RemoveServiceRecursively(service);
+				_serviceInstanceList.Remove(service);
+			}
+		}
 		#endregion
 
 		#region IDisposable
@@ -311,6 +346,11 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 			{
 				model.Instance.Disconnect();
 				model.Instance.StateChanged -= ServiceInstance_StateChanged;
+			}
+			if (_cleanTimer != null)
+			{
+				_cleanTimer.Stop();
+				_cleanTimer.Tick -= CleanTimer_Tick;
 			}
 		} 
 		#endregion
