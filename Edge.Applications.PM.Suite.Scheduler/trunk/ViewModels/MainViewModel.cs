@@ -55,7 +55,7 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 		public ICommand ExpandCommand { get; set; }
 
 		private DispatcherTimer _cleanTimer = new DispatcherTimer();
-
+		private TimeSpan _removeServicesThreashold;
 		#endregion
 
 		#region Ctor
@@ -76,11 +76,15 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 			InitSortableColumnsList();
 
-			var cleanInterval = int.Parse(ConfigurationManager.AppSettings["ShowDaysBack"]);
-			_cleanTimer.Interval = new TimeSpan(cleanInterval,0,0,0);
+			var days = int.Parse(ConfigurationManager.AppSettings["ShowServicesDaysBack"]);
+			_removeServicesThreashold = new TimeSpan(days,0,0,0);
 
+			TimeSpan interval;
+			TimeSpan.TryParse(ConfigurationManager.AppSettings["CleanServicesInterval"], out interval);
+			_cleanTimer.Interval = interval;
 			_cleanTimer.Tick += CleanTimer_Tick;
 			_cleanTimer.Start();
+
 			//GenerateSampleData();
 		}
 
@@ -207,16 +211,15 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 		private void RemoveServiceRecursively(ServiceInstanceModel service)
 		{
-			// clean all service childs
+			// clean all service childs recursively
 			if (service.ChildsSteps != null)
 			{
-				foreach (var child in service.ChildsSteps)
+				foreach(var child in service.ChildsSteps)
 				{
 					RemoveServiceRecursively(child);
 				}
 				service.ChildsSteps.Clear();
 			}
-			// remove service itself from service map
 			_serviceInstanceMap.Remove(service.InstanceID);
 		}
 		#endregion
@@ -326,10 +329,20 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 		void CleanTimer_Tick(object sender, EventArgs e)
 		{
-			foreach (var service in _serviceInstanceList)
+			if (_serviceInstanceList.Count == 0) return;
+
+			lock (_serviceInstanceList)
 			{
-				RemoveServiceRecursively(service);
-				_serviceInstanceList.Remove(service);
+				for (int i = _serviceInstanceList.Count-1; i >= 0; i--)
+				{
+					if (_serviceInstanceList[i].RequestedTime.Add(_removeServicesThreashold) < DateTime.Now)
+					{
+						// remove childs recursively, remove from map and remove from hierarchy
+						RemoveServiceRecursively(_serviceInstanceList[i]);
+						
+						_serviceInstanceList.RemoveAt(i);
+					}
+				}
 			}
 		}
 		#endregion
