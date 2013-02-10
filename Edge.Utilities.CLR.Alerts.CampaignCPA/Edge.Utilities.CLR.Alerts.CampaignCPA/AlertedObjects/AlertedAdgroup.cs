@@ -19,11 +19,13 @@ namespace Edge.Utilities.CLR.Alerts.CampaignCPA.AlertedObjects
 
 			this.Cost = reader["[Measures].[Cost]"] == DBNull.Value ? 0 : Convert.ToDouble(reader["[Measures].[Cost]"]);
 			this.Acq1 = reader["[Measures].[" + acq1FieldName + "]"] == DBNull.Value ? 0 : Convert.ToDouble(reader["[Measures].[" + acq1FieldName + "]"]);
-			this.Acq2 = reader["[Measures].[" + acq2FieldName + "]"] == DBNull.Value ? 0 : Convert.ToDouble(reader["[Measures].[" + acq2FieldName + "]"]);
 			this.CPR = reader["[Measures].[" + cprFieldName + "]"] == DBNull.Value ? 0 : Convert.ToDouble(reader["[Measures].[" + cprFieldName + "]"]);
-			this.CPA = reader["[Measures].[" + cpaFieldName + "]"] == DBNull.Value ? 0 : Convert.ToDouble(reader["[Measures].[" + cpaFieldName + "]"]);
-
 			
+			if (!string.IsNullOrEmpty(acq2FieldName))
+			{
+				this.Acq2 = reader["[Measures].[" + acq2FieldName + "]"] == DBNull.Value ? 0 : Convert.ToDouble(reader["[Measures].[" + acq2FieldName + "]"]);
+				this.CPA = reader["[Measures].[" + cpaFieldName + "]"] == DBNull.Value ? 0 : Convert.ToDouble(reader["[Measures].[" + cpaFieldName + "]"]);
+			}
 
 			if (!string.IsNullOrEmpty(extraFields))
 			{

@@ -60,9 +60,9 @@ public partial class StoredProcedures
 			GetAdgroupMDXQueryParams(AccountID, ChannelID, cubeName, acq1FieldName, acq2FieldName, cpaFieldName, cprFieldName, extraFields, excludeBuilder, fromDate, toDate, out withMdxBuilder, out selectMdxBuilder, out fromMdxBuilder);
 
 
-			//SqlContext.Pipe.Send(withMdxBuilder.ToString());
-			//SqlContext.Pipe.Send(selectMdxBuilder.ToString());
-			//SqlContext.Pipe.Send(fromMdxBuilder.ToString());
+			SqlContext.Pipe.Send(withMdxBuilder.ToString());
+			SqlContext.Pipe.Send(selectMdxBuilder.ToString());
+			SqlContext.Pipe.Send(fromMdxBuilder.ToString());
 
 			#region Creating Command
 			SqlCommand command = new SqlCommand("dbo.SP_ExecuteMDX");
@@ -76,8 +76,6 @@ public partial class StoredProcedures
 			SqlParameter fromMDX = new SqlParameter("FromMDX", fromMdxBuilder.ToString());
 			command.Parameters.Add(fromMDX);
 			#endregion
-
-
 
 
 			Dictionary<string, AlertedCampaign> campaigns = new Dictionary<string, AlertedCampaign>();
@@ -101,12 +99,8 @@ public partial class StoredProcedures
 					}
 				}
 
-
-
 				List<AlertedAdgroup> alertedAdgroups = new List<AlertedAdgroup>();
 				StringBuilder commandBuilder = new StringBuilder();
-
-
 
 				if (campaigns.Count > 0)
 					CalcTotalsAndAvg(campaigns, out totalCost, out totalAcq1, out totalAcq2, out avgCPA, out avgCPR);
@@ -115,7 +109,9 @@ public partial class StoredProcedures
 
 				foreach (var camp in campaigns)
 				{
-
+					//==========================================
+					//TO DO: remove CPA condition if doesnt required
+					//==========================================
 					var alertedAdgroupsPerCampaign = (from ag in camp.Value.AdGroups
 													  where (ag.GetCalculatedCPA() >= CPA_threshold * avgCPA) || (ag.GetCalculatedCPR() >= CPR_threshold * avgCPR)
 													  select ag).OrderByDescending(val => val.Priority);
@@ -130,6 +126,11 @@ public partial class StoredProcedures
 
 				SqlMetaData[] cols = new SqlMetaData[]
 				{
+
+					//==========================================
+					//TO DO: remove CPA if doesnt required
+					//==========================================
+
 					new SqlMetaData("Campaign", SqlDbType.NVarChar, 1024),
 					new SqlMetaData("AdGroup", SqlDbType.NVarChar, 1024),
 					new SqlMetaData("Cost", SqlDbType.NVarChar, 1024),
@@ -149,6 +150,10 @@ public partial class StoredProcedures
 				{
 					if (adgroup.Priority > 2)
 						continue;
+
+					//==========================================
+					//TO DO: remove CPA if doesnt required
+					//==========================================
 
 					rec.SetSqlString(0, adgroup.CampaignName);
 					rec.SetSqlString(1, adgroup.Name);
@@ -175,6 +180,7 @@ public partial class StoredProcedures
 			throw new Exception(".Net Exception : " + e.ToString(), e);
 		}
 	
+		//TO DO: remove CPA if doesnt required
 		returnMsg = string.Format("<br><br>Execution Time: {0:dd/MM/yy H:mm} GMT <br><br>Time Period:"
 		+ "{1} - {2} ({3} Days) <br><strong> AVG CPA: ${4} </strong><br><strong> AVG CPR: ${5} </strong><br>"
 		+ " Defined CPA Threshold: {6}% <br> Defined CPR Threshold: {7}% <br>",
@@ -189,9 +195,6 @@ public partial class StoredProcedures
 		CPR_threshold * 100
 
 			);
-
-
-
 	}
 
 	private static void SetAdgroupValuePriority(Dictionary<string, AlertedCampaign> campaigns,double totalAvgCPA, double totalAvgCPR)
@@ -200,6 +203,7 @@ public partial class StoredProcedures
 		{
 			foreach (AlertedAdgroup adgroup in campaign.Value.AdGroups)
 			{
+				//TO DO: check if CPA is required
 				adgroup.setValuePriority(totalAvgCPA, totalAvgCPR);
 			}
 		}
@@ -207,6 +211,10 @@ public partial class StoredProcedures
 
 	private static void CalcTotalsAndAvg(Dictionary<string, AlertedCampaign> campaigns, out double totalCost, out double totalAcq1, out double totalAcq2, out double avgCPA, out double avgCPR)
 	{
+
+		//==========================================
+		//TO DO: remove CPA if doesnt required
+		//==========================================
 
 		totalCost = 0;
 		totalAcq1 = 0;
@@ -240,10 +248,15 @@ public partial class StoredProcedures
 
 		StringBuilder measureBuilder = new StringBuilder();
 		measureBuilder.Append("[Measures].[Cost], ");
-		measureBuilder.Append(string.Format("[Measures].[{0}],", cpaFieldName)); // cost/active
 		measureBuilder.Append(string.Format("[Measures].[{0}], ", acq1FieldName)); //ex. actives
 		measureBuilder.Append(string.Format("[Measures].[{0}],", cprFieldName)); // cost/active
-		measureBuilder.Append(string.Format("[Measures].[{0}] ", acq2FieldName)); //ex. actives
+
+		if (!string.IsNullOrEmpty(acq2FieldName))
+		{
+			measureBuilder.Append(string.Format("[Measures].[{0}] ", acq2FieldName)); //ex. actives
+			measureBuilder.Append(string.Format("[Measures].[{0}],", cpaFieldName)); // cost/active
+		}
+
 
 		//Adding ExtraFields
 		if (!String.IsNullOrEmpty(extraFields))
