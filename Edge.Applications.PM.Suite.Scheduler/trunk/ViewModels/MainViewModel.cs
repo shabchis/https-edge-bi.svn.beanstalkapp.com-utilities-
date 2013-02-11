@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Data;
@@ -23,6 +24,9 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 		#region Data Members
 		private ServiceEnvironment _environment;
 		private ServiceEnvironmentEventListener _listener;
+		private readonly DispatcherTimer _cleanTimer = new DispatcherTimer();
+		private readonly TimeSpan _removeServicesThreashold;
+		
 		//private ServiceExecutionHost _host;
 
 		private readonly Dictionary<string, ServiceInstanceModel> _serviceInstanceMap = new Dictionary<string, ServiceInstanceModel>();
@@ -53,9 +57,10 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 		public ICommand CollapseCommand { get; set; }
 		public ICommand ExpandCommand { get; set; }
+		public ICommand SelectAllCommand { get; set; }
+		public ICommand UnselectAllCommand { get; set; }
+		public ICommand RemoveSelectedCommand { get; set; }
 
-		private DispatcherTimer _cleanTimer = new DispatcherTimer();
-		private TimeSpan _removeServicesThreashold;
 		#endregion
 
 		#region Ctor
@@ -70,12 +75,16 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 
 			CollapseCommand = new DelegateCommand(() => Expand(false), () => true);
 			ExpandCommand = new DelegateCommand(() => Expand(true), () => true);
+			SelectAllCommand = new DelegateCommand(() => SelectAll(true), () => true);
+			UnselectAllCommand = new DelegateCommand(() => SelectAll(false), () => true);
+			RemoveSelectedCommand = new DelegateCommand(RemoveSelectedServices, () => true);
 
 			_view = CollectionViewSource.GetDefaultView(_serviceInstanceList);
-			SortedColumn = "RequestedTime";
+			SortedColumn = "Requested Time";
 
 			InitSortableColumnsList();
 
+			// init timer for remove old services
 			var days = int.Parse(ConfigurationManager.AppSettings["ShowServicesDaysBack"]);
 			_removeServicesThreashold = new TimeSpan(days,0,0,0);
 
@@ -191,9 +200,18 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 			}
 		}
 
+		private void SelectAll(bool toSelect)
+		{
+			// recursive selection via IsSelect property
+			foreach (var serviceInstance in _serviceInstanceList)
+			{
+				serviceInstance.IsSelected = toSelect;
+			}
+		}
+
 		private void InitSortableColumnsList()
 		{
-			SortableColumnsList = new List<string> { "ServiceName", "AccountName", "RequestedTime", "State" };
+			SortableColumnsList = new List<string> { "Service Name", "Account Name", "Requested Time", "State" };
 		}
 		
 		private void AddSorting()
@@ -201,8 +219,8 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 			if (_view != null)
 			{
 				_view.SortDescriptions.Clear();
-				_view.SortDescriptions.Add(new SortDescription(SortedColumn, ListSortDirection.Ascending));
-				if (SortedColumn != "RequestedTime")
+				_view.SortDescriptions.Add(new SortDescription(SortedColumn.Replace(" ", ""), ListSortDirection.Ascending));
+				if (SortedColumn != "Requested Time")
 				{
 					_view.SortDescriptions.Add(new SortDescription("RequestedTime", ListSortDirection.Ascending));
 				}
@@ -221,6 +239,18 @@ namespace Edge.Applications.PM.SchedulerControl.ViewModels
 				service.ChildsSteps.Clear();
 			}
 			_serviceInstanceMap.Remove(service.InstanceID);
+		}
+
+		private void RemoveSelectedServices()
+		{
+			var toRemoveList = _serviceInstanceList.Where(x => x.IsSelected).ToList();
+			foreach (var service in toRemoveList)
+			{
+				// recursively remove childs
+				RemoveServiceRecursively(service);
+				// remove service itself from hierarchy
+				_serviceInstanceList.Remove(service);
+			}
 		}
 		#endregion
 

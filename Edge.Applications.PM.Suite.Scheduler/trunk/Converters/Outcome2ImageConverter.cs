@@ -11,7 +11,7 @@ namespace Edge.Applications.PM.SchedulerControl.Converters
 			var outcome = (ServiceOutcome)value;
 
 			var iconPath = outcome == ServiceOutcome.Failure || outcome == ServiceOutcome.Success
-				           ? String.Format("..\\Icons\\{0}.ico", outcome.ToString())
+				           ? String.Format("{0}\\Icons\\{1}.ico",Environment.CurrentDirectory, outcome)
 				           : null;
 
 			return iconPath;
