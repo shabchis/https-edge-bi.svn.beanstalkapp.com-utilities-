@@ -26,6 +26,13 @@ namespace Edge.Applications.PM.SchedulerControl.Models
 				{
 					_isSelected = value;
 					NotifyPropertyChanged("IsSelected");
+					
+					// select all its childs
+					if (ChildsSteps != null)
+					{
+						foreach (var child in ChildsSteps)
+							child.IsSelected = value;
+					}
 				}
 			}
 		}

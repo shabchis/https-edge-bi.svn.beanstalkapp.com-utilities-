@@ -18,9 +18,15 @@
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBlock Text="Order by:" Margin="5, 7, 5, 5"/>
             <ComboBox Margin="5" ItemsSource="{Binding SortableColumnsList}" SelectedValue="{Binding SortedColumn, Mode=TwoWay}" Width="120"/>
+            <Border Width="1" Background="LightGray" Margin="0,3"></Border>
             <Button Content="Collapse All" Width="70" Margin="5" Command="{Binding CollapseCommand}"></Button>
             <Button Content="Expand All" Width="70" Margin="5" Command="{Binding ExpandCommand}"></Button>
-		</StackPanel>
+            <Border Width="1" Background="LightGray" Margin="0,3"></Border>
+            <Button Content="Select All" Width="70" Margin="5" Command="{Binding SelectAllCommand}"></Button>
+            <Button Content="Unselect All" Width="70" Margin="5" Command="{Binding UnselectAllCommand}"></Button>
+            <Border Width="1" Background="LightGray" Margin="0,3"></Border>
+            <Button Content="Remove Selected" Width="100" Margin="5" Command="{Binding RemoveSelectedCommand}"></Button>
+        </StackPanel>
 
         <ui:TreeListView Name="_tree" ItemsSource="{Binding ServiceInstanceListView}" Grid.Row="1" Grid.Column="0">
 			<TreeView.Resources>
