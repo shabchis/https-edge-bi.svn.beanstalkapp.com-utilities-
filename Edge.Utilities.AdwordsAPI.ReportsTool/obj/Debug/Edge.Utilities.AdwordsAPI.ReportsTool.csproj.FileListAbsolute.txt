@@ -1,0 +1,14 @@
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\bin\Debug\Edge.Utilities.AdwordsAPI.ReportsTool.exe.config
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\bin\Debug\Edge.Utilities.AdwordsAPI.ReportsTool.exe
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\bin\Debug\Edge.Utilities.AdwordsAPI.ReportsTool.pdb
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\bin\Debug\Google.AdWords.V201302.dll
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\bin\Debug\Google.Ads.Common.dll
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\obj\Debug\Edge.Utilities.AdwordsAPI.ReportsTool.csprojResolveAssemblyReference.cache
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\obj\Debug\Edge.Utilities.AdwordsAPI.ReportsTool.Form1.resources
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\obj\Debug\Edge.Utilities.AdwordsAPI.ReportsTool.Properties.Resources.resources
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\obj\Debug\Edge.Utilities.AdwordsAPI.ReportsTool.csproj.GenerateResource.Cache
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\obj\Debug\Edge.Utilities.AdwordsAPI.ReportsTool.exe
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\obj\Debug\Edge.Utilities.AdwordsAPI.ReportsTool.pdb
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\bin\Debug\Edge.Core.dll
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\bin\Debug\log4net.dll
+D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Edge.Utilities.AdwordsAPI.ReportsTool\bin\Debug\Edge.Core.pdb
