@@ -193,9 +193,10 @@ public partial class StoredProcedures
 				SqlContext.Pipe.Send(string.Format("The Total Conv is {0}", totalConv));
 				SqlContext.Pipe.Send(string.Format("The Total Cost is {0}", totalCost));
 
-				var alertedCampaigns = (from c in campaigns
-									   where c.GetCalculatedCPA() > threshold * avgCpa
-									   select c).OrderBy(val=>val.;
+                var alertedCampaigns = from c in campaigns
+                                       where c.GetCalculatedCPA() > threshold * avgCpa
+                                       orderby c.CPA, c.Name
+                                       select c;
 
 				StringBuilder commandBuilder = new StringBuilder();
 

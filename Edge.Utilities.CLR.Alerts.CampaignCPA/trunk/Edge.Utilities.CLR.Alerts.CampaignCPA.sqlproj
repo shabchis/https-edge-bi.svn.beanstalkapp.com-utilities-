@@ -8,8 +8,6 @@
     <PostConversionAddToScc>
     </PostConversionAddToScc>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-    <TargetFrameworkProfile />
-    <PermissionSet>UNSAFE</PermissionSet>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,16 +18,16 @@
     <OutputType>Database</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>Edge.Utilities.CLR.Alerts.CampaignCPA</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ConnectionString>
     </ConnectionString>
     <FileUpgradeFlags>40</FileUpgradeFlags>
-    <UpgradeBackupLocation>D:\Edge\Codebase\EDGE-MERGE\edge-services\(solutions)\Backup\Edge.Utilities.CLR.Alerts.CampaignCPA\</UpgradeBackupLocation>
+    <UpgradeBackupLocation>D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Backup7\</UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
     <Name>Edge.Utilities.CLR.Alerts.CampaignCPA</Name>
     <ProjectVersion>4.0</ProjectVersion>
-    <ProjectGuid>{6c829773-2adb-4b3c-bc41-f718b1e4d523}</ProjectGuid>
+    <ProjectGuid>{9e998ac7-60ea-4909-a00b-14d6723744ef}</ProjectGuid>
     <IncludeSchemaNameInFileName>False</IncludeSchemaNameInFileName>
     <GenerateDatabaseFile>False</GenerateDatabaseFile>
     <GenerateCreateScript>False</GenerateCreateScript>
@@ -70,25 +68,16 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
-    <Reference Include="System">
-      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
-    </Reference>
-    <Reference Include="System.Data">
-      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
-    </Reference>
-    <Reference Include="System.Core">
-      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
-    </Reference>
-    <Reference Include="System.Xml">
-      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
-    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlertedObjects\AbstractAlertedUnit.cs" />
     <Compile Include="AdgroupCPA_Alerts.cs" />
     <Compile Include="AlertedObjects\AlertedAdgroup.cs" />
-    <Compile Include="AlertedObjects\AlertedCampaignAdgroups.cs" />
-    <Compile Include="CampaignCPA_Alerts.cs" />
+    <Compile Include="AlertedObjects\AlertedCampaign.cs" />
+    <Compile Include="CampaignCPA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,9 +95,6 @@
     <Folder Include="AlertedObjects\" />
     <Folder Include="Properties\" />
     <Folder Include="Test Scripts\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Edge.Utilities.CLR.Alerts.CampaignCPA.publish.xml" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
