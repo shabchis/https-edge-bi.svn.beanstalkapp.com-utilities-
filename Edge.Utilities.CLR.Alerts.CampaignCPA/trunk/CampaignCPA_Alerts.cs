@@ -19,62 +19,7 @@ using Edge.Utilities.CLR.Alerts.CampaignCPA;
 
 public partial class StoredProcedures
 {
-	public class Campaign
-	{
-		public int ID;
-		public string Name;
-		public double Cost;
-		public double Acq;
-		public double CPA;
-		public double CPR;
-		public bool zeroConv = false;
-		public Dictionary<string, object> ExtraFields = new Dictionary<string, object>();
-		public Dictionary<string, Dictionary<string, double>> adGroups = new Dictionary<string, Dictionary<string, double>>();
-        public double Priority = 0;
-
-        internal void setValuePriority(double totalAvgCPA, double totalAvgCPR)
-        {
-            this.Priority = Cost - this.Acq * totalAvgCPA - this.Acq1 * totalAvgCPR;
-        }
-
-		public Campaign(SqlDataReader mdxReader, string extraFields, string acq1Field, string cpaField)
-		{
-			Name = Convert.ToString(mdxReader["[Getways Dim].[Gateways].[Campaign].[MEMBER_CAPTION]"]);
-			SqlContext.Pipe.Send(string.Format("Name = {0}", Name));
-
-			Cost = mdxReader["[Measures].[Cost]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[Cost]"]);
-			SqlContext.Pipe.Send(string.Format("Cost = {0}", Cost));
-
-			CPA = mdxReader["[Measures].[" + cpaField + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + cpaField + "]"]);
-			SqlContext.Pipe.Send(string.Format("CPA = {0}", CPA));
-
-			Acq = mdxReader["[Measures].[" + acq1Field + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + acq1Field + "]"]);
-			SqlContext.Pipe.Send(string.Format("Conv = {0}", Acq));
-
-			if(!string.IsNullOrEmpty(extraFields))
-			{
-				foreach (string extraField in extraFields.Split(','))
-				{
-					ExtraFields.Add(extraField, mdxReader["[Measures].["+extraField+"]"]);
-				}
-			}
-
-		}
-
-		public Campaign()
-		{
-			// TODO: Complete member initialization
-		}
-		public double GetCalculatedCPA()
-		{
-			if (this.CPA == 0 && this.Cost != 0)
-				return this.Cost;
-			else
-				return this.CPA;
-		}
-
-
-	}
+	
 
 	[Microsoft.SqlServer.Server.SqlProcedure]
 	public static void CLR_Alerts_ConversionAnalysis(Int32 AccountID, Int32 Period, DateTime ToDay, string ChannelID, Int32 threshold, string excludeIds, string cubeName, string acqFieldName, string cpaFieldName, out SqlString returnMsg, string extraFields)
@@ -143,7 +88,7 @@ public partial class StoredProcedures
 
 			fromMdxBuilder.Append(string.Format(", [Time Dim].[Time Dim].[Day].&[{0}]:[Time Dim].[Time Dim].[Day].&[{1}])", fromDate, toDate));
 
-			List<Campaign> campaigns = new List<Campaign>();
+			List<AlertedCampaign> campaigns = new List<AlertedCampaign>();
 
 			#region Creating Command
 		    SqlCommand command = new SqlCommand("dbo.SP_ExecuteMDX");
@@ -169,7 +114,7 @@ public partial class StoredProcedures
 				{
 					while (reader.Read())
 					{
-						campaigns.Add(new Campaign(reader,extraFields,acqFieldName,cpaFieldName));
+						campaigns.Add(new AlertedCampaign(reader,extraFields,acqFieldName,cpaFieldName));
 					}
 				}
 			}
@@ -178,7 +123,7 @@ public partial class StoredProcedures
 
 			if (campaigns.Count > 0)
 			{
-				foreach (Campaign camp in campaigns)
+				foreach (AlertedCampaign camp in campaigns)
 				{
 					totalCost += camp.Cost;
 					totalConv += camp.Acq;
@@ -193,68 +138,70 @@ public partial class StoredProcedures
 				SqlContext.Pipe.Send(string.Format("The Total Conv is {0}", totalConv));
 				SqlContext.Pipe.Send(string.Format("The Total Cost is {0}", totalCost));
 
-                var alertedCampaigns = from c in campaigns
+                var alertedCampaigns = (from c in campaigns
                                        where c.GetCalculatedCPA() > threshold * avgCpa
-                                       orderby c.CPA, c.Name
-                                       select c;
+                                       select c).OrderByDescending(val=>val.Priority);
+
+
+                #region Creating CLR Table Cols
+                List<SqlMetaData> cols_list = new List<SqlMetaData>()
+                {
+                    new SqlMetaData("Campaign", SqlDbType.NVarChar, 1024),
+					new SqlMetaData("Cost", SqlDbType.NVarChar, 1024),
+					new SqlMetaData(acqFieldName, SqlDbType.NVarChar, 1024),
+					new SqlMetaData(string.Format("CPA({0})",cpaFieldName), SqlDbType.NVarChar, 1024)
+                };
+
+                if (!string.IsNullOrEmpty(extraFields))
+                {
+                    foreach (string extraField in extraFields.Split(','))
+                    {
+                        cols_list.Add(new SqlMetaData(extraField, SqlDbType.NVarChar, 1024));
+                    }
+                }
+
+                SqlDataRecord rec = new SqlDataRecord(cols_list.ToArray<SqlMetaData>());
+                #endregion
 
 				StringBuilder commandBuilder = new StringBuilder();
+                
+                SqlContext.Pipe.SendResultsStart(rec);
 
-				foreach (var unit in alertedCampaigns)
+				foreach (AlertedCampaign alertedCamp in alertedCampaigns)
 				{
-					commandBuilder.Append(string.Format("select '{0}' as 'Campaign' , '${1}' as 'Cost', '{2}' as '{4}' ,'${3}' as 'CPA' "
-						, unit.Name,
-						string.IsNullOrEmpty((Math.Round(unit.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(unit.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)),
-						Math.Round(unit.Acq, 0),
-						string.IsNullOrEmpty((Math.Round(unit.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : ((Math.Round(unit.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)),
-						acqFieldName));
+                    //Campaign Name
+                    rec.SetSqlString(0, alertedCamp.Name);
+                    //cost
+                    rec.SetSqlString(2, string.IsNullOrEmpty((Math.Round(alertedCamp.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : '$' + ((Math.Round(alertedCamp.Cost, 0)).ToString("#,#", CultureInfo.InvariantCulture)));
+                    //actives
+                    rec.SetSqlString(3, Math.Round(alertedCamp.Acq, 0).ToString());
+                    //CPA
+                    rec.SetSqlString(4, string.IsNullOrEmpty((Math.Round(alertedCamp.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)) == true ? "0" : '$' + ((Math.Round(alertedCamp.CPA, 0)).ToString("#,#", CultureInfo.InvariantCulture)));
 
-					//SqlContext.Pipe.Send(string.Format("select '{0}' as 'Campaign' , {1} as 'Cost', {2} as '{4}' ,{3} as 'CPA' "
-					//    , unit.Name, Math.Round(unit.Cost, 2), unit.Acq, Math.Round(unit.CPA, 0), acqFieldName));
+                    //Adding ExtraFields
+                    if (alertedCamp.ExtraFields.Count > 0)
+                    {
+                        int colNum = 5;
+                        foreach (var extraField in alertedCamp.ExtraFields)
+                        {
+                            string sign = string.Empty;
+                            if (extraField.Key.ToLower().Contains("cost"))
+                                sign = "$";
+                            rec.SetSqlString(colNum, (string.Format(" ,'{2}{0}' as '{1}'", extraField.Value == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(extraField.Value), 0)).ToString("#,#", CultureInfo.InvariantCulture), extraField.Key, sign)));
 
+                            colNum++;
+                        }
+                    }
+                    
+                   
 
-
-					//Adding ExtraFields
-					if (unit.ExtraFields.Count > 0)
-					{
-						foreach (var extraField in unit.ExtraFields)
-						{
-							string sign = string.Empty;
-							if (extraField.Key.ToLower().Contains("cost"))
-								sign = "$";
-							commandBuilder.Append(string.Format(" ,'{2}{0}' as '{1}'", extraField.Value == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(extraField.Value), 0)).ToString("#,#", CultureInfo.InvariantCulture), extraField.Key, sign));
-							//SqlContext.Pipe.Send(string.Format(" ,'{0}' as '{1}'", extraField.Value, extraField.Key));
-						}
-						
-					}
-
-					commandBuilder.Append(" Union ");
-					SqlContext.Pipe.Send(" Union ");
-
+                    //Priority
+                    //rec.SetSqlString(7, adgroup.Priority.ToString());
+                    SqlContext.Pipe.SendResultsEnd();
 				}
-
-				
-
-				if (commandBuilder.Length > 0)
-				{
-					commandBuilder.Remove(commandBuilder.Length - 6, 6);
-					commandBuilder.Append(" Order by 4 desc"); // order by CPA
-					SqlCommand reasultsCmd = new SqlCommand(commandBuilder.ToString());
-					using (SqlConnection conn2 = new SqlConnection("context connection=true"))
-					{
-						conn2.Open();
-						reasultsCmd.Connection = conn2;
-						reasultsCmd.CommandTimeout = 9000;
-						using (SqlDataReader reader = reasultsCmd.ExecuteReader())
-						{
-							SqlContext.Pipe.Send(reader);
-						}
-					}
-				}
-
 			}
-
 		}
+
 		catch (Exception e)
 		{
 			throw new Exception(".Net Exception : " + e.ToString(), e);

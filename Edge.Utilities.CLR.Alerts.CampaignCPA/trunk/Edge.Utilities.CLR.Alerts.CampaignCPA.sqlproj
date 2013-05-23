@@ -8,6 +8,7 @@
     <PostConversionAddToScc>
     </PostConversionAddToScc>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -18,13 +19,13 @@
     <OutputType>Database</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>Edge.Utilities.CLR.Alerts.CampaignCPA</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <ConnectionString>
     </ConnectionString>
     <FileUpgradeFlags>40</FileUpgradeFlags>
     <UpgradeBackupLocation>D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Backup7\</UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
     <Name>Edge.Utilities.CLR.Alerts.CampaignCPA</Name>
     <ProjectVersion>4.0</ProjectVersion>
     <ProjectGuid>{9e998ac7-60ea-4909-a00b-14d6723744ef}</ProjectGuid>
@@ -71,14 +72,16 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlertedObjects\AbstractAlertedUnit.cs" />
     <Compile Include="AdgroupCPA_Alerts.cs" />
     <Compile Include="AlertedObjects\AlertedAdgroup.cs" />
-    <Compile Include="AlertedObjects\AlertedCampaign.cs" />
-    <Compile Include="CampaignCPA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CampaignCPA_Alerts.cs" />
+    <Compile Include="AlertedObjects\AlertedCampaignAdgroups.cs" />
+    <Compile Include="AlertedObjects\AlertedCampaign.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test Scripts\Test.sql">
