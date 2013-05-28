@@ -36,7 +36,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
         private void Form1_Load(object sender, EventArgs e)
         {
             //Setting Adwords User
-           
+
 
             foreach (var item in Enum.GetNames(typeof(ReportDefinitionReportType)))
             {
@@ -109,7 +109,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             }
             catch (Exception ex)
             {
-                this.response.Text = string.Format("{0} Inner: {1}",ex.Message,ex.InnerException.Message) ;
+                this.response.Text = string.Format("{0} Inner: {1}", ex.Message, ex.InnerException.Message);
             }
         }
 
@@ -284,7 +284,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 sb.Remove(sb.Length - 1, 1); // removing last ","
                 sb.Append(" FROM " + ReportNamesListBox.SelectedItem.ToString());
                 sb.Append(" DURING YESTERDAY ");
-                
+
                 this.AWQL_textBox.Text = sb.ToString();
             }
             else this.AWQL_textBox.Text = "No rows have been selected";
@@ -459,7 +459,148 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             catch (Exception ex)
             {
                 throw new System.ApplicationException("Failed to retrieve campaigns", ex);
-            }            
+            }
+        }
+
+        private void GetAccountHistory_Click(object sender, EventArgs e)
+        {
+
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+						{
+							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+							{"EnableGzipCompression",this.EnableGzipCompression.Text},
+							{"ClientCustomerId",this.ClientCustomerId.Text},
+							{"Email",this.Email.Text}
+						};
+
+
+            User = new AdWordsUser(headers);
+            try
+            {
+                //Getting AuthToken
+                (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+
+                // Get the CustomerSyncService.
+                CustomerSyncService customerSyncService =
+                    (CustomerSyncService)User.GetService(AdWordsService.v201302.CustomerSyncService);
+
+                // The date time string should be of the form  yyyyMMdd HHmmss zzz
+                string minDateTime = DateTime.Now.AddDays(-1).ToUniversalTime().ToString("yyyyMMdd HHmmss")
+                    + " UTC";
+                string maxDateTime = DateTime.Now.ToUniversalTime().ToString("yyyyMMdd HHmmss") + " UTC";
+
+                // Create date time range.
+                DateTimeRange dateTimeRange = new DateTimeRange();
+                dateTimeRange.min = minDateTime;
+                dateTimeRange.max = maxDateTime;
+
+                // Create the selector.
+                CustomerSyncSelector selector = new CustomerSyncSelector();
+                selector.dateTimeRange = dateTimeRange;
+                selector.campaignIds = GetAllCampaignIds(User);
+
+                // Get all account changes for campaign.
+                CustomerChangeData accountChanges = customerSyncService.get(selector);
+
+                // Display the changes.
+                if (accountChanges != null && accountChanges.changedCampaigns != null)
+                {
+                    Console.WriteLine("Displaying changes up to: {0}", accountChanges.lastChangeTimestamp);
+                    foreach (CampaignChangeData campaignChanges in accountChanges.changedCampaigns)
+                    {
+                        Console.WriteLine("Campaign with id \"{0}\" was changed:", campaignChanges.campaignId);
+                        Console.WriteLine("  Campaign changed status: {0}",
+                            campaignChanges.campaignChangeStatus);
+                        if (campaignChanges.campaignChangeStatus != ChangeStatus.NEW)
+                        {
+                            Console.WriteLine("  Added ad extensions: {0}", GetFormattedList(
+                                campaignChanges.addedAdExtensions));
+                            Console.WriteLine("  Added campaign criteria: {0}",
+                                GetFormattedList(campaignChanges.addedCampaignCriteria));
+                            Console.WriteLine("  Added campaign targeting: {0}",
+                                campaignChanges.campaignTargetingChanged ? "yes" : "no");
+                            Console.WriteLine("  Deleted ad extensions: {0}",
+                                GetFormattedList(campaignChanges.deletedAdExtensions));
+                            Console.WriteLine("  Deleted campaign criteria: {0}",
+                                GetFormattedList(campaignChanges.deletedCampaignCriteria));
+
+                            if (campaignChanges.changedAdGroups != null)
+                            {
+                                foreach (AdGroupChangeData adGroupChanges in campaignChanges.changedAdGroups)
+                                {
+                                    Console.WriteLine("  Ad group with id \"{0}\" was changed:",
+                                        adGroupChanges.adGroupId);
+                                    Console.WriteLine("    Ad group changed status: {0}",
+                                        adGroupChanges.adGroupChangeStatus);
+                                    if (adGroupChanges.adGroupChangeStatus != ChangeStatus.NEW)
+                                    {
+                                        Console.WriteLine("    Ads changed: {0}",
+                                            GetFormattedList(adGroupChanges.changedAds));
+                                        Console.WriteLine("    Criteria changed: {0}",
+                                            GetFormattedList(adGroupChanges.changedCriteria));
+                                        Console.WriteLine("    Criteria deleted: {0}",
+                                            GetFormattedList(adGroupChanges.deletedCriteria));
+                                    }
+                                }
+                            }
+                        }
+                        Console.WriteLine();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No account changes were found."); ;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new System.ApplicationException("Failed to get account changes.", ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Gets all campaign ids in the account.
+        /// </summary>
+        /// <param name="user">The user for which campaigns are retrieved.</param>
+        /// <returns>The list of campaign ids.</returns>
+        private long[] GetAllCampaignIds(AdWordsUser user)
+        {
+            // Get the CampaignService.
+            CampaignService campaignService =
+                (CampaignService)user.GetService(AdWordsService.v201302.CampaignService);
+
+            List<long> allCampaigns = new List<long>();
+
+            // Create the selector.
+            Selector selector = new Selector();
+            selector.fields = new string[] { "Id" };
+
+            // Get all campaigns.
+            CampaignPage page = campaignService.get(selector);
+
+            // Return the results.
+            if (page != null && page.entries != null)
+            {
+                foreach (Campaign campaign in page.entries)
+                {
+                    allCampaigns.Add(campaign.id);
+                }
+            }
+            return allCampaigns.ToArray();
+        }
+        private string GetFormattedList(long[] ids)
+        {
+            StringBuilder builder = new StringBuilder();
+            if (ids != null)
+            {
+                foreach (long id in ids)
+                {
+                    builder.AppendFormat("{0}, ", id);
+                }
+            }
+            return "[" + builder.ToString().TrimEnd(',', ' ') + "]";
         }
     }
 }
