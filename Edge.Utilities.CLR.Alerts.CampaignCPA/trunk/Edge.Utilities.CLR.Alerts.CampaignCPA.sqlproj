@@ -98,6 +98,10 @@
     <Folder Include="AlertedObjects\" />
     <Folder Include="Properties\" />
     <Folder Include="Test Scripts\" />
+    <Folder Include="PublishScripts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PublishScripts\79.125.11.74.publish.xml" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
