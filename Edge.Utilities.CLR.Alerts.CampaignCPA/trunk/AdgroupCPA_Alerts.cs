@@ -132,10 +132,10 @@ public partial class StoredProcedures
 					//new SqlMetaData("P", SqlDbType.NVarChar, 1024)
 				};
 				SqlDataRecord rec = new SqlDataRecord(cols);
-
-			
+                			
 				if (alertedAdgroups.Count == 0)
 					SqlContext.Pipe.Send("Error");
+
 				SqlContext.Pipe.SendResultsStart(rec);
 				foreach (AlertedAdgroup adgroup in alertedAdgroups)
 				{

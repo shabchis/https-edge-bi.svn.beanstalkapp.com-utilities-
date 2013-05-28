@@ -16,7 +16,8 @@ namespace Edge.Utilities.CLR.Alerts.CampaignCPA
         public int ID;
         public string Name;
         public double Cost;
-        public double Acq;
+        public double Acq1;
+        public double Acq2;
         public double CPA;
         public double CPR;
         public bool zeroConv = false;
@@ -24,36 +25,32 @@ namespace Edge.Utilities.CLR.Alerts.CampaignCPA
         public Dictionary<string, Dictionary<string, double>> adGroups = new Dictionary<string, Dictionary<string, double>>();
         public double Priority = 0;
 
-        internal void setValuePriority(double totalAvgCPA, double totalAvgCPR)
+        internal void setValuePriority()
         {
-            if (Acq == 0)
+            if (Acq1 == 0)
                 this.Priority = Cost;
             else
                 this.Priority = CPA;
         }
 
-        public AlertedCampaign(SqlDataReader mdxReader, string extraFields, string acq1Field, string cpaField)
+        public AlertedCampaign(SqlDataReader mdxReader, string acq1Field, string cpaField,string acq2Field, string cprField)
         {
             Name = Convert.ToString(mdxReader["[Getways Dim].[Gateways].[Campaign].[MEMBER_CAPTION]"]);
-            SqlContext.Pipe.Send(string.Format("Name = {0}", Name));
+           // SqlContext.Pipe.Send(string.Format("Name = {0}", Name));
 
             Cost = mdxReader["[Measures].[Cost]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[Cost]"]);
-            SqlContext.Pipe.Send(string.Format("Cost = {0}", Cost));
+            //SqlContext.Pipe.Send(string.Format("Cost = {0}", Cost));
 
             CPA = mdxReader["[Measures].[" + cpaField + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + cpaField + "]"]);
-            SqlContext.Pipe.Send(string.Format("CPA = {0}", CPA));
+            //SqlContext.Pipe.Send(string.Format("CPA = {0}", CPA));
 
-            Acq = mdxReader["[Measures].[" + acq1Field + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + acq1Field + "]"]);
-            SqlContext.Pipe.Send(string.Format("Conv = {0}", Acq));
+            Acq1 = mdxReader["[Measures].[" + acq1Field + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + acq1Field + "]"]);
+            //SqlContext.Pipe.Send(string.Format("Conv = {0}", Acq));
 
-            if (!string.IsNullOrEmpty(extraFields))
-            {
-                foreach (string extraField in extraFields.Split(','))
-                {
-                    ExtraFields.Add(extraField, mdxReader["[Measures].[" + extraField + "]"]);
-                }
-            }
+            Acq2 = mdxReader["[Measures].[" + acq2Field + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + acq2Field + "]"]);
+            CPR = mdxReader["[Measures].[" + cprField + "]"] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader["[Measures].[" + cprField + "]"]);
 
+            setValuePriority();
         }
 
         public AlertedCampaign()
