@@ -109,7 +109,7 @@ public partial class StoredProcedures
 				{
 
 					var alertedAdgroupsPerCampaign = (from ag in camp.Value.AdGroups
-													  where (ag.GetCalculatedCPA() >= CPA_threshold * avgCPA) || (ag.GetCalculatedCPR() >= CPR_threshold * avgCPR)
+													  where ((ag.GetCalculatedCPA() >= CPA_threshold * avgCPA) || (ag.GetCalculatedCPR() >= CPR_threshold * avgCPR)&& ag.Priority >= 0)
 													  select ag).OrderBy(val => val.Priority);
 
 					alertedAdgroups.AddRange(alertedAdgroupsPerCampaign);
