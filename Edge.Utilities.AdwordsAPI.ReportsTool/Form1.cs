@@ -85,7 +85,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 ReportDefinitionField[] reportDefinitionFields = reportDefinitionService.getReportFields(reportType);
                 foreach (ReportDefinitionField reportDefinitionField in reportDefinitionFields)
                 {
-                    this.AvailableReportFields.AppendText(reportDefinitionField.fieldName + ",");
+                    this.AvailableReportFields.AppendText(string.Format(@"""{0}"",",reportDefinitionField.fieldName ));
                     List<object> rowObjects = new List<object>();
 
                     this.dataGridView.Rows.Add(
@@ -226,7 +226,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
         private void Download_Click(object sender, EventArgs e)
         {
             AdWordsAppConfig config = (AdWordsAppConfig)User.Config;
-
+            
             string QUERY_REPORT_URL_FORMAT = "{0}/api/adwords/reportdownload/{1}?" + "__fmt={2}";
 
             string reportVersion = "v201302";
@@ -236,6 +236,9 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             string postData = string.Format("__rdquery={0}", HttpUtility.UrlEncode(query));
 
             ClientReport retval = new ClientReport();
+
+            FeedAttributeType f = new FeedAttributeType();
+            
 
             ReportsException ex = null;
             this.response.Text += "\n Report download has started...";
@@ -267,29 +270,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             this.response.Text += "\n DONE !";
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (this.dataGridView.SelectedRows.Count != 0)
-            {
-                sb = new StringBuilder();
-                sb.Append("SELECT ");
-
-                //Get selected fields
-                foreach (DataGridViewRow row in this.dataGridView.SelectedRows)
-                {
-                    sb.Append(row.Cells["fieldName"].Value);
-                    sb.Append(",");
-                }
-
-                sb.Remove(sb.Length - 1, 1); // removing last ","
-                sb.Append(" FROM " + ReportNamesListBox.SelectedItem.ToString());
-                sb.Append(" DURING YESTERDAY ");
-
-                this.AWQL_textBox.Text = sb.ToString();
-            }
-            else this.AWQL_textBox.Text = "No rows have been selected";
-
-        }
+     
         private bool DownloadReportToStream(string downloadUrl, AdWordsAppConfig config, bool returnMoneyInMicros, Stream outputStream, string postBody, AdWordsUser user)
         {
             this.response.Text += "\n Creating request...";
@@ -601,6 +582,590 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 }
             }
             return "[" + builder.ToString().TrimEnd(',', ' ') + "]";
+        }
+
+        private void GetAccountHierarchy_Click(object sender, EventArgs e)
+        {
+
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+						{
+							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+							{"EnableGzipCompression",this.EnableGzipCompression.Text},
+							{"ClientCustomerId",this.ClientCustomerId.Text},
+							{"Email",this.Email.Text}
+						};
+
+
+            User = new AdWordsUser(headers);
+
+            try
+            {
+                //Getting AuthToken
+                (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+            }
+            catch (Exception exc)
+            {
+                this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null? exc.InnerException.Message:string.Empty;
+            }
+
+            // Get the ManagedCustomerService.
+            ManagedCustomerService managedCustomerService = (ManagedCustomerService)User.GetService(
+                AdWordsService.v201302.ManagedCustomerService);
+            managedCustomerService.RequestHeader.clientCustomerId = null;
+
+            // Create selector.
+            Selector selector = new Selector();
+            selector.fields = new String[] { "Login", "CustomerId", "Name" };
+
+            try
+            {
+                // Get results.
+                ManagedCustomerPage page = managedCustomerService.get(selector);
+
+                // Display serviced account graph.
+                if (page.entries != null)
+                {
+                    // Create map from customerId to customer node.
+                    Dictionary<long, ManagedCustomerTreeNode> customerIdToCustomerNode = new Dictionary<long, ManagedCustomerTreeNode>();
+
+                    // Create account tree nodes for each customer.
+                    foreach (ManagedCustomer customer in page.entries)
+                    {
+                        ManagedCustomerTreeNode node = new ManagedCustomerTreeNode();
+                        node.Account = customer;
+                        customerIdToCustomerNode.Add(customer.customerId, node);
+                    }
+
+                    // For each link, connect nodes in tree.
+                    if (page.links != null)
+                    {
+                        foreach (ManagedCustomerLink link in page.links)
+                        {
+                            ManagedCustomerTreeNode managerNode =
+                                customerIdToCustomerNode[link.managerCustomerId];
+                            ManagedCustomerTreeNode childNode = customerIdToCustomerNode[link.clientCustomerId];
+                            childNode.ParentNode = managerNode;
+                            if (managerNode != null)
+                            {
+                                managerNode.ChildAccounts.Add(childNode);
+                            }
+                        }
+                    }
+
+                    // Find the root account node in the tree.
+                    ManagedCustomerTreeNode rootNode = null;
+                    foreach (ManagedCustomer account in page.entries)
+                    {
+                        if (customerIdToCustomerNode[account.customerId].ParentNode == null)
+                        {
+                            rootNode = customerIdToCustomerNode[account.customerId];
+                            break;
+                        }
+                    }
+
+                    // Display account tree.
+                    rchtxt.AppendText("Login, CustomerId, Name");
+                    rchtxt.AppendText(rootNode.ToTreeString(0, new StringBuilder()));
+                   // Console.WriteLine("Login, CustomerId, Name");
+                   // Console.WriteLine(rootNode.ToTreeString(0, new StringBuilder()));
+                }
+                else
+                {
+                    Console.WriteLine("No serviced accounts were found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new System.ApplicationException("Failed to create ad groups.", ex);
+            }
+        }
+
+        private void GetAwql_Click(object sender, EventArgs e)
+        {
+             
+            if (this.dataGridView.SelectedRows.Count != 0)
+            {
+                this.AvailableReportFields.Clear();
+                sb = new StringBuilder();
+                sb.Append("SELECT ");
+
+                //Get selected fields
+                foreach (DataGridViewRow row in this.dataGridView.SelectedRows)
+                {
+                    sb.Append(row.Cells["fieldName"].Value);
+                    sb.Append(",");
+                    this.AvailableReportFields.AppendText(string.Format(@"""{0}"",", row.Cells["fieldName"].Value));
+                }
+
+                sb.Remove(sb.Length - 1, 1); // removing last ","
+                sb.Append(" FROM " + ReportNamesListBox.SelectedItem.ToString());
+                sb.Append(" DURING YESTERDAY ");
+
+                this.AWQL_textBox.Text = sb.ToString();
+                path.Text = "C:\\" + ClientCustomerId.Text + "_" + ReportNamesListBox.SelectedItem.ToString() + "_" + DateTime.Now.ToString("ddssFFFFFFF") + ".Gzip";
+            }
+            else this.AWQL_textBox.Text = "No rows have been selected";
+        }
+
+        private void GetCampaigns_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+						{
+							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+							{"EnableGzipCompression",this.EnableGzipCompression.Text},
+							{"ClientCustomerId",this.ClientCustomerId.Text},
+							{"Email",this.Email.Text}
+						};
+
+
+            User = new AdWordsUser(headers);
+
+            try
+            {
+                //Getting AuthToken
+                (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+            }
+            catch (Exception exc)
+            {
+                this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
+            }
+
+            
+            // Get the CampaignService.
+            CampaignService campaignService =
+                (CampaignService)User.GetService(AdWordsService.v201302.CampaignService);
+            
+ 
+
+            // Create the query.
+            string query = "SELECT Id, Name, Status,Settings ORDER BY Name";
+
+            int offset = 0;
+            int pageSize = 500;
+
+            CampaignPage page = new CampaignPage();
+
+            try
+            {
+                do
+                {
+                    string queryWithPaging = string.Format("{0} LIMIT {1}, {2}", query, offset, pageSize);
+
+                    // Get the campaigns.
+                    page = campaignService.query(queryWithPaging);
+
+                    // Display the results.
+                    if (page != null && page.entries != null)
+                    {
+                        int i = offset;
+                        foreach (Campaign campaign in page.entries)
+                        {
+                            this.rchtxt.AppendText(string.Format("/n Campaign id = '{0}', name = '{1}' ,status = '{2}'" + " was found.", campaign.id, campaign.name, campaign.status));
+                            
+                           //  i++;
+                        }
+                    }
+                    offset += pageSize;
+                } while (offset < page.totalNumEntries);
+                Console.WriteLine("Number of campaigns found: {0}", page.totalNumEntries);
+            }
+            catch (Exception ex)
+            {
+                throw new System.ApplicationException("Failed to retrieve campaigns", ex);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+						{
+							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+							{"EnableGzipCompression",this.EnableGzipCompression.Text},
+							{"ClientCustomerId",this.ClientCustomerId.Text},
+							{"Email",this.Email.Text}
+						};
+
+
+            User = new AdWordsUser(headers);
+
+            try
+            {
+                //Getting AuthToken
+                (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+            }
+            catch (Exception exc)
+            {
+                this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
+            }
+
+            CampaignCriterionService campaignCriterionService = (CampaignCriterionService)User.GetService(AdWordsService.v201302.CampaignCriterionService);
+
+            // Create the selector.
+            Selector selector = new Selector();
+            selector.fields = new string[] { "Id", "CriteriaType", "CampaignId" };
+
+            // Set the filters.
+          //  Predicate predicate = new Predicate();
+          //  predicate.field = "CampaignId";
+           // predicate.@operator = PredicateOperator.EQUALS;
+           // predicate.values = new string[] { campaignId.ToString() };
+
+          //  selector.predicates = new Predicate[] { predicate };
+
+            // Set the selector paging.
+            selector.paging = new Paging();
+
+            int offset = 0;
+            int pageSize = 500;
+
+            CampaignCriterionPage page = new CampaignCriterionPage();
+
+            try
+            {
+                do
+                {
+                    selector.paging.startIndex = offset;
+                    selector.paging.numberResults = pageSize;
+
+                    // Get all campaign targets.
+                    page = campaignCriterionService.get(selector);
+
+                    // Display the results.
+                    if (page != null && page.entries != null)
+                    {
+                        int i = offset;
+                        foreach (CampaignCriterion campaignCriterion in page.entries)
+                        {
+                            string negative = (campaignCriterion is NegativeCampaignCriterion) ? "Negative " : "";
+                            Console.WriteLine("{0}) {1}Campaign criterion with id = '{2}' and Type = {3} was " +
+                                " found for campaign id '{4}'", i, negative, campaignCriterion.criterion.id,
+                                campaignCriterion.criterion.type, campaignCriterion.campaignId);
+                            i++;
+                        }
+                    }
+                    offset += pageSize;
+                } while (offset < page.totalNumEntries);
+                Console.WriteLine("Number of campaign targeting criteria found: {0}", page.totalNumEntries);
+            }
+            catch (Exception ex)
+            {
+                throw new System.ApplicationException("Failed to get campaign targeting criteria.", ex);
+            }
+
+
+
+
+
+        }
+
+        private void GetAgSettings_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+						{
+							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+							{"EnableGzipCompression",this.EnableGzipCompression.Text},
+							{"ClientCustomerId",this.ClientCustomerId.Text},
+							{"Email",this.Email.Text}
+						};
+
+
+            User = new AdWordsUser(headers);
+
+            try
+            {
+                //Getting AuthToken
+                (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+            }
+            catch (Exception exc)
+            {
+                this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
+            }
+
+            AdGroupCriterionService agCriterionService = (AdGroupCriterionService)User.GetService(AdWordsService.v201302.AdGroupCriterionService);
+
+            // Create the selector.
+            Selector selector = new Selector();
+            selector.fields = new string[] { "Id", "AdGroupId","Status" };
+
+            // Set the filters.
+            //  Predicate predicate = new Predicate();
+            //  predicate.field = "CampaignId";
+            // predicate.@operator = PredicateOperator.EQUALS;
+            // predicate.values = new string[] { campaignId.ToString() };
+
+            //  selector.predicates = new Predicate[] { predicate };
+
+            // Set the selector paging.
+            selector.paging = new Paging();
+
+            int offset = 0;
+            int pageSize = 500;
+
+            AdGroupCriterionPage page = new AdGroupCriterionPage();
+
+            try
+            {
+                do
+                {
+                    selector.paging.startIndex = offset;
+                    selector.paging.numberResults = pageSize;
+
+                    // Get all campaign targets.
+                    page = agCriterionService.get(selector);
+
+                    // Display the results.
+                    if (page != null && page.entries != null)
+                    {
+                        int i = offset;
+                        foreach (AdGroupCriterion adGroupCriterion in page.entries)
+                        {
+                            i++;
+                        }
+                    }
+                    offset += pageSize;
+                } while (offset < page.totalNumEntries);
+                Console.WriteLine("Number of ad groups criteria found: {0}", page.totalNumEntries);
+            }
+            catch (Exception ex)
+            {
+                throw new System.ApplicationException("Failed to get adgroup targeting criteria.", ex);
+            }
+        }
+
+        private void GetAgSettings2_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+						{
+							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+							{"EnableGzipCompression",this.EnableGzipCompression.Text},
+							{"ClientCustomerId",this.ClientCustomerId.Text},
+							{"Email",this.Email.Text}
+						};
+
+
+            User = new AdWordsUser(headers);
+
+            try
+            {
+                //Getting AuthToken
+                (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+            }
+            catch (Exception exc)
+            {
+                this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
+            }
+
+            AdGroupService agService = (AdGroupService)User.GetService(AdWordsService.v201302.AdGroupService);
+            ConstantDataService constData = (ConstantDataService)User.GetService(AdWordsService.v201302.ConstantDataService);
+
+            Language[] lang =  constData.getLanguageCriterion();
+
+            // Create the selector.
+            Selector selector = new Selector();
+            selector.fields = new string[] { "Id", "Status", "Clicks" };
+
+            // Set the filters.
+            //  Predicate predicate = new Predicate();
+            //  predicate.field = "CampaignId";
+            // predicate.@operator = PredicateOperator.EQUALS;
+            // predicate.values = new string[] { campaignId.ToString() };
+
+            //  selector.predicates = new Predicate[] { predicate };
+
+            // Set the selector paging.
+            selector.paging = new Paging();
+
+            int offset = 0;
+            int pageSize = 500;
+
+            AdGroupPage page = new AdGroupPage();
+
+            try
+            {
+                do
+                {
+                    selector.paging.startIndex = offset;
+                    selector.paging.numberResults = pageSize;
+
+                    // Get all campaign targets.
+                    page = agService.get(selector);
+
+                    // Display the results.
+                    if (page != null && page.entries != null)
+                    {
+                        int i = offset;
+                        foreach (AdGroup adGroup in page.entries)
+                        {
+                            i++;
+                        }
+                    }
+                    offset += pageSize;
+                } while (offset < page.totalNumEntries);
+                Console.WriteLine("Number of ad groups criteria found: {0}", page.totalNumEntries);
+            }
+            catch (Exception ex)
+            {
+                throw new System.ApplicationException("Failed to get adgroup targeting criteria.", ex);
+            }
+        }
+
+        private void GetTargetingIdea_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+						{
+							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+							{"EnableGzipCompression",this.EnableGzipCompression.Text},
+							{"ClientCustomerId",this.ClientCustomerId.Text},
+							{"Email",this.Email.Text}
+						};
+
+
+            User = new AdWordsUser(headers);
+
+            try
+            {
+                //Getting AuthToken
+                (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+            }
+            catch (Exception exc)
+            {
+                this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
+            }
+
+            TargetingIdeaService targetingService = (TargetingIdeaService)User.GetService(AdWordsService.v201302.TargetingIdeaService);
+
+            // Create the selector.
+            TargetingIdeaSelector selector = new TargetingIdeaSelector();
+            selector.currencyCode = "USD";
+
+
+           // selector.fields = new string[] { "Id", "Status", "Clicks" };
+
+            // Set the filters.
+            //  Predicate predicate = new Predicate();
+            //  predicate.field = "CampaignId";
+            // predicate.@operator = PredicateOperator.EQUALS;
+            // predicate.values = new string[] { campaignId.ToString() };
+
+            //  selector.predicates = new Predicate[] { predicate };
+
+            // Set the selector paging.
+            selector.paging = new Paging();
+
+            int offset = 0;
+            int pageSize = 500;
+
+            TargetingIdeaPage page = new TargetingIdeaPage();
+
+            try
+            {
+                do
+                {
+                    selector.paging.startIndex = offset;
+                    selector.paging.numberResults = pageSize;
+
+                    // Get all campaign targets.
+                    page = targetingService.get(selector);
+
+                    // Display the results.
+                    if (page != null && page.entries != null)
+                    {
+                        int i = offset;
+                        foreach (TargetingIdea target in page.entries)
+                        {
+                            i++;
+                        }
+                    }
+                    offset += pageSize;
+                } while (offset < page.totalNumEntries);
+                Console.WriteLine("Number of ad groups criteria found: {0}", page.totalNumEntries);
+            }
+            catch (Exception ex)
+            {
+                throw new System.ApplicationException("Failed to get adgroup targeting criteria.", ex);
+            }
+        }
+    }
+
+    class ManagedCustomerTreeNode
+    {
+        /// <summary>
+        /// The parent node.
+        /// </summary>
+        private ManagedCustomerTreeNode parentNode;
+
+        /// <summary>
+        /// The account associated with this node.
+        /// </summary>
+        private ManagedCustomer account;
+
+        /// <summary>
+        /// The list of child accounts.
+        /// </summary>
+        private List<ManagedCustomerTreeNode> childAccounts = new List<ManagedCustomerTreeNode>();
+
+        /// <summary>
+        /// Gets or sets the parent node.
+        /// </summary>
+        public ManagedCustomerTreeNode ParentNode
+        {
+            get { return parentNode; }
+            set { parentNode = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the account.
+        /// </summary>
+        public ManagedCustomer Account
+        {
+            get { return account; }
+            set { account = value; }
+        }
+
+        /// <summary>
+        /// Gets the child accounts.
+        /// </summary>
+        public List<ManagedCustomerTreeNode> ChildAccounts
+        {
+            get { return childAccounts; }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override String ToString()
+        {
+            String login = String.IsNullOrEmpty(account.login) ? "(no login)" : account.login;
+            return String.Format("{0}, {1}, {2}", login, account.customerId, account.name);
+        }
+
+        /// <summary>
+        /// Returns a string representation of the current level of the tree and
+        /// recursively returns the string representation of the levels below it.
+        /// </summary>
+        /// <param name="depth">The depth of the node.</param>
+        /// <param name="sb">The String Builder containing the tree
+        /// representation.</param>
+        /// <returns>The tree string representation.</returns>
+        public string ToTreeString(int depth, StringBuilder sb)
+        {
+            sb.Append(new String('-', depth * 2));
+            sb.Append(this);
+            sb.Append("\n");
+            foreach (ManagedCustomerTreeNode childAccount in childAccounts)
+            {
+                childAccount.ToTreeString(depth + 1, sb);
+            }
+            return sb.ToString();
         }
     }
 }

@@ -31,13 +31,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>google_text.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.Ads.Common, Version=1.6.0.0, Culture=neutral, PublicKeyToken=52807268f2b614dc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Google.Ads.Common">
       <HintPath>..\..\thirdparty\GoogleAdwords\V201302\Google.Ads.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Google.AdWords.V201302, Version=15.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Google.AdWords.V201302">
       <HintPath>..\..\thirdparty\GoogleAdwords\V201302\Google.AdWords.V201302.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -94,6 +95,9 @@
       <Project>{ad4b53ad-b28a-4e90-9483-d2f7c8e6d436}</Project>
       <Name>Edge.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="google_text.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
