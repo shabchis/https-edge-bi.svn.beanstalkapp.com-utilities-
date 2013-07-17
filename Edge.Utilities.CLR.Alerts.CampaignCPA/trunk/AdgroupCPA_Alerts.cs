@@ -59,6 +59,10 @@ public partial class StoredProcedures
 			StringBuilder fromMdxBuilder;
 			GetAdgroupMDXQueryParams(AccountID, ChannelID, cubeName, acq1FieldName, acq2FieldName, cpaFieldName, cprFieldName, extraFields, excludeBuilder, fromDate, toDate, out withMdxBuilder, out selectMdxBuilder, out fromMdxBuilder);
 
+            SqlContext.Pipe.Send(withMdxBuilder.ToString());
+            SqlContext.Pipe.Send(selectMdxBuilder.ToString());
+            SqlContext.Pipe.Send(fromMdxBuilder.ToString());
+
 			#region Creating Command
 			SqlCommand command = new SqlCommand("dbo.SP_ExecuteMDX");
 			command.CommandType = CommandType.StoredProcedure;
