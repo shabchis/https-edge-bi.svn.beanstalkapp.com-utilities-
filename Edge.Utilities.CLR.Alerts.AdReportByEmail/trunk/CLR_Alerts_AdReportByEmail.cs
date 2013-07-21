@@ -89,16 +89,25 @@ public partial class StoredProcedures
                 SqlContext.Pipe.SendResultsStart(rec);
                 using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection))
                 {
+                    string value;
                     while (reader.Read())
                     {
                         rec.SetSqlString(0, reader["[Paid Creatives Dim].[Creatives].[Campaign].[MEMBER_CAPTION]"].ToString());
                         rec.SetSqlString(1, reader["[Paid Creatives Dim].[Creatives].[Ad Group].[MEMBER_CAPTION]"].ToString());
                         rec.SetSqlString(2, reader["[Paid Creatives Dim].[Creatives].[Creative].[MEMBER_CAPTION]"].ToString());
-                        rec.SetSqlString(3, reader["[Measures].[Cost]"] == DBNull.Value ? "0" : '$' + ((Math.Round(Convert.ToDecimal(reader["[Measures].[Cost]"]), 0)).ToString("#,#", CultureInfo.InvariantCulture)));
+
+                        value = reader["[Measures].[Cost]"] == DBNull.Value ? "0":(Math.Round(Convert.ToDecimal(reader["[Measures].[Cost]"]), 1).ToString("#,#", CultureInfo.InvariantCulture));
+                        rec.SetSqlString(3, string.Format("{0}{1}",value.Equals("0")?string.Empty:"$",value));
+
                         rec.SetSqlString(4, reader["[Measures].[Regs_Calc]"] == DBNull.Value ? "0" : Math.Round(Convert.ToDouble(reader["[Measures].[Regs_Calc]"]), 0).ToString());
-                        rec.SetSqlString(5, reader["[Measures].[CPR_Calc]"] == DBNull.Value ? "0" : '$' + ((Math.Round(Convert.ToDouble(reader["[Measures].[CPR_Calc]"]), 0)).ToString("#,#", CultureInfo.InvariantCulture)));
+
+                        value = reader["[Measures].[CPR_Calc]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(reader["[Measures].[CPR_Calc]"]), 0)).ToString("#,#", CultureInfo.InvariantCulture);
+                        rec.SetSqlString(5,  string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
+
                         rec.SetSqlString(6, reader["[Measures].[Actives_Calc]"] == DBNull.Value ? "0" : Math.Round(Convert.ToDouble(reader["[Measures].[Actives_Calc]"]), 0).ToString());
-                        rec.SetSqlString(7, reader["[Measures].[CPA_Calc]"] == DBNull.Value ? "0" : '$' + ((Math.Round(Convert.ToDouble(reader["[Measures].[CPA_Calc]"]), 0)).ToString("#,#", CultureInfo.InvariantCulture)));
+
+                        value = reader["[Measures].[CPA_Calc]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDecimal(reader["[Measures].[CPA_Calc]"]), 1).ToString("#,#", CultureInfo.InvariantCulture));
+                        rec.SetSqlString(7, string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
 
                         SqlContext.Pipe.SendResultsRow(rec);
 
