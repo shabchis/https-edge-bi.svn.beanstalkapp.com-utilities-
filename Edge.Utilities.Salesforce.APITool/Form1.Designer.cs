@@ -59,6 +59,8 @@
             this.result = new System.Windows.Forms.RichTextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.edgeAccountId = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -110,6 +112,7 @@
             // 
             // consumerKey
             // 
+            this.consumerKey.ForeColor = System.Drawing.Color.Silver;
             this.consumerKey.Location = new System.Drawing.Point(167, 284);
             this.consumerKey.Name = "consumerKey";
             this.consumerKey.Size = new System.Drawing.Size(491, 20);
@@ -119,6 +122,7 @@
             // 
             // secretKey
             // 
+            this.secretKey.ForeColor = System.Drawing.Color.Silver;
             this.secretKey.Location = new System.Drawing.Point(167, 310);
             this.secretKey.Name = "secretKey";
             this.secretKey.Size = new System.Drawing.Size(491, 20);
@@ -127,6 +131,7 @@
             // 
             // Code
             // 
+            this.Code.BackColor = System.Drawing.Color.White;
             this.Code.Location = new System.Drawing.Point(168, 438);
             this.Code.Name = "Code";
             this.Code.Size = new System.Drawing.Size(491, 20);
@@ -195,7 +200,7 @@
             this.soql.Name = "soql";
             this.soql.Size = new System.Drawing.Size(449, 236);
             this.soql.TabIndex = 15;
-            this.soql.Text = "SELECT CreatedById,CreatedDate,IsConverted ,Status  FROM Lead ";
+            this.soql.Text = "SELECT Company,Name,CreatedById,CreatedDate,IsConverted ,Status  FROM Lead ";
             // 
             // label6
             // 
@@ -262,6 +267,7 @@
             // 
             // AuthenticationUrl
             // 
+            this.AuthenticationUrl.ForeColor = System.Drawing.Color.Silver;
             this.AuthenticationUrl.Location = new System.Drawing.Point(167, 343);
             this.AuthenticationUrl.Name = "AuthenticationUrl";
             this.AuthenticationUrl.Size = new System.Drawing.Size(491, 20);
@@ -270,11 +276,12 @@
             // 
             // RedirectUrl
             // 
+            this.RedirectUrl.ForeColor = System.Drawing.Color.Silver;
             this.RedirectUrl.Location = new System.Drawing.Point(167, 231);
             this.RedirectUrl.Name = "RedirectUrl";
             this.RedirectUrl.Size = new System.Drawing.Size(491, 20);
             this.RedirectUrl.TabIndex = 41;
-            this.RedirectUrl.Text = "http://localhost:8080/RestTest/_callback";
+            this.RedirectUrl.Text = "https://console.edge-bi.com/salesforce/";
             // 
             // label10
             // 
@@ -344,12 +351,31 @@
             this.label13.TabIndex = 47;
             this.label13.Text = "Salesforce Integration Tool";
             // 
+            // edgeAccountId
+            // 
+            this.edgeAccountId.Location = new System.Drawing.Point(167, 150);
+            this.edgeAccountId.Name = "edgeAccountId";
+            this.edgeAccountId.Size = new System.Drawing.Size(116, 20);
+            this.edgeAccountId.TabIndex = 49;
+            this.edgeAccountId.Text = "-1(TestAccount)";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(19, 153);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(92, 13);
+            this.label14.TabIndex = 48;
+            this.label14.Text = "Edge Account ID:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(1268, 862);
+            this.Controls.Add(this.edgeAccountId);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.result);
@@ -424,6 +450,8 @@
         private System.Windows.Forms.RichTextBox result;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox edgeAccountId;
+        private System.Windows.Forms.Label label14;
     }
 }
 
