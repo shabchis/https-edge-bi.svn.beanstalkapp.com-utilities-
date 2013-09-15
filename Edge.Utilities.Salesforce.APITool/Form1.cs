@@ -31,32 +31,42 @@ namespace Edge.Utilities.Salesforce.APITool
         {
             if (RequierdFieldsValidate())
             {
+                this.response.AppendText("Trying to Get Token from DB...");
                 Token token = Token.Get(this.consumerKey.Text, this.connectionString.Text);
                 //if not exist
                 if (string.IsNullOrEmpty(token.access_token) || (string.IsNullOrEmpty(token.refresh_token)))
+                {
+                    this.response.AppendText("Requesting Token from Salesforce...");
                     token = GetAccessTokenParamsFromSalesForce();
+                }
 
                 ////check if access_token is not expired
                 if (token.UpdateTime.Add((TimeSpan.Parse("02:00:00"))) < DateTime.Now)
+                {
+                    this.response.AppendText("Refreshing Token...");
                     token = RefreshToken(token.refresh_token);
-
+                }
 
                 string sourceUrl = string.Format("{0}/services/data/v20.0/query?q={1}", token.instance_url, this.soql.Text);
 
                 //creating download request
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(sourceUrl);
                 request.Headers.Add("Authorization: OAuth " + token.access_token);
-               // request.Method = "POST";
+                // request.Method = "POST";
 
                 //Getting response
                 WebResponse response;
 
-                try { response = request.GetResponse(); }
+                try
+                {
+                    this.response.AppendText("Getting File...");
+                    response = request.GetResponse();
+                }
                 catch (Exception ex)
                 {
-                    
+
                     this.response.AppendText(ex.Message);
-                   
+
                     WebException webex;
                     if (ex is WebException && (webex = (WebException)ex).Status == WebExceptionStatus.ProtocolError)
                     {
@@ -70,7 +80,7 @@ namespace Edge.Utilities.Salesforce.APITool
                 Stream stream = response.GetResponseStream();
                 using (FileStream outputStream = File.Create(this.path.Text))
                 {
-                    
+
                     using (stream)
                     {
                         int bufferSize = 2 << int.Parse(bufferSizeSt);
@@ -89,7 +99,7 @@ namespace Edge.Utilities.Salesforce.APITool
                         if (outputStream is FileStream)
                         {
                             System.IO.FileInfo fileinfo = new System.IO.FileInfo(this.path.Text);
-                            
+
                             if (fileinfo.Length < 1)
                                 throw new Exception(String.Format("Downloaded file ({0}) was 0 bytes.", this.path.Text));
                         }
@@ -100,12 +110,12 @@ namespace Edge.Utilities.Salesforce.APITool
                 //this.response.LoadFile(this.path.Text);
             }
 
-
+            this.response.AppendText("Done!");
         }
 
         private bool RequierdFieldsValidate()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public Token RefreshToken(string refreshToken)
@@ -164,8 +174,9 @@ namespace Edge.Utilities.Salesforce.APITool
             {
                 using (StreamReader reader = new StreamReader(webEx.Response.GetResponseStream()))
                 {
+                    this.response.AppendText("Error while trying creating connection");
+                    this.response.AppendText("reader.ReadToEnd()");
                     throw new Exception(reader.ReadToEnd());
-
                 }
 
 
@@ -176,6 +187,7 @@ namespace Edge.Utilities.Salesforce.APITool
             StreamReader readStream = new StreamReader(responseBody, encode);
             Token token = JsonConvert.DeserializeObject<Token>(readStream.ReadToEnd());
             token.UpdateTime = DateTime.Now;
+            this.response.AppendText("Saving Token in DB...");
             token.Save(this.consumerKey.Text, this.connectionString.Text);
             //return string itself (easier to work with)
             return token;
@@ -183,6 +195,7 @@ namespace Edge.Utilities.Salesforce.APITool
 
         private void CreateConnection_Click(object sender, EventArgs e)
         {
+            this.response.AppendText("Creating Connection...");
             GetAccessTokenParamsFromSalesForce();
         }
     }
