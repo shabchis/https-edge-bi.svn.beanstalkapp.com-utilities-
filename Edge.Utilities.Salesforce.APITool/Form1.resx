@@ -117,4 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="soql.Text" xml:space="preserve">
+    <value>SELECT Company,Name,CreatedById,CreatedDate,IsConverted ,Status  FROM Lead WHERE CALENDAR_YEAR(CreatedDate)=2013 AND CALENDAR_MONTH(CreatedDate)=09 AND DAY_IN_MONTH(CreatedDate) = 10 AND Status = 'Created'</value>
+  </data>
 </root>

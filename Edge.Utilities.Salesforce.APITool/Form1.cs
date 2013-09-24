@@ -32,7 +32,7 @@ namespace Edge.Utilities.Salesforce.APITool
             if (RequierdFieldsValidate())
             {
                 this.response.AppendText("Trying to Get Token from DB...");
-                Token token = Token.Get(this.consumerKey.Text, this.connectionString.Text);
+                Token token = Token.Get(this.consumerKey.Text, this.connectionString.Text, Convert.ToInt32(this.edgeAccountId.Text));
                 //if not exist
                 if (string.IsNullOrEmpty(token.access_token) || (string.IsNullOrEmpty(token.refresh_token)))
                 {
@@ -145,7 +145,7 @@ namespace Edge.Utilities.Salesforce.APITool
             tokenResponse = (Token)JsonConvert.DeserializeObject(readStream.ReadToEnd(), typeof(Token));
             tokenResponse.refresh_token = refreshToken;
             tokenResponse.UpdateTime = DateTime.Now;
-            tokenResponse.Save(this.consumerKey.Text, this.connectionString.Text);
+            tokenResponse.Save(this.consumerKey.Text, this.connectionString.Text, Convert.ToInt32(this.edgeAccountId.Text));
             return tokenResponse;
         }
 
@@ -188,7 +188,7 @@ namespace Edge.Utilities.Salesforce.APITool
             Token token = JsonConvert.DeserializeObject<Token>(readStream.ReadToEnd());
             token.UpdateTime = DateTime.Now;
             this.response.AppendText("Saving Token in DB...");
-            token.Save(this.consumerKey.Text, this.connectionString.Text);
+            token.Save(this.consumerKey.Text, this.connectionString.Text,Convert.ToInt32(this.edgeAccountId.Text));
             //return string itself (easier to work with)
             return token;
         }
@@ -211,7 +211,7 @@ namespace Edge.Utilities.Salesforce.APITool
         public string access_token { get; set; }
         public string ClientID { get; set; }
 
-        public void Save(string clientID, string connection)
+        public void Save(string clientID, string connection,int accountID)
         {
 
             Token tokenResponse = new Token();
@@ -230,7 +230,7 @@ namespace Edge.Utilities.Salesforce.APITool
                     command.Parameters.AddWithValue("Signature", this.signature);
                     command.Parameters.AddWithValue("Issued_at", this.issued_at);
                     command.Parameters.AddWithValue("UpdateTime", DateTime.Now);
-
+                    command.Parameters.AddWithValue("AccountID", accountID);
                     command.ExecuteNonQuery();
 
                 }
@@ -238,7 +238,7 @@ namespace Edge.Utilities.Salesforce.APITool
 
         }
 
-        internal static Token Get(string clientID, string connection)
+        internal static Token Get(string clientID, string connection,int accountID)
         {
             Token tokenResponse = new Token();
             using (SqlConnection conn = new SqlConnection(connection))
@@ -247,6 +247,7 @@ namespace Edge.Utilities.Salesforce.APITool
                 command.CommandType = CommandType.StoredProcedure;
                 SqlParameter clientID_Sql = new SqlParameter("ClientID", clientID);
                 command.Parameters.Add(clientID_Sql);
+                command.Parameters.AddWithValue("AccountID", accountID);
 
                 using (command)
                 {

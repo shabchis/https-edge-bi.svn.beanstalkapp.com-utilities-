@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -200,7 +201,7 @@
             this.soql.Name = "soql";
             this.soql.Size = new System.Drawing.Size(449, 236);
             this.soql.TabIndex = 15;
-            this.soql.Text = "SELECT Company,Name,CreatedById,CreatedDate,IsConverted ,Status  FROM Lead ";
+            this.soql.Text = resources.GetString("soql.Text");
             // 
             // label6
             // 
@@ -357,7 +358,7 @@
             this.edgeAccountId.Name = "edgeAccountId";
             this.edgeAccountId.Size = new System.Drawing.Size(116, 20);
             this.edgeAccountId.TabIndex = 49;
-            this.edgeAccountId.Text = "-1(TestAccount)";
+            this.edgeAccountId.Text = "9999999";
             // 
             // label14
             // 
