@@ -10,7 +10,7 @@
 namespace Edge.Utilities.Salesforce.ASP.Net.Form {
     
     
-    public partial class _Default {
+    public partial class Appexchange {
         
         /// <summary>
         /// form1 control.
@@ -22,21 +22,21 @@ namespace Edge.Utilities.Salesforce.ASP.Net.Form {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// edgebi_logo control.
+        /// LoginURL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image edgebi_logo;
+        protected global::System.Web.UI.WebControls.TextBox LoginURL;
         
         /// <summary>
-        /// code control.
+        /// GetItNowButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label code;
+        protected global::System.Web.UI.WebControls.ImageButton GetItNowButton;
     }
 }

@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Edge.Utilities.Salesforce.ASP.Net.Form._Default" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -87,28 +87,20 @@ h4, h5, h6 {
     <form id="form1" runat="server">
     <div>
     
-    <h3>
+        <h1 style="font-size: 26px; line-height: 28px; font-weight: bold; margin: 0px; padding-bottom: 5px; color: rgb(102, 102, 102); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
         <asp:Image ID="edgebi_logo" runat="server" ImageUrl="https://console.edge-bi.com/assets/img/edge-logo-login.gif" />
-        </h3>
-        <h3 style="background-color: #00CCFF">Thank You for integrating with Edge.BI application:</h3>
-        <p>Please submit the following information:</p>
+        </h1>
+        <h1 style="font-size: 26px; line-height: 28px; font-weight: bold; margin: 0px; padding-bottom: 5px; color: rgb(102, 102, 102); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">&nbsp;</h1>
+        <h1 style="font-size: 26px; line-height: 28px; font-weight: bold; margin: 0px; padding-bottom: 5px; color: rgb(102, 102, 102); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">Thank you for installing Edge.BI Application for Salesforce </h1>
+        <p class="c0 c1" style="line-height: normal; margin: 0px; padding: 0px 0px 8px; color: rgb(102, 102, 102); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+            <span style="color: rgb(124, 131, 124);">&nbsp;</span></p>
+        <p class="c0" style="line-height: normal; margin: 0px; padding: 0px 0px 8px; color: rgb(102, 102, 102); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+            Your Integration Code is:<span style="color: rgb(124, 131, 124); font-family: arial, helvetica, sans-serif; font-size: small;">&nbsp;&nbsp; </span> <asp:Label ID="code" runat="server" Text=" #code#"></asp:Label>
+            </p>
     <ol class="round">
-        <li class="one">
-            <h5>&nbsp;</h5>
-            Consumer Key
-            <asp:TextBox ID="consumerKey" runat="server" Width="457px"></asp:TextBox>
-&nbsp;</li>
-        <li class="two">
-            Secret Key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:TextBox ID="secretKey" runat="server" Width="456px"></asp:TextBox>
-&nbsp;</li>
-        <li class="three">
-            <h5>Integration Code : <asp:Label ID="code" runat="server" Text=" #code#"></asp:Label>
-            </h5>
-        </li>
         <li>
-            <asp:Button ID="submit" runat="server" OnClick="submit_Click" Text="Submit" />
         </li>
+        <li></li>
     </ol>
     
     </div>
