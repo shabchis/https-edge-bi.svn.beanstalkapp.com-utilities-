@@ -49,20 +49,16 @@
 			this.deleteServiceFromScheduleBtn = new System.Windows.Forms.Button();
 			this.startBtn = new System.Windows.Forms.Button();
 			this.EndBtn = new System.Windows.Forms.Button();
-			this.logtextBox = new System.Windows.Forms.TextBox();
 			this.lblVer = new System.Windows.Forms.Label();
 			this.splitContainerMain = new System.Windows.Forms.SplitContainer();
 			this.encryptDecryptBtn = new System.Windows.Forms.Button();
 			this.resetServiceInstanceStateBtn = new System.Windows.Forms.Button();
-			this.splitContainerSub = new System.Windows.Forms.SplitContainer();
+			this.logtextBox = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.scheduleInfoGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
 			this.splitContainerMain.Panel1.SuspendLayout();
 			this.splitContainerMain.Panel2.SuspendLayout();
 			this.splitContainerMain.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainerSub)).BeginInit();
-			this.splitContainerSub.Panel2.SuspendLayout();
-			this.splitContainerSub.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// endServiceBtn
@@ -72,7 +68,7 @@
 			this.endServiceBtn.Name = "endServiceBtn";
 			this.endServiceBtn.Size = new System.Drawing.Size(101, 23);
 			this.endServiceBtn.TabIndex = 1;
-			this.endServiceBtn.Text = "Abort  Service";
+			this.endServiceBtn.Text = "Abort Service";
 			this.endServiceBtn.UseVisualStyleBackColor = true;
 			this.endServiceBtn.Click += new System.EventHandler(this.endServiceBtn_Click);
 			// 
@@ -256,16 +252,6 @@
 			this.EndBtn.UseVisualStyleBackColor = true;
 			this.EndBtn.Click += new System.EventHandler(this.EndBtn_Click);
 			// 
-			// logtextBox
-			// 
-			this.logtextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.logtextBox.Location = new System.Drawing.Point(0, 0);
-			this.logtextBox.Multiline = true;
-			this.logtextBox.Name = "logtextBox";
-			this.logtextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.logtextBox.Size = new System.Drawing.Size(1259, 159);
-			this.logtextBox.TabIndex = 9;
-			// 
 			// lblVer
 			// 
 			this.lblVer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -299,7 +285,7 @@
 			// 
 			// splitContainerMain.Panel2
 			// 
-			this.splitContainerMain.Panel2.Controls.Add(this.splitContainerSub);
+			this.splitContainerMain.Panel2.Controls.Add(this.logtextBox);
 			this.splitContainerMain.Size = new System.Drawing.Size(1263, 576);
 			this.splitContainerMain.SplitterDistance = 288;
 			this.splitContainerMain.TabIndex = 11;
@@ -324,20 +310,17 @@
 			this.resetServiceInstanceStateBtn.UseVisualStyleBackColor = true;
 			this.resetServiceInstanceStateBtn.Click += new System.EventHandler(this.resetServiceInstanceStateBtn_Click);
 			// 
-			// splitContainerSub
+			// logtextBox
 			// 
-			this.splitContainerSub.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.splitContainerSub.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerSub.Location = new System.Drawing.Point(0, 0);
-			this.splitContainerSub.Name = "splitContainerSub";
-			this.splitContainerSub.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainerSub.Panel2
-			// 
-			this.splitContainerSub.Panel2.Controls.Add(this.logtextBox);
-			this.splitContainerSub.Size = new System.Drawing.Size(1263, 284);
-			this.splitContainerSub.SplitterDistance = 117;
-			this.splitContainerSub.TabIndex = 0;
+			this.logtextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.logtextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.logtextBox.Location = new System.Drawing.Point(0, 0);
+			this.logtextBox.Multiline = true;
+			this.logtextBox.Name = "logtextBox";
+			this.logtextBox.ReadOnly = true;
+			this.logtextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.logtextBox.Size = new System.Drawing.Size(1263, 284);
+			this.logtextBox.TabIndex = 9;
 			// 
 			// frmSchedulingControl
 			// 
@@ -354,12 +337,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.scheduleInfoGrid)).EndInit();
 			this.splitContainerMain.Panel1.ResumeLayout(false);
 			this.splitContainerMain.Panel2.ResumeLayout(false);
+			this.splitContainerMain.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
 			this.splitContainerMain.ResumeLayout(false);
-			this.splitContainerSub.Panel2.ResumeLayout(false);
-			this.splitContainerSub.Panel2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainerSub)).EndInit();
-			this.splitContainerSub.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -373,10 +353,8 @@
 		private System.Windows.Forms.Button deleteServiceFromScheduleBtn;
 		private System.Windows.Forms.Button startBtn;
 		private System.Windows.Forms.Button EndBtn;
-		private System.Windows.Forms.TextBox logtextBox;
         private System.Windows.Forms.Label lblVer;
 		private System.Windows.Forms.SplitContainer splitContainerMain;
-		private System.Windows.Forms.SplitContainer splitContainerSub;
 		private System.Windows.Forms.DataGridViewTextBoxColumn shceduledID;
 		private System.Windows.Forms.DataGridViewTextBoxColumn instanceID;
 		private System.Windows.Forms.DataGridViewTextBoxColumn scheduledName;
@@ -393,6 +371,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn DayCode;
         private System.Windows.Forms.Button resetServiceInstanceStateBtn;
         private System.Windows.Forms.Button encryptDecryptBtn;
+		private System.Windows.Forms.TextBox logtextBox;
 	}
 }
 

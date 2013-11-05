@@ -28,7 +28,15 @@ namespace Edge.Applications.TempScheduler
 			{
 				configFileName = args[0].Substring(1);
 			}
-			EdgeServicesConfiguration.Load(configFileName);
+			try
+			{
+				EdgeServicesConfiguration.Load(configFileName);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(String.Format("{0}\n({1})", ex.Message, ex.GetType().Name), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
 
 			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 			Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
