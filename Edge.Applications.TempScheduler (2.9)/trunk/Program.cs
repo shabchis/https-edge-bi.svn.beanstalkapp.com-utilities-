@@ -12,7 +12,7 @@ namespace Edge.Applications.TempScheduler
 {
 	static class Program
 	{
-		//public static DeliveryDBServer DeliveryServer;
+		public static string LS;
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -20,66 +20,35 @@ namespace Edge.Applications.TempScheduler
 		[STAThread]
 		static void Main(string[] args)
 		{
+			LS = AppDomain.CurrentDomain.FriendlyName;
+
 			// Get an alternate file name
-			try
+			string configFileName = EdgeServicesConfiguration.DefaultFileName;
+			if (args.Length > 0 && args[0].StartsWith("/") && args[0].Length > 1)
 			{
-
-				string configFileName = EdgeServicesConfiguration.DefaultFileName;
-				if (args.Length > 0 && args[0].StartsWith("/") && args[0].Length > 1)
-				{
-					configFileName = args[0].Substring(1);
-				}
-				EdgeServicesConfiguration.Load(configFileName);
-
-				//DeliveryServer = new DeliveryDBServer();
-				//DeliveryServer.Start(null);
-
-				AppDomain currentDomain = AppDomain.CurrentDomain;
-				currentDomain.UnhandledException += new UnhandledExceptionEventHandler(currentDomain_UnhandledException);
-				Application.ThreadExit += new EventHandler(Application_ThreadExit);
-				Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new frmSchedulingControl());
-
+				configFileName = args[0].Substring(1);
 			}
-			catch (Exception ex)
-			{
+			EdgeServicesConfiguration.Load(configFileName);
 
-				MessageBox.Show(ex.Message + ex.StackTrace + ex.InnerException + ex.Data + ex.TargetSite);
-			}
+			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+			Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new frmSchedulingControl());
 		}
 
-		static void Application_ThreadExit(object sender, EventArgs e)
+		static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
 		{
-			System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess();
-			p.Kill();
-
-
+			MessageBox.Show(String.Format("{0}\n({1})", e.Exception.Message, e.Exception.GetType().Name), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
-
-
-
-		static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+		static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-
-			MessageBox.Show(e.Exception.Message);
-			Smtp.Send("SchedulerTester  exception", true, string.Format("Message:\n{0}\nInner Exception:\n{1}\nExeption.ToString():\n{2}\nIsTerminating:{3}\nStack:\n{4}", e.Exception.Message, e.Exception.InnerException, e.Exception, "true", e.Exception.StackTrace), false, string.Empty);
-			Log.Write("SchedulerTester", e.Exception.Message, e.Exception, LogMessageType.Error);
-			MessageBox.Show(e.Exception.Message);
-		}
-
-		static void currentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-		{
-
-
-			Exception ex = (Exception)e.ExceptionObject;
-			Smtp.Send("SchedulerTester  exception", true, string.Format("Message:\n{0}\nInner Exception:\n{1}\nExeption.ToString():\n{2}\nIsTerminating:{3}\nStack:\n{4}", ex.Message, ex.InnerException, ex, e.IsTerminating, ex.StackTrace), false, string.Empty);
-			Log.Write("SchedulerTester", ex.Message, ex, LogMessageType.Error);
-			MessageBox.Show(ex.Message);
-
-
+			const string msg = "Fatal error: an unhandled exception is forcing the application to end.";
+			Exception ex = e.ExceptionObject as Exception;
+			Log.Write(Program.LS, msg, ex);
+			MessageBox.Show(msg + (ex == null ? null : String.Format("{0}\n({1})", ex.Message, ex.GetType().Name)), "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 	}
 }

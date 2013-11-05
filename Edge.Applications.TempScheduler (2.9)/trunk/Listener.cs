@@ -7,6 +7,7 @@ using Edge.Core.Configuration;
 using Edge.Core.Scheduling;
 using Edge.Core.Scheduling.Objects;
 using Edge.Core.Services;
+using Edge.Core.Utilities;
 
 namespace Edge.Applications.TempScheduler
 {
@@ -16,222 +17,107 @@ namespace Edge.Applications.TempScheduler
 		ServiceHost _wcfHost;
 		Scheduler _scheduler;
 
+		public Listener(Scheduler scheduler)
+		{
+			_scheduler = scheduler;
+		}
 
 		public void Start()
 		{
 			_wcfHost = new ServiceHost(this);
 			_wcfHost.Open();
 		}
-		public Listener(Scheduler scheduler)
+
+		public void Close()
 		{
-			_scheduler = scheduler;
-
-
+			if (_wcfHost != null)
+				_wcfHost.Close();
 		}
 
+		void IDisposable.Dispose()
+		{
+			this.Close();
+		}
 
-		public void BuildSchedule()
+		void IScheduleManager.BuildSchedule()
 		{
 			throw new NotImplementedException();
 		}
 
 		public bool AddToSchedule(string serviceName, int accountID, DateTime targetTime, Edge.Core.SettingsCollection options)
 		{
-			bool respond = true;
-			try
+			AccountElement account = EdgeServicesConfiguration.Current.Accounts.GetAccount(accountID);
+			if (account == null)
 			{
-				ServiceConfiguration myServiceConfiguration = new ServiceConfiguration();
-				ServiceConfiguration baseConfiguration = new ServiceConfiguration();
-				ActiveServiceElement activeServiceElement = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(accountID).Services[serviceName]);
-				//activeServiceElement.Workflow[0].n
-				if (options != null)
-				{
-					foreach (string option in options.Keys)
-						activeServiceElement.Options[option] = options[option];
-				}
-				ServiceElement serviceElement = EdgeServicesConfiguration.Current.Services[serviceName];
-
-				//base configuration;
-				baseConfiguration.Name = serviceElement.Name;
-				baseConfiguration.MaxConcurrent = serviceElement.MaxInstances;
-				baseConfiguration.MaxCuncurrentPerProfile = serviceElement.MaxInstancesPerAccount;
-
-
-				//configuration per profile
-
-				myServiceConfiguration = new ServiceConfiguration();
-				
-				myServiceConfiguration.Name = activeServiceElement.Name;
-				if (activeServiceElement.Options.ContainsKey("ServicePriority"))
-					myServiceConfiguration.priority = int.Parse(activeServiceElement.Options["ServicePriority"]);
-				myServiceConfiguration.MaxConcurrent = (activeServiceElement.MaxInstances == 0) ? 9999 : activeServiceElement.MaxInstances;
-				myServiceConfiguration.MaxCuncurrentPerProfile = (activeServiceElement.MaxInstancesPerAccount == 0) ? 9999 : activeServiceElement.MaxInstancesPerAccount;
-				myServiceConfiguration.LegacyConfiguration = activeServiceElement;
-				//        //scheduling rules 
-				myServiceConfiguration.SchedulingRules.Add(new SchedulingRule()
-				{
-					Scope = SchedulingScope.UnPlanned,
-					SpecificDateTime = DateTime.Now,
-					MaxDeviationAfter = new TimeSpan(0, 0, 45, 0, 0),
-					Hours = new List<TimeSpan>(),
-					GuidForUnplaned = Guid.NewGuid()
-				});
-				myServiceConfiguration.SchedulingRules[0].Hours.Add(new TimeSpan(0, 0, 0, 0));
-				myServiceConfiguration.BaseConfiguration = baseConfiguration;
-				Profile profile = new Profile()
-				{
-					ID = accountID,
-					Name = accountID.ToString(),
-					Settings = new Dictionary<string, object>()
-				};
-				profile.Settings.Add("AccountID", accountID);
-				myServiceConfiguration.SchedulingProfile = profile;
-				_scheduler.AddNewServiceToSchedule(myServiceConfiguration);
-			}
-			catch (Exception ex)
-			{
-				respond = false;
-				Edge.Core.Utilities.Log.Write("AddManualServiceListner", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			
-
-
+				Log.Write(Program.LS, String.Format("Ignoring AddToSchedule request for account {0} which does not exist.", accountID), LogMessageType.Warning);
+				return false;
 			}
 
+			AccountServiceElement service = account.Services[serviceName];
+			if (service == null)
+			{
+				Log.Write(Program.LS, String.Format("Ignoring AddToSchedule request for service {0} which does not exist in account {1}.", serviceName, accountID), LogMessageType.Warning);
+				return false;
+			}
 
+			var activeServiceElement = new ActiveServiceElement(service);
+			ServicePriority priority = activeServiceElement.Options.ContainsKey("ServicePriority") ?
+				(ServicePriority) Enum.Parse(typeof(ServicePriority), activeServiceElement.Options["ServicePriority"]) :
+				ServicePriority.Normal;
 
-			return respond;
+			AddToSchedule(activeServiceElement, account, targetTime, options, priority);
+			return true;
 		}
 
-		public bool FormAddToSchedule(string serviceName, int accountID, DateTime targetTime, Edge.Core.SettingsCollection options, ServicePriority servicePriority)
+		public void AddToSchedule(ActiveServiceElement activeServiceElement, AccountElement account, DateTime targetTime, Edge.Core.SettingsCollection options, ServicePriority servicePriority)
 		{
-			bool respond = true;
-			try
-			{
-				ServiceConfiguration myServiceConfiguration = new ServiceConfiguration();
-				ServiceConfiguration baseConfiguration = new ServiceConfiguration();
-				ActiveServiceElement activeServiceElement = new ActiveServiceElement(EdgeServicesConfiguration.Current.Accounts.GetAccount(accountID).Services[serviceName]);
-				if (options != null)
-				{
-					foreach (string option in options.Keys)
-						activeServiceElement.Options[option] = options[option];
-				}
-				ServiceElement serviceElement = EdgeServicesConfiguration.Current.Services[serviceName];
-
-				//base configuration;
-				baseConfiguration.Name = serviceElement.Name;
-				baseConfiguration.MaxConcurrent = serviceElement.MaxInstances;
-				baseConfiguration.MaxCuncurrentPerProfile = serviceElement.MaxInstancesPerAccount;
-
-
-				//configuration per profile
-				myServiceConfiguration = new ServiceConfiguration();
-				myServiceConfiguration.Name = activeServiceElement.Name;
-				myServiceConfiguration.priority = (int)servicePriority;
-				if (activeServiceElement.Options.ContainsKey("ServicePriority"))
-					myServiceConfiguration.priority = int.Parse(activeServiceElement.Options["ServicePriority"]);
-				myServiceConfiguration.MaxConcurrent = (activeServiceElement.MaxInstances == 0) ? 9999 : activeServiceElement.MaxInstances;
-				myServiceConfiguration.MaxCuncurrentPerProfile = (activeServiceElement.MaxInstancesPerAccount == 0) ? 9999 : activeServiceElement.MaxInstancesPerAccount;
-				myServiceConfiguration.LegacyConfiguration = activeServiceElement;
-				//        //scheduling rules 
-				myServiceConfiguration.SchedulingRules.Add(new SchedulingRule()
-				{
-					Scope = SchedulingScope.UnPlanned,
-					SpecificDateTime = targetTime,
-					MaxDeviationAfter = new TimeSpan(0, 0, 45, 0, 0),
-					Hours = new List<TimeSpan>(),
-					GuidForUnplaned = Guid.NewGuid()
-				});
-				myServiceConfiguration.SchedulingRules[0].Hours.Add(new TimeSpan(0, 0, 0, 0));
-				myServiceConfiguration.BaseConfiguration = baseConfiguration;
-				Profile profile = new Profile()
-				{
-					ID = accountID,
-					Name = accountID.ToString(),
-					Settings = new Dictionary<string, object>()
-				};
-				profile.Settings.Add("AccountID", accountID);
-				myServiceConfiguration.SchedulingProfile = profile;
-				_scheduler.AddNewServiceToSchedule(myServiceConfiguration);
-			}
-			catch (Exception ex)
-			{
-				respond = false;
-				Edge.Core.Utilities.Log.Write("AddManualServiceListner", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-
-
-			}
-
-
-
-			return respond;
-		}
-		public bool FormAddToSchedule(ActiveServiceElement activeServiceElement, AccountElement account, DateTime targetTime, Edge.Core.SettingsCollection options, ServicePriority servicePriority)
-		{
-			bool respond = true;
-			try
-			{
-			ServiceConfiguration myServiceConfiguration = new ServiceConfiguration();
-			ServiceConfiguration baseConfiguration = new ServiceConfiguration();
 			if (options != null)
 			{
 				foreach (string option in options.Keys)
 					activeServiceElement.Options[option] = options[option];
 			}
-				
-			//ServiceElement serviceElement = EdgeServicesConfiguration.Current.Services[activeServiceElement.Name];
 
-			//base configuration;
-			baseConfiguration.Name = activeServiceElement.Name;
-			baseConfiguration.MaxConcurrent = activeServiceElement.MaxInstances;
-			baseConfiguration.MaxCuncurrentPerProfile = activeServiceElement.MaxInstancesPerAccount;
-		  
+			//base configuration
+			var baseConfiguration = new ServiceConfiguration()
+			{
+				Name = activeServiceElement.Name,
+				MaxConcurrent = activeServiceElement.MaxInstances,
+				MaxConcurrentPerProfile = activeServiceElement.MaxInstancesPerAccount
+			};
 
 			//configuration per profile
-			myServiceConfiguration = new ServiceConfiguration();
-			
-			myServiceConfiguration.Name = activeServiceElement.Name;
-			myServiceConfiguration.priority = (int)servicePriority;
-			if (activeServiceElement.Options.ContainsKey("ServicePriority"))
-				myServiceConfiguration.priority = int.Parse(activeServiceElement.Options["ServicePriority"]);
-			myServiceConfiguration.MaxConcurrent = (activeServiceElement.MaxInstances == 0) ? 9999 : activeServiceElement.MaxInstances;
-			myServiceConfiguration.MaxCuncurrentPerProfile = (activeServiceElement.MaxInstancesPerAccount == 0) ? 9999 : activeServiceElement.MaxInstancesPerAccount;
-			myServiceConfiguration.LegacyConfiguration = activeServiceElement;
-			//        //scheduling rules 
-			myServiceConfiguration.SchedulingRules.Add(new SchedulingRule()
+			var instanceConfiguration = new ServiceConfiguration()
+			{
+				BaseConfiguration = baseConfiguration,
+				Name = activeServiceElement.Name,
+				MaxConcurrent = (activeServiceElement.MaxInstances == 0) ? 9999 : activeServiceElement.MaxInstances,
+				MaxConcurrentPerProfile = (activeServiceElement.MaxInstancesPerAccount == 0) ? 9999 : activeServiceElement.MaxInstancesPerAccount,
+				LegacyConfiguration = activeServiceElement
+			};
+
+			//scheduling rules 
+			instanceConfiguration.SchedulingRules.Add(new SchedulingRule()
 			{
 				Scope = SchedulingScope.UnPlanned,
 				SpecificDateTime = targetTime,
-				MaxDeviationAfter = new TimeSpan(0, 0, 120, 0, 0),
+				MaxDeviationAfter = TimeSpan.FromMinutes(30),
 				Hours = new List<TimeSpan>(),
-				GuidForUnplaned = Guid.NewGuid()
+				GuidForUnplaned = Guid.NewGuid(),
 			});
-			myServiceConfiguration.SchedulingRules[0].Hours.Add(new TimeSpan(0, 0, 0, 0));
-			myServiceConfiguration.BaseConfiguration = baseConfiguration;
+
+			instanceConfiguration.SchedulingRules[0].Hours.Add(new TimeSpan(0, 0, 0, 0));
+
 			Profile profile = new Profile()
 			{
 				ID = account.ID,
-				Name =account.Name,
+				Name = account.ID.ToString(),
 				Settings = new Dictionary<string, object>()
 			};
-			profile.Settings.Add("AccountID", account.ID.ToString());
-			myServiceConfiguration.SchedulingProfile = profile;
-		    
-			_scheduler.AddNewServiceToSchedule(myServiceConfiguration);
-			
-			}
-			catch (Exception ex)
-			{
-				respond = false;
-				Edge.Core.Utilities.Log.Write("AddManualServiceListner", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
+			profile.Settings.Add("AccountID", account.ID);
+			instanceConfiguration.SchedulingProfile = profile;
 
-
-			}
-			return respond;
+			_scheduler.AddNewServiceToSchedule(instanceConfiguration);
 		}
-		public void Dispose()
-		{
-			if (_wcfHost != null)
-				((IDisposable)_wcfHost).Dispose();
-		}
+		
 	}
 }

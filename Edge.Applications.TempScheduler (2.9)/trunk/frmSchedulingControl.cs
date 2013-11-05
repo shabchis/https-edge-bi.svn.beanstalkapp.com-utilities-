@@ -23,369 +23,110 @@ namespace Edge.Applications.TempScheduler
 {
 	public partial class frmSchedulingControl : Form
 	{
-		StringBuilder _strNotScheduled = new StringBuilder();
 		private Scheduler _scheduler;
-		private Listener _listner;
+		private Listener _listener;
 		private Dictionary<SchedulingData, ServiceInstance> _scheduledServices = new Dictionary<SchedulingData, ServiceInstance>();
-		public delegate void SetLogMethod(string lineText);
-		public delegate void UpdateGridMethod(legacy.ServiceInstance serviceInstance);
-		SetLogMethod setLogMethod;
-		private delegate void EnabelDisableButtons();
-		UpdateGridMethod updateGridMethod;
-		bool _scheduleStarted = false;
-		Thread _timerToStartScheduling;		
-		object lastTag;
-
+		Action<string> _delegateLogText;
+		Action _delegateGridRefresh;
+		Action<legacy.ServiceInstance> _delegateGridUpdate;
+		EventHandler _applicationExitHandler;
 
 		public frmSchedulingControl()
 		{
-			try
+			InitializeComponent();
+
+			_delegateLogText = new Action<string>(LogTextInner);
+			_delegateGridRefresh = new Action(GridRefreshInner);
+			_delegateGridUpdate = new Action<legacy.ServiceInstance>(GridUpdateInner);
+
+			this.FormClosed += new FormClosedEventHandler((sender, e) =>
 			{
-				InitializeComponent();
+				if (e.CloseReason == CloseReason.UserClosing)
+					Application.Exit();
+			});
 
-				setLogMethod = new SetLogMethod(SetLogTextBox);
-				updateGridMethod = new UpdateGridMethod(UpdateGridData);
-				this.FormClosed += new FormClosedEventHandler(frmSchedulingControl_FormClosed);
-
-
-			}
-			catch (Exception ex)
+			_applicationExitHandler = new EventHandler((sender, e) =>
 			{
+				Application.ApplicationExit -= _applicationExitHandler;
 
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-		}
+				try { _listener.Close(); }
+				catch { /* Don't care about WCF host problems */ }
 
-		void frmSchedulingControl_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			try
-			{
-				_listner.Dispose();
 				_scheduler.Stop();
-				Log.Write("SchedulingControlForm", "Threads stops by form closedevent",LogMessageType.Information);
-				_timerToStartScheduling.Abort();
-				Application.ExitThread();
-				Application.Exit();
 
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
+			});
+			Application.ApplicationExit += _applicationExitHandler;
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			try
+			lblVer.Text = Application.ProductVersion;
+			EndBtn.Enabled = false;
+			this.Text = System.AppDomain.CurrentDomain.FriendlyName;
+
+			_scheduler = new Scheduler(true);
+			_listener = new Listener(_scheduler);
+			_listener.Start();
+
+			_scheduler.ServiceRunRequiredEvent += new EventHandler(_scheduler_ServiceRunRequiredEvent);
+			_scheduler.NewScheduleCreatedEvent += new EventHandler(_scheduler_NewScheduleCreatedEventHandler);
+
+			_scheduler.Starting += new EventHandler((ss, se) =>
 			{
-				try
+				LogText("Scheduling timers started");
+				startBtn.Invoke(new Action(() =>
 				{
-					lblVer.Text = Application.ProductVersion;
+					startBtn.Enabled = false;
+					EndBtn.Enabled = true;
+				}));
+			});
+			_scheduler.Stopping += new EventHandler((ss, se) =>
+			{
+				LogText("Scheduling timers stopped");
+				startBtn.Invoke(new Action(() =>
+				{
+					startBtn.Enabled = true;
 					EndBtn.Enabled = false;
-					this.Text = System.AppDomain.CurrentDomain.FriendlyName;
-					_timerToStartScheduling = new Thread(new ThreadStart(delegate()
-			{
-				Thread.Sleep(new TimeSpan(0, 1, 0));
-				if (!_scheduleStarted)
-				{
-					_scheduler.Start();
+				}));
+			});
 
-					startBtn.Invoke(new EnabelDisableButtons(delegate()
-					{
-						startBtn.Enabled = false;
-						EndBtn.Enabled = true;
-					}));
-
-				}
-			}));
-					_timerToStartScheduling.IsBackground = true;
-					_timerToStartScheduling.Start();
-
-
-				}
-				catch (Exception)
-				{
-
-					throw;
-				}
-				_scheduler = new Scheduler(true);
-				_listner = new Listener(_scheduler);
-				_listner.Start();
-
-				_scheduler.ServiceRunRequiredEvent += new EventHandler(_scheduler_ServiceRunRequiredEvent);
-				_scheduler.NewScheduleCreatedEvent += new EventHandler(_scheduler_NewScheduleCreatedEventHandler);
-				_scheduler.NotRunServices += new EventHandler(_scheduler_NotRunServices);
-				//	_scheduler.Start();
-				//test
-
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
+			_scheduler.Start();
 		}
 
-		void _scheduler_NotRunServices(object sender, EventArgs e)
+		#region GUI UPDATE
+		// ======================================================================
+		// Handle refreshing info
+
+		void LogText(string lineText)
 		{
-			WillNotRunEventArgs ev = (WillNotRunEventArgs)e;
-			foreach (SchedulingData notRunService in ev.WillNotRun)
-			{
-				//this.Invoke(setLogMethod, new object[] { string.Format("Service: {0} for account: {1} will not run at all!!!!!!!!", notRunService.Configuration.Name, notRunService.profileID) });
-			}
-
+			Invoke(_delegateLogText, lineText);
 		}
 
-		void _scheduler_ServiceRunRequiredEvent(object sender, EventArgs e)
-		{
-			//todo: log2
-			try
-			{
-
-				TimeToRunEventArgs args = (TimeToRunEventArgs)e;
-				foreach (Edge.Core.Scheduling.Objects.ServiceInstance serviceInstance in args.ServicesToRun)
-				{
-
-					this.Invoke(setLogMethod, new Object[] { string.Format("Service: {0} is required for running time {1}\r\n", serviceInstance.ServiceName, DateTime.Now.ToString("dd/MM/yy HH:mm")) });
-
-					//FURTURE: ask system control if it's ok to run the service
-					////if ok then
-					serviceInstance.LegacyInstance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(LegacyInstance_StateChanged);
-					serviceInstance.LegacyInstance.ChildServiceRequested += new EventHandler<Edge.Core.Services.ServiceRequestedEventArgs>(LegacyInstance_ChildServiceRequested);
-					serviceInstance.LegacyInstance.Initialize();
-					this.Invoke(setLogMethod, new Object[] { string.Format("\nService: {0} initalized {1}\r\n", serviceInstance.ServiceName, DateTime.Now.ToString("dd/MM/yy HH:mm")) });
-
-					
-
-
-				}
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-
-		}
-
-		void LegacyInstance_ChildServiceRequested(object sender, Edge.Core.Services.ServiceRequestedEventArgs e)
+		void LogTextInner(string lineText)
 		{
 			try
 			{
-
-				legacy.ServiceInstance instance = (legacy.ServiceInstance)sender;
-
-				this.Invoke(setLogMethod, new Object[] { string.Format("\nChild Service: {0} requestedd {1}\r\n", e.RequestedService.Configuration.Name, DateTime.Now.ToString("dd/MM/yy HH:mm")) });
-
-				e.RequestedService.ChildServiceRequested += new EventHandler<legacy.ServiceRequestedEventArgs>(LegacyInstance_ChildServiceRequested);
-				e.RequestedService.StateChanged += new EventHandler<legacy.ServiceStateChangedEventArgs>(LegacyInstance_StateChanged);
-				e.RequestedService.Initialize();
+				if (logtextBox.Text.Length > 4000)
+					logtextBox.Text = logtextBox.Text.Remove(4000);
+				logtextBox.Text = logtextBox.Text.Insert(0, String.Format("{0} -- {1}",
+					DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+					lineText));
 			}
-			catch (Exception ex)
+			catch
 			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
 			}
 		}
 
+		void GridRefresh()
+		{
+			Invoke(_delegateGridRefresh);
+		}
 
-
-		void LegacyInstance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
+		private void GridRefreshInner()
 		{
 			try
 			{
-				legacy.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-				instance.OutcomeReported += new EventHandler(instance_OutcomeReported);
-
-				this.Invoke(updateGridMethod, new Object[] { instance });
-
-
-				this.Invoke(setLogMethod, new Object[] { string.Format("\n{0}: {1} is {2} {3}\r\n", instance.AccountID, instance.Configuration.Name, e.StateAfter, DateTime.Now.ToString("dd/MM/yy HH:mm")) });
-				if (e.StateAfter == legacy.ServiceState.Ready)
-					instance.Start();
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-
-		}
-
-		void instance_OutcomeReported(object sender, EventArgs e)
-		{
-			legacy.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
-			this.Invoke(updateGridMethod, new Object[] { instance });
-
-		}
-
-		void _scheduler_NewScheduleCreatedEventHandler(object sender, EventArgs e)
-		{
-			try
-			{
-				this.Invoke(setLogMethod, new Object[] { "Schedule Created:" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\r\n" });
-				ScheduledInformationEventArgs ee = (ScheduledInformationEventArgs)e;
-				_scheduledServices.Clear();
-				_strNotScheduled.Clear();
-
-
-
-				foreach (KeyValuePair<SchedulingData, ServiceInstance> notSchedInfo in ee.NotScheduledInformation)
-					_strNotScheduled.AppendLine(string.Format("Service {0} with profile {1} not scheduled", notSchedInfo.Value.ServiceName, notSchedInfo.Key.profileID));
-
-				foreach (KeyValuePair<SchedulingData, ServiceInstance> SchedInfo in ee.ScheduleInformation)
-					_scheduledServices.Add(SchedInfo.Key, SchedInfo.Value);
-
-				GetScheduleServices();
-
-				if (!string.IsNullOrEmpty(_strNotScheduled.ToString()))
-					try
-					{
-						//Exception notScheduleException = new Exception(string.Format("Some servies could not be schedule:\n{0}", _strNotScheduled.ToString()));
-						//Edge.Core.Utilities.Log.Write("Scheduler", "Some services could not be scheduled", null, Edge.Core.Utilities.LogMessageType.Information);
-
-						//this.Invoke(setLogMethod, new Object[] { _strNotScheduled.ToString() });
-					}
-					catch (Exception)
-					{
-
-
-					}
-			}
-
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-
-		}
-
-		private void ScheduleBtn_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				_strNotScheduled.Clear();
-				_scheduledServices.Clear();
-				_scheduler.Schedule(false);
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-
-
-		}
-
-		private void GetScheduleServices()
-		{
-			try
-			{
-				var scheduledServices = _scheduler.GetAlllScheduldServices();
-				this.Invoke(new Action<IEnumerable<KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance>>>(SetGridData), scheduledServices);
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-		}
-
-
-		private void UpdateGridData(legacy.ServiceInstance serviceInstance)
-		{
-			try
-			{
-				foreach (DataGridViewRow row in scheduleInfoGrid.Rows)
-				{
-					if (Object.Equals(row.Tag, serviceInstance))
-					{
-						row.Cells["dynamicStaus"].Value = serviceInstance.State;
-						row.Cells["outCome"].Value = serviceInstance.Outcome;
-						row.Cells["actualEndTime"].Value = serviceInstance.TimeEnded.ToString("dd/MM/yyyy HH:mm:ss");
-						row.Cells["instanceID"].Value = serviceInstance.InstanceID;
-
-						Color color = GetColorByState(serviceInstance.State, serviceInstance.Outcome);
-						row.DefaultCellStyle.BackColor = color;
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-
-		}
-
-		private static Color GetColorByState(legacy.ServiceState state, legacy.ServiceOutcome outCome, bool deleted = false)
-		{
-			Color color = Color.White;
-			try
-			{
-				if (deleted != true)
-				{
-					switch (state)
-					{
-
-						case Edge.Core.Services.ServiceState.Uninitialized:
-							break;
-						case Edge.Core.Services.ServiceState.Initializing:
-							color = Color.FromArgb(0xdd, 0xdd, 0xdd); // light gray
-							break;
-						case Edge.Core.Services.ServiceState.Ready:
-							color = Color.FromArgb(0xee, 0xee, 0xff); // light blue
-							break;
-						case Edge.Core.Services.ServiceState.Starting:
-							color = Color.Green; // green
-							break;
-						case Edge.Core.Services.ServiceState.Running:
-							color = Color.FromArgb(0xe0, 0xff, 0xe0); // light green
-							break;
-						case Edge.Core.Services.ServiceState.Waiting:
-							color = Color.FromArgb(0xee, 0xff, 0xee); // light green (a little lighter)
-							break;
-						case Edge.Core.Services.ServiceState.Ended:
-							{
-								if (outCome == legacy.ServiceOutcome.Success)
-									color = Color.Turquoise;
-								else if (outCome == legacy.ServiceOutcome.Failure)
-									color = Color.DarkRed;
-								else if (outCome == legacy.ServiceOutcome.Unspecified)
-									color = Color.Orange;
-								else if (outCome == legacy.ServiceOutcome.Aborted)
-									color = Color.Purple;
-								break;
-
-							}
-
-						case Edge.Core.Services.ServiceState.Aborting:
-							color = Color.Red;
-							break;
-						default:
-							break;
-					}
-				}
-				else
-					color = Color.DarkGray;
-
-
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("GetColorByState", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-			return color;
-		}
-
-		private void SetGridData(IEnumerable<KeyValuePair<Edge.Core.Scheduling.Objects.SchedulingData, ServiceInstance>> scheduledServices)
-		{
-			try
-			{
-
+				var scheduledServices = _scheduler.GetAllScheduledServices();
 				scheduleInfoGrid.Rows.Clear();
 				foreach (var scheduledService in scheduledServices.OrderBy(s => s.Value.StartTime))
 				{
@@ -397,12 +138,11 @@ namespace Edge.Applications.TempScheduler
 					else
 						date = string.Empty;
 
-
-
 					if (!_scheduledServices.ContainsKey(scheduledService.Key))
 						_scheduledServices.Add(scheduledService.Key, scheduledService.Value);
 					int row = scheduleInfoGrid.Rows.Add(new object[] 
-                    { scheduledService.Key.GetHashCode(),scheduledService.Value.LegacyInstance.InstanceID, scheduledService.Value.ServiceName, scheduledService.Value.ProfileID, 
+                    {
+						scheduledService.Key.GetHashCode(),scheduledService.Value.LegacyInstance.InstanceID, scheduledService.Value.ServiceName, scheduledService.Value.ProfileID, 
                         scheduledService.Value.StartTime.ToString("dd/MM/yyy HH:mm:ss"), scheduledService.Value.EndTime.ToString("dd/MM/yyy HH:mm:ss"),
                         scheduledService.Value.LegacyInstance.TimeEnded.ToString("dd/MM/yyy HH:mm:ss"), scheduledService.Value.LegacyInstance.State,
                         scheduledService.Key.Rule.Scope, scheduledService.Value.Deleted, scheduledService.Value.LegacyInstance.Outcome,
@@ -411,169 +151,274 @@ namespace Edge.Applications.TempScheduler
                     });
 					scheduleInfoGrid.Rows[row].DefaultCellStyle.BackColor = GetColorByState(scheduledService.Value.LegacyInstance.State, scheduledService.Value.LegacyInstance.Outcome, scheduledService.Value.Deleted);
 					scheduleInfoGrid.Rows[row].Tag = scheduledService.Value.LegacyInstance;
-					
-					
-
 				}
-
-
 			}
-			catch (Exception ex)
+			catch
 			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
 			}
 		}
+
+
+		void GridUpdate(legacy.ServiceInstance instance)
+		{
+			Invoke(_delegateGridUpdate, instance);
+		}
+
+		void GridUpdateInner(legacy.ServiceInstance instance)
+		{
+			try
+			{
+				foreach (DataGridViewRow row in scheduleInfoGrid.Rows)
+				{
+					if (Object.Equals(row.Tag, instance))
+					{
+						row.Cells["dynamicStaus"].Value = instance.State;
+						row.Cells["outCome"].Value = instance.Outcome;
+						row.Cells["actualEndTime"].Value = instance.TimeEnded.ToString("dd/MM/yyyy HH:mm:ss");
+						row.Cells["instanceID"].Value = instance.InstanceID;
+
+						Color color = GetColorByState(instance.State, instance.Outcome);
+						row.DefaultCellStyle.BackColor = color;
+					}
+				}
+			}
+			catch
+			{
+			}
+		}
+
+		// ======================================================================
+		#endregion
+
+		#region OUT OF THREAD METHODS
+		// ======================================================================
+		// These are triggered async by other AppDomains or threads
+
+		void _scheduler_NewScheduleCreatedEventHandler(object sender, EventArgs e)
+		{
+			LogText("New schedule created");
+			Log.Write(Program.LS, "New schedule created", LogMessageType.Information);
+
+			var args = (ScheduledInformationEventArgs)e;
+			_scheduledServices.Clear();
+
+			foreach (KeyValuePair<SchedulingData, ServiceInstance> info in args.ScheduleInformation)
+				_scheduledServices.Add(info.Key, info.Value);
+
+			GridRefresh();
+		}
+
+		void _scheduler_ServiceRunRequiredEvent(object sender, EventArgs e)
+		{
+			TimeToRunEventArgs args = (TimeToRunEventArgs)e;
+			foreach (Edge.Core.Scheduling.Objects.ServiceInstance serviceInstance in args.ServicesToRun)
+			{
+				serviceInstance.LegacyInstance.StateChanged += new EventHandler<Edge.Core.Services.ServiceStateChangedEventArgs>(LegacyInstance_StateChanged);
+				serviceInstance.LegacyInstance.ChildServiceRequested += new EventHandler<Edge.Core.Services.ServiceRequestedEventArgs>(LegacyInstance_ChildServiceRequested);
+				serviceInstance.LegacyInstance.OutcomeReported += new EventHandler(LegacyInstance_OutcomeReported);
+
+				try { serviceInstance.LegacyInstance.Initialize(); }
+				catch (Exception ex)
+				{
+					string msg = String.Format("{1}: Failed to initialize scheduled service {0}", serviceInstance.ServiceName, serviceInstance.LegacyInstance.AccountID);
+					LogText(msg);
+					Log.Write(Program.LS, msg, ex);
+				}
+			}
+		}
+
+		void LegacyInstance_ChildServiceRequested(object sender, Edge.Core.Services.ServiceRequestedEventArgs e)
+		{
+
+			legacy.ServiceInstance instance = (legacy.ServiceInstance)sender;
+
+			e.RequestedService.ChildServiceRequested += new EventHandler<legacy.ServiceRequestedEventArgs>(LegacyInstance_ChildServiceRequested);
+			e.RequestedService.StateChanged += new EventHandler<legacy.ServiceStateChangedEventArgs>(LegacyInstance_StateChanged);
+			e.RequestedService.OutcomeReported += new EventHandler(LegacyInstance_OutcomeReported);
+
+			try { e.RequestedService.Initialize(); }
+			catch (Exception ex)
+			{
+				string msg = String.Format("{1}: Failed to initialize child service {0}", instance.Configuration.Name, instance.AccountID);
+				LogText(msg);
+				Log.Write(Program.LS, msg, ex);
+			}
+		}
+
+		void LegacyInstance_StateChanged(object sender, Edge.Core.Services.ServiceStateChangedEventArgs e)
+		{
+			legacy.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+			GridUpdate(instance);
+			LogText(string.Format("{0}: {1} is {2}", instance.AccountID, instance.Configuration.Name, e.StateAfter));
+
+			if (e.StateAfter == legacy.ServiceState.Ready)
+			{
+				try { instance.Start(); }
+				catch (Exception ex)
+				{
+					string msg = String.Format("{1}: Failed to start service {0}", instance.Configuration.Name, instance.AccountID);
+					LogText(msg);
+					Log.Write(Program.LS, msg, ex);
+				}
+			}
+		}
+
+		void LegacyInstance_OutcomeReported(object sender, EventArgs e)
+		{
+			legacy.ServiceInstance instance = (Edge.Core.Services.ServiceInstance)sender;
+			GridUpdate(instance);
+			LogText(string.Format("{0}: {1} reported {2}", instance.AccountID, instance.Configuration.Name, instance.Outcome));
+		}
+		// ======================================================================
+		#endregion
+
+		#region UTILITY
+		// ======================================================================
+		// extra
+
+		static Color GetColorByState(legacy.ServiceState state, legacy.ServiceOutcome outCome, bool deleted = false)
+		{
+			Color color = Color.White;
+
+			if (deleted != true)
+			{
+				switch (state)
+				{
+
+					case Edge.Core.Services.ServiceState.Uninitialized:
+						break;
+					case Edge.Core.Services.ServiceState.Initializing:
+						color = Color.FromArgb(0xdd, 0xdd, 0xdd); // light gray
+						break;
+					case Edge.Core.Services.ServiceState.Ready:
+						color = Color.FromArgb(0xee, 0xee, 0xff); // light blue
+						break;
+					case Edge.Core.Services.ServiceState.Starting:
+						color = Color.Green; // green
+						break;
+					case Edge.Core.Services.ServiceState.Running:
+						color = Color.FromArgb(0xe0, 0xff, 0xe0); // light green
+						break;
+					case Edge.Core.Services.ServiceState.Waiting:
+						color = Color.FromArgb(0xee, 0xff, 0xee); // light green (a little lighter)
+						break;
+					case Edge.Core.Services.ServiceState.Ended:
+						{
+							if (outCome == legacy.ServiceOutcome.Success)
+								color = Color.Turquoise;
+							else if (outCome == legacy.ServiceOutcome.Failure)
+								color = Color.DarkRed;
+							else if (outCome == legacy.ServiceOutcome.Unspecified)
+								color = Color.Orange;
+							else if (outCome == legacy.ServiceOutcome.Aborted)
+								color = Color.Purple;
+							break;
+
+						}
+
+					case Edge.Core.Services.ServiceState.Aborting:
+						color = Color.Red;
+						break;
+					default:
+						break;
+				}
+			}
+			else
+				color = Color.DarkGray;
+
+			return color;
+		}
+		// ======================================================================
+		#endregion
+
+		#region GUI INTERACTION
+		// ======================================================================
+		// button clicks etc.
+
 		private void ViewLog_newForm(object sender, EventArgs e)
 		{
 			//Get Log from DB per instance id
-			frmInstanceLog form = new frmInstanceLog(this._listner);
+			frmInstanceLog form = new frmInstanceLog(this._listener);
 			form.UpdateForm(
 				Convert.ToInt64(scheduleInfoGrid.SelectedRows[0].Cells[1].Value),
 				instanceName: scheduleInfoGrid.SelectedRows[0].Cells[2].Value.ToString(),
 				accountId: scheduleInfoGrid.SelectedRows[0].Cells[3].Value.ToString()
 				);
 			form.Show();
-			
+
 		}
 		private void endServiceBtn_Click(object sender, EventArgs e)
 		{
-			try
+			DialogResult result = MessageBox.Show("Are you sure you want to abort service?", "Abort Service", MessageBoxButtons.YesNo);
+
+			if (result == System.Windows.Forms.DialogResult.Yes)
 			{
-				DialogResult result = MessageBox.Show("Are you sure you want to abort service?", "Abort Service", MessageBoxButtons.YesNo);
-
-				if (result == System.Windows.Forms.DialogResult.Yes)
+				foreach (DataGridViewRow row in scheduleInfoGrid.SelectedRows)
 				{
-					foreach (DataGridViewRow row in scheduleInfoGrid.SelectedRows)
+					var scheduleData = from s in _scheduledServices
+									   where s.Key.GetHashCode() == Convert.ToInt32(row.Cells["shceduledID"].Value)
+									   select s.Key;
+
+					try
 					{
-						var scheduleData = from s in _scheduledServices
-										   where s.Key.GetHashCode() == Convert.ToInt32(row.Cells["shceduledID"].Value)
-										   select s.Key;
+						_scheduler.AbortRunningService(scheduleData.First());
+					}
+					catch (Exception ex)
+					{
 
-						try
-						{
-							_scheduler.AbortRuningService(scheduleData.First());
-						}
-						catch (Exception ex)
-						{
-
-							MessageBox.Show(string.Format("You cannot delete service in this state\n{0}", ex.Message));
-						}
-
+						MessageBox.Show(string.Format("You cannot delete service in this state\n{0}", ex.Message));
 					}
 
-					GetScheduleServices();
 				}
-			}
-			catch (Exception ex)
-			{
 
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
+				GridRefresh();
 			}
-
 		}
 
 		private void deleteServiceFromScheduleBtn_Click(object sender, EventArgs e)
 		{
-			try
+
+			DialogResult result = MessageBox.Show("Are you sure you want to delete service from schedule?", "Delete Service", MessageBoxButtons.YesNo);
+			if (result == System.Windows.Forms.DialogResult.Yes)
 			{
-				DialogResult result = MessageBox.Show("Are you sure you want to Delete service from schedule?", "Delete Service", MessageBoxButtons.YesNo);
-				if (result == System.Windows.Forms.DialogResult.Yes)
+				foreach (DataGridViewRow row in scheduleInfoGrid.SelectedRows)
 				{
-					foreach (DataGridViewRow row in scheduleInfoGrid.SelectedRows)
+					var scheduleData = from s in _scheduledServices
+									   where s.Key.GetHashCode() == Convert.ToInt32(row.Cells["shceduledID"].Value)
+									   select s.Key;
+					if (_scheduledServices[scheduleData.First()].LegacyInstance.State == Edge.Core.Services.ServiceState.Uninitialized)
 					{
-						var scheduleData = from s in _scheduledServices
-										   where s.Key.GetHashCode() == Convert.ToInt32(row.Cells["shceduledID"].Value)
-										   select s.Key;
-						if (_scheduledServices[scheduleData.First()].LegacyInstance.State == Edge.Core.Services.ServiceState.Uninitialized)
-						{
-							SchedulingData schedulingDate = scheduleData.First();
-							_scheduler.DeleteScpecificServiceInstance(schedulingDate);
-							row.Cells["deleted"].Value = true;
-							row.DefaultCellStyle.BackColor = GetColorByState(legacy.ServiceState.Aborting, legacy.ServiceOutcome.Aborted, true);
+						SchedulingData schedulingDate = scheduleData.First();
+						_scheduler.DeleteScpecificServiceInstance(schedulingDate);
+						row.Cells["deleted"].Value = true;
+						row.DefaultCellStyle.BackColor = GetColorByState(legacy.ServiceState.Aborting, legacy.ServiceOutcome.Aborted, true);
 
-
-						}
-						else
-							MessageBox.Show(string.Format("You can't delete service instance with state {0}", _scheduledServices[scheduleData.First()].LegacyInstance.State));
 
 					}
-					//GetScheduleServices(); 
+					else
+						MessageBox.Show(string.Format("You can't delete service instance with state {0}", _scheduledServices[scheduleData.First()].LegacyInstance.State));
 
 				}
 			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-
 		}
 
 		private void startBtn_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				startBtn.Enabled = false;
-				EndBtn.Enabled = true;
-				_scheduleStarted = true;
-				ConfigurationManager.RefreshSection("edge.services");
-				_scheduler.Start();
-
-				logtextBox.Text = logtextBox.Text.Insert(0, "Timer Started:" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\r\n");
-				
-
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
+		{			
+			_scheduler.Start();
 		}
 
 		private void EndBtn_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				_scheduler.Stop();
-				this.Invoke(setLogMethod, new Object[] { "Timer Stoped" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "r\n" });
-				Log.Write("SchedulingControlForm", "Threads stops by stop button", LogMessageType.Information);
-				startBtn.Enabled = true;
-				EndBtn.Enabled = false;
-
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
-		}
-
-		public void SetLogTextBox(string lineText)
-		{
-			try
-			{
-				lock (logtextBox)
-				{
-					if (logtextBox.Text.Length > 4000)
-						logtextBox.Text = logtextBox.Text.Remove(4000);
-					logtextBox.Text = logtextBox.Text.Insert(0, lineText);
-				}
-			}
-			catch (Exception ex)
-			{
-
-				Edge.Core.Utilities.Log.Write("SchedulingControlForm", ex.Message, ex, Edge.Core.Utilities.LogMessageType.Error);
-			}
+			_scheduler.Stop();
 		}
 
 		private void frmSchedulingControl_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			DialogResult result = MessageBox.Show("YOU MUST NOT CLOSE THIS FORM, IF YOU HAVE TO,\nPLEASE TALK WITH SHAY BAR-CHEN OR AMIT BLUMAN,\nARE YOU SURE YOU WANT TO CLOSE THE SCHEDULER?", "Form Closing!", MessageBoxButtons.YesNo);
+			DialogResult result = MessageBox.Show("WARNING: This will shutdown all Edge services. Are you sure you want to continue?", "SCHEDULER SHUTDOWN", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
 			if (result == System.Windows.Forms.DialogResult.Yes)
 			{
-				result = MessageBox.Show("Are You Sure?", "Form Closing!", MessageBoxButtons.YesNo);
-				if (result == System.Windows.Forms.DialogResult.Yes)
+				result = MessageBox.Show("Please confirm again", "SCHEDULER SHUTDOWN", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+				if (result == System.Windows.Forms.DialogResult.OK)
 					e.Cancel = false;
 				else
 					e.Cancel = true;
@@ -581,44 +426,59 @@ namespace Edge.Applications.TempScheduler
 			else
 			{
 				e.Cancel = true;
-
 			}
-
 		}
 
 		private void unPlannedBtn_Click(object sender, EventArgs e)
 		{
-			ConfigurationManager.RefreshSection("edge.services");
-			frmUnPlannedService f = new frmUnPlannedService(_listner, _scheduler);
+			frmUnPlannedService f = new frmUnPlannedService(_listener, _scheduler);
 			f.Show();
 		}
-        private void encryptDecryptBtn_Click(object sender, EventArgs e)
-        {
-            frmEncryptDecrypt form = new frmEncryptDecrypt();
-            form.Show();
-        }
+		private void encryptDecryptBtn_Click(object sender, EventArgs e)
+		{
+			frmEncryptDecrypt form = new frmEncryptDecrypt();
+			form.Show();
+		}
 
 		private void resetServiceInstanceStateBtn_Click(object sender, EventArgs e)
 		{
-			try
+
+			var proc = new BackgroundWorker()
 			{
-				using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
+				WorkerReportsProgress = false,
+				WorkerSupportsCancellation = false
+			};
+			proc.DoWork += new DoWorkEventHandler((w, args) =>
+			{
+				try
 				{
-					conn.Open();
-					using (SqlCommand command = DataManager.CreateCommand("ResetUnendedServices", CommandType.StoredProcedure))
+					using (SqlConnection conn = new SqlConnection(AppSettings.GetConnectionString("Edge.Core.Services", "SystemDatabase")))
 					{
-						command.Connection = conn;
-						int numOfRows = command.ExecuteNonQuery();
-						string msg = String.Format("{0} row(s) affected", numOfRows);
-						MessageBox.Show(msg);
+						conn.Open();
+						using (SqlCommand command = DataManager.CreateCommand("ResetUnendedServices", CommandType.StoredProcedure))
+						{
+							command.Connection = conn;
+							args.Result = command.ExecuteNonQuery();
+						}
 					}
 				}
-			}
-			catch (Exception ex)
+				catch (Exception ex)
+				{
+					args.Result = ex;
+				}
+			});
+			proc.RunWorkerCompleted += new RunWorkerCompletedEventHandler((w, args) =>
 			{
-				MessageBox.Show(ex.Message);
-			}
-
+				if (args.Result is Exception)
+				{
+					var ex = (Exception) args.Result;
+					MessageBox.Show(String.Format("Reset operation failed: {0} ({1})", ex.Message, ex.GetType().Name));
+				}
+				else
+				{
+					MessageBox.Show( String.Format("{0} row(s) affected", (int) args.Result));
+				}
+			});
 		}
 
 		private void scheduleInfoGrid_MouseDown(object sender, MouseEventArgs e)
@@ -633,10 +493,12 @@ namespace Edge.Applications.TempScheduler
 					scheduleInfoGrid.Rows[currentMouseOverRow].Selected = true;
 					scheduleInfoGrid.Rows[currentMouseOverRow].ContextMenuStrip.ItemClicked += new ToolStripItemClickedEventHandler(ViewLog_newForm);
 				}
-				
-					
+
+
 			}
 		}
+
+		#endregion
 
 	}
 }
