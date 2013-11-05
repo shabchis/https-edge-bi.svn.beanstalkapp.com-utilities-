@@ -17,28 +17,18 @@ namespace Edge.Applications.TempScheduler
 {
 	public partial class frmUnPlannedService : Form
 	{
-		private Listener _listner;
+		private Listener _listener;
 		private Scheduler _scheduler;
-		public frmUnPlannedService(Listener listner, Scheduler scheduler)
+		public frmUnPlannedService(Listener listener, Scheduler scheduler)
 		{
 			InitializeComponent();
-			_listner = listner;
+			_listener = listener;
 			_scheduler = scheduler;
 		}
 
 
-
 		private void FillComboBoxes()
 		{
-			//services per account
-
-			//List<ServiceConfiguration> serviceConfigurations = _scheduler.GetAllExistServices(); //.Where(s => s.SchedulingRules.Count > 0 && s.SchedulingRules[0].Scope != SchedulingScope.UnPlanned).ToList();
-			//serviceConfigurations = serviceConfigurations.OrderBy((s => s.SchedulingProfile.ID)).ToList();
-			//foreach (ServiceConfiguration serviceConfiguration in serviceConfigurations)
-			//{
-			//    servicesCheckedListBox.Items.Add(string.Format("{0}    :   {1}", serviceConfiguration.SchedulingProfile.Name, serviceConfiguration.Name));
-
-			//}
 			servicesTreeView.BeginUpdate();
 			foreach (AccountElement accountElement in EdgeServicesConfiguration.Current.Accounts)
 			{
@@ -46,12 +36,7 @@ namespace Edge.Applications.TempScheduler
 				currentNode.Tag = accountElement;
 
 				AddServices(currentNode, accountElement.Services);
-
-
-
 			}
-
-
 
 			servicesTreeView.EndUpdate();
 			List<string> services = new List<string>();
@@ -66,9 +51,6 @@ namespace Edge.Applications.TempScheduler
 			priorityCmb.Items.Add(ServicePriority.Normal);
 			priorityCmb.Items.Add(ServicePriority.High);
 			priorityCmb.Items.Add(ServicePriority.Immediate);
-
-
-
 		}
 
 		private void AddServices(TreeNode currentNode, AccountServiceElementCollection accountServiceElementCollection = null, WorkflowStepElementCollection workflowStepElementCollection = null)
@@ -107,131 +89,86 @@ namespace Edge.Applications.TempScheduler
 
 		private void addBtn_Click(object sender, EventArgs e)
 		{
-			bool allSucceed = true;
-			try
-			{
+			ServicePriority servicePriority = ServicePriority.Low;
+			var options = new Edge.Core.SettingsCollection();
+			DateTime targetDateTime = new DateTime(dateToRunPicker.Value.Year, dateToRunPicker.Value.Month, dateToRunPicker.Value.Day, timeToRunPicker.Value.Hour, timeToRunPicker.Value.Minute, 0);
 
-				ServicePriority servicePriority = ServicePriority.Low;
-				Edge.Core.SettingsCollection options = new Edge.Core.SettingsCollection();
-				DateTime targetDateTime = new DateTime(dateToRunPicker.Value.Year, dateToRunPicker.Value.Month, dateToRunPicker.Value.Day, timeToRunPicker.Value.Hour, timeToRunPicker.Value.Minute, 0);
-				bool result = false;
-
-				if (priorityCmb.SelectedItem != null)
-					switch (priorityCmb.SelectedItem.ToString())
-					{
-						case "Low":
-							{
-								servicePriority = ServicePriority.Low;
-								break;
-							}
-						case "Normal":
-							{
-								servicePriority = ServicePriority.Normal;
-								break;
-							}
-						case "High":
-							{
-								servicePriority = ServicePriority.High;
-								break;
-							}
-						case "Immediate":
-							{
-								servicePriority = ServicePriority.Immediate;
-								break;
-							}
-					}
-				int countedSelectedServices = 0;
-				foreach (TreeNode accountNode in servicesTreeView.Nodes)
+			if (priorityCmb.SelectedItem != null)
+				switch (priorityCmb.SelectedItem.ToString())
 				{
-
-					foreach (TreeNode serviceNode in accountNode.Nodes)
-					{
-						if (serviceNode.Checked)
+					case "Low":
 						{
-							countedSelectedServices++;
-							AccountElement account = (AccountElement)accountNode.Tag;
-							ActiveServiceElement service = (ActiveServiceElement)serviceNode.Tag;
-							if (useOptionsCheckBox.Checked)
-							{
-								foreach (ListViewItem item in optionsListView.Items)
-									options.Add(item.SubItems[0].Text.Trim(), item.SubItems[1].Text.Trim());
-
-								DateTime from = FromPicker.Value;
-								DateTime to = toPicker.Value;
-								if (to.Date < from.Date || to.Date > DateTime.Now.Date)
-									throw new Exception("to date must be equal or greater then from date, and both should be less then today's date");
-
-								if (chkBackward.Checked)
-								{
-									while (from.Date <= to.Date)
-									{
-										//For backward compatbility
-										options["Date"] = from.ToString("yyyyMMdd");
-										result = _listner.FormAddToSchedule(service, account, targetDateTime, options, servicePriority);
-										options.Clear();
-										if (!result)
-										{
-											allSucceed = result;
-											MessageBox.Show(string.Format("Service {0} for account {1} did not run", service.Name, accountNode.Text));
-										}
-										from = from.AddDays(1);
-									}
-								}
-								else
-								{
-									DateTimeRange daterange = new DateTimeRange()
-									{
-										Start = new DateTimeSpecification()
-										{
-											BaseDateTime = from,
-											Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
-											
-										},
-										End = new DateTimeSpecification()
-										{
-											BaseDateTime = to,
-											Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
-											
-										}
-									};
-									options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, daterange.ToAbsolute().ToString());									
-									result = _listner.FormAddToSchedule(service, account, targetDateTime, options, servicePriority);
-									options.Clear();
-									if (!result)
-									{
-										allSucceed = result;
-										MessageBox.Show(string.Format("Service {0} for account {1} did not run", service.Name, accountNode.Text));
-									}
-								}
-							}
-							else
-							{
-								result = _listner.FormAddToSchedule(service, account, targetDateTime, options, servicePriority);
-								if (!result)
-									allSucceed = result;
-							}
+							servicePriority = ServicePriority.Low;
+							break;
 						}
-					}
+					case "Normal":
+						{
+							servicePriority = ServicePriority.Normal;
+							break;
+						}
+					case "High":
+						{
+							servicePriority = ServicePriority.High;
+							break;
+						}
+					case "Immediate":
+						{
+							servicePriority = ServicePriority.Immediate;
+							break;
+						}
 				}
-				if (!allSucceed)
-					throw new Exception("Some services did not run");
-				else
-				{
-					if (countedSelectedServices > 0)
-						MessageBox.Show(@"Unplaned service\services added successfully");
-					else
-						MessageBox.Show(@"No services selected");
-				}
-
-
-
-
-			}
-			catch (Exception ex)
+			int countedSelectedServices = 0;
+			foreach (TreeNode accountNode in servicesTreeView.Nodes)
 			{
+				foreach (TreeNode serviceNode in accountNode.Nodes)
+				{
+					if (!serviceNode.Checked)
+						continue;
 
-				MessageBox.Show(ex.Message);
+					countedSelectedServices++;
+					AccountElement account = (AccountElement)accountNode.Tag;
+					ActiveServiceElement service = (ActiveServiceElement)serviceNode.Tag;
+					if (useOptionsCheckBox.Checked)
+					{
+						foreach (ListViewItem item in optionsListView.Items)
+							options.Add(item.SubItems[0].Text.Trim(), item.SubItems[1].Text.Trim());
+
+						DateTime from = FromPicker.Value;
+						DateTime to = toPicker.Value;
+						if (to.Date < from.Date || to.Date > DateTime.Now.Date)
+						{
+							MessageBox.Show(String.Format("Account {0} service {1}: To date must be equal or greater than from date, and both should be less then today's date",
+								account.ID,
+								service.Name
+								));
+							continue;
+						}
+
+						DateTimeRange daterange = new DateTimeRange()
+						{
+							Start = new DateTimeSpecification()
+							{
+								BaseDateTime = from,
+								Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Exact, Value = 0 },
+
+							},
+							End = new DateTimeSpecification()
+							{
+								BaseDateTime = to,
+								Hour = new DateTimeTransformation() { Type = DateTimeTransformationType.Max },
+
+							}
+						};
+						options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, daterange.ToAbsolute().ToString());
+					}
+
+					_listener.AddToSchedule(service, account, targetDateTime, options, servicePriority);
+					options.Clear();
+
+				}
 			}
+
+			MessageBox.Show(String.Format("{0} unplanned services were added.", countedSelectedServices));
 		}
 
 		private void CancelBtn_Click(object sender, EventArgs e)
@@ -285,7 +222,6 @@ namespace Edge.Applications.TempScheduler
 		}
 
 
-
 		private void servicesTreeView_AfterCheck(object sender, TreeViewEventArgs e)
 		{
 			if (e.Action != TreeViewAction.Unknown)
@@ -293,6 +229,7 @@ namespace Edge.Applications.TempScheduler
 				CheckAllChildNodes(e.Node, e.Node.Checked);
 			}
 		}
+
 		private void CheckAllChildNodes(TreeNode treeNode, bool nodeChecked)
 		{
 			if (treeNode.Tag is WorkflowStepElement)
@@ -314,9 +251,6 @@ namespace Edge.Applications.TempScheduler
 			}
 
 		}
-
-
 	}
-
 }
 

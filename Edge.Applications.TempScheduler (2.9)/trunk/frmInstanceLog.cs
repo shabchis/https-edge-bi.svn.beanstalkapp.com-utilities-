@@ -26,13 +26,13 @@ namespace Edge.Applications.TempScheduler
 		private Dictionary<string, string> _attributes = new Dictionary<string, string>();
 		private SettingsCollection _options = new SettingsCollection();
 		private DateTimeRange _dateTimeRange = new DateTimeRange();
-		private Listener _listner;
+		private Listener _listener;
 		private int _accountId;
 
-		public frmInstanceLog(Listener listner)
+		public frmInstanceLog(Listener listener)
 		{
 			InitializeComponent();
-			_listner = listner;
+			_listener = listener;
 		}
 
 		public void UpdateForm(long parentInstanceId, string instanceName, string accountId)
@@ -360,12 +360,7 @@ namespace Edge.Applications.TempScheduler
 				//Run Service
 				if (!_options.ContainsKey(PipelineService.ConfigurationOptionNames.TimePeriod))
 					_options.Add(PipelineService.ConfigurationOptionNames.TimePeriod, _dateTimeRange.ToAbsolute().ToString());
-				bool result = _listner.FormAddToSchedule(serviceName, _accountId, DateTime.Now, _options, ServicePriority.Normal);
-				MessageBox.Show("Service has been submited");
-				if (!result)
-				{
-					MessageBox.Show(string.Format("Service {0} for account {1} did not run", serviceName, _accountId));
-				}
+				_listener.AddToSchedule(serviceName, _accountId, DateTime.Now, _options);
 			}
 
 		}
