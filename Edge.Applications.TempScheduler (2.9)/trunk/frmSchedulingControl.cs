@@ -71,24 +71,21 @@ namespace Edge.Applications.TempScheduler
 			_scheduler.ServiceRunRequiredEvent += new EventHandler(_scheduler_ServiceRunRequiredEvent);
 			_scheduler.NewScheduleCreatedEvent += new EventHandler(_scheduler_NewScheduleCreatedEventHandler);
 
-			_scheduler.Starting += new EventHandler((ss, se) =>
+			_scheduler.StateChanged += new EventHandler((ss, se) =>
 			{
-				LogText("Scheduling timers started");
-				startBtn.Invoke(new Action(() =>
+				LogText("Scheduler is " + _scheduler.State.ToString());
+				try
 				{
-					startBtn.Enabled = false;
-					EndBtn.Enabled = true;
-				}));
+					Invoke(new Action(() =>
+					{
+						startBtn.Enabled = _scheduler.State == SchedulerState.Stopped;
+						EndBtn.Enabled = _scheduler.State == SchedulerState.Started;
+					}));
+				}
+				catch { }
 			});
-			_scheduler.Stopping += new EventHandler((ss, se) =>
-			{
-				LogText("Scheduling timers stopped");
-				startBtn.Invoke(new Action(() =>
-				{
-					startBtn.Enabled = true;
-					EndBtn.Enabled = false;
-				}));
-			});
+
+			Application.DoEvents();
 
 			_scheduler.Start();
 		}
@@ -99,48 +96,42 @@ namespace Edge.Applications.TempScheduler
 
 		void LogText(string lineText)
 		{
-			Invoke(_delegateLogText, lineText);
+			try { Invoke(_delegateLogText, lineText); }
+			catch { }
 		}
 
 		void LogTextInner(string lineText)
 		{
-			try
-			{
-				if (logtextBox.Text.Length > 4000)
-					logtextBox.Text = logtextBox.Text.Remove(4000);
-				logtextBox.Text = logtextBox.Text.Insert(0, String.Format("{0} -- {1}",
-					DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
-					lineText));
-			}
-			catch
-			{
-			}
+			if (logtextBox.Text.Length > 4000)
+				logtextBox.Text = logtextBox.Text.Remove(4000);
+			logtextBox.Text = logtextBox.Text.Insert(0, String.Format("{0} >> {1}\r\n",
+				DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+				lineText));
 		}
 
 		void GridRefresh()
 		{
-			Invoke(_delegateGridRefresh);
+			try { Invoke(_delegateGridRefresh); }
+			catch { }
 		}
 
 		private void GridRefreshInner()
 		{
-			try
+			var scheduledServices = _scheduler.GetAllScheduledServices();
+			scheduleInfoGrid.Rows.Clear();
+			foreach (var scheduledService in scheduledServices.OrderBy(s => s.Value.StartTime))
 			{
-				var scheduledServices = _scheduler.GetAllScheduledServices();
-				scheduleInfoGrid.Rows.Clear();
-				foreach (var scheduledService in scheduledServices.OrderBy(s => s.Value.StartTime))
-				{
-					string date;
-					if (scheduledService.Value.LegacyInstance.Configuration.Options.ContainsKey("Date"))
-						date = scheduledService.Value.LegacyInstance.Configuration.Options["Date"];
-					else if (scheduledService.Value.LegacyInstance.Configuration.Options.ContainsKey("TimePeriod"))
-						date = scheduledService.Value.LegacyInstance.Configuration.Options["TimePeriod"];
-					else
-						date = string.Empty;
+				string date;
+				if (scheduledService.Value.LegacyInstance.Configuration.Options.ContainsKey("Date"))
+					date = scheduledService.Value.LegacyInstance.Configuration.Options["Date"];
+				else if (scheduledService.Value.LegacyInstance.Configuration.Options.ContainsKey("TimePeriod"))
+					date = scheduledService.Value.LegacyInstance.Configuration.Options["TimePeriod"];
+				else
+					date = string.Empty;
 
-					if (!_scheduledServices.ContainsKey(scheduledService.Key))
-						_scheduledServices.Add(scheduledService.Key, scheduledService.Value);
-					int row = scheduleInfoGrid.Rows.Add(new object[] 
+				if (!_scheduledServices.ContainsKey(scheduledService.Key))
+					_scheduledServices.Add(scheduledService.Key, scheduledService.Value);
+				int row = scheduleInfoGrid.Rows.Add(new object[] 
                     {
 						scheduledService.Key.GetHashCode(),scheduledService.Value.LegacyInstance.InstanceID, scheduledService.Value.ServiceName, scheduledService.Value.ProfileID, 
                         scheduledService.Value.StartTime.ToString("dd/MM/yyy HH:mm:ss"), scheduledService.Value.EndTime.ToString("dd/MM/yyy HH:mm:ss"),
@@ -149,41 +140,32 @@ namespace Edge.Applications.TempScheduler
                         scheduledService.Value.LegacyInstance.State, scheduledService.Value.Priority ,
                         date
                     });
-					scheduleInfoGrid.Rows[row].DefaultCellStyle.BackColor = GetColorByState(scheduledService.Value.LegacyInstance.State, scheduledService.Value.LegacyInstance.Outcome, scheduledService.Value.Deleted);
-					scheduleInfoGrid.Rows[row].Tag = scheduledService.Value.LegacyInstance;
-				}
-			}
-			catch
-			{
+				scheduleInfoGrid.Rows[row].DefaultCellStyle.BackColor = GetColorByState(scheduledService.Value.LegacyInstance.State, scheduledService.Value.LegacyInstance.Outcome, scheduledService.Value.Deleted);
+				scheduleInfoGrid.Rows[row].Tag = scheduledService.Value.LegacyInstance;
 			}
 		}
 
 
 		void GridUpdate(legacy.ServiceInstance instance)
 		{
-			Invoke(_delegateGridUpdate, instance);
+			try { Invoke(_delegateGridUpdate, instance); }
+			catch { }
 		}
 
 		void GridUpdateInner(legacy.ServiceInstance instance)
 		{
-			try
+			foreach (DataGridViewRow row in scheduleInfoGrid.Rows)
 			{
-				foreach (DataGridViewRow row in scheduleInfoGrid.Rows)
+				if (Object.Equals(row.Tag, instance))
 				{
-					if (Object.Equals(row.Tag, instance))
-					{
-						row.Cells["dynamicStaus"].Value = instance.State;
-						row.Cells["outCome"].Value = instance.Outcome;
-						row.Cells["actualEndTime"].Value = instance.TimeEnded.ToString("dd/MM/yyyy HH:mm:ss");
-						row.Cells["instanceID"].Value = instance.InstanceID;
+					row.Cells["dynamicStaus"].Value = instance.State;
+					row.Cells["outCome"].Value = instance.Outcome;
+					row.Cells["actualEndTime"].Value = instance.TimeEnded.ToString("dd/MM/yyyy HH:mm:ss");
+					row.Cells["instanceID"].Value = instance.InstanceID;
 
-						Color color = GetColorByState(instance.State, instance.Outcome);
-						row.DefaultCellStyle.BackColor = color;
-					}
+					Color color = GetColorByState(instance.State, instance.Outcome);
+					row.DefaultCellStyle.BackColor = color;
 				}
-			}
-			catch
-			{
 			}
 		}
 
@@ -403,7 +385,7 @@ namespace Edge.Applications.TempScheduler
 		}
 
 		private void startBtn_Click(object sender, EventArgs e)
-		{			
+		{
 			_scheduler.Start();
 		}
 
@@ -471,12 +453,12 @@ namespace Edge.Applications.TempScheduler
 			{
 				if (args.Result is Exception)
 				{
-					var ex = (Exception) args.Result;
+					var ex = (Exception)args.Result;
 					MessageBox.Show(String.Format("Reset operation failed: {0} ({1})", ex.Message, ex.GetType().Name));
 				}
 				else
 				{
-					MessageBox.Show( String.Format("{0} row(s) affected", (int) args.Result));
+					MessageBox.Show(String.Format("{0} row(s) affected", (int)args.Result));
 				}
 			});
 		}
