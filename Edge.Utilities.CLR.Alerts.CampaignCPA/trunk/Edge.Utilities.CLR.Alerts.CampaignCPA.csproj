@@ -17,7 +17,7 @@
     <ConnectionString>
     </ConnectionString>
     <FileUpgradeFlags>40</FileUpgradeFlags>
-    <UpgradeBackupLocation>D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Backup7\</UpgradeBackupLocation>
+    <UpgradeBackupLocation>D:\Edge\Code\Codebase\EDGE-MERGE\edge-services\(solutions)\Backup10\</UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

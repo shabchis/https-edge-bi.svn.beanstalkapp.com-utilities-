@@ -32,7 +32,7 @@
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
     <Name>Edge.Utilities.CLR.Alerts.CampaignCPA</Name>
     <ProjectVersion>4.0</ProjectVersion>
-    <ProjectGuid>{9e998ac7-60ea-4909-a00b-14d6723744ef}</ProjectGuid>
+    <ProjectGuid>{3213e9cf-8f7c-4e44-a91b-63fe905e0fb7}</ProjectGuid>
     <IncludeSchemaNameInFileName>False</IncludeSchemaNameInFileName>
     <GenerateDatabaseFile>False</GenerateDatabaseFile>
     <GenerateCreateScript>False</GenerateCreateScript>
@@ -77,6 +77,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.XML" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlertedObjects\AbstractAlertedUnit.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="CampaignCPA_Alerts.cs" />
     <Compile Include="AlertedObjects\AlertedCampaignAdgroups.cs" />
     <Compile Include="AlertedObjects\AlertedCampaign.cs" />
+    <Compile Include="Func_AdgroupCpaAlerts.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test Scripts\Test.sql">
