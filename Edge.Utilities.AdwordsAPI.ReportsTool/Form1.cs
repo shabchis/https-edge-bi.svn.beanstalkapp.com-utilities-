@@ -2,7 +2,7 @@
 using Edge.Core.Utilities;
 using Google.Api.Ads.AdWords.Lib;
 using Google.Api.Ads.AdWords.Util.Reports;
-using Google.Api.Ads.AdWords.v201302;
+using Google.Api.Ads.AdWords.v201309;
 using Google.Api.Ads.Common.Lib;
 using Google.Api.Ads.Common.Util;
 using System;
@@ -10,12 +10,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
@@ -60,32 +62,96 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
 
         }
-
-        private void GetReportFields_Click(object sender, EventArgs e)
+        private static AdWordsUser GetAdwordsUser(bool useOauth, string DeveloperToken, string EnableGzipCompression, string ClientCustomerId, string Email, string OAuth2ClientId = null)
         {
             Dictionary<string, string> headers = new Dictionary<string, string>()
 						{
-							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"DeveloperToken" ,DeveloperToken},
 							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
-							{"EnableGzipCompression",this.EnableGzipCompression.Text},
-							{"ClientCustomerId",this.ClientCustomerId.Text},
-							{"Email",this.Email.Text}
+							{"EnableGzipCompression",EnableGzipCompression},
+							{"ClientCustomerId",ClientCustomerId},
+							{"Email",Email}
 						};
 
+            if (useOauth)
+            {
+                AdWordsUser user = new AdWordsUser(headers);
+                SetOAuthParams(user, OAuth2ClientId);
+                return user;
 
-            User = new AdWordsUser(headers);
+            }
+            return new AdWordsUser(headers);
+
+        }
+
+        private static void SetOAuthParams(AdWordsUser user, string OAuth2ClientId)
+        {
+            //Get Oauth params from DB
+            GetOAuthDetailsFromDB(OAuth2ClientId, user);
+        }
+
+        private static void GetOAuthDetailsFromDB(string OAuth2ClientId, AdWordsUser user)
+        {
+
+            SqlConnection connection = new SqlConnection("Data Source=79.125.11.74; Database=Seperia;User ID=SeperiaServices;PWD=Asada2011!");
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand cmd = DataManager.CreateCommand(@"Google_GetAuthDetails(@ClientID:Nvarchar)", System.Data.CommandType.StoredProcedure);
+                    cmd.Connection = connection;
+                    connection.Open();
+                    cmd.Parameters["@ClientID"].Value = OAuth2ClientId;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            user.Config.OAuth2ClientId = OAuth2ClientId;
+                            user.Config.OAuth2ClientSecret = reader[0].ToString();
+                            user.Config.OAuth2Mode = OAuth2Flow.APPLICATION;
+                            user.Config.OAuth2RefreshToken = reader[4].ToString();
+                            user.Config.OAuth2RedirectUri = reader[7].ToString();
+                            user.Config.OAuth2AccessToken = reader[3].ToString();
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while trying to get auth key from DB", ex);
+            }
+
+        }
+
+        private void GetReportFields_Click(object sender, EventArgs e)
+        {
+            //Dictionary<string, string> headers = new Dictionary<string, string>()
+            //            {
+            //                {"DeveloperToken" ,this.DeveloperToken.Text},
+            //                {"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+            //                {"EnableGzipCompression",this.EnableGzipCompression.Text},
+            //                {"ClientCustomerId",this.ClientCustomerId.Text},
+            //                {"Email",this.Email.Text}
+            //            };
+
+
+            User = GetAdwordsUser(this.useOauth2.Checked, this.DeveloperToken.Text, this.EnableGzipCompression.Text, this.ClientCustomerId.Text, this.Email.Text, this.OAuth2ClientId.Text);
             try
             {
                 //Getting AuthToken
-                (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+                if (!this.useOauth2.Checked)
+                    (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+
                 ReportDefinitionReportType reportType = (ReportDefinitionReportType)Enum.Parse(typeof(ReportDefinitionReportType), ReportNamesListBox.SelectedItem.ToString());
-                ReportDefinitionService reportDefinitionService = (ReportDefinitionService)User.GetService(AdWordsService.v201302.ReportDefinitionService);
+                ReportDefinitionService reportDefinitionService = (ReportDefinitionService)User.GetService(AdWordsService.v201309.ReportDefinitionService);
 
                 // Get the report fields.
                 ReportDefinitionField[] reportDefinitionFields = reportDefinitionService.getReportFields(reportType);
                 foreach (ReportDefinitionField reportDefinitionField in reportDefinitionFields)
                 {
-                    this.AvailableReportFields.AppendText(string.Format(@"""{0}"",",reportDefinitionField.fieldName ));
+                    this.AvailableReportFields.AppendText(string.Format(@"""{0}"",", reportDefinitionField.fieldName));
                     List<object> rowObjects = new List<object>();
 
                     this.dataGridView.Rows.Add(
@@ -225,52 +291,54 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
         private void Download_Click(object sender, EventArgs e)
         {
-            AdWordsAppConfig config = (AdWordsAppConfig)User.Config;
-            
             string QUERY_REPORT_URL_FORMAT = "{0}/api/adwords/reportdownload/{1}?" + "__fmt={2}";
-
-            string reportVersion = "v201302";
+            string reportVersion = "v201309";
             string format = DownloadFormat.GZIPPED_CSV.ToString();
-            string downloadUrl = string.Format(QUERY_REPORT_URL_FORMAT, config.AdWordsApiServer, reportVersion, format);
+            string downloadUrl = string.Format(QUERY_REPORT_URL_FORMAT,((AdWordsAppConfig) User.Config).AdWordsApiServer, reportVersion, format);
             string query = this.AWQL_textBox.Text;
             string postData = string.Format("__rdquery={0}", HttpUtility.UrlEncode(query));
 
-            ClientReport retval = new ClientReport();
+            ReportUtilities utilities = new ReportUtilities(User);
+            utilities.ReportVersion = "v201309";
+            utilities.DownloadClientReport(query, DownloadFormat.GZIPPED_CSV.ToString(), this.path.Text);
 
-            FeedAttributeType f = new FeedAttributeType();
-            
 
-            ReportsException ex = null;
-            this.response.Text += "\n Report download has started...";
-            int maxPollingAttempts = 30 * 60 * 1000 / 30000;
-            string path = this.path.Text;
-            for (int i = 0; i < 3; i++)
-            {
-                this.response.Text += "\n Attempt #1...";
+            //ClientReport retval = new ClientReport();
 
-                try
-                {
-                    using (FileStream fs = File.OpenWrite(path))
-                    {
+            //FeedAttributeType f = new FeedAttributeType();
 
-                        fs.SetLength(0);
-                        bool isSuccess = DownloadReportToStream(downloadUrl, config, true, fs, postData, User);
-                        if (!isSuccess)
-                        {
-                            string errors = File.ReadAllText(path);
 
-                        }
-                    }
-                }
-                catch (Exception exception)
-                {
-                    this.response.Text = exception.Message;
-                }
-            }
+            //ReportsException ex = null;
+            //this.response.Text += "\n Report download has started...";
+            //int maxPollingAttempts = 30 * 60 * 1000 / 30000;
+            //string path = this.path.Text;
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    this.response.Text += "\n Attempt #1...";
+
+            //    try
+            //    {
+            //        using (FileStream fs = File.OpenWrite(path))
+            //        {
+
+            //            fs.SetLength(0);
+            //            bool isSuccess = DownloadReportToStream(downloadUrl, config, true, fs, postData, User);
+            //            if (!isSuccess)
+            //            {
+            //                string errors = File.ReadAllText(path);
+
+            //            }
+            //        }
+            //    }
+            //    catch (Exception exception)
+            //    {
+            //        this.response.Text = exception.Message;
+            //    }
+            //}
             this.response.Text += "\n DONE !";
         }
 
-     
+        /*
         private bool DownloadReportToStream(string downloadUrl, AdWordsAppConfig config, bool returnMoneyInMicros, Stream outputStream, string postBody, AdWordsUser user)
         {
             this.response.Text += "\n Creating request...";
@@ -283,11 +351,11 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             request.Timeout = config.Timeout;
             request.UserAgent = config.GetUserAgent();
 
-            if (!string.IsNullOrEmpty(config.ClientEmail))
-            {
-                request.Headers.Add("clientEmail: " + config.ClientEmail);
-            }
-            else if (!string.IsNullOrEmpty(config.ClientCustomerId))
+            //if (!string.IsNullOrEmpty(config.ClientEmail))
+            //{
+            //    request.Headers.Add("clientEmail: " + config.ClientEmail);
+            //}
+            if (!string.IsNullOrEmpty(config.ClientCustomerId))
             {
                 request.Headers.Add("clientCustomerId: " + config.ClientCustomerId);
             }
@@ -397,7 +465,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             }
             return byteArray.ToArray();
         }
-
+        */
         private void get_Acc_Lables_Click(object sender, EventArgs e)
         {
             // Get the CampaignService.
@@ -606,7 +674,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             }
             catch (Exception exc)
             {
-                this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null? exc.InnerException.Message:string.Empty;
+                this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
             }
 
             // Get the ManagedCustomerService.
@@ -667,8 +735,8 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                     // Display account tree.
                     rchtxt.AppendText("Login, CustomerId, Name");
                     rchtxt.AppendText(rootNode.ToTreeString(0, new StringBuilder()));
-                   // Console.WriteLine("Login, CustomerId, Name");
-                   // Console.WriteLine(rootNode.ToTreeString(0, new StringBuilder()));
+                    // Console.WriteLine("Login, CustomerId, Name");
+                    // Console.WriteLine(rootNode.ToTreeString(0, new StringBuilder()));
                 }
                 else
                 {
@@ -683,7 +751,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
         private void GetAwql_Click(object sender, EventArgs e)
         {
-             
+
             if (this.dataGridView.SelectedRows.Count != 0)
             {
                 this.AvailableReportFields.Clear();
@@ -732,12 +800,12 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
             }
 
-            
+
             // Get the CampaignService.
             CampaignService campaignService =
                 (CampaignService)User.GetService(AdWordsService.v201302.CampaignService);
-            
- 
+
+
 
             // Create the query.
             string query = "SELECT Id, Name, Status,Settings ORDER BY Name";
@@ -763,8 +831,8 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                         foreach (Campaign campaign in page.entries)
                         {
                             this.rchtxt.AppendText(string.Format("/n Campaign id = '{0}', name = '{1}' ,status = '{2}'" + " was found.", campaign.id, campaign.name, campaign.status));
-                            
-                           //  i++;
+
+                            //  i++;
                         }
                     }
                     offset += pageSize;
@@ -808,12 +876,12 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             selector.fields = new string[] { "Id", "CriteriaType", "CampaignId" };
 
             // Set the filters.
-          //  Predicate predicate = new Predicate();
-          //  predicate.field = "CampaignId";
-           // predicate.@operator = PredicateOperator.EQUALS;
-           // predicate.values = new string[] { campaignId.ToString() };
+            //  Predicate predicate = new Predicate();
+            //  predicate.field = "CampaignId";
+            // predicate.@operator = PredicateOperator.EQUALS;
+            // predicate.values = new string[] { campaignId.ToString() };
 
-          //  selector.predicates = new Predicate[] { predicate };
+            //  selector.predicates = new Predicate[] { predicate };
 
             // Set the selector paging.
             selector.paging = new Paging();
@@ -889,7 +957,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
             // Create the selector.
             Selector selector = new Selector();
-            selector.fields = new string[] { "Id", "AdGroupId","Status" };
+            selector.fields = new string[] { "Id", "AdGroupId", "Status" };
 
             // Set the filters.
             //  Predicate predicate = new Predicate();
@@ -963,7 +1031,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             AdGroupService agService = (AdGroupService)User.GetService(AdWordsService.v201302.AdGroupService);
             ConstantDataService constData = (ConstantDataService)User.GetService(AdWordsService.v201302.ConstantDataService);
 
-            Language[] lang =  constData.getLanguageCriterion();
+            Language[] lang = constData.getLanguageCriterion();
 
             // Create the selector.
             Selector selector = new Selector();
@@ -1045,7 +1113,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             selector.currencyCode = "USD";
 
 
-           // selector.fields = new string[] { "Id", "Status", "Clicks" };
+            // selector.fields = new string[] { "Id", "Status", "Clicks" };
 
             // Set the filters.
             //  Predicate predicate = new Predicate();
@@ -1091,8 +1159,291 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 throw new System.ApplicationException("Failed to get adgroup targeting criteria.", ex);
             }
         }
-    }
 
+        private void GetAccountAlerts_Click(object sender, EventArgs e)
+        {
+
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+						{
+							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+							{"EnableGzipCompression",this.EnableGzipCompression.Text},
+							{"ClientCustomerId",this.ClientCustomerId.Text},
+							{"Email",this.Email.Text}
+						};
+
+
+            User = new AdWordsUser(headers);
+
+            try
+            {
+                //Getting AuthToken
+                (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
+            }
+            catch (Exception exc)
+            {
+                this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
+            }
+
+            // Get the AlertService.
+            AlertService alertService = (AlertService)User.GetService(
+                AdWordsService.v201302.AlertService);
+
+            // Create the selector.
+            AlertSelector selector = new AlertSelector();
+
+            // Create the alert query.
+            AlertQuery query = new AlertQuery();
+            query.filterSpec = FilterSpec.ALL;
+            query.clientSpec = ClientSpec.ALL;
+            query.triggerTimeSpec = TriggerTimeSpec.ALL_TIME;
+            query.severities = new AlertSeverity[] {AlertSeverity.GREEN, AlertSeverity.YELLOW,
+          AlertSeverity.RED};
+
+            // Enter all possible values of AlertType to get all alerts. If you are
+            // interested only in specific alert types, then you may also do it as
+            // follows:
+            // query.types = new AlertType[] {AlertType.CAMPAIGN_ENDING,
+            //     AlertType.CAMPAIGN_ENDED};
+            query.types = (AlertType[])Enum.GetValues(typeof(AlertType));
+            selector.query = query;
+
+            // Set paging for selector.
+            selector.paging = new Paging();
+
+            int offset = 0;
+            int pageSize = 500;
+
+            AlertPage page = new AlertPage();
+
+            try
+            {
+                do
+                {
+                    // Get account alerts.
+                    selector.paging.startIndex = offset;
+                    selector.paging.numberResults = pageSize;
+
+                    page = alertService.get(selector);
+
+                    // Display the results.
+                    if (page != null && page.entries != null)
+                    {
+                        int i = offset;
+                        foreach (Alert alert in page.entries)
+                        {
+                            Console.WriteLine("{0}) Customer Id is {1:###-###-####}, Alert type is '{2}', " +
+                                "Severity is {3}", i + 1, alert.clientCustomerId, alert.alertType,
+                                alert.alertSeverity);
+                            for (int j = 0; j < alert.details.Length; j++)
+                            {
+                                Console.WriteLine("  - Triggered at {0}", alert.details[j].triggerTime);
+                            }
+                            i++;
+                        }
+                    }
+                    offset += pageSize;
+                } while (offset < page.totalNumEntries);
+                Console.WriteLine("Number of alerts found: {0}", page.totalNumEntries);
+            }
+            catch (Exception ex)
+            {
+                throw new System.ApplicationException("Failed to retrieve alerts.", ex);
+            }
+        }
+
+        private void CreateConnection_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> headers = new Dictionary<string, string>()
+						{
+							{"DeveloperToken" ,this.DeveloperToken.Text},
+							{"UserAgent" ,String.Format("Edge File Manager (version {0})", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())},
+							{"EnableGzipCompression",this.EnableGzipCompression.Text},
+							{"ClientCustomerId",this.ClientCustomerId.Text},
+							{"Email",this.Email.Text}
+						};
+            AdWordsUser user = new AdWordsUser(headers);
+            user.Config.OAuth2ClientId = this.OAuth2ClientId.Text;
+            user.Config.OAuth2ClientSecret = this.OAuth2ClientSecret.Text;
+            user.Config.OAuth2Mode = OAuth2Flow.APPLICATION;
+            (user.Config as AdWordsAppConfig).AuthorizationMethod = AdWordsAuthorizationMethod.OAuth2;
+
+
+            AdWordsAppConfig config = (user.Config as AdWordsAppConfig);
+            if (config.AuthorizationMethod == AdWordsAuthorizationMethod.OAuth2)
+            {
+                if (config.OAuth2Mode == OAuth2Flow.APPLICATION &&
+                    string.IsNullOrEmpty(config.OAuth2RefreshToken))
+                {
+                    DoAuth2Authorization(user);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Does the OAuth2 authorization for installed applications.
+        /// </summary>
+        /// <param name="user">The AdWords user.</param>
+        private static void DoAuth2Authorization(AdWordsUser user)
+        {
+            // Since we are using a console application, set the callback url to null.
+            user.Config.OAuth2RedirectUri = null;
+            AdsOAuthProviderForApplications oAuth2Provider =
+                (user.OAuthProvider as AdsOAuthProviderForApplications);
+            // Get the authorization url.
+            string authorizationUrl = oAuth2Provider.GetAuthorizationUrl();
+            Console.WriteLine("Open a fresh web browser and navigate to \n\n{0}\n\n. You will be " +
+                "prompted to login and then authorize this application to make calls to the " +
+                "AdWords API. Once approved, you will be presented with an authorization code.",
+                authorizationUrl);
+
+            // Accept the OAuth2 authorization code from the user.
+            Console.Write("Enter the authorization code :");
+            string authorizationCode = Console.ReadLine();
+
+            // Fetch the access and refresh tokens.
+            oAuth2Provider.FetchAccessAndRefreshTokens(authorizationCode);
+        }
+
+        private void GetOAuthInfoFromDB_Click(object sender, EventArgs e)
+        {
+            this.User = GetAdwordsUser(this.useOauth2.Checked, this.DeveloperToken.Text, this.EnableGzipCompression.Text, this.ClientCustomerId.Text, this.Email.Text, this.OAuth2ClientId.Text);
+            this.OAuth2RedirectUri.Text = User.Config.OAuth2RedirectUri;
+            this.OAuth2ClientSecret.Text = User.Config.OAuth2ClientSecret;
+            this.OAuth2RefreshToken.Text = User.Config.OAuth2RefreshToken;
+        }
+
+        private void RegexTester_Click(object sender, EventArgs e)
+        {
+            this.RegexRes.Items.Clear();
+
+            Regex regex = null;
+            Regex _fixRegex = new Regex(@"\(\?\{(\w+)\}");
+            string _fixReplace = @"(?<$1>";
+            string[] RawGroupNames = null;
+            Regex _varName = new Regex("^[A-Za-z_][A-Za-z0-9_]*$");
+            string[] _fragments = null;
+
+            if (!String.IsNullOrWhiteSpace(this.ConfigRegex.Text))
+            {
+                try
+                {
+                    regex = new Regex(_fixRegex.Replace(this.ConfigRegex.Text, _fixReplace), RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+
+                    // skip the '0' group which is always first, the asshole
+                    string[] groupNames = regex.GetGroupNames();
+                    RawGroupNames = groupNames.Length > 0 ? groupNames.Skip(1).ToArray() : groupNames;
+
+                    List<string> frags = new List<string>();
+                    foreach (string frag in RawGroupNames)
+                    {
+                        if (_varName.IsMatch(frag))
+                            frags.Add(frag);
+                        else
+                            throw new Exception();
+                        //throw new MappingConfigurationException(String.Format("'{0}' is not a valid read command fragment name. Use C# variable naming rules.", frag));
+                    }
+                    _fragments = frags.ToArray();
+
+                    Match m = regex.Match(this.destUrl.Text);
+                    if (m.Success)
+                    {
+                        foreach (string fragment in _fragments)
+                        {
+                            Group g = m.Groups[fragment];
+                            if (g.Success)
+                            {
+                                this.RegexRes.Items.Add(fragment + " = " + g.Value);
+                            }
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error", ex.Message, MessageBoxButtons.OK);
+                }
+            }
+        }
+
+        private void CreateURL_Click(object sender, EventArgs e)
+        {
+            
+            HttpListener newHttpListener = new System.Net.HttpListener();
+            newHttpListener.Prefixes.Add(this.OAuth2RedirectUri.Text);
+            try
+            {
+                newHttpListener.Start();
+            }
+            catch (HttpListenerException ex)
+            {
+                Console.WriteLine("Looks like {0} is blocked. Please open a command line prompt as " +
+                    "Administrator and run the following command: \n" +
+                    "netsh http add urlacl url={0} user=machine\\username\n" +
+                    "where machine\\username is your user account.\nThen re-run this application.",
+                    this.OAuth2RedirectUri.Text);
+                return;
+            }
+
+           // Console.WriteLine(USAGE, LOCALHOST_ADDRESS);
+            // Create an app configuration object.
+
+            SimpleAppConfig appConfig = new SimpleAppConfig();
+            appConfig.OAuth2RedirectUri = this.OAuth2RedirectUri.Text;
+
+            // Read the client ID, secret and scope from the user.
+            appConfig.OAuth2Scope = this.AuthScope.Text;
+            appConfig.OAuth2ClientId = this.OAuth2ClientId.Text;
+            appConfig.OAuth2ClientSecret = this.OAuth2ClientSecret.Text;
+
+            // Create the OAuth2 protocol handler and set it to the current user.
+            OAuth2ProviderForApplications oAuth2 = new OAuth2ProviderForApplications(appConfig);
+
+            // Get the authorization url and open a browser.
+            string authorizationUrl = oAuth2.GetAuthorizationUrl();
+            Process.Start(authorizationUrl);
+
+           // string authorizationCode = Prompt.ShowDialog("Enter Authorization Code", "Fetch Access And Refresh Tokens");
+            
+            // Fetch the access and refresh tokens.
+            //oAuth2.FetchAccessAndRefreshTokens(authorizationCode);
+
+            //Console.WriteLine(APP_CONFIG_PATCH, appConfig.OAuth2ClientId, appConfig.OAuth2ClientSecret,
+            //    oAuth2.RefreshToken);
+            //Console.ReadLine();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+    }
+    public static class Prompt
+    {
+        public static string ShowDialog(string text, string caption)
+        {
+            Form prompt = new Form();
+            prompt.Width = 500;
+            prompt.Height = 150;
+            prompt.Text = caption;
+            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
+            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70 };
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.Controls.Add(textBox);
+            prompt.ShowDialog();
+            return textBox.Text;
+        }
+    }
+    class SimpleAppConfig : AppConfigBase { }
     class ManagedCustomerTreeNode
     {
         /// <summary>
