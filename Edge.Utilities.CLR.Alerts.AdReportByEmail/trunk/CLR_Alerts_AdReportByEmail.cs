@@ -96,18 +96,89 @@ public partial class StoredProcedures
                         rec.SetSqlString(1, reader["[Paid Creatives Dim].[Creatives].[Ad Group].[MEMBER_CAPTION]"].ToString());
                         rec.SetSqlString(2, reader["[Paid Creatives Dim].[Creatives].[Creative].[MEMBER_CAPTION]"].ToString());
 
-                        value = reader["[Measures].[Cost]"] == DBNull.Value ? "0":(Math.Round(Convert.ToDecimal(reader["[Measures].[Cost]"]), 1).ToString("#,#", CultureInfo.InvariantCulture));
-                        rec.SetSqlString(3, string.Format("{0}{1}",value.Equals("0")?string.Empty:"$",value));
+                        try
+                        {
+                            value = reader["[Measures].[Cost]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(reader["[Measures].[Cost]"]), 1).ToString("#,#", CultureInfo.InvariantCulture));
+                            rec.SetSqlString(3, string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
+                        }
+                        catch(Exception e)
+                        {
+                            object[] values = new object[] { };
+                            reader.GetValues(values);
+                            StringBuilder sb = new StringBuilder();
+                            foreach (var ob in values)
+                            {
+                                sb.Append(ob.ToString());
+                            }
+                            throw new Exception("[Measures].[Cost] Error: " + reader["[Measures].[Cost]"].ToString()+"Check Row Values: "+sb.ToString(), e);
+                        }
 
-                        rec.SetSqlString(4, reader["[Measures].[Regs_Calc]"] == DBNull.Value ? "0" : Math.Round(Convert.ToDouble(reader["[Measures].[Regs_Calc]"]), 0).ToString());
+                        try
+                        {
+                            rec.SetSqlString(4, reader["[Measures].[Regs_Calc]"] == DBNull.Value ? "0" : Math.Round(Convert.ToDouble(reader["[Measures].[Regs_Calc]"]), 0).ToString());
+                        }
+                        catch (Exception e)
+                        {
+                            object[] values = new object[] { };
+                            reader.GetValues(values);
+                            StringBuilder sb = new StringBuilder();
+                            foreach (var ob in values)
+                            {
+                                sb.Append(ob.ToString());
+                            }
+                            throw new Exception("[Measures].[Regs_Calc] Error: " + "Check Row Values: " + sb.ToString(), e);
+                        }
 
-                        value = reader["[Measures].[CPR_Calc]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(reader["[Measures].[CPR_Calc]"]), 0)).ToString("#,#", CultureInfo.InvariantCulture);
-                        rec.SetSqlString(5,  string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
 
-                        rec.SetSqlString(6, reader["[Measures].[Actives_Calc]"] == DBNull.Value ? "0" : Math.Round(Convert.ToDouble(reader["[Measures].[Actives_Calc]"]), 0).ToString());
+                        try
+                        {
+                            value = reader["[Measures].[CPR_Calc]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(reader["[Measures].[CPR_Calc]"]), 0)).ToString("#,#", CultureInfo.InvariantCulture);
+                            rec.SetSqlString(5, string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
+                        }
+                        catch (Exception e)
+                        {
+                            object[] values = new object[] { };
+                            reader.GetValues(values);
+                            StringBuilder sb = new StringBuilder();
+                            foreach (var ob in values)
+                            {
+                                sb.Append(ob.ToString());
+                            }
+                            throw new Exception("[Measures].[CPR_Calc] Error: " + "Check Row Values: " + sb.ToString(), e);
+                        }
 
-                        value = reader["[Measures].[CPA_Calc]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDecimal(reader["[Measures].[CPA_Calc]"]), 1).ToString("#,#", CultureInfo.InvariantCulture));
-                        rec.SetSqlString(7, string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
+                        try
+                        {
+                            rec.SetSqlString(6, reader["[Measures].[Actives_Calc]"] == DBNull.Value ? "0" : Math.Round(Convert.ToDouble(reader["[Measures].[Actives_Calc]"]), 0).ToString());
+                        }
+                        catch (Exception e)
+                        {
+                            object[] values = new object[] { };
+                            reader.GetValues(values);
+                            StringBuilder sb = new StringBuilder();
+                            foreach (var ob in values)
+                            {
+                                sb.Append(ob.ToString());
+                            }
+                            throw new Exception("[Measures].[Actives_Calc] Error: " + "Check Row Values: " + sb.ToString(), e);
+                        }
+
+                        try
+                        {
+                            value = reader["[Measures].[CPA_Calc]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDecimal(reader["[Measures].[CPA_Calc]"]), 1).ToString("#,#", CultureInfo.InvariantCulture));
+                            rec.SetSqlString(7, string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
+                        }
+                        catch (Exception e)
+                        {
+                            object[] values = new object[] { };
+                            reader.GetValues(values);
+                            StringBuilder sb = new StringBuilder();
+                            foreach (var ob in values)
+                            {
+                                sb.Append(ob.ToString());
+                            }
+                            throw new Exception("[Measures].[CPA_Calc] Error: " + "Check Row Values: " + sb.ToString(), e);
+                        }
 
                         SqlContext.Pipe.SendResultsRow(rec);
 
