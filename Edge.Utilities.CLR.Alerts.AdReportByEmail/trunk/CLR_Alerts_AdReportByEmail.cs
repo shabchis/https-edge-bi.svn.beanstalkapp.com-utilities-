@@ -25,7 +25,8 @@ public partial class StoredProcedures
 
         try
         {
-
+           
+           
             #region Creating SP_GetAcqAndCpaFieldsNamesByAccountID Command
             SqlCommand fields_command = new SqlCommand("dbo.SP_GetAcqAndCpaFieldsNamesByAccountID");
             fields_command.CommandType = CommandType.StoredProcedure;
@@ -115,6 +116,9 @@ public partial class StoredProcedures
 
                         try
                         {
+                            if (Convert.ToString(reader["[Measures].[Regs_Calc]"]).Contains("E-"))
+                                rec.SetSqlString(4, Convert.ToString(reader["[Measures].[Regs_Calc]"]));
+                            else
                             rec.SetSqlString(4, reader["[Measures].[Regs_Calc]"] == DBNull.Value ? "0" : Math.Round(Convert.ToDouble(reader["[Measures].[Regs_Calc]"]), 0).ToString());
                         }
                         catch (Exception e)
