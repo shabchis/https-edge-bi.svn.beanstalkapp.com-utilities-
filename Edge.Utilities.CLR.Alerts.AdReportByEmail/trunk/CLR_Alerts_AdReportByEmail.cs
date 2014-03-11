@@ -25,8 +25,8 @@ public partial class StoredProcedures
 
         try
         {
-           
-           
+
+
             #region Creating SP_GetAcqAndCpaFieldsNamesByAccountID Command
             SqlCommand fields_command = new SqlCommand("dbo.SP_GetAcqAndCpaFieldsNamesByAccountID");
             fields_command.CommandType = CommandType.StoredProcedure;
@@ -57,14 +57,14 @@ public partial class StoredProcedures
             string acq1Name = "Regs";
             string acq2Name = "Actives";
 
-           
+
 
             using (SqlConnection conn = new SqlConnection("context connection=true"))
             {
                 conn.Open();
                 command.Connection = conn;
                 fields_command.Connection = conn;
-               
+
                 using (SqlDataReader reader = fields_command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -102,7 +102,7 @@ public partial class StoredProcedures
                             value = reader["[Measures].[Cost]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(reader["[Measures].[Cost]"]), 1).ToString("#,#", CultureInfo.InvariantCulture));
                             rec.SetSqlString(3, string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             object[] values = new object[] { };
                             reader.GetValues(values);
@@ -111,14 +111,12 @@ public partial class StoredProcedures
                             {
                                 sb.Append(ob.ToString());
                             }
-                            throw new Exception("[Measures].[Cost] Error: " + reader["[Measures].[Cost]"].ToString()+"Check Row Values: "+sb.ToString(), e);
+                            throw new Exception("[Measures].[Cost] Error: " + reader["[Measures].[Cost]"].ToString() + "Check Row Values: " + sb.ToString(), e);
                         }
 
                         try
                         {
-                            if (Convert.ToString(reader["[Measures].[Regs_Calc]"]).Contains("E-"))
-                                rec.SetSqlString(4, Convert.ToString(reader["[Measures].[Regs_Calc]"]));
-                            else
+
                             rec.SetSqlString(4, reader["[Measures].[Regs_Calc]"] == DBNull.Value ? "0" : Math.Round(Convert.ToDouble(reader["[Measures].[Regs_Calc]"]), 0).ToString());
                         }
                         catch (Exception e)
@@ -137,7 +135,7 @@ public partial class StoredProcedures
                         try
                         {
                             value = reader["[Measures].[CPR_Calc]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDouble(reader["[Measures].[CPR_Calc]"]), 0)).ToString("#,#", CultureInfo.InvariantCulture);
-                            rec.SetSqlString(5, string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
+                            rec.SetSqlString(5, string.Format("{0}{1}", value.Equals("0") ? string.Empty : string.IsNullOrEmpty(value)? "0":  "$", value));
                         }
                         catch (Exception e)
                         {
@@ -169,8 +167,17 @@ public partial class StoredProcedures
 
                         try
                         {
-                            value = reader["[Measures].[CPA_Calc]"] == DBNull.Value ? "0" : (Math.Round(Convert.ToDecimal(reader["[Measures].[CPA_Calc]"]), 1).ToString("#,#", CultureInfo.InvariantCulture));
+                            decimal decVal = 0;
+                            if (reader["[Measures].[CPA_Calc]"] != DBNull.Value)
+                            {
+                                decVal = (Math.Round(Decimal.Parse(Convert.ToString(reader["[Measures].[CPA_Calc]"]), System.Globalization.NumberStyles.Any), 1));
+                            }
+                            value = decVal.ToString();
+                            if (decVal == 0 || string.IsNullOrEmpty(value)) 
+                                value = "0";
+                            
                             rec.SetSqlString(7, string.Format("{0}{1}", value.Equals("0") ? string.Empty : "$", value));
+
                         }
                         catch (Exception e)
                         {
