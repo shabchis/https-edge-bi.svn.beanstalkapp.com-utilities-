@@ -35,16 +35,21 @@
     <ApplicationIcon>google_text.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.Ads.Common, Version=1.7.0.0, Culture=neutral, PublicKeyToken=52807268f2b614dc, processorArchitecture=MSIL">
+    <Reference Include="Google.Ads.Common, Version=2.3.0.0, Culture=neutral, PublicKeyToken=52807268f2b614dc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\thirdparty\GoogleAdwords\V201309\Google.Ads.Common.dll</HintPath>
+      <HintPath>..\..\thirdparty\GoogleAdwords\V201406\Google.Ads.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Google.AdWords.V201309, Version=15.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Google.AdWords, Version=17.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\thirdparty\GoogleAdwords\V201309\Google.AdWords.V201309.dll</HintPath>
+      <HintPath>..\..\thirdparty\GoogleAdwords\V201406\Google.AdWords.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\..\thirdparty\HTML\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
@@ -105,6 +110,10 @@
     <ProjectReference Include="..\..\edge-framework\Edge.Core\trunk\Edge.Core.csproj">
       <Project>{ad4b53ad-b28a-4e90-9483-d2f7c8e6d436}</Project>
       <Name>Edge.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\edge-framework\Edge.Data.Pipeline\trunk\Edge.Data.Pipeline.csproj">
+      <Project>{53391a99-e8ca-4262-a8e0-5f05a1cc6608}</Project>
+      <Name>Edge.Data.Pipeline</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
