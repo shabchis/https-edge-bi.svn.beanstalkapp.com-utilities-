@@ -41,6 +41,7 @@
             this.get_Acc_Lables = new System.Windows.Forms.Button();
             this.GetAccountHistory = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button6 = new System.Windows.Forms.Button();
             this.GetAccountAlerts = new System.Windows.Forms.Button();
             this.GetTargetingIdea = new System.Windows.Forms.Button();
             this.GetAgSettings2 = new System.Windows.Forms.Button();
@@ -108,6 +109,13 @@
             this.label15 = new System.Windows.Forms.Label();
             this.destUrl = new System.Windows.Forms.TextBox();
             this.RegexTester = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.CurrenciesTargetPath = new System.Windows.Forms.TextBox();
+            this.DownloadCurrencies = new System.Windows.Forms.Button();
+            this.CurrencyReport = new System.Windows.Forms.ListBox();
+            this.CurrenciesCodes = new System.Windows.Forms.ComboBox();
+            this.to_dateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.from_dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.useOauth2 = new System.Windows.Forms.CheckBox();
             this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -115,6 +123,7 @@
             this.tabControl1.SuspendLayout();
             this.OAuth20.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label3
@@ -166,7 +175,7 @@
             this.ClientCustomerId.Name = "ClientCustomerId";
             this.ClientCustomerId.Size = new System.Drawing.Size(207, 20);
             this.ClientCustomerId.TabIndex = 20;
-            this.ClientCustomerId.Text = "227-597-5997";
+            this.ClientCustomerId.Text = "298-709-9269";
             // 
             // label6
             // 
@@ -217,6 +226,7 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage3.Controls.Add(this.button6);
             this.tabPage3.Controls.Add(this.GetAccountAlerts);
             this.tabPage3.Controls.Add(this.GetTargetingIdea);
             this.tabPage3.Controls.Add(this.GetAgSettings2);
@@ -233,6 +243,16 @@
             this.tabPage3.Size = new System.Drawing.Size(1346, 695);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Testing";
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(79, 322);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 42;
+            this.button6.Text = "button6";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click_1);
             // 
             // GetAccountAlerts
             // 
@@ -515,6 +535,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.OAuth20);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(28, 116);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -810,7 +831,7 @@
             this.OAuth2ClientSecret.Name = "OAuth2ClientSecret";
             this.OAuth2ClientSecret.Size = new System.Drawing.Size(491, 20);
             this.OAuth2ClientSecret.TabIndex = 57;
-            this.OAuth2ClientSecret.Text = "2188694827437286630";
+            this.OAuth2ClientSecret.Text = "FR7Fum-OwyiqY6iX2P8SUQpW";
             // 
             // loginUrl
             // 
@@ -917,6 +938,73 @@
             this.RegexTester.UseVisualStyleBackColor = true;
             this.RegexTester.Click += new System.EventHandler(this.RegexTester_Click);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.AccessibleRole = System.Windows.Forms.AccessibleRole.Alert;
+            this.tabPage4.Controls.Add(this.CurrenciesTargetPath);
+            this.tabPage4.Controls.Add(this.DownloadCurrencies);
+            this.tabPage4.Controls.Add(this.CurrencyReport);
+            this.tabPage4.Controls.Add(this.CurrenciesCodes);
+            this.tabPage4.Controls.Add(this.to_dateTimePicker);
+            this.tabPage4.Controls.Add(this.from_dateTimePicker);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(1346, 695);
+            this.tabPage4.TabIndex = 5;
+            this.tabPage4.Text = "Currencies";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
+            // 
+            // CurrenciesTargetPath
+            // 
+            this.CurrenciesTargetPath.Location = new System.Drawing.Point(714, 54);
+            this.CurrenciesTargetPath.Name = "CurrenciesTargetPath";
+            this.CurrenciesTargetPath.Size = new System.Drawing.Size(213, 20);
+            this.CurrenciesTargetPath.TabIndex = 5;
+            this.CurrenciesTargetPath.Text = "C:\\Currencies.text";
+            // 
+            // DownloadCurrencies
+            // 
+            this.DownloadCurrencies.Location = new System.Drawing.Point(714, 25);
+            this.DownloadCurrencies.Name = "DownloadCurrencies";
+            this.DownloadCurrencies.Size = new System.Drawing.Size(75, 23);
+            this.DownloadCurrencies.TabIndex = 4;
+            this.DownloadCurrencies.Text = "Download";
+            this.DownloadCurrencies.UseVisualStyleBackColor = true;
+            this.DownloadCurrencies.Click += new System.EventHandler(this.DownloadCurrencies_Click);
+            // 
+            // CurrencyReport
+            // 
+            this.CurrencyReport.FormattingEnabled = true;
+            this.CurrencyReport.Location = new System.Drawing.Point(87, 93);
+            this.CurrencyReport.Name = "CurrencyReport";
+            this.CurrencyReport.Size = new System.Drawing.Size(347, 355);
+            this.CurrencyReport.TabIndex = 3;
+            // 
+            // CurrenciesCodes
+            // 
+            this.CurrenciesCodes.FormattingEnabled = true;
+            this.CurrenciesCodes.Location = new System.Drawing.Point(555, 39);
+            this.CurrenciesCodes.Name = "CurrenciesCodes";
+            this.CurrenciesCodes.Size = new System.Drawing.Size(121, 21);
+            this.CurrenciesCodes.TabIndex = 2;
+            this.CurrenciesCodes.DropDown += new System.EventHandler(this.CurrenciesCodes_DropDown);
+            // 
+            // to_dateTimePicker
+            // 
+            this.to_dateTimePicker.Location = new System.Drawing.Point(311, 40);
+            this.to_dateTimePicker.Name = "to_dateTimePicker";
+            this.to_dateTimePicker.Size = new System.Drawing.Size(200, 20);
+            this.to_dateTimePicker.TabIndex = 1;
+            // 
+            // from_dateTimePicker
+            // 
+            this.from_dateTimePicker.Location = new System.Drawing.Point(87, 40);
+            this.from_dateTimePicker.Name = "from_dateTimePicker";
+            this.from_dateTimePicker.Size = new System.Drawing.Size(200, 20);
+            this.from_dateTimePicker.TabIndex = 0;
+            // 
             // useOauth2
             // 
             this.useOauth2.AutoSize = true;
@@ -958,6 +1046,8 @@
             this.OAuth20.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1045,6 +1135,14 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button DownloadCurrencies;
+        private System.Windows.Forms.ListBox CurrencyReport;
+        private System.Windows.Forms.ComboBox CurrenciesCodes;
+        private System.Windows.Forms.DateTimePicker to_dateTimePicker;
+        private System.Windows.Forms.DateTimePicker from_dateTimePicker;
+        private System.Windows.Forms.TextBox CurrenciesTargetPath;
+        private System.Windows.Forms.Button button6;
     }
 }
 

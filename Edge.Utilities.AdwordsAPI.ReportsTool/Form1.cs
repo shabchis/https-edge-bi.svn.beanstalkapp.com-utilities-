@@ -1,10 +1,13 @@
-﻿using Edge.Core.Data;
+﻿using Edge.Core.Configuration;
+using Edge.Core.Data;
 using Edge.Core.Utilities;
+using Edge.Data.Objects;
 using Google.Api.Ads.AdWords.Lib;
 using Google.Api.Ads.AdWords.Util.Reports;
-using Google.Api.Ads.AdWords.v201309;
+using Google.Api.Ads.AdWords.v201406;
 using Google.Api.Ads.Common.Lib;
 using Google.Api.Ads.Common.Util;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,6 +63,31 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             this.dataGridView.Columns.Add("xmlAttributeName", "xmlAttributeName");
             this.dataGridView.Columns.Add("canFilter", "canFilter");
 
+            //using (SqlConnection connection = new SqlConnection(AppSettings.GetConnectionString(typeof(CurrencyRate), "CurrencyRateDatabase")))
+            //{
+            //    try
+            //    {
+            //        using (connection)
+            //        {
+            //            SqlCommand cmd = DataManager.CreateCommand("SELECT [Code] FROM [Seperia_DWH].[dbo].[ExchangeRates] group by code");
+            //            cmd.Connection = connection;
+            //            connection.Open();
+
+            //            using (SqlDataReader reader = cmd.ExecuteReader())
+            //            {
+            //                while (reader.Read())
+            //                {
+            //                    this.CurrenciesCodes.Items.Add(reader[0]);
+
+            //                }
+            //            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw new Exception("Error while trying to get auth key from DB", ex);
+            //    }
+            //}
 
         }
         private static AdWordsUser GetAdwordsUser(bool useOauth, string DeveloperToken, string EnableGzipCompression, string ClientCustomerId, string Email, string OAuth2ClientId = null)
@@ -145,7 +173,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                     (User.Config as AdWordsAppConfig).AuthToken = AdwordsUtill.GetAuthToken(User);
 
                 ReportDefinitionReportType reportType = (ReportDefinitionReportType)Enum.Parse(typeof(ReportDefinitionReportType), ReportNamesListBox.SelectedItem.ToString());
-                ReportDefinitionService reportDefinitionService = (ReportDefinitionService)User.GetService(AdWordsService.v201309.ReportDefinitionService);
+                ReportDefinitionService reportDefinitionService = (ReportDefinitionService)User.GetService(AdWordsService.v201406.ReportDefinitionService);
 
                 // Get the report fields.
                 ReportDefinitionField[] reportDefinitionFields = reportDefinitionService.getReportFields(reportType);
@@ -292,14 +320,14 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
         private void Download_Click(object sender, EventArgs e)
         {
             string QUERY_REPORT_URL_FORMAT = "{0}/api/adwords/reportdownload/{1}?" + "__fmt={2}";
-            string reportVersion = "v201309";
+            string reportVersion = "v201406";
             string format = DownloadFormat.GZIPPED_CSV.ToString();
-            string downloadUrl = string.Format(QUERY_REPORT_URL_FORMAT,((AdWordsAppConfig) User.Config).AdWordsApiServer, reportVersion, format);
+            string downloadUrl = string.Format(QUERY_REPORT_URL_FORMAT, ((AdWordsAppConfig)User.Config).AdWordsApiServer, reportVersion, format);
             string query = this.AWQL_textBox.Text;
             string postData = string.Format("__rdquery={0}", HttpUtility.UrlEncode(query));
 
             ReportUtilities utilities = new ReportUtilities(User);
-            utilities.ReportVersion = "v201309";
+            utilities.ReportVersion = "v201406";
             utilities.DownloadClientReport(query, DownloadFormat.GZIPPED_CSV.ToString(), this.path.Text);
 
 
@@ -466,54 +494,54 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             return byteArray.ToArray();
         }
         */
-        private void get_Acc_Lables_Click(object sender, EventArgs e)
+       private void get_Acc_Lables_Click(object sender, EventArgs e)
         {
-            // Get the CampaignService.
-            CampaignService campaignService =
-                (CampaignService)User.GetService(AdWordsService.v201302.CampaignService);
+        //    // Get the CampaignService.
+        //    CampaignService campaignService =
+        //        (CampaignService)User.GetService(AdWordsService.v201402.CampaignService);
 
-            // Create the query.
-            string query = "SELECT Id, Name, Status ORDER BY Name";
+        //    // Create the query.
+        //    string query = "SELECT Id, Name, Status ORDER BY Name";
 
-            int offset = 0;
-            int pageSize = 500;
+        //    int offset = 0;
+        //    int pageSize = 500;
 
-            CampaignPage page = new CampaignPage();
-            List<Campaign> campaignsList = new List<Campaign>();
-            try
-            {
-                do
-                {
-                    string queryWithPaging = string.Format("{0} LIMIT {1}, {2}", query, offset, pageSize);
+        //    CampaignPage page = new CampaignPage();
+        //    List<Campaign> campaignsList = new List<Campaign>();
+        //    try
+        //    {
+        //        do
+        //        {
+        //            string queryWithPaging = string.Format("{0} LIMIT {1}, {2}", query, offset, pageSize);
 
-                    // Get the campaigns.
-                    page = campaignService.query(queryWithPaging);
+        //            // Get the campaigns.
+        //            page = campaignService.query(queryWithPaging);
 
-                    // Display the results.
-                    if (page != null && page.entries != null)
-                    {
-                        int i = offset;
-                        foreach (Campaign campaign in page.entries)
-                        {
-                            campaignsList.Add(campaign);
-                            Console.WriteLine("{0}) Campaign with id = '{1}', name = '{2}' and status = '{3}'" +
-                              " was found.", i + 1, campaign.id, campaign.name, campaign.status);
-                            i++;
-                        }
-                    }
-                    offset += pageSize;
-                } while (offset < page.totalNumEntries);
-                Console.WriteLine("Number of campaigns found: {0}", page.totalNumEntries);
-            }
-            catch (Exception ex)
-            {
-                throw new System.ApplicationException("Failed to retrieve campaigns", ex);
-            }
-        }
+        //            // Display the results.
+        //            if (page != null && page.entries != null)
+        //            {
+        //                int i = offset;
+        //                foreach (Campaign campaign in page.entries)
+        //                {
+        //                    campaignsList.Add(campaign);
+        //                    Console.WriteLine("{0}) Campaign with id = '{1}', name = '{2}' and status = '{3}'" +
+        //                      " was found.", i + 1, campaign.id, campaign.name, campaign.status);
+        //                    i++;
+        //                }
+        //            }
+        //            offset += pageSize;
+        //        } while (offset < page.totalNumEntries);
+        //        Console.WriteLine("Number of campaigns found: {0}", page.totalNumEntries);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new System.ApplicationException("Failed to retrieve campaigns", ex);
+        //    }
+       }
 
         private void GetAccountHistory_Click(object sender, EventArgs e)
         {
-
+            /*
             Dictionary<string, string> headers = new Dictionary<string, string>()
 						{
 							{"DeveloperToken" ,this.DeveloperToken.Text},
@@ -532,7 +560,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
                 // Get the CustomerSyncService.
                 CustomerSyncService customerSyncService =
-                    (CustomerSyncService)User.GetService(AdWordsService.v201302.CustomerSyncService);
+                    (CustomerSyncService)User.GetService(AdWordsService.v201402.CustomerSyncService);
 
                 // The date time string should be of the form  yyyyMMdd HHmmss zzz
                 string minDateTime = DateTime.Now.AddDays(-1).ToUniversalTime().ToString("yyyyMMdd HHmmss")
@@ -569,10 +597,10 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                                 GetFormattedList(campaignChanges.addedCampaignCriteria));
                             Console.WriteLine("  Added campaign targeting: {0}",
                                 campaignChanges.campaignTargetingChanged ? "yes" : "no");
-                            Console.WriteLine("  Deleted ad extensions: {0}",
-                                GetFormattedList(campaignChanges.deletedAdExtensions));
-                            Console.WriteLine("  Deleted campaign criteria: {0}",
-                                GetFormattedList(campaignChanges.deletedCampaignCriteria));
+                           // Console.WriteLine("  Deleted ad extensions: {0}",
+                               // GetFormattedList(campaignChanges.deletedAdExtensions));
+                            //Console.WriteLine("  Deleted campaign criteria: {0}",
+                              //  GetFormattedList(campaignChanges.deletedCampaignCriteria));
 
                             if (campaignChanges.changedAdGroups != null)
                             {
@@ -588,8 +616,8 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                                             GetFormattedList(adGroupChanges.changedAds));
                                         Console.WriteLine("    Criteria changed: {0}",
                                             GetFormattedList(adGroupChanges.changedCriteria));
-                                        Console.WriteLine("    Criteria deleted: {0}",
-                                            GetFormattedList(adGroupChanges.deletedCriteria));
+                                       // Console.WriteLine("    Criteria deleted: {0}",
+                                       //     GetFormattedList(adGroupChanges.deletedCriteria));
                                     }
                                 }
                             }
@@ -606,6 +634,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             {
                 throw new System.ApplicationException("Failed to get account changes.", ex);
             }
+             */
         }
 
 
@@ -616,28 +645,30 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
         /// <returns>The list of campaign ids.</returns>
         private long[] GetAllCampaignIds(AdWordsUser user)
         {
+            
             // Get the CampaignService.
             CampaignService campaignService =
-                (CampaignService)user.GetService(AdWordsService.v201302.CampaignService);
+                (CampaignService)user.GetService(AdWordsService.v201406.CampaignService);
 
             List<long> allCampaigns = new List<long>();
 
-            // Create the selector.
-            Selector selector = new Selector();
-            selector.fields = new string[] { "Id" };
+            //// Create the selector.
+            //Selector selector = new Selector();
+            //selector.fields = new string[] { "Id" };
 
-            // Get all campaigns.
-            CampaignPage page = campaignService.get(selector);
+            //// Get all campaigns.
+            //CampaignPage page = campaignService.get(selector);
 
-            // Return the results.
-            if (page != null && page.entries != null)
-            {
-                foreach (Campaign campaign in page.entries)
-                {
-                    allCampaigns.Add(campaign.id);
-                }
-            }
+            //// Return the results.
+            //if (page != null && page.entries != null)
+            //{
+            //    foreach (Campaign campaign in page.entries)
+            //    {
+            //        allCampaigns.Add(campaign.id);
+            //    }
+            //}
             return allCampaigns.ToArray();
+            
         }
         private string GetFormattedList(long[] ids)
         {
@@ -679,7 +710,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
             // Get the ManagedCustomerService.
             ManagedCustomerService managedCustomerService = (ManagedCustomerService)User.GetService(
-                AdWordsService.v201302.ManagedCustomerService);
+                AdWordsService.v201406.ManagedCustomerService);
             managedCustomerService.RequestHeader.clientCustomerId = null;
 
             // Create selector.
@@ -778,6 +809,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
         private void GetCampaigns_Click(object sender, EventArgs e)
         {
+            /*
             Dictionary<string, string> headers = new Dictionary<string, string>()
 						{
 							{"DeveloperToken" ,this.DeveloperToken.Text},
@@ -803,7 +835,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
             // Get the CampaignService.
             CampaignService campaignService =
-                (CampaignService)User.GetService(AdWordsService.v201302.CampaignService);
+                (CampaignService)User.GetService(AdWordsService.v201406.CampaignService);
 
 
 
@@ -828,7 +860,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                     if (page != null && page.entries != null)
                     {
                         int i = offset;
-                        foreach (Campaign campaign in page.entries)
+                        foreach (Google.Api.Ads.AdWords.v201406.Campaign campaign in page.entries)
                         {
                             this.rchtxt.AppendText(string.Format("/n Campaign id = '{0}', name = '{1}' ,status = '{2}'" + " was found.", campaign.id, campaign.name, campaign.status));
 
@@ -843,6 +875,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             {
                 throw new System.ApplicationException("Failed to retrieve campaigns", ex);
             }
+            */
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -869,7 +902,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
             }
 
-            CampaignCriterionService campaignCriterionService = (CampaignCriterionService)User.GetService(AdWordsService.v201302.CampaignCriterionService);
+            CampaignCriterionService campaignCriterionService = (CampaignCriterionService)User.GetService(AdWordsService.v201406.CampaignCriterionService);
 
             // Create the selector.
             Selector selector = new Selector();
@@ -953,7 +986,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
             }
 
-            AdGroupCriterionService agCriterionService = (AdGroupCriterionService)User.GetService(AdWordsService.v201302.AdGroupCriterionService);
+            AdGroupCriterionService agCriterionService = (AdGroupCriterionService)User.GetService(AdWordsService.v201406.AdGroupCriterionService);
 
             // Create the selector.
             Selector selector = new Selector();
@@ -1006,6 +1039,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
         private void GetAgSettings2_Click(object sender, EventArgs e)
         {
+            /*
             Dictionary<string, string> headers = new Dictionary<string, string>()
 						{
 							{"DeveloperToken" ,this.DeveloperToken.Text},
@@ -1028,8 +1062,8 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
             }
 
-            AdGroupService agService = (AdGroupService)User.GetService(AdWordsService.v201302.AdGroupService);
-            ConstantDataService constData = (ConstantDataService)User.GetService(AdWordsService.v201302.ConstantDataService);
+            AdGroupService agService = (AdGroupService)User.GetService(AdWordsService.v201406.AdGroupService);
+            ConstantDataService constData = (ConstantDataService)User.GetService(AdWordsService.v201406.ConstantDataService);
 
             Language[] lang = constData.getLanguageCriterion();
 
@@ -1067,7 +1101,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                     if (page != null && page.entries != null)
                     {
                         int i = offset;
-                        foreach (AdGroup adGroup in page.entries)
+                        foreach (Google.Api.Ads.AdWords.v201406.AdGroup adGroup in page.entries)
                         {
                             i++;
                         }
@@ -1080,6 +1114,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             {
                 throw new System.ApplicationException("Failed to get adgroup targeting criteria.", ex);
             }
+             */
         }
 
         private void GetTargetingIdea_Click(object sender, EventArgs e)
@@ -1106,7 +1141,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 this.rchtxt.Text = exc.Message + " #### " + exc.InnerException != null ? exc.InnerException.Message : string.Empty;
             }
 
-            TargetingIdeaService targetingService = (TargetingIdeaService)User.GetService(AdWordsService.v201302.TargetingIdeaService);
+            TargetingIdeaService targetingService = (TargetingIdeaService)User.GetService(AdWordsService.v201406.TargetingIdeaService);
 
             // Create the selector.
             TargetingIdeaSelector selector = new TargetingIdeaSelector();
@@ -1187,7 +1222,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
             // Get the AlertService.
             AlertService alertService = (AlertService)User.GetService(
-                AdWordsService.v201302.AlertService);
+                AdWordsService.v201406.AlertService);
 
             // Create the selector.
             AlertSelector selector = new AlertSelector();
@@ -1368,7 +1403,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
         private void CreateURL_Click(object sender, EventArgs e)
         {
-            
+
             HttpListener newHttpListener = new System.Net.HttpListener();
             newHttpListener.Prefixes.Add(this.OAuth2RedirectUri.Text);
             try
@@ -1385,7 +1420,7 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
                 return;
             }
 
-           // Console.WriteLine(USAGE, LOCALHOST_ADDRESS);
+            // Console.WriteLine(USAGE, LOCALHOST_ADDRESS);
             // Create an app configuration object.
 
             SimpleAppConfig appConfig = new SimpleAppConfig();
@@ -1403,8 +1438,8 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             string authorizationUrl = oAuth2.GetAuthorizationUrl();
             Process.Start(authorizationUrl);
 
-           // string authorizationCode = Prompt.ShowDialog("Enter Authorization Code", "Fetch Access And Refresh Tokens");
-            
+            // string authorizationCode = Prompt.ShowDialog("Enter Authorization Code", "Fetch Access And Refresh Tokens");
+
             // Fetch the access and refresh tokens.
             //oAuth2.FetchAccessAndRefreshTokens(authorizationCode);
 
@@ -1423,6 +1458,103 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
 
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+            var a = new WebClient().DownloadString("http://www.xe.com/currencytables/?from=USD&date=2013-11-16");
+
+            HtmlWeb htmlWeb = new HtmlWeb();
+
+            // Creates an HtmlDocument object from an URL
+            HtmlAgilityPack.HtmlDocument document = htmlWeb.Load("http://www.xe.com/currencytables/?from=USD&date=2013-11-16");
+
+            // Targets a specific node
+            HtmlNode someNode = document.GetElementbyId("mynode");
+
+            // If there is no node with that Id, someNode will be null
+            if (someNode != null)
+            {
+                // Extracts all links within that node
+                IEnumerable<HtmlNode> allLinks = someNode.Descendants("a");
+
+                // Outputs the href for external links
+                foreach (HtmlNode link in allLinks)
+                {
+                    // Checks whether the link contains an HREF attribute
+                    if (link.Attributes.Contains("href"))
+                    {
+                        // Simple check: if the href begins with "http://", prints it out
+                        if (link.Attributes["href"].Value.StartsWith("http://"))
+                            Console.WriteLine(link.Attributes["href"].Value);
+                    }
+                }
+            }
+
+        }
+
+        private void tabPage4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CurrenciesCodes_DropDown(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void DownloadCurrencies_Click(object sender, EventArgs e)
+        {
+            WebClient web = new WebClient();
+
+            //string from = this.from_dateTimePicker
+            try
+            {
+                web.DownloadFile(string.Format("http://currencies.apps.grandtrunk.net/getrange/{0}/{1}/{2}/USD",
+                    this.from_dateTimePicker.Value.ToString("yyyy-MM-dd"),
+                    this.to_dateTimePicker.Value.ToString("yyyy-MM-dd"),
+                    this.CurrenciesCodes.Text),
+                    CurrenciesTargetPath.Text);
+
+                List<CurrencyRate> rates = new List<CurrencyRate>();
+
+                using (var fs = new FileStream(CurrenciesTargetPath.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var reader = new StreamReader(fs))
+                {
+                    while (!reader.EndOfStream)
+                    {
+
+                        string line = reader.ReadLine();
+
+                        CurrencyRate currencyUnit = new CurrencyRate();
+                        //Currency Code
+                        currencyUnit.Currency.Code = this.CurrenciesCodes.Text;
+
+                        //Currecy Date
+                       
+                        currencyUnit.RateDate = Convert.ToDateTime(line.Split(' ')[0]); //  (line.Split(' ')[0]).Trim(new char[] {'-'})
+                        //Currency Rate
+                        if ((line.Split(' '))[1] == "False")
+                            throw new Exception("Check URL for errors");
+
+                        currencyUnit.RateValue = Convert.ToDecimal((line.Split(' '))[1].Trim());
+                        rates.Add(currencyUnit);
+                    }
+                }
+                if (rates.Count > 0)
+                    CurrencyRate.SaveCurrencyRates(rates);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("Error " + exc.Message);
+            }
+        }
+
+        private void button6_Click_1(object sender, EventArgs e)
+        {
+            string source = "AU-EN_Binary Options";
+            string val = HttpUtility.UrlPathEncode(source);
+        }
+
     }
     public static class Prompt
     {
@@ -1432,12 +1564,12 @@ namespace Edge.Utilities.AdwordsAPI.ReportsTool
             prompt.Width = 500;
             prompt.Height = 150;
             prompt.Text = caption;
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+            //Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
             TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
             Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70 };
             confirmation.Click += (sender, e) => { prompt.Close(); };
             prompt.Controls.Add(confirmation);
-            prompt.Controls.Add(textLabel);
+           // prompt.Controls.Add(textLabel);
             prompt.Controls.Add(textBox);
             prompt.ShowDialog();
             return textBox.Text;
