@@ -1,0 +1,50 @@
+D:\Desktop\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\Edge.Applications.TempScheduler.exe.config
+D:\Desktop\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\Edge.Applications.TempScheduler.exe
+D:\Desktop\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\Edge.Applications.TempScheduler.pdb
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\ResolveAssemblyReference.cache
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmEncryptDecrypt.resources
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmInstanceLog.resources
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmSchedulingControl.resources
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmUnPlannedService.resources
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.Properties.Resources.resources
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\GenerateResource.read.1.tlog
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\GenerateResource.write.1.tlog
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.exe
+D:\Desktop\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.pdb
+D:\Edge\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\scheduler-291.exe.config
+D:\Edge\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\scheduler-291.exe
+D:\Edge\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\scheduler-291.pdb
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\ResolveAssemblyReference.cache
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmEncryptDecrypt.resources
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmInstanceLog.resources
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmSchedulingControl.resources
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmUnPlannedService.resources
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.Properties.Resources.resources
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\GenerateResource.read.1.tlog
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\GenerateResource.write.1.tlog
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\scheduler-291.exe
+D:\Edge\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\scheduler-291.pdb
+D:\Edge\Codebase\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\scheduler-291.exe.config
+D:\Edge\Codebase\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\scheduler-291.exe
+D:\Edge\Codebase\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\scheduler-291.pdb
+D:\Edge\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.csprojResolveAssemblyReference.cache
+D:\Edge\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmEncryptDecrypt.resources
+D:\Edge\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmInstanceLog.resources
+D:\Edge\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmSchedulingControl.resources
+D:\Edge\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmUnPlannedService.resources
+D:\Edge\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.Properties.Resources.resources
+D:\Edge\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.csproj.GenerateResource.Cache
+D:\Edge\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\scheduler-291.exe
+D:\Edge\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\scheduler-291.pdb
+D:\Edge\Code\Codebase\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\scheduler-291.exe.config
+D:\Edge\Code\Codebase\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\scheduler-291.exe
+D:\Edge\Code\Codebase\EDGE-MERGE\deployment\EDGE1\Seperia\2.9.1\Services\scheduler-291.pdb
+D:\Edge\Code\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.csprojResolveAssemblyReference.cache
+D:\Edge\Code\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmEncryptDecrypt.resources
+D:\Edge\Code\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmInstanceLog.resources
+D:\Edge\Code\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmSchedulingControl.resources
+D:\Edge\Code\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.frmUnPlannedService.resources
+D:\Edge\Code\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.Properties.Resources.resources
+D:\Edge\Code\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\Edge.Applications.TempScheduler.csproj.GenerateResource.Cache
+D:\Edge\Code\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\scheduler-291.exe
+D:\Edge\Code\Codebase\EDGE-MERGE\utilities\Edge.Applications.TempScheduler (2.9)\trunk\obj\Seperia\scheduler-291.pdb
